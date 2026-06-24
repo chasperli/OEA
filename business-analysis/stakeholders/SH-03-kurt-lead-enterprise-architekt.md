@@ -60,7 +60,8 @@ Kurt ist erfahrener Lead Enterprise Architekt in einem kleinen mittelständische
 
 ## Beteiligte Use Cases
 
-<!-- Wird gefüllt, sobald Use Cases definiert sind -->
+- [UC-01: Login](../../requirements/use-cases/UC-01-login.md) – primärer Akteur
+- [UC-02: System-Admin-Bootstrapping](../../requirements/use-cases/UC-02-system-admin-bootstrapping.md) – weiterer Beteiligter (im Single-User-KMU-Fall oft zugleich Operator)
 
 ## Konzept-Bezüge
 

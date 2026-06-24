@@ -30,9 +30,9 @@ Der Business Engineer (siehe `.claude/agents/business-engineer.md`) modelliert h
 
 | ID | Name (DE) | Name (EN) | Status | Version |
 |---|---|---|---|---|
-| | | | | |
-
-<!-- Wird gefüllt, sobald erste Business Objects modelliert sind. -->
+| [person](./person.md) | Person | Person | draft | 0.1.0 |
+| [role](./role.md) | Rolle | Role | draft | 0.1.0 |
+| [system-admin-account](./system-admin-account.md) | System-Admin-Account | System Admin Account | draft | 0.1.0 |
 
 ## Capability Map
 

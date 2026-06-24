@@ -36,4 +36,4 @@ In `.claude/commands/`:
 
 | ID | Titel | Status | Datum | Supersedes |
 |---|---|---|---|---|
-| | | | | |
+| [ADR-006](./ADR-006-auth-stack-wahl.md) | Auth-Stack-Wahl (Entra ID + Authentik Pflicht, lokale Auth optional) | accepted | 2026-06-24 | – |

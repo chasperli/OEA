@@ -2,6 +2,15 @@
 
 Dieses Dokument hält fest, wie sich das Konzeptpapier selbst entwickelt hat. Format orientiert sich an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach Semantic Versioning (auf Konzept-Ebene: Major = grundlegend neue Konzepte, Minor = neue Kapitel/Abschnitte, Patch = Korrekturen).
 
+## [v0.16] – Lokale Authentifizierung als Alternative zu OIDC
+
+### Hinzugefügt
+- §21.8 Sicherheit und Autorisierung: lokale Authentifizierungsmechanismen für Self-Hosting ohne externen Identity-Provider (Passkey/WebAuthn als Standard, Username/Passwort mit TOTP als zweitem Faktor, Username/Passwort ohne zweiten Faktor als bewusst riskante Minimal-Variante)
+- Klarstellung, dass OIDC SSO über eine vorhandene Identity-Provider-Session einschließt
+
+### Begründung
+UC-01 (Login) und Stakeholder SH-06 (Max, Operator KMU) fordern explizit, dass OEA keine eigene Nutzerverwaltung ohne SSO erzwingt, aber auch ohne externen IdP self-hosting-fähig bleibt. OAuth 2.0/OIDC allein setzt einen IdP voraus, der im Single-User-KMU-Fall (SH-03 Kurt) nicht zwingend vorhanden ist.
+
 ## [v0.15] – Visualisierungs-Strategie als offene Entscheidung verankert
 
 ### Hinzugefügt

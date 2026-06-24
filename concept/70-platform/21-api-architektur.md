@@ -239,9 +239,13 @@ Weitere Prozess-Notationen (EPK, VSM, DMN für Entscheidungslogik) können als a
 
 ```yaml
 Authentifizierung:
-  - OAuth 2.0 / OIDC (Standard)
+  - OAuth 2.0 / OIDC (Standard, inkl. SSO über vorhandene Identity-Provider-Session)
   - API-Keys für Maschinen-zu-Maschinen
   - Optionale Mutual TLS für höchste Sicherheitsanforderungen
+  - Lokale Authentifizierung (optional, für Self-Hosting ohne externen IdP):
+    - Passkey / WebAuthn (passwortlos, Standard für lokale Auth)
+    - Username/Passwort mit TOTP als zweitem Faktor
+    - Username/Passwort ohne zweiten Faktor (Minimal-Variante, nicht empfohlen)
 
 Autorisierung:
   - Rollen-basiert (RBAC) als Standard
@@ -252,6 +256,8 @@ Autorisierung:
 ```
 
 Rollen im Metamodell (siehe [§8.2 (Organisation & Rollen)](../20-entities/08-organisation-rollen-personen.md)) können direkt als Autorisierungs-Rollen genutzt werden – eine Person, die die Rolle "Enterprise Architect" innehat, bekommt auch die entsprechenden API-Rechte.
+
+**Lokale Authentifizierung**: OIDC setzt einen vorhandenen Identity-Provider voraus. Für Single-User- und KMU-Self-Hosting ohne eigenes IdP-Team (siehe Stakeholder SH-03, SH-06) muss OEA auch ohne externen IdP betreibbar sein. Die lokalen Mechanismen sind bewusst gestuft: Passkey/WebAuthn als empfohlener Standard (passwortlos, phishing-resistent), Username/Passwort mit TOTP als zweitem Faktor für Umgebungen ohne WebAuthn-Unterstützung, und Username/Passwort ohne zweiten Faktor als bewusst riskante Minimal-Variante, die im Audit-Log entsprechend kenntlich gemacht wird. Alle lokalen Mechanismen sind optional und schließen sich nicht gegenseitig mit OIDC aus – eine OEA-Instanz kann beide Wege parallel anbieten.
 
 **Property-Level-Autorisierung**: Über Entity-Level-Berechtigungen hinaus unterstützt die API granulare Zugriffskontrolle auf einzelne Properties. Das ist Pflicht-Feature, nicht optional, weil sensible Informationen (personenbezogene Daten, detaillierte Schutzbedarfe, Waiver-Begründungen) nicht für alle Nutzer sichtbar sein dürfen.
 

@@ -76,7 +76,8 @@ Max ist Professional-Level IT-Operator in einem regulierten KMU (Finance, Health
 
 ## Beteiligte Use Cases
 
-<!-- Wird gefüllt, sobald Use Cases definiert sind -->
+- [UC-01: Login](../../requirements/use-cases/UC-01-login.md) – weiterer Beteiligter (entscheidet über verfügbare Authentifizierungsmechanismen: SSO via OIDC oder lokale Authentifizierung)
+- [UC-02: System-Admin-Bootstrapping](../../requirements/use-cases/UC-02-system-admin-bootstrapping.md) – primärer Akteur
 
 ## Konzept-Bezüge
 

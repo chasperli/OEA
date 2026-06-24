@@ -13,4 +13,5 @@ Zielorientierte Szenarien aus Stakeholder-Sicht. Pro Use Case eine Datei mit Sch
 
 | ID | Titel | Persona | Priority | Status |
 |---|---|---|---|---|
-| | | | | |
+| [UC-01](./UC-01-login.md) | Login | SH-03 | must | draft |
+| [UC-02](./UC-02-system-admin-bootstrapping.md) | System-Admin-Bootstrapping | SH-06 | must | draft |
