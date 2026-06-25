@@ -7,7 +7,7 @@
 
 ## Story
 
-Als eingeladene Person möchte ich einen Passkey auf meinem Gerät registrieren, damit ich mich künftig passwortlos und phishing-resistent anmelden kann.
+Als Person, die sich zum ersten Mal mit ihrem initialen Passwort anmeldet, möchte ich im Rahmen des Logins einen Passkey registrieren, damit ich danach passwortlos und phishing-resistent Zugriff erhalte.
 
 ## Bezug
 
@@ -56,7 +56,7 @@ Als eingeladene Person möchte ich einen Passkey auf meinem Gerät registrieren,
 
 ## Abhängigkeiten
 
-- Wartet auf: US-020 (Token-Validierung), US-009 (Passkey-Login-Endpunkt ist Ziel nach Enrollment)
+- Wartet auf: US-023 (initiales Passwort muss gesetzt sein, damit der erste Login als Trigger funktioniert), US-009 (Passkey-Login-Endpunkt ist Ziel nach Enrollment)
 - Blockiert: US-024 (Audit-Log benötigt diesen Pfad)
 
 ## Notizen

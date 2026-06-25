@@ -37,7 +37,7 @@ Passkey ist der empfohlene Standard für lokale Authentifizierung gemäß Konzep
 
 ## Kontext
 
-Setzt ein gültiges Enrollment-Token (REQ-021) oder eine bestehende authentifizierte Session (REQ-026) voraus. Der registrierte Public Key wird beim Login durch REQ-009 (Passkey-Login) verwendet. Der private Schlüssel verlässt den Authenticator zu keinem Zeitpunkt.
+Wird als Required Action im Rahmen des ersten Logins ausgelöst (UC-03 Alternative A1): Das System erkennt nach erfolgreicher Passwort-Prüfung, dass 2FA erzwungen ist (REQ-020) und noch kein Passkey existiert. Alternativ kann ein Passkey über die Profil-Einstellungen einer bereits eingeloggten Person hinzugefügt werden (REQ-026). Der registrierte Public Key wird beim Login durch REQ-009 (Passkey-Login) verwendet. Der private Schlüssel verlässt den Authenticator zu keinem Zeitpunkt.
 
 ## Typ-spezifische Felder
 
@@ -98,7 +98,7 @@ Setzt ein gültiges Enrollment-Token (REQ-021) oder eine bestehende authentifizi
 
 ## Abhängigkeiten
 
-- **Voraussetzungen**: REQ-021 (Token-Validierung) oder REQ-026 (Session-Auth)
+- **Voraussetzungen**: UC-03 Required-Action-Trigger (erster Login mit initialem Passwort, REQ-024) oder REQ-026 (Session-Auth für Profil-Einstellungen)
 - **Folgewirkungen**: REQ-009 (Passkey-Login setzt registrierten Public Key voraus)
 - **Konflikte**: keine bekannt
 

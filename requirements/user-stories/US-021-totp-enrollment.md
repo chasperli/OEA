@@ -7,7 +7,7 @@
 
 ## Story
 
-Als eingeladene Person möchte ich ein TOTP-Secret per QR-Code in meiner Authenticator-App einrichten, damit ich mich künftig mit einem zeitbasierten Code anmelden kann.
+Als Person, die sich zum ersten Mal mit ihrem initialen Passwort anmeldet, möchte ich im Rahmen des Logins ein TOTP-Secret per QR-Code in meiner Authenticator-App einrichten, damit ich danach mit Username, Passwort und TOTP-Code vollen Zugriff erhalte.
 
 ## Bezug
 
@@ -56,7 +56,7 @@ Als eingeladene Person möchte ich ein TOTP-Secret per QR-Code in meiner Authent
 
 ## Abhängigkeiten
 
-- Wartet auf: US-020 (Token-Validierung muss existieren), US-010 (TOTP-Login-Endpunkt ist Ziel nach Enrollment)
+- Wartet auf: US-023 (initiales Passwort muss gesetzt sein, damit der erste Login als Trigger funktioniert), US-010 (TOTP-Login-Endpunkt ist Ziel nach Enrollment)
 - Blockiert: US-024 (Audit-Log kann erst über TOTP-Enrollment-Ereignisse schreiben, wenn dieser Pfad existiert)
 
 ## Notizen

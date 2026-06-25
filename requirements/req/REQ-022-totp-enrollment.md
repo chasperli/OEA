@@ -37,7 +37,7 @@ TOTP ist die am breitesten unterstützte lokale Zwei-Faktor-Methode ohne Abhäng
 
 ## Kontext
 
-Setzt ein gültiges Enrollment-Token (REQ-021) oder eine bestehende authentifizierte Session (REQ-026) voraus. Das Secret wird beim Login durch REQ-010 (TOTP-Login) verwendet. Das Secret darf nur einmalig im Klartext angezeigt werden (beim Enrollment); danach ist es für den Nutzer nicht mehr abrufbar.
+Wird als Required Action im Rahmen des ersten Logins ausgelöst (UC-03 Hauptablauf): Das System erkennt nach erfolgreicher Passwort-Prüfung, dass 2FA erzwungen ist (REQ-020) und noch kein TOTP-Credential existiert, und leitet den Nutzer direkt zur Einrichtungsseite. Alternativ kann TOTP über die Profil-Einstellungen einer bereits eingeloggten Person hinzugefügt werden (REQ-026). Das Secret wird beim Login durch REQ-010 (TOTP-Login) verwendet. Das Secret darf nur einmalig im Klartext angezeigt werden; danach ist es nicht mehr abrufbar.
 
 ## Typ-spezifische Felder
 
@@ -100,7 +100,7 @@ Setzt ein gültiges Enrollment-Token (REQ-021) oder eine bestehende authentifizi
 
 ## Abhängigkeiten
 
-- **Voraussetzungen**: REQ-021 (Token-Validierung) oder REQ-026 (Session-Auth für A3)
+- **Voraussetzungen**: UC-03 Required-Action-Trigger (erster Login mit initialem Passwort, REQ-024) oder REQ-026 (Session-Auth für Profil-Einstellungen)
 - **Folgewirkungen**: REQ-010 (TOTP-Login setzt enrolltes Secret voraus)
 - **Konflikte**: keine bekannt
 

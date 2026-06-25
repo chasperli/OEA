@@ -2,7 +2,7 @@
 
 **ID**: US-020
 **Story Points**: 3
-**Status**: backlog
+**Status**: rejected
 **Sprint**: nicht-zugeordnet
 
 ## Story
@@ -61,4 +61,4 @@ Als eingeladene Person möchte ich über einen Einladungslink zur Enrollment-Obe
 
 ## Notizen
 
-Der Token wird vom Frontend aus dem URL-Fragment (`#token=…`) ausgelesen und per HTTPS-POST an das Backend geschickt; das Fragment selbst erscheint so nicht im Server-Log. Die Erzeugung des Tokens (durch Admins oder einen Einladungsmechanismus) ist nicht Teil dieser Story.
+**Rejected 2026-06-25**: Enrollment-via-Einladungslink verworfen. Der Token-Ansatz hätte einen sicheren Zustellungskanal (E-Mail o.ä.) vorausgesetzt. Ersetzt durch Just-in-Time-Enrollment als Required Action beim ersten Login (UC-03 v0.2.0); der Nutzer meldet sich mit initialem Passwort an und richtet den 2. Faktor direkt im Login-Flow ein. Entspricht REQ-021 `rejected`.

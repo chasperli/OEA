@@ -3,8 +3,8 @@ id: REQ-021
 title: Enrollment-Token-Validierung und Einmaligkeit
 type: functional
 priority: must
-status: proposed
-version: 0.1.0
+status: rejected
+version: 0.2.0
 created: 2026-06-25
 last_updated: 2026-06-25
 author: requirements-engineer
@@ -124,10 +124,13 @@ Der Token wird durch einen Administrator oder ein zukünftiges Einladungssystem 
 
 ## Notizen
 
-Abgeleitet aus UC-03 Hauptablauf Schritte 1–3 und Exception Flow E1. Die Erzeugung und Zustellung des Tokens ist bewusst nicht Teil dieses Requirements (noch kein UC für "Person einladen").
+**Rejected 2026-06-25**: Der Enrollment-Token-Ansatz wurde verworfen. Enrollment-Tokens setzen einen sicheren Zustellungskanal (E-Mail o.ä.) voraus und fügen unnötige Infrastrukturkomplexität hinzu. Der gewählte Alternativansatz ist Just-in-Time-Enrollment als Required Action beim ersten Login (UC-03 v0.2.0): Der Nutzer meldet sich mit seinem vom Administrator gesetzten initialen Passwort an; fehlt ein 2. Faktor und ist 2FA erzwungen, wird er inline zur Einrichtung weitergeleitet – ohne separaten Link. Das ist der Industriestandard (Keycloak, Authentik, AWS IAM).
+
+Initial draft aus UC-03 v0.1.0, Hauptablauf Schritte 1–3.
 
 ## Änderungshistorie
 
 | Version | Datum | Autor | Änderung |
 |---|---|---|---|
 | 0.1.0 | 2026-06-25 | requirements-engineer | Initial draft aus UC-03 |
+| 0.2.0 | 2026-06-25 | requirements-engineer | Status: rejected; Begründung ergänzt |
