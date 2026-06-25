@@ -2,7 +2,7 @@
 identifier: metamodel-configuration
 name_de: Metamodell-Konfiguration
 name_en: Metamodel Configuration
-version: 0.3.0
+version: 0.4.0
 status: draft
 maturity: initial
 owner_role: Business Engineer
@@ -46,9 +46,9 @@ Der **Bearbeitungs-Modus** (`editMode`) steuert, ob Änderungen am Metamodell vi
 
 **Zwei-Ebenen-Scoping** (REQ-037): Eine `MetamodelConfiguration` hat einen `scope`:
 - `scope=instance`: das Instanz-Standardmetamodell (Singleton pro Instanz); `editMode` hier steuerbar; kann gesperrt werden
-- `scope=architecture`: Erweiterungs-Konfiguration für eine spezifische [Architecture](./architecture.md); erbt alle Typen der Instanz-Konfiguration (`parentId` verweist auf diese); kann eigene EntityTypes, Stereotypes und ConstraintRules hinzufügen; hat eigenen `editMode` unabhängig vom Parent; Architecture-Typen sind nur innerhalb dieser Architecture sichtbar
+- `scope=solution`: Erweiterungs-Konfiguration für eine spezifische [Solution](./solution.md); erbt alle Typen der Instanz-Konfiguration (`parentId` verweist auf diese); kann eigene EntityTypes, Stereotypes und ConstraintRules hinzufügen; hat eigenen `editMode` unabhängig vom Parent; Solution-Typen sind nur innerhalb dieser Solution sichtbar
 
-Das **effektive Metamodell** einer Architecture ergibt sich als Union: Instanz-Typen ∪ Architecture-eigene Typen. Architecture-Typen können keine Instanz-Typen überschreiben oder entfernen.
+Das **effektive Metamodell** einer Solution ergibt sich als Union: Instanz-Typen ∪ Solution-eigene Typen. Solution-Typen können keine Instanz-Typen überschreiben oder entfernen.
 
 Änderungen an der Konfiguration werden versioniert und im Audit-Log festgehalten.
 
@@ -59,10 +59,10 @@ Das **effektive Metamodell** einer Architecture ergibt sich als Union: Instanz-T
 | Attribut | Typ | Optional | Default | Constraints | Beschreibung |
 |---|---|---|---|---|---|
 | id | string | required | | UUID v4, global eindeutig | Interner Primärschlüssel |
-| scope | enum | required | `instance` | `[instance, architecture]` | Unterscheidet Instanz-Standard (Singleton) von Architecture-Erweiterung |
+| scope | enum | required | `instance` | `[instance, solution]` | Unterscheidet Instanz-Standard (Singleton) von Solution-Erweiterung |
 | instanceId | reference | required | | target: instance; eindeutig wenn scope=instance | Verknüpfung zur OEA-Instanz |
-| architectureId | reference | optional | null | target: architecture; nur gesetzt wenn scope=architecture | Verknüpfung zur Architecture (scope=architecture) |
-| parentId | reference | optional | null | target: MetamodelConfiguration (scope=instance); nur gesetzt wenn scope=architecture | Eltern-Konfiguration, deren Typen geerbt werden |
+| solutionId | reference | optional | null | target: solution; nur gesetzt wenn scope=solution | Verknüpfung zur Solution (scope=solution) |
+| parentId | reference | optional | null | target: MetamodelConfiguration (scope=instance); nur gesetzt wenn scope=solution | Eltern-Konfiguration, deren Typen geerbt werden |
 | schemaVersion | string | required | "1.0" | Semver | Aktuelle Schema-Version der Konfiguration |
 | lastModifiedAt | datetime | required | | ISO 8601, UTC | Zeitpunkt der letzten Änderung |
 | lastModifiedBy | reference | required | | target: person | Person, die die letzte Änderung vorgenommen hat |
@@ -147,9 +147,9 @@ Das **effektive Metamodell** einer Architecture ergibt sich als Union: Instanz-T
 | BR-03 | Ein Custom EntityType kann nur gelöscht werden, wenn keine Instanz dieses Typs im Repository existiert | onDelete | – |
 | BR-04 | Eine `ConstraintRule` mit `severity=error` blockiert das Speichern von Entitäten, die die Regel verletzen | onValidate | – |
 | BR-05 | Änderungen an der `MetamodelConfiguration` erfordern eine berechtigt konfigurierende Person (Metamodell-Bearbeiter-Rolle) | onCreate, onUpdate, onDelete | – |
-| BR-06 | Ist `editMode=import-only` einer Konfiguration, DÜRFEN Create-, Update- und Delete-Operationen auf EntityTypeDefinitions, Stereotypes und ConstraintRules dieser Konfiguration via GUI-API NICHT ausgeführt werden; nur der Import-Pfad (REQ-033) bleibt aktiv; gilt unabhängig pro Scope-Ebene: eine Architecture-Erweiterung kann `gui-and-import` haben, während die Instanz-Konfiguration `import-only` ist | onUpdate | – |
-| BR-09 | Eine `MetamodelConfiguration` mit `scope=architecture` DARF keine Typen enthalten, die im Eltern-Objekt (`parentId`) bereits definiert sind (keine Überschreibung, nur Ergänzung) | onCreate, onUpdate | – |
-| BR-10 | Eine `MetamodelConfiguration` mit `scope=architecture` MUSS eine gültige `parentId` haben, die auf eine `MetamodelConfiguration` mit `scope=instance` derselben OEA-Instanz zeigt | onCreate | – |
+| BR-06 | Ist `editMode=import-only` einer Konfiguration, DÜRFEN Create-, Update- und Delete-Operationen auf EntityTypeDefinitions, Stereotypes und ConstraintRules dieser Konfiguration via GUI-API NICHT ausgeführt werden; nur der Import-Pfad (REQ-033) bleibt aktiv; gilt unabhängig pro Scope-Ebene: eine Solution-Erweiterung kann `gui-and-import` haben, während die Instanz-Konfiguration `import-only` ist | onUpdate | – |
+| BR-09 | Eine `MetamodelConfiguration` mit `scope=solution` DARF keine Typen enthalten, die im Eltern-Objekt (`parentId`) bereits definiert sind (keine Überschreibung, nur Ergänzung) | onCreate, onUpdate | – |
+| BR-10 | Eine `MetamodelConfiguration` mit `scope=solution` MUSS eine gültige `parentId` haben, die auf eine `MetamodelConfiguration` mit `scope=instance` derselben OEA-Instanz zeigt | onCreate | – |
 | BR-07 | Eine Instanz eines Connection-Typs (`isConnection=true`) MUSS genau eine `source`- und eine `target`-Referenz besitzen; beide Referenzen dürfen auf Entitäten beliebiger EntityType-Klasse zeigen (inkl. andere Connection-Instanzen), sofern die jeweiligen `allowedSourceTypes`/`allowedTargetTypes`-Listen eingehalten werden | onCreate, onUpdate | – |
 | BR-08 | `allowedSourceTypes` und `allowedTargetTypes` dürfen nur gesetzt werden, wenn `isConnection=true`; bei `isConnection=false` sind sie bedeutungslos und werden ignoriert | onCreate, onUpdate | – |
 
@@ -238,3 +238,4 @@ message: "Jede Interface muss einen Owner-ApplicationComponent zugewiesen haben"
 | 0.1.0 | 2026-06-25 | Business Engineer | Initial draft |
 | 0.2.0 | 2026-06-25 | Business Engineer | `editMode` (Sperrmodus REQ-035) und Connection-Attribute (`isConnection`, `allowedSourceTypes`, `allowedTargetTypes`) zu EntityTypeDefinition hinzugefügt (REQ-036); BR-06/07/08 ergänzt |
 | 0.3.0 | 2026-06-25 | Business Engineer | Zwei-Ebenen-Scoping eingeführt (REQ-037): `scope`, `architectureId`, `parentId`; BR-09/10 ergänzt; `editMode` gilt unabhängig pro Scope-Ebene |
+| 0.4.0 | 2026-06-25 | Business Engineer | `scope=architecture` → `scope=solution`; `architectureId` → `solutionId`; Scope-Container präzisiert als Solution (Plateau-Prinzip, Option 3) |

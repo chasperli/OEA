@@ -1,4 +1,4 @@
-# US-037: Neues Metamodell in einer Architektur erproben
+# US-037: Neues Metamodell in einer Solution erproben
 
 **ID**: US-037
 **Story Points**: 5
@@ -7,56 +7,56 @@
 
 ## Story
 
-Als Lead Enterprise Architekt möchte ich für eine spezifische Architektur ein eigenes, editierbares Metamodell-Erweiterungsobjekt anlegen können, damit ich neue Entitätstypen experimentell erproben kann, ohne das gesperrte Instanz-Standardmetamodell zu verändern.
+Als Solution Architekt möchte ich für eine spezifische Solution ein eigenes, editierbares Metamodell-Erweiterungsobjekt anlegen können, damit ich neue Entitätstypen für diese Initiative erproben kann, ohne das gesperrte Instanz-Standardmetamodell zu verändern.
 
 ## Bezug
 
 **Use Case**: [UC-04: Metamodell gemeinsam konfigurieren](../use-cases/UC-04-metamodell-konfigurieren.md)
 **Persona**: [SH-03: Kurt – Lead Enterprise Architekt](../../business-analysis/stakeholders/SH-03-kurt-lead-enterprise-architekt.md)
-**Requirement**: [REQ-037: Architektur-spezifische Metamodell-Erweiterung](../req/REQ-037-architektur-metamodell-erweiterung.md)
+**Requirement**: [REQ-037: Solution-spezifische Metamodell-Erweiterung](../req/REQ-037-architektur-metamodell-erweiterung.md)
 
 ## Akzeptanzkriterien
 
 **AC1**:
-- Gegeben: Instanz-Metamodell mit `editMode=import-only`; Architecture „Cloud-Experiment" existiert
-- Wenn: Kurt für „Cloud-Experiment" eine Erweiterungs-Konfiguration mit `editMode=gui-and-import` anlegt und `CloudService` definiert
-- Dann: ist `CloudService` nur in „Cloud-Experiment" verfügbar; das Instanz-Metamodell bleibt unberührt und gesperrt
+- Gegeben: Instanz-Metamodell mit `editMode=import-only`; Solution „Cloud-Migration 2027" existiert (Baseline P0 → Target P1)
+- Wenn: Kurt für diese Solution eine Erweiterungs-Konfiguration mit `editMode=gui-and-import` anlegt und `CloudService` definiert
+- Dann: ist `CloudService` nur in „Cloud-Migration 2027" verfügbar; das Instanz-Metamodell bleibt unberührt und gesperrt
 
 **AC2**:
-- Gegeben: Architecture „Cloud-Experiment" mit Erweiterung
-- Wenn: ein Architekt in „Cloud-Experiment" eine neue Entität anlegt
-- Dann: stehen in der Typ-Auswahl beide Typen-Gruppen zur Verfügung: Standard (aus Instanz) und Architektur-spezifisch (aus „Cloud-Experiment")
+- Gegeben: Solution „Cloud-Migration 2027" mit Erweiterung
+- Wenn: ein Architekt in dieser Solution eine neue Entität anlegt
+- Dann: stehen in der Typ-Auswahl beide Gruppen zur Verfügung: Standard (aus Instanz) und Solution-spezifisch; `CloudService` erscheint mit Badge als Solution-Typ
 
 **AC3**:
-- Gegeben: Kurt versucht, in der Architecture-Erweiterung einen Typ mit dem Namen `ApplicationComponent` (Instanz-Typ) zu definieren
+- Gegeben: Kurt versucht, in der Solution-Erweiterung einen Typ `ApplicationComponent` (Instanz-Typ) zu definieren
 - Dann: erscheint Fehler; kein Eintrag wird angelegt
 
 **AC4**:
-- Gegeben: Architecture-Erweiterung mit `editMode=gui-and-import`
-- Wenn: Lukas (mit Metamodell-Bearbeiter-Berechtigung) ebenfalls Typen in der Erweiterung anlegt
-- Dann: erscheinen diese in der Erweiterung; Audit-Log weist die Änderungen Lukas zu
+- Gegeben: Solution-Erweiterung mit `editMode=gui-and-import`
+- Wenn: ein weiterer Architekt (mit Berechtigung) ebenfalls Typen in der Erweiterung anlegt
+- Dann: erscheinen diese in der Erweiterung; Audit-Log weist die Änderungen der richtigen Person zu
 
 ## Technische Hinweise
 
-- Betroffene Komponenten: Architecture-Verwaltungs-UI, Metamodell-Konfigurationsmodul (neuer `scope=architecture`-Pfad), Entitäts-Anlage-Dialog (effektives Metamodell)
+- Betroffene Komponenten: Solution-Verwaltungs-UI, Metamodell-Konfigurationsmodul (`scope=solution`-Pfad), Entitäts-Anlage-Dialog (effektives Metamodell)
 - API-Endpunkte:
-  - `POST /architectures/{id}/metamodel` – Erweiterungs-Konfiguration anlegen
-  - `GET /architectures/{id}/effective-metamodel` – Union aus Instanz + Architecture
-  - `POST /architectures/{id}/metamodel/import` – Import für Architecture-Scope
-- Datenbank: `scope`, `parent_id`, `architecture_id`-Spalten in `metamodel_configurations`-Tabelle
+  - `POST /solutions/{id}/metamodel` – Erweiterungs-Konfiguration anlegen
+  - `GET /solutions/{id}/effective-metamodel` – Union aus Instanz + Solution
+  - `POST /solutions/{id}/metamodel/import` – Import für Solution-Scope
+- Datenbank: `scope`, `parent_id`, `solution_id`-Spalten in `metamodel_configurations`-Tabelle
 
 ## Definition of Done
 
 - [ ] Akzeptanzkriterien erfüllt
-- [ ] Tests: Erweiterung anlegen; effektives Metamodell (Union); Namenskollision; `editMode` unabhängig von Instanz; mehrere Architekten
+- [ ] Tests: Erweiterung anlegen; effektives Metamodell (Union); Namenskollision; `editMode` unabhängig von Instanz
 - [ ] Linter und Type-Checks grün
 - [ ] In Trace-Matrix eingetragen
 
 ## Abhängigkeiten
 
-- Wartet auf: US-032 (EntityType-Formular – wird für Architecture-Scope wiederverwendet); US-035 (Sperrmodus – Motivation für diesen Use Case); Architecture-Verwaltungs-UC (Architecture-Objekte müssen existieren)
-- Blockiert: künftige US für Entitäts-Anlage mit Architecture-Scope (müssen effektives Metamodell verwenden)
+- Wartet auf: US-032 (EntityType-Formular – wird für Solution-Scope wiederverwendet); US-035 (Sperrmodus – Motivation); Solution-Verwaltungs-UC (Solutions müssen existieren)
+- Blockiert: künftige US für Entitäts-Anlage in Solutions (müssen effektives Metamodell verwenden)
 
 ## Notizen
 
-5 SP wegen: neuem DB-Schema-Aspekt (`scope`-Spalte), Effektives-Metamodell-API (Union + Cache-Invalidierung), UI-Erweiterung (gruppierte Typ-Auswahl mit Herkunfts-Badge). Die Architecture-Verwaltung selbst (Anlegen/Bearbeiten von Architecture-Objekten) ist ein eigener UC und US.
+5 SP wegen: `scope`-Spalte + `solution_id` im DB-Schema; Effektives-Metamodell-API (Union + Cache-Invalidierung); UI-Erweiterung (gruppierte Typ-Auswahl mit Herkunfts-Badge). Solution-Verwaltung selbst (Anlegen/Bearbeiten von Solutions inkl. Plateau-Zuordnung) ist ein eigener UC und US.

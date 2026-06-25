@@ -1,102 +1,127 @@
 ---
 identifier: architecture
-name_de: Architektur
-name_en: Architecture
-version: 0.1.0
+name_de: Architektur-Modell (Übersicht)
+name_en: Architecture Model Overview
+version: 0.2.0
 status: draft
 maturity: initial
 owner_role: Business Engineer
 aliases:
-  - Domänen-Architektur
-  - Architektur-Workspace
-  - Architecture Scope
-related_capabilities: []
+  - Architecture
+  - EA-Modell
 references:
   - concept: concept/20-entities/06-kern-entitaetstypen.md
   - concept: concept/40-extensibility/14-erweiterbarkeit.md
+  - concept: concept/90-backlog/23-offene-punkte.md
 ---
 
-# Business Object: Architecture
+# Architektur-Modell: Übersicht
 
-## Definition
+> **Hinweis**: Diese Datei war ursprünglich als generischer „Scope-Container" modelliert (v0.1.0). Mit v0.2.0 wird sie zur Übersichtsdatei des Gesamtmodells. Die konkreten BOs sind:
+> - [Plateau](./plateau.md) — stabiler Architektur-Zustand (Baseline, Target, Transition)
+> - [Solution](./solution.md) — Initiative, die Entitäten von einem Plateau zu einem anderen überführt
 
-Eine `Architecture` ist ein benannter, abgegrenzter Arbeitsbereich innerhalb einer OEA-Instanz, der eine zusammenhängende Menge von EA-Entitäten, eine zugehörige Stakeholder-Gruppe und optional ein eigenes Metamodell-Erweiterungsobjekt bündelt.
+---
 
-## Beschreibung
+## Konzeptionelles Modell
 
-Eine OEA-Instanz kann mehrere `Architecture`-Objekte enthalten. Typische Verwendungen:
+In OEA wird eine Unternehmensarchitektur in zwei komplementären Dimensionen beschrieben:
 
-- **Domänen-Architektur**: „Cloud-Plattform-Architektur", „Data-Platform-Architektur" – langlebige Domänen mit eigenem Architekturteam
-- **Initiatives-Architektur**: „Migration SAP S/4HANA" – zeitlich begrenzte Initiative mit eigenem Scope
-- **Experimentelle Architektur**: Erprobungsbereich für neue Metamodell-Typen, bevor sie ins Default-Metamodell übernommen werden
+### Dimension 1: Zustände (Plateaus)
 
-Jede `Architecture` kann eine eigene [MetamodelConfiguration](./metamodel-configuration.md) mit `scope=architecture` haben. Diese Erweiterungskonfiguration:
-- Erbt alle Entitätstypen aus der Instanz-Standardkonfiguration (`scope=instance`)
-- Kann zusätzliche Custom EntityTypes, Stereotypen und Constraint-Regeln hinzufügen, die **nur innerhalb dieser Architecture** verfügbar sind
-- Hat einen eigenen `editMode` (unabhängig vom Instanz-Level)
-
-Der Mechanismus ermöglicht es, das Instanz-Standardmetamodell zu sperren (`import-only`) und gleichzeitig in einzelnen Architectures experimentell neue Typen zu erproben.
-
-## Attribute
-
-| Attribut | Typ | Optional | Default | Constraints | Beschreibung |
-|---|---|---|---|---|---|
-| id | string | required | | UUID v4, global eindeutig | Interner Primärschlüssel |
-| name | string | required | | max. 255 Zeichen; eindeutig innerhalb der Instanz | Lesbarer Name (z.B. „Cloud-Plattform-Architektur") |
-| description | string | optional | | max. 2000 Zeichen | Zweck und Scope der Architecture |
-| status | enum | required | active | `[active, archived]` | Aktiver Arbeitsbereich oder archiviert |
-| ownerId | reference | required | | target: person | Verantwortliche Person (Lead-Architekt) |
-| metamodelExtensionId | reference | optional | null | target: MetamodelConfiguration (scope=architecture) | Eigene Metamodell-Erweiterung; null = nur Instanz-Standard-Typen verfügbar |
-| createdAt | datetime | required | | ISO 8601, UTC | Zeitpunkt der Anlage |
-| createdBy | reference | required | | target: person | Anlegende Person |
-| archivedAt | datetime | optional | | ISO 8601, UTC; nur gesetzt wenn status=archived | Zeitpunkt der Archivierung |
-
-## Beziehungen
-
-| Beziehung | Ziel-Objekt | Kardinalität | Optional | Beschreibung |
-|---|---|---|---|---|
-| hasMetamodelExtension | [metamodel-configuration](./metamodel-configuration.md) | 1:0..1 | yes | Optionale Metamodell-Erweiterung dieser Architecture |
-| ownedBy | [person](./person.md) | n:1 | no | Verantwortliche Person |
-| containsEntities | (EA-Entitäten) | 1:n | yes | Alle Entitäten, die diesem Architecture-Scope zugeordnet sind |
-
-**Hinweise**:
-- Eine Entität kann mehreren Architectures zugeordnet sein (Shared Entity zwischen Scopes).
-- Ist `metamodelExtensionId=null`, verwendet die Architecture ausschliesslich das Instanz-Standardmetamodell.
-- Ein archiviertes Architecture-Objekt ist read-only; keine Änderungen an zugehörigen Entitäten möglich.
-
-## Business Rules
-
-| Rule-ID | Aussage | Auslöser | Compliance-Bezug |
-|---|---|---|---|
-| BR-01 | `Architecture.name` muss innerhalb der Instanz eindeutig sein | onCreate, onUpdate | – |
-| BR-02 | `metamodelExtensionId` darf nur auf eine `MetamodelConfiguration` mit `scope=architecture` zeigen | onCreate, onUpdate | – |
-| BR-03 | Eine archivierte Architecture (`status=archived`) kann keine neuen Entitäten aufnehmen und ihre Metamodell-Erweiterung nicht verändern | onArchive | – |
-
-## Lifecycle
+Ein **[Plateau](./plateau.md)** ist ein stabiler, benannter Zustand der Gesamtarchitektur zu einem Zeitpunkt. Die OEA-Instanz hat immer genau ein **Baseline-Plateau** (aktueller Produktivstand) und beliebig viele **Target-Plateaus** (geplante Zielzustände).
 
 ```
-active → archived
+Plateau P0 (Baseline, produktiv)
+  ├── ApplicationComponent: CRM-Legacy        [active]
+  ├── ApplicationComponent: ERP-Core          [active]
+  └── Interface: Legacy-ERP-Schnittstelle     [active]
+
+Plateau P1 (Target 2027, noch nicht produktiv)
+  ├── ApplicationComponent: ERP-Core          [active]    ← geerbt von P0
+  ├── ApplicationComponent: Salesforce        [active]    ← neu (durch Solution)
+  ├── ApplicationComponent: CRM-Legacy        [retiring]  ← wird abgelöst
+  └── Interface: Salesforce-API               [active]    ← neu (durch Solution)
 ```
 
-- `active`: Architecture ist in Betrieb; Entitäten können angelegt und bearbeitet werden.
-- `archived`: Architecture ist abgeschlossen; read-only; Entitäten und Metamodell-Erweiterung eingefroren.
+### Dimension 2: Transitionen (Solutions)
 
-## Abgrenzung zu ähnlichen Objekten
+Eine **[Solution](./solution.md)** beschreibt den **Delta** zwischen zwei Plateaus: welche Entitäten neu entstehen, sich ändern oder ausser Betrieb gehen. Sie ist der Arbeitsbereich des Solution Architekten.
 
-- **NICHT** eine EA-Entität: `Architecture` ist ein Organisations- und Scope-Konzept, kein Modell-Element wie `ApplicationComponent`.
-- **NICHT** eine Instanz: Eine OEA-Instanz ist die Gesamtinstallation für eine Organisation; eine `Architecture` ist ein thematischer Teilbereich innerhalb einer Instanz.
-- **NICHT** ein ADR: Architektur-Entscheidungen werden in ADRs dokumentiert; die `Architecture` ist der Scope, in dem diese Entscheidungen gelten.
+```
+Solution: „Salesforce-Einführung"
+  fromPlateau: P0 (Baseline)
+  toPlateau:   P1 (Target 2027)
+  deltas:
+    - CRM-Legacy:             retiring
+    - Salesforce:             new, type=ApplicationComponent
+    - Salesforce-API:         new, type=Interface
+    - Legacy-Schnittstelle:   retiring
+```
 
-## Verwendung in Use Cases
+### Zusammenspiel
 
-- [UC-04: Metamodell konfigurieren](../requirements/use-cases/UC-04-metamodell-konfigurieren.md) (Architecture als Scope für Metamodell-Erweiterung)
+Das entspricht dem **Plateau-Prinzip** aus TOGAF / ArchiMate 3:
 
-## Notizen
+```
+Plateau P0 (Baseline)
+      │
+      ├── Solution A ──────────────── Plateau P1 (Target A)
+      ├── Solution B ──────────────── Plateau P2 (Target B)
+      │   [mehrere Solutions laufen parallel]
+      │
+      ▼ (nach Go-Live Solution A)
+Plateau P1 wird realisiert → neues Baseline
+Plateau P0 → realized (read-only)
+```
 
-`Architecture` wird in künftigen Use Cases (Entitäts-Erfassung, Views, Exports) als primärer Scope-Container verwendet. Das BO ist bewusst schlank gehalten; weitere Attribute (Team, Budget, Timeline) können per Stereotype oder Custom Properties ergänzt werden.
+### Metamodell-Scoping
+
+Das Instanz-Metamodell ([MetamodelConfiguration](./metamodel-configuration.md) `scope=instance`) gilt instanzweit. Eine Solution kann eine eigene Metamodell-Erweiterung haben (`scope=solution`), um neue Entitätstypen zu erproben, ohne das gesperrte Instanz-Standardmetamodell zu verändern (REQ-037).
+
+```
+MetamodelConfiguration (scope=instance, editMode=import-only)
+└── Solution-Erweiterung (scope=solution, editMode=gui-and-import)
+      └── eigene Custom-Typen, nur innerhalb dieser Solution sichtbar
+```
+
+---
+
+## Begriffsabgrenzung
+
+| Begriff | Was es ist | BO-Datei |
+|---|---|---|
+| **Plateau** | Stabiler Architektur-Zustand (Baseline / Target) | [plateau.md](./plateau.md) |
+| **Solution** | Initiative mit Entitäts-Deltas zwischen Plateaus | [solution.md](./solution.md) |
+| **MetamodelConfiguration** | Instanz-Metamodell + optionale Solution-Erweiterung | [metamodel-configuration.md](./metamodel-configuration.md) |
+| **EntityDelta** | Werteobjekt: einzelne Änderung einer Entität in einer Solution | in solution.md definiert |
+
+---
+
+## TOGAF-Referenz
+
+| OEA-Begriff | TOGAF-Entsprechung | ArchiMate 3 |
+|---|---|---|
+| Plateau | Plateau | `Plateau` (Migration-Schicht) |
+| Solution | Solution Architecture (Phase E/F) | `Deliverable`, `Gap` |
+| fromPlateau / toPlateau | Baseline / Target Architecture | Plateau mit Rollen |
+| EntityDelta | Architecture Change Request / Gap Analysis | `Gap` |
+
+---
+
+## Offene Fragen (§23 Offene Punkte)
+
+- **Punkt 3 – Bitemporalität**: Gültigkeitszeit (Plateau-Zeitfenster) vs. Erfassungszeit. Das Plateau-Modell abstrahiert zunächst; Antwort beeinflusst das DB-Schema.
+- **Punkt 4 – Plateau-Diffs**: Wie werden Übergänge berechnet und visualisiert? Das Solution/EntityDelta-Modell liefert die Grundlage.
+- **Punkt 6 – Referenz-Integrität über Plateaus**: `retiring`-Entitäten bleiben im Target-Plateau sichtbar bis Go-Live; danach `archived`, nicht mehr als Relation-Ziel verwendbar.
+
+Diese Fragen sind für künftige ADRs (Gruppe A oder B) vorgesehen.
+
+---
 
 ## Änderungshistorie
 
 | Version | Datum | Autor | Änderung |
 |---|---|---|---|
-| 0.1.0 | 2026-06-25 | Business Engineer | Initial draft; eingeführt als Scope-Container für architektur-spezifische Metamodell-Erweiterungen (REQ-037) |
+| 0.1.0 | 2026-06-25 | Business Engineer | Initial draft als generischer Scope-Container |
+| 0.2.0 | 2026-06-25 | Business Engineer | Umgewandelt zur Modell-Übersicht; Plateau + Solution als eigene BOs eingeführt |
