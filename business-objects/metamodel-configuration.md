@@ -2,7 +2,7 @@
 identifier: metamodel-configuration
 name_de: Metamodell-Konfiguration
 name_en: Metamodel Configuration
-version: 0.1.0
+version: 0.2.0
 status: draft
 maturity: initial
 owner_role: Business Engineer
@@ -38,9 +38,11 @@ Diese Typen können nicht gelöscht oder in ihrer Grundstruktur verändert werde
 
 **Konfigurierbare Elemente**:
 Das Architekturteam kann die Konfiguration durch drei Kategorien erweitern (gemäß [§14 Erweiterbarkeit](../concept/40-extensibility/14-erweiterbarkeit.md)):
-1. **Custom EntityTypes**: neue Typen, die nicht im TOGAF-Kern enthalten sind (z.B. `SecurityZone`, `DataPipeline`)
+1. **Custom EntityTypes**: neue Typen, die nicht im TOGAF-Kern enthalten sind (z.B. `SecurityZone`, `DataPipeline`); ein EntityType kann als **Connection-Typ** markiert werden, der eine Verbindung zwischen zwei Entitäten modelliert und Start und Ziel erzwingt (REQ-036)
 2. **Stereotypes**: nicht-brechende Erweiterungen bestehender Typen mit zusätzlichen Properties (z.B. `SaaSApplication` auf `ApplicationComponent`)
 3. **ConstraintRules**: deklarative Validierungsregeln für Entities (z.B. "jede Interface muss einen Owner haben")
+
+Der **Bearbeitungs-Modus** (`editMode`) steuert, ob Änderungen am Metamodell via GUI und Import oder ausschliesslich per Import möglich sind. Im Sperrmodus `import-only` ist die GUI-Bearbeitung für alle Nutzer deaktiviert; das YAML-File wird zur einzigen Quelle der Wahrheit (REQ-035).
 
 Änderungen an der Konfiguration werden versioniert und im Audit-Log festgehalten.
 
@@ -54,6 +56,7 @@ Das Architekturteam kann die Konfiguration durch drei Kategorien erweitern (gem�
 | schemaVersion | string | required | "1.0" | Semver | Aktuelle Schema-Version der Konfiguration |
 | lastModifiedAt | datetime | required | | ISO 8601, UTC | Zeitpunkt der letzten Änderung |
 | lastModifiedBy | reference | required | | target: person | Person, die die letzte Änderung vorgenommen hat |
+| editMode | enum | required | `gui-and-import` | `[gui-and-import, import-only]` | Steuert, ob GUI-Bearbeitung erlaubt ist; `import-only` = Sperrmodus (REQ-035) |
 | entityTypeDefinitions | EntityTypeDefinition[] | required | [] | | Liste der benutzerdefinierten Entitätstypen |
 | stereotypes | Stereotype[] | required | [] | | Liste der definierten Stereotypen |
 | constraintRules | ConstraintRule[] | required | [] | | Liste der Constraint-Regeln |
@@ -69,6 +72,9 @@ Das Architekturteam kann die Konfiguration durch drei Kategorien erweitern (gem�
 | properties | PropertyDefinition[] | required | [] | | Typ-spezifische Attribute |
 | relations | RelationDefinition[] | required | [] | | Erlaubte Relationen zu anderen Typen |
 | isBuiltIn | boolean | required | false | read-only; true nur für §6-Typen | Kennzeichnet eingebaute Typen |
+| isConnection | boolean | required | false | | Markiert den Typ als Connection-Typ; erzwingt `source` und `target` an jeder Instanz (REQ-036) |
+| allowedSourceTypes | string[] | optional | null | null = beliebiger EntityType oder Connection-Typ zulässig | Einschränkung: welche Typen als Start-Entität erlaubt sind |
+| allowedTargetTypes | string[] | optional | null | null = beliebiger EntityType oder Connection-Typ zulässig | Einschränkung: welche Typen als Ziel-Entität erlaubt sind |
 
 ### PropertyDefinition
 
@@ -131,6 +137,9 @@ Das Architekturteam kann die Konfiguration durch drei Kategorien erweitern (gem�
 | BR-03 | Ein Custom EntityType kann nur gelöscht werden, wenn keine Instanz dieses Typs im Repository existiert | onDelete | – |
 | BR-04 | Eine `ConstraintRule` mit `severity=error` blockiert das Speichern von Entitäten, die die Regel verletzen | onValidate | – |
 | BR-05 | Änderungen an der `MetamodelConfiguration` erfordern eine berechtigt konfigurierende Person (Metamodell-Bearbeiter-Rolle) | onCreate, onUpdate, onDelete | – |
+| BR-06 | Ist `editMode=import-only`, DÜRFEN Create-, Update- und Delete-Operationen auf EntityTypeDefinitions, Stereotypes und ConstraintRules via GUI-API NICHT ausgeführt werden; nur der Import-Pfad (REQ-033) bleibt aktiv; der `editMode` selbst kann nur durch den Betreiber (nicht durch Architekten) geändert werden | onUpdate | – |
+| BR-07 | Eine Instanz eines Connection-Typs (`isConnection=true`) MUSS genau eine `source`- und eine `target`-Referenz besitzen; beide Referenzen dürfen auf Entitäten beliebiger EntityType-Klasse zeigen (inkl. andere Connection-Instanzen), sofern die jeweiligen `allowedSourceTypes`/`allowedTargetTypes`-Listen eingehalten werden | onCreate, onUpdate | – |
+| BR-08 | `allowedSourceTypes` und `allowedTargetTypes` dürfen nur gesetzt werden, wenn `isConnection=true`; bei `isConnection=false` sind sie bedeutungslos und werden ignoriert | onCreate, onUpdate | – |
 
 ## Beispiele
 
@@ -171,6 +180,26 @@ properties:
     required: false
 ```
 
+**Connection-EntityType (YAML-Darstellung, REQ-036)**:
+```yaml
+entityType: DataFlow
+id: data-flow
+isConnection: true
+description: "Datenfluss zwischen zwei Komponenten; Start und Ziel sind Pflicht"
+allowedSourceTypes: [ApplicationComponent, ApplicationService, DataFlow]
+allowedTargetTypes: [ApplicationComponent, ApplicationService, DataFlow]
+properties:
+  - name: protocol
+    type: enum
+    required: false
+    enumValues: [REST, gRPC, AMQP, JDBC, SFTP]
+  - name: dataClassification
+    type: enum
+    required: false
+    enumValues: [public, internal, confidential, restricted]
+```
+*T-Beziehung*: `DataFlow.allowedSourceTypes` enthält `DataFlow` → ein DataFlow kann auf einen anderen DataFlow zeigen, was eine T-Verbindung ergibt (z.B. Abzweigung einer Datenleitung).
+
 **Constraint-Regel (YAML-Darstellung, §14.3)**:
 ```yaml
 name: every-interface-has-owner
@@ -195,3 +224,4 @@ message: "Jede Interface muss einen Owner-ApplicationComponent zugewiesen haben"
 | Version | Datum | Autor | Änderung |
 |---|---|---|---|
 | 0.1.0 | 2026-06-25 | Business Engineer | Initial draft |
+| 0.2.0 | 2026-06-25 | Business Engineer | `editMode` (Sperrmodus REQ-035) und Connection-Attribute (`isConnection`, `allowedSourceTypes`, `allowedTargetTypes`) zu EntityTypeDefinition hinzugefügt (REQ-036); BR-06/07/08 ergänzt |
