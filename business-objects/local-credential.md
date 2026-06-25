@@ -2,7 +2,7 @@
 identifier: local-credential
 name_de: Lokales Credential
 name_en: Local Credential
-version: 0.1.0
+version: 0.2.0
 status: draft
 maturity: initial
 owner_role: Business Engineer
@@ -29,7 +29,7 @@ Sobald eine OEA-Instanz lokale Authentifizierung aktiviert hat (kein externer OI
 
 Das BO hat drei Ausprägungen, die über `type` unterschieden werden:
 - **passkey**: WebAuthn-Credential (Public Key + Credential-ID); mehrere pro Person zulässig (verschiedene Geräte)
-- **totp**: TOTP-Secret nach RFC 6238; maximal eines pro Person aktiv
+- **totp**: TOTP-Secret nach RFC 6238; mehrere pro Person aktiv zulässig (REQ-030), je mit eigenem Label
 - **password**: argon2id- oder bcrypt-Hash; maximal eines pro Person aktiv
 
 Der [System-Admin-Account](./system-admin-account.md) besitzt kein `LocalCredential`; sein Credential ist direkt im dortigen BO modelliert, da er unabhängig vom Person/Role-System existiert.
@@ -67,6 +67,7 @@ Der [System-Admin-Account](./system-admin-account.md) besitzt kein `LocalCredent
 | algorithm | enum | required | SHA1 | `[SHA1, SHA256, SHA512]` | HMAC-Algorithmus (SHA1 für maximale Authenticator-App-Kompatibilität) |
 | digits | integer | required | 6 | `[6, 8]` | Länge des generierten Codes |
 | period | integer | required | 30 | Sekunden | Gültigkeitsfenster pro Code |
+| label | string | optional | auto-generiert | max. 255 Zeichen; nutzer-vergeben | Lesbarer Name für das Gerät/die App, z.B. "iPhone – Google Authenticator"; Default: "TOTP-Authenticator YYYY-MM-DD" |
 
 ### Typ-spezifische Attribute: `type=password`
 
@@ -83,7 +84,7 @@ Der [System-Admin-Account](./system-admin-account.md) besitzt kein `LocalCredent
 
 **Hinweise**:
 - Eine Person kann beliebig viele `passkey`-Credentials haben (ein pro registriertem Gerät).
-- Eine Person hat höchstens ein aktives `totp`-Credential (BR-02).
+- Eine Person kann mehrere aktive `totp`-Credentials haben (REQ-030; BR-02 aufgehoben).
 - Eine Person hat höchstens ein aktives `password`-Credential (BR-03).
 - LocalCredential gehört **nicht** zum fachlichen EA-Metamodell; keine Beziehungen zu Architecture-Objekten (ApplicationComponent, Capability etc.).
 
@@ -99,14 +100,14 @@ created → active → revoked
 
 **Übergänge**:
 - `created → active`: sofort nach erfolgreichem Enrollment (UC-03); kein separater Aktivierungsschritt.
-- `active → revoked`: durch die Person selbst in den Sicherheitseinstellungen, durch einen Administrator, oder automatisch beim Ersetzen durch ein neues Credential gleichen Typs (BR-02, BR-03).
+- `active → revoked`: durch die Person selbst in den Sicherheitseinstellungen, durch einen Administrator, oder automatisch beim Ersetzen durch ein neues Credential (nur bei `type=password`, BR-03).
 
 ## Business Rules
 
 | Rule-ID | Aussage | Auslöser | Compliance-Bezug |
 |---|---|---|---|
 | BR-01 | Credential-Werte (`publicKey`, `secretEncrypted`, `passwordHash`) DÜRFEN NICHT in Audit-Logs, Application-Logs oder API-Responses erscheinen | onCreate, onRead, onUpdate | – |
-| BR-02 | Pro Person darf zu einem Zeitpunkt höchstens ein `LocalCredential` mit `type=totp` und `status=active` existieren; wird ein neues TOTP eingerichtet, wird das bisherige automatisch auf `revoked` gesetzt | onCreate | – |
+| BR-02 | ~~Pro Person darf zu einem Zeitpunkt höchstens ein `LocalCredential` mit `type=totp` und `status=active` existieren~~ – aufgehoben durch [REQ-030](../requirements/req/REQ-030-mehrere-totp-credentials.md); mehrere aktive TOTP-Credentials pro Person sind zulässig; kein Auto-Revoke beim Anlegen eines weiteren TOTP | – | – |
 | BR-03 | Pro Person darf zu einem Zeitpunkt höchstens ein `LocalCredential` mit `type=password` und `status=active` existieren; wird ein neues Passwort gesetzt, wird das bisherige automatisch auf `revoked` gesetzt | onCreate | – |
 | BR-04 | LocalCredentials sind nicht Bestandteil des fachlichen EA-Repository-Exports; sie DÜRFEN NICHT in Snapshots, Berichten oder Graph-Exporten des EA-Modells enthalten sein | onExport | – |
 | BR-05 | `signCount` eines Passkey-Credentials MUSS bei jedem Login mit dem übermittelten Wert verglichen werden; ist der übermittelte Wert kleiner oder gleich dem gespeicherten, MUSS der Login abgelehnt werden (Replay-Schutz) | onLogin | – |

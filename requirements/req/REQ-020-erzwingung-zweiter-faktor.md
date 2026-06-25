@@ -88,6 +88,7 @@ if instanceConfig.enforceSecondFactor == true:
 
 - **Voraussetzungen**: REQ-009, REQ-010, REQ-011 (alle drei lokalen Mechanismen müssen existieren, damit diese Regel etwas einzuschränken hat)
 - **Folgewirkungen**: schränkt REQ-011 ein, sobald aktiv
+- **Erweiterung**: REQ-029 (rollen-basierte Ausnahme konfigurieren – Betreiber kann Rollen von der 2FA-Pflicht ausnehmen)
 - **Konflikte**: REQ-013/REQ-014 (System-Admin-Bootstrapping) sind bewusst von dieser Regel ausgenommen – siehe Begründung
 
 ## Risiken bei Nichterfüllung
