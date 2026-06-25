@@ -82,7 +82,7 @@ Betrifft alle Enrollment-Pfade aus UC-03: TOTP (REQ-022), Passkey (REQ-023), Pas
 
 ## Abhängigkeiten
 
-- **Voraussetzungen**: REQ-021 (Token-Validierung liefert Person-ID-Kontext), REQ-022, REQ-023, REQ-024
+- **Voraussetzungen**: REQ-022, REQ-023, REQ-024 (REQ-021 war Token-Validierung, wurde rejected; Person-ID-Kontext kommt nun aus dem JIT-Login-Flow)
 - **Folgewirkungen**: spätere Use Cases zu Audit-Reports (Konzept §22)
 - **Konflikte**: REQ-022 AC4 / REQ-024 AC4 (Audit-Log darf keine Secrets enthalten – durch AC3 geregelt)
 
