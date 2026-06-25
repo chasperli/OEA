@@ -81,7 +81,7 @@ Setzt voraus, dass die Person zuvor ein Passwort gesetzt und ein TOTP-Secret reg
 
 ## Abhängigkeiten
 
-- **Voraussetzungen**: Enrollment-Use-Case (Passwort setzen, TOTP-Secret registrieren) muss vorher abgeschlossen sein
+- **Voraussetzungen**: REQ-022 (TOTP-Enrollment) und REQ-024 (Passwort-Enrollment) müssen vorher abgeschlossen sein
 - **Folgewirkungen**: keine bekannt
 - **Konflikte**: REQ-006 (Fehlermeldungen dürfen Passwort-Korrektheit nicht durchsickern lassen)
 

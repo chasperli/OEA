@@ -51,9 +51,8 @@ Als Person auf einer Instanz ohne externen Identity-Provider möchte ich mich mi
 
 ## Abhängigkeiten
 
-- Wartet auf: US-001 (gemeinsames Rollen-Lookup-Schema)
+- Wartet auf: US-001 (gemeinsames Rollen-Lookup-Schema), US-022 (Passkey-Enrollment muss existieren, damit Passkeys vorhanden sind)
 - Blockiert: keine
-- Voraussetzung (außerhalb dieser Story): Passkey-Enrollment-Use-Case (Registrierung) muss separat existieren
 
 ## Notizen
 

@@ -84,7 +84,7 @@ Betrifft ausschließlich Instanzen, die explizit auf einen zweiten Faktor und au
 
 ## Abhängigkeiten
 
-- **Voraussetzungen**: Enrollment-Use-Case (Passwort setzen) muss vorher abgeschlossen sein
+- **Voraussetzungen**: REQ-024 (Passwort-Enrollment muss vorher abgeschlossen sein)
 - **Folgewirkungen**: keine bekannt
 - **Konflikte**: [REQ-020](./REQ-020-erzwingung-zweiter-faktor.md) – ist die instanzweite Erzwingung eines zweiten Faktors aktiv, darf diese Variante für reguläre Personen nicht aktivierbar sein
 

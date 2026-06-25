@@ -86,7 +86,7 @@ Setzt voraus, dass die Person zuvor einen Passkey registriert hat (Enrollment is
 
 ## Abhängigkeiten
 
-- **Voraussetzungen**: Enrollment-Use-Case (Passkey-Registrierung) muss vorher abgeschlossen sein
+- **Voraussetzungen**: REQ-023 (Passkey-Enrollment muss vorher abgeschlossen sein)
 - **Folgewirkungen**: keine bekannt
 - **Konflikte**: keine bekannt
 

@@ -15,11 +15,13 @@ references:
   business_objects:
     - person
     - role
+    - local-credential
   concept:
     - concept/70-platform/21-api-architektur.md
     - concept/20-entities/08-organisation-rollen-personen.md
   related_use_cases:
     - UC-02
+    - UC-03
 ---
 
 # UC-01: Login

@@ -46,9 +46,8 @@ Als Person auf einer Instanz ohne Passkey-fähigen Client möchte ich mich mit U
 
 ## Abhängigkeiten
 
-- Wartet auf: US-001, US-006 (generische Fehlermeldungen)
+- Wartet auf: US-001, US-006 (generische Fehlermeldungen), US-021 (TOTP-Enrollment), US-023 (Passwort-Enrollment)
 - Blockiert: keine
-- Voraussetzung (außerhalb dieser Story): Enrollment-Use-Case (Passwort setzen, TOTP-Secret registrieren)
 
 ## Notizen
 

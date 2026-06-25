@@ -51,7 +51,7 @@ Als Operator einer einfachen Self-Hosting-Instanz möchte ich bewusst die Minima
 
 ## Abhängigkeiten
 
-- Wartet auf: US-001, US-006
+- Wartet auf: US-001, US-006, US-023 (Passwort-Enrollment muss existieren)
 - Blockiert: keine
 
 ## Notizen
