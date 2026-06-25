@@ -2,7 +2,7 @@
 identifier: architecture
 name_de: Architektur-Modell (Übersicht)
 name_en: Architecture Model Overview
-version: 0.2.0
+version: 0.3.0
 status: draft
 maturity: initial
 owner_role: Business Engineer
@@ -23,7 +23,22 @@ references:
 
 ---
 
-## Konzeptionelles Modell
+## Betriebsmodi
+
+OEA unterstützt zwei Betriebsmodi, die je nach Organisations-Reifegrad gewählt werden können. Beide basieren auf dem [Solution](./solution.md)-Konzept; das [Plateau](./plateau.md) ist optional.
+
+| Modus | Plateau erforderlich | Geeignet für |
+|---|---|---|
+| **Projekt-Modus** | nein | KMU, projektbasierte Arbeitsweise ohne formales Baseline-Target-Schema |
+| **Plateau-Modus** | ja | Enterprise, TOGAF-Governance, formale Baseline/Target-Übergänge |
+
+Im **Projekt-Modus** sind Solutions freie Workspaces. Nach Go-Live ergibt der Gesamtzustand der Landschaft sich aus der Summe aller `implemented`-Solutions. Kein Plateau nötig.
+
+Im **Plateau-Modus** sind Solutions Transitionen zwischen Plateaus. Der Gesamtzustand zu einem Zeitpunkt ist ein Plateau; Solutions beschreiben den Delta zwischen zwei Plateaus.
+
+---
+
+## Konzeptionelles Modell (Plateau-Modus)
 
 In OEA wird eine Unternehmensarchitektur in zwei komplementären Dimensionen beschrieben:
 
@@ -109,6 +124,29 @@ MetamodelConfiguration (scope=instance, editMode=import-only)
 
 ---
 
+## Konzeptionelles Modell (Projekt-Modus / KMU)
+
+```
+OEA-Instanz (kein Plateau)
+  │
+  ├── Solution „Salesforce-Einführung" [implemented]
+  │     deltas: CRM-Legacy retiring, Salesforce new
+  │
+  ├── Solution „API-Gateway Einführung" [implemented]
+  │     deltas: API-GW new
+  │
+  └── Solution „ERP-Upgrade" [in-progress]
+        deltas: ERP-Core v4 → v5 (modified)
+
+Realisierter Gesamtzustand = Summe aller implemented-Solutions:
+  - Salesforce        [active]
+  - API-Gateway       [active]
+  - ERP-Core v5       [active]  ← aus laufender Solution (nach Go-Live)
+  - CRM-Legacy        [retired]
+```
+
+---
+
 ## Offene Fragen (§23 Offene Punkte)
 
 - **Punkt 3 – Bitemporalität**: Gültigkeitszeit (Plateau-Zeitfenster) vs. Erfassungszeit. Das Plateau-Modell abstrahiert zunächst; Antwort beeinflusst das DB-Schema.
@@ -125,3 +163,4 @@ Diese Fragen sind für künftige ADRs (Gruppe A oder B) vorgesehen.
 |---|---|---|---|
 | 0.1.0 | 2026-06-25 | Business Engineer | Initial draft als generischer Scope-Container |
 | 0.2.0 | 2026-06-25 | Business Engineer | Umgewandelt zur Modell-Übersicht; Plateau + Solution als eigene BOs eingeführt |
+| 0.3.0 | 2026-06-25 | Business Engineer | Projekt-Modus (KMU) eingeführt: Solutions ohne Plateau; Betriebsmodi-Tabelle; KMU-Beispiel |
