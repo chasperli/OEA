@@ -102,6 +102,7 @@ Das initiale Passwort ist ein temporäres Credential: Es reicht aus, um UC-01 A5
 - **Voraussetzungen**: Person muss im System angelegt sein (kein eigener UC bisher); REQ-028 (Passwort-Richtlinien müssen konfiguriert sein, damit Validierung greift)
 - **Folgewirkungen**: REQ-011 (Passwort-Login); UC-03 Required Action (setzt initiales Passwort voraus)
 - **Empfohlen**: REQ-027 (Passwort-Generator erzeugt automatisch ein richtlinienkonformes Passwort)
+- **Folge-Requirement**: REQ-031 (Passwort-Reset für bestehende Nutzer – gleiches Muster, aber mit Revoke des alten Credentials und erzwungenem Passwort-Wechsel)
 - **Konflikte**: keine bekannt
 
 ## Risiken bei Nichterfüllung
