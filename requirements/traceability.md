@@ -121,8 +121,10 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 | [REQ-048](req/REQ-048-saved-view.md) | SavedView anlegen und beim Öffnen anwenden | functional | should | [US-053](user-stories/US-053-saved-view.md) |
 | [REQ-049](req/REQ-049-join-modus-laufzeit.md) | Join-Modus zur Laufzeit umschalten | functional | must | [US-050](user-stories/US-050-join-modus-wechseln.md) |
 | [REQ-050](req/REQ-050-katalog-navigationsbaum.md) | Katalog im Navigationsbaum einordnen | functional | should | [US-054](user-stories/US-054-katalog-navigationsbaum.md) |
+| [REQ-065](req/REQ-065-n-connection-katalog-join.md) | Katalog-Join für Connection-Typ-Primaries und n-Connection-Traversal | functional | should | – |
+| [REQ-066](req/REQ-066-entity-anlage-workflow.md) | Konfigurierbare Entity-Anlage-Workflows (Wizard) | functional | must | [US-069](user-stories/US-069-anlage-wizard.md) |
 
-**Konzept**: §6 Kern-Entitätstypen, §12 Domain-Sichten | **ADRs**: –
+**Konzept**: §6 Kern-Entitätstypen, §12 Domain-Sichten | **ADRs**: [ADR-010](../adrs/ADR-010-n-connection-data-lineage.md) (REQ-065)
 
 ---
 
@@ -137,6 +139,7 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 | [REQ-062](req/REQ-062-lineage-graph-api.md) | Lineage-Graph-API (upstream/downstream/impact) | functional | should | [US-065](user-stories/US-065-lineage-query.md) |
 | [REQ-063](req/REQ-063-n-connection-canvas-darstellung.md) | n-Connection Canvas-Darstellung (3-Punkte-Indikator + Panel) | functional | should | [US-066](user-stories/US-066-n-connection-indikator.md), [US-067](user-stories/US-067-verbindungs-panel.md) |
 | [REQ-064](req/REQ-064-dsgvo-katalogfilter.md) | DSGVO-Katalogfilter (personalDataCategories) | functional | should | [US-068](user-stories/US-068-dsgvo-katalogfilter.md) |
+| [REQ-065](req/REQ-065-n-connection-katalog-join.md) | Katalog-Join für Connection-Primaries + n-Connection-Traversal | functional | should | – |
 
 **Konzept**: §6 Kern-Entitätstypen, §13 Fach-Technik-Verlinkung, §14 Erweiterbarkeit, §20 GRC/DSGVO | **ADRs**: [ADR-010](../adrs/ADR-010-n-connection-data-lineage.md) (accepted)
 
@@ -178,10 +181,10 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 | UC-03 | US-020–031 | ~29 | |
 | UC-04 | US-032–037 | ~18 | |
 | UC-05 | US-038–045 | ~34 | US-045 (Diagramm-Pfad) = 8 SP; ADR-007 + ADR-008 accepted; US-045 entsperrt |
-| UC-06 | US-046–054 | **31** | Details: US-046=3, US-047=5, US-048=5, US-049=5, US-050=3, US-051=3, US-052=2, US-053=3, US-054=2 |
+| UC-06 | US-046–054 + US-069 | **39** | Details: US-046=3, US-047=5, US-048=5, US-049=5, US-050=3, US-051=3, US-052=2, US-053=3, US-054=2; US-069 (Wizard)=8 |
 | UC-07 | US-055–062 | **28** | US-055=3, US-056=5, US-057=8, US-058=3, US-059=2, US-060=3, US-061=5, US-062=2 |
 | UC-08 | US-063–068 | **24** | US-063=3, US-064=5, US-065=5, US-066=3, US-067=5, US-068=3 |
-| **Gesamt** | **68 USs** | **~210 SP** | |
+| **Gesamt** | **69 USs** | **~218 SP** | |
 
 ---
 

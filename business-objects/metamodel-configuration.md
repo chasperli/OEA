@@ -95,6 +95,7 @@ Das **effektive Metamodell** einer Solution ergibt sich als Union: Instanz-Typen
 | allowedTargetTypes | string[] | optional | null | null = beliebiger EntityType oder Connection-Typ zulässig | Einschränkung: welche Typen als Ziel-Entität erlaubt sind |
 | allowsConnectionAsSource | boolean | optional | false | nur sinnvoll wenn `isConnection=true` | Gibt frei, dass Instanzen dieses Typs als `sourceEntityId` einer weiteren Connection fungieren dürfen (n-Connection, ADR-010); Default false |
 | architectureLayerId | string | optional | null | muss gültige ArchitectureLayerDefinition.id referenzieren | Zuweisung zur Architekturebene; null = keine Ebene zugewiesen |
+| creationSteps | CreationStep[] | optional | [] | | Definiert den Wizard bei der Anlage; leer = einfaches Anlage-Formular ohne Wizard |
 
 ### PropertyDefinition
 
@@ -182,6 +183,28 @@ Deklarative Regel, die vorschreibt, dass jede Instanz eines bestimmten EntityTyp
 | validationMode | enum | required | `warning` | `[error, warning]` | `error` = Speichern blockiert; `warning` = Hinweis, Speichern erlaubt |
 | message | string | required | | max. 500 Zeichen | Fehlermeldung oder Hinweis für den Nutzer |
 
+### CreationStep
+
+Beschreibt eine einzelne Seite (Schritt) im Anlage-Wizard, der beim Erstellen einer Entität dieses Typs durchlaufen wird. Wenn `EntityTypeDefinition.creationSteps` nicht leer ist, öffnet das System automatisch einen mehrseitigen Wizard statt des einfachen Anlage-Formulars.
+
+| Attribut | Typ | Optional | Default | Constraints | Beschreibung |
+|---|---|---|---|---|---|
+| stepId | string | required | | kebab-case; eindeutig innerhalb `creationSteps` | Technischer Bezeichner des Schritts |
+| title | string | required | | max. 100 Zeichen | Seitentitel im Wizard (z.B. „Basisdaten", „Domänen-Zuordnung") |
+| description | string | optional | null | max. 500 Zeichen | Hilfetext unterhalb des Titels |
+| stepType | enum | required | | `[properties, domainAssignment, connectionAssignment]` | Art des Wizard-Schritts |
+| propertyCategory | string | conditional | null | Pflicht wenn `stepType=properties` | Zeigt alle `PropertyDefinition`-Felder dieser Kategorie auf der Seite |
+| connectionType | string | conditional | null | Pflicht wenn `stepType=connectionAssignment`; muss `isConnection=true` haben | Connection-Typ, den der Nutzer hier verknüpfen soll |
+| targetEntityType | string | optional | null | nur relevant wenn `stepType=connectionAssignment` | Schränkt Zielauswahl auf diesen Typ ein; null = beliebiger Typ erlaubt |
+| minConnections | integer | optional | 1 | nur relevant wenn `stepType=connectionAssignment`; ≥ 1 | Mindestanzahl Verbindungen; 0 = optional |
+
+**stepType-Semantik**:
+- `properties`: zeigt alle `PropertyDefinitions` der angegebenen `propertyCategory` als ausfüllbares Formular
+- `domainAssignment`: zeigt MultiSelect aller `ArchitectureDomainDefinition`-Einträge; Nutzer wählt Zugehörigkeit
+- `connectionAssignment`: zeigt Suchfeld + Auswahl für Zielentitäten; erzeugt Connection(s) nach Fertigstellung
+
+**Wizard-Ablauf**: N Schritte → N-1 mal „Weiter" + einmal „Fertig". Die Entität wird erst nach Klick auf „Fertig" atomisch persistiert (Entität + alle angegebenen Connections in einer Transaktion). Bis dahin existiert sie nicht im Repository.
+
 ## Beziehungen
 
 | Beziehung | Ziel-Objekt | Kardinalität | Optional | Beschreibung |
@@ -216,6 +239,10 @@ Deklarative Regel, die vorschreibt, dass jede Instanz eines bestimmten EntityTyp
 | BR-16 | `MandatoryConnectionConstraint.connectionType` muss ein `EntityTypeDefinition` mit `isConnection=true` referenzieren | onCreate, onUpdate | – |
 | BR-17 | `MandatoryConnectionConstraint.sourceEntityType` und `targetEntityType` (wenn gesetzt) müssen gültige EntityType-IDs sein | onCreate, onUpdate | – |
 | BR-18 | `ArchitectureLayerDefinition.id` und `ArchitectureDomainDefinition.id` müssen innerhalb der MetamodelConfiguration eindeutig sein (gemeinsamer Namensraum erlaubt Konflikte nicht) | onCreate, onUpdate | – |
+| BR-19 | `CreationStep.stepId` muss innerhalb der `creationSteps`-Liste eines EntityType eindeutig sein | onCreate, onUpdate | – |
+| BR-20 | `CreationStep.propertyCategory` muss, wenn gesetzt, einem vorhandenen `PropertyDefinition.category`-Wert des zugehörigen EntityType entsprechen | onCreate, onUpdate | – |
+| BR-21 | `CreationStep.connectionType` muss, wenn gesetzt, eine gültige EntityType-ID mit `isConnection=true` in derselben MetamodelConfiguration sein | onCreate, onUpdate | – |
+| BR-22 | Wenn der Anlage-Wizard gestartet wird (`creationSteps` nicht leer): die Entität wird erst nach Klick auf „Fertig" persistiert; ein Abbruch (ESC oder X) erzeugt keine Entität und hinterlässt keinen Zustand im Repository | onEntityCreate | – |
 
 ## Beispiele
 
@@ -367,3 +394,4 @@ mandatoryConnectionConstraints:
 | 0.5.0 | 2026-06-26 | Business Engineer | Viewpoints als vierte konfigurierbare Kategorie ergänzt; `viewpoints: ViewpointDefinition[]` zum Wurzel-Objekt hinzugefügt; Verweis auf viewpoint.md |
 | 0.6.0 | 2026-06-26 | Business Engineer | PropertyDefinition überarbeitet: `type/required` → `dataType (kind: int/varchar/enum)` + `validationMode (mandatory/warning/optional)` + `category`; neues Sub-Objekt `PropertyDataType`; `architectureLayerId` zu EntityTypeDefinition; neue Sub-Objekte `ArchitectureLayerDefinition`, `ArchitectureDomainDefinition`, `MandatoryConnectionConstraint`; drei neue Felder im Wurzel-Objekt; BR-11–18 ergänzt; YAML-Beispiele aktualisiert |
 | 0.7.0 | 2026-06-26 | Business Engineer | `allowsConnectionAsSource: boolean` (Default false) zu EntityTypeDefinition hinzugefügt (ADR-010, n-Connection); BR-08 erweitert |
+| 0.8.0 | 2026-06-26 | Business Engineer | `creationSteps: CreationStep[]` zu EntityTypeDefinition hinzugefügt; neues Sub-Objekt `CreationStep` mit stepTypes properties/domainAssignment/connectionAssignment; BR-19–22 ergänzt (REQ-066) |
