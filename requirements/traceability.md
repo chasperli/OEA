@@ -101,7 +101,7 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 | [REQ-041](req/REQ-041-diff-ansicht.md) | Diff-Ansicht (aktueller vs. Zielzustand) | functional | should | [US-043](user-stories/US-043-diff-ansicht.md) |
 | [REQ-042](req/REQ-042-konflikt-warnung-parallele-solutions.md) | Konflikt-Warnung bei parallelen Solutions | functional | should | [US-044](user-stories/US-044-konflikt-warnung.md) |
 
-**Konzept**: §6 Kern-Entitätstypen, §11 Temporales Modell, §12 Domain-Sichten, §16 Beispiel-Walkthrough | **ADRs**: [ADR-007](../adrs/ADR-007-canvas-bibliothek.md) (proposed), [ADR-008](../adrs/ADR-008-gui-architektur-dual-track.md) (accepted)
+**Konzept**: §6 Kern-Entitätstypen, §11 Temporales Modell, §12 Domain-Sichten, §16 Beispiel-Walkthrough | **ADRs**: [ADR-007](../adrs/ADR-007-canvas-bibliothek.md) (accepted), [ADR-008](../adrs/ADR-008-gui-architektur-dual-track.md) (accepted)
 
 ---
 
@@ -132,7 +132,7 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 | [UC-02](use-cases/UC-02-system-admin-bootstrapping.md) | §21 API-Architektur | [ADR-006](../adrs/ADR-006-auth-stack-wahl.md) | – |
 | [UC-03](use-cases/UC-03-authentifizierungsmethode-einrichten.md) | §8 Organisation/Rollen, §21 API-Architektur | [ADR-006](../adrs/ADR-006-auth-stack-wahl.md) | – |
 | [UC-04](use-cases/UC-04-metamodell-konfigurieren.md) | §6 Kern-Entitätstypen, §14 Erweiterbarkeit, §15 Schema-Evolution | – | – |
-| [UC-05](use-cases/UC-05-architektur-vision-beschreiben.md) | §6 Kern-Entitätstypen, §11 Temporales Modell, §12 Domain-Sichten, §16 Walkthrough | [ADR-007](../adrs/ADR-007-canvas-bibliothek.md) (proposed), [ADR-008](../adrs/ADR-008-gui-architektur-dual-track.md) (accepted) | – |
+| [UC-05](use-cases/UC-05-architektur-vision-beschreiben.md) | §6 Kern-Entitätstypen, §11 Temporales Modell, §12 Domain-Sichten, §16 Walkthrough | [ADR-007](../adrs/ADR-007-canvas-bibliothek.md) (accepted), [ADR-008](../adrs/ADR-008-gui-architektur-dual-track.md) (accepted) | – |
 | [UC-06](use-cases/UC-06-katalog-anlegen-und-verwenden.md) | §6 Kern-Entitätstypen, §12 Domain-Sichten | – | – |
 
 ---
@@ -157,7 +157,7 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 | UC-02 | US-013–019 | ~17 | |
 | UC-03 | US-020–031 | ~29 | |
 | UC-04 | US-032–037 | ~18 | |
-| UC-05 | US-038–045 | ~34 | US-045 (Diagramm-Pfad) = 8 SP; ADR-008 accepted, ADR-007 jetzt proposed |
+| UC-05 | US-038–045 | ~34 | US-045 (Diagramm-Pfad) = 8 SP; ADR-007 + ADR-008 accepted; US-045 entsperrt |
 | UC-06 | US-046–054 | **31** | Details: US-046=3, US-047=5, US-048=5, US-049=5, US-050=3, US-051=3, US-052=2, US-053=3, US-054=2 |
 | **Gesamt** | **54 USs** | **~158 SP** | |
 
@@ -185,7 +185,7 @@ Alle 6 UCs haben einen `primary_actor`. ✓
 
 | Lücke | Beschreibung | Betrifft |
 |---|---|---|
-| ADR-007 proposed | Canvas-Bibliothek (React Flow); Entscheidung bereit – ADR-008 accepted hat Blockierung aufgelöst | US-045 |
+| ~~ADR-007 proposed~~ ✓ | Canvas-Bibliothek (React Flow) accepted (2026-06-26); US-045 entsperrt | US-045 |
 | ADR-008 ✓ accepted | Client App + Web Portal entschieden (2026-06-26) | UC-05, UC-06 |
 | ADR-001–005 offen | Gruppe-A-ADRs: URN-Schema, Enterprise Continuum, Product vs. Project, Reifikation, Layer-Klassifikation | Domänenmodell allgemein |
 | NFR-Lücke | Nur 1 messbare NFR (REQ-008); DoD verlangt mind. 5 | alle UCs |

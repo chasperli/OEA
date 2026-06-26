@@ -37,5 +37,5 @@ In `.claude/commands/`:
 | ID | Titel | Status | Datum | Supersedes |
 |---|---|---|---|---|
 | [ADR-006](./ADR-006-auth-stack-wahl.md) | Auth-Stack-Wahl (Entra ID + Authentik Pflicht, lokale Auth optional) | accepted | 2026-06-24 | – |
-| [ADR-007](./ADR-007-canvas-bibliothek.md) | Canvas-Bibliothek für interaktive Diagramm-Editierung (React Flow) | proposed | 2026-06-26 | – |
+| [ADR-007](./ADR-007-canvas-bibliothek.md) | Canvas-Bibliothek für interaktive Diagramm-Editierung (React Flow) | accepted | 2026-06-26 | – |
 | [ADR-008](./ADR-008-gui-architektur-dual-track.md) | GUI-Architektur: Client App + Web Portal (Dual-Track-Delivery) | accepted | 2026-06-26 | – |

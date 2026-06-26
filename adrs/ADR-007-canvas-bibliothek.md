@@ -1,6 +1,6 @@
 # ADR-007: Canvas-Bibliothek für interaktive Diagramm-Editierung
 
-**Status**: proposed
+**Status**: accepted
 **Datum**: 2026-06-26
 **Entscheider**: Inhaber des Repositorys
 **Konsultiert**: Requirements Engineer (UC-05, US-045, REQ-040)
