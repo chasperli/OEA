@@ -170,6 +170,7 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 | [REQ-067](req/REQ-067-arc42-kapitelsammlung.md) | Arc42ChapterCollection im Metamodell konfigurieren | functional | should | [US-070](user-stories/US-070-arc42-kapitelsammlung-konfigurieren.md) |
 | [REQ-068](req/REQ-068-arc42-wysiwyg-editor.md) | Arc42 WYSIWYG-Editor mit Mermaid/PlantUML-Rendering | functional | should | [US-072](user-stories/US-072-arc42-mermaid-plantuml.md) |
 | [REQ-069](req/REQ-069-arc42-dokumentation-bearbeiten.md) | Arc42-Dokumentation zu einer Entität bearbeiten und anzeigen | functional | should | [US-071](user-stories/US-071-arc42-frage-beantworten.md) |
+| [REQ-070](req/REQ-070-entity-mention-autocomplete.md) | Entity-Mention via /@ (Autocomplete + ID-stabile Verlinkung) | functional | should | [US-073](user-stories/US-073-entity-mention-autocomplete.md) |
 
 **Konzept**: §14 Erweiterbarkeit, §18 Reporting | **ADRs**: –
 
@@ -199,8 +200,8 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 | UC-06 | US-046–054 + US-069 | **39** | Details: US-046=3, US-047=5, US-048=5, US-049=5, US-050=3, US-051=3, US-052=2, US-053=3, US-054=2; US-069 (Wizard)=8 |
 | UC-07 | US-055–062 | **28** | US-055=3, US-056=5, US-057=8, US-058=3, US-059=2, US-060=3, US-061=5, US-062=2 |
 | UC-08 | US-063–068 | **24** | US-063=3, US-064=5, US-065=5, US-066=3, US-067=5, US-068=3 |
-| UC-09 | US-070–072 | **15** | US-070=5, US-071=5, US-072=5 |
-| **Gesamt** | **72 USs** | **~233 SP** | |
+| UC-09 | US-070–073 | **20** | US-070=5, US-071=5, US-072=5, US-073=5 |
+| **Gesamt** | **73 USs** | **~238 SP** | |
 
 ---
 
