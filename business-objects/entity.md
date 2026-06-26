@@ -116,7 +116,7 @@ Wenn eine Entität in einem Diagramm (Viewpoint-Instanz) platziert wird, wird si
 | BR-01 | Jede ArchitectureEntity MUSS eine `entityTypeId` haben, die auf eine existierende `EntityTypeDefinition` in der MetamodelConfiguration der Instanz zeigt | onCreate | – |
 | BR-02 | `id` ist ein fortlaufender Integer ≥ 1; er wird bei Anlage systemseitig als nächste freie Sequenznummer vergeben; Elemente und Verbindungen teilen denselben Nummernraum; unveränderlich nach Anlage | onCreate | – |
 | BR-03 | `entityTypeId` ist unveränderlich nach Anlage; ein Typ-Wechsel ist nicht möglich (neue Entität anlegen, alte löschen) | onUpdate | – |
-| BR-04 | Wenn `EntityTypeDefinition.isConnection=true`: `sourceEntityId` UND `targetEntityId` MÜSSEN gesetzt sein und auf ArchitectureEntities zeigen, deren Metatyp `isConnection=false` ist | onCreate, onUpdate | – |
+| BR-04 | Wenn `EntityTypeDefinition.isConnection=true`: `sourceEntityId` UND `targetEntityId` MÜSSEN gesetzt sein. `sourceEntityId` darf auf eine Connection-Instanz zeigen, **nur wenn** deren Metatyp `allowsConnectionAsSource=true` trägt (ADR-010 n-Connection); andernfalls muss `sourceEntityId` auf eine Nicht-Connection-Instanz zeigen. `targetEntityId` muss immer auf eine Nicht-Connection-Instanz zeigen. | onCreate, onUpdate | ADR-010 |
 | BR-05 | Wenn `EntityTypeDefinition.isConnection=false`: `sourceEntityId` und `targetEntityId` MÜSSEN null sein | onCreate, onUpdate | – |
 | BR-06 | Alle `PropertyValue.propertyName`-Werte MÜSSEN PropertyDefinitions des `entityTypeId`-Metatyps entsprechen; unbekannte Property-Namen werden abgelehnt (422) | onCreate, onUpdate | – |
 | BR-07 | PropertyDefinitions mit `validationMode=mandatory` MÜSSEN einen nicht-leeren Wert haben; fehlt der Wert → 422; `validationMode=warning` → Save mit Warnung-Response möglich; `validationMode=optional` → immer valid | onCreate, onUpdate | – |
@@ -196,3 +196,4 @@ entity:
 | Version | Datum | Autor | Änderung |
 |---|---|---|---|
 | 0.1.0 | 2026-06-26 | Business Engineer | Initial draft; UUID als Primärschlüssel; entityTypeId als obligatorische Metatyp-Referenz; PropertyValue-Werteobjekt; BR-01–BR-10 |
+| 0.2.0 | 2026-06-26 | Business Engineer | BR-04 erweitert: `sourceEntityId` darf auf Connection-Instanz zeigen wenn `allowsConnectionAsSource=true` (ADR-010 accepted); `targetEntityId` bleibt auf Nicht-Connection beschränkt |

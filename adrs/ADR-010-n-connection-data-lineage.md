@@ -1,6 +1,6 @@
 # ADR-010: Modellierung der DataFlow↔DataObject-Beziehung (n-Connection vs. Property-String)
 
-**Status**: proposed
+**Status**: accepted
 **Datum**: 2026-06-26
 **Entscheider**: SH-02 (Lukas – Data Architekt), SH-03 (Kurt – Lead EA)
 **Konsultiert**: SH-02 (Lukas), SH-03 (Kurt)

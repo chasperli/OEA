@@ -138,7 +138,7 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 | [REQ-063](req/REQ-063-n-connection-canvas-darstellung.md) | n-Connection Canvas-Darstellung (3-Punkte-Indikator + Panel) | functional | should | [US-066](user-stories/US-066-n-connection-indikator.md), [US-067](user-stories/US-067-verbindungs-panel.md) |
 | [REQ-064](req/REQ-064-dsgvo-katalogfilter.md) | DSGVO-Katalogfilter (personalDataCategories) | functional | should | [US-068](user-stories/US-068-dsgvo-katalogfilter.md) |
 
-**Konzept**: §6 Kern-Entitätstypen, §13 Fach-Technik-Verlinkung, §14 Erweiterbarkeit, §20 GRC/DSGVO | **ADRs**: [ADR-010](../adrs/ADR-010-n-connection-data-lineage.md) (proposed)
+**Konzept**: §6 Kern-Entitätstypen, §13 Fach-Technik-Verlinkung, §14 Erweiterbarkeit, §20 GRC/DSGVO | **ADRs**: [ADR-010](../adrs/ADR-010-n-connection-data-lineage.md) (accepted)
 
 ---
 
@@ -153,7 +153,7 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 | [UC-05](use-cases/UC-05-architektur-vision-beschreiben.md) | §6 Kern-Entitätstypen, §11 Temporales Modell, §12 Domain-Sichten, §16 Walkthrough | [ADR-007](../adrs/ADR-007-canvas-bibliothek.md) (accepted), [ADR-008](../adrs/ADR-008-gui-architektur-dual-track.md) (accepted) | – |
 | [UC-06](use-cases/UC-06-katalog-anlegen-und-verwenden.md) | §6 Kern-Entitätstypen, §12 Domain-Sichten | – | – |
 | [UC-07](use-cases/UC-07-dashboard-anlegen-und-verwenden.md) | §21 Visualisierungs-Strategie (Web Portal) | – | Performance-NFR ausstehend |
-| [UC-08](use-cases/UC-08-data-lineage-modellieren.md) | §6 Kern-Entitätstypen, §13 Fach-Technik-Verlinkung, §14 Erweiterbarkeit, §15 Schema-Evolution, §20 GRC/DSGVO | [ADR-010](../adrs/ADR-010-n-connection-data-lineage.md) (proposed) | – |
+| [UC-08](use-cases/UC-08-data-lineage-modellieren.md) | §6 Kern-Entitätstypen, §13 Fach-Technik-Verlinkung, §14 Erweiterbarkeit, §15 Schema-Evolution, §20 GRC/DSGVO | [ADR-010](../adrs/ADR-010-n-connection-data-lineage.md) (accepted) | – |
 
 ---
 
@@ -226,7 +226,7 @@ Alle 7 UCs haben einen `primary_actor`. ✓
 | UC-06 TreeNode | US-054 blockiert durch TreeNode-Implementierung (kein eigenes REQ/UC für TreeNode-Verwaltung) | US-054 |
 | UC für Plateau/Go-Live | Noch nicht angelegt (in UC-05 als „künftiger UC" referenziert) | Plateau-Modus |
 | UC für Viewpoints | UC für Viewpoint-Verwaltung noch nicht angelegt (REQ-059 bereits vorhanden für Import/Export) | Viewpoint-BO |
-| UC-08 ✓ | REQ-060–064 + US-063–068 abgeleitet (2026-06-26); ADR-010 proposed | – |
+| UC-08 ✓ | REQ-060–064 + US-063–068 abgeleitet (2026-06-26); ADR-010 accepted | – |
 | REQ-058/059 ohne US | Metamodell-Export und Viewpoint-Import/Export haben noch keine User Stories | UC-04 |
 | UC für NavigationsTree | Kein eigener UC für TreeNode-CRUD (Ordner anlegen, umbenennen, löschen) | TreeNode-BO |
 

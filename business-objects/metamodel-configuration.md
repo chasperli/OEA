@@ -93,6 +93,7 @@ Das **effektive Metamodell** einer Solution ergibt sich als Union: Instanz-Typen
 | isConnection | boolean | required | false | | Markiert den Typ als Connection-Typ; erzwingt `source` und `target` an jeder Instanz (REQ-036) |
 | allowedSourceTypes | string[] | optional | null | null = beliebiger EntityType oder Connection-Typ zulässig | Einschränkung: welche Typen als Start-Entität erlaubt sind |
 | allowedTargetTypes | string[] | optional | null | null = beliebiger EntityType oder Connection-Typ zulässig | Einschränkung: welche Typen als Ziel-Entität erlaubt sind |
+| allowsConnectionAsSource | boolean | optional | false | nur sinnvoll wenn `isConnection=true` | Gibt frei, dass Instanzen dieses Typs als `sourceEntityId` einer weiteren Connection fungieren dürfen (n-Connection, ADR-010); Default false |
 | architectureLayerId | string | optional | null | muss gültige ArchitectureLayerDefinition.id referenzieren | Zuweisung zur Architekturebene; null = keine Ebene zugewiesen |
 
 ### PropertyDefinition
@@ -206,7 +207,7 @@ Deklarative Regel, die vorschreibt, dass jede Instanz eines bestimmten EntityTyp
 | BR-09 | Eine `MetamodelConfiguration` mit `scope=solution` DARF keine Typen enthalten, die im Eltern-Objekt (`parentId`) bereits definiert sind (keine Überschreibung, nur Ergänzung) | onCreate, onUpdate | – |
 | BR-10 | Eine `MetamodelConfiguration` mit `scope=solution` MUSS eine gültige `parentId` haben, die auf eine `MetamodelConfiguration` mit `scope=instance` derselben OEA-Instanz zeigt | onCreate | – |
 | BR-07 | Eine Instanz eines Connection-Typs (`isConnection=true`) MUSS genau eine `source`- und eine `target`-Referenz besitzen; beide Referenzen dürfen auf Entitäten beliebiger EntityType-Klasse zeigen (inkl. andere Connection-Instanzen), sofern die jeweiligen `allowedSourceTypes`/`allowedTargetTypes`-Listen eingehalten werden | onCreate, onUpdate | – |
-| BR-08 | `allowedSourceTypes` und `allowedTargetTypes` dürfen nur gesetzt werden, wenn `isConnection=true`; bei `isConnection=false` sind sie bedeutungslos und werden ignoriert | onCreate, onUpdate | – |
+| BR-08 | `allowedSourceTypes`, `allowedTargetTypes` und `allowsConnectionAsSource` dürfen nur gesetzt werden, wenn `isConnection=true`; bei `isConnection=false` sind sie bedeutungslos und werden ignoriert | onCreate, onUpdate | – |
 | BR-11 | `PropertyDefinition.dataType.kind=varchar` erfordert `maxLength` ≥ 1 | onCreate, onUpdate | – |
 | BR-12 | `PropertyDefinition.dataType.kind=enum` erfordert `enumValues` mit mindestens 2 eindeutigen Einträgen | onCreate, onUpdate | – |
 | BR-13 | `PropertyDefinition.name` muss innerhalb eines EntityType eindeutig sein (case-insensitive) | onCreate, onUpdate | – |
@@ -365,3 +366,4 @@ mandatoryConnectionConstraints:
 | 0.4.0 | 2026-06-25 | Business Engineer | `scope=architecture` → `scope=solution`; `architectureId` → `solutionId`; Scope-Container präzisiert als Solution (Plateau-Prinzip, Option 3) |
 | 0.5.0 | 2026-06-26 | Business Engineer | Viewpoints als vierte konfigurierbare Kategorie ergänzt; `viewpoints: ViewpointDefinition[]` zum Wurzel-Objekt hinzugefügt; Verweis auf viewpoint.md |
 | 0.6.0 | 2026-06-26 | Business Engineer | PropertyDefinition überarbeitet: `type/required` → `dataType (kind: int/varchar/enum)` + `validationMode (mandatory/warning/optional)` + `category`; neues Sub-Objekt `PropertyDataType`; `architectureLayerId` zu EntityTypeDefinition; neue Sub-Objekte `ArchitectureLayerDefinition`, `ArchitectureDomainDefinition`, `MandatoryConnectionConstraint`; drei neue Felder im Wurzel-Objekt; BR-11–18 ergänzt; YAML-Beispiele aktualisiert |
+| 0.7.0 | 2026-06-26 | Business Engineer | `allowsConnectionAsSource: boolean` (Default false) zu EntityTypeDefinition hinzugefügt (ADR-010, n-Connection); BR-08 erweitert |
