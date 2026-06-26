@@ -84,8 +84,10 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 | [REQ-035](req/REQ-035-metamodell-sperrmodus.md) | Metamodell-Sperrmodus (editMode) | functional | must | [US-035](user-stories/US-035-metamodell-sperrmodus.md) |
 | [REQ-036](req/REQ-036-connection-entitytype.md) | Connection-EntityType (isConnection) | functional | must | [US-036](user-stories/US-036-connection-entitytype-anlegen.md) |
 | [REQ-037](req/REQ-037-architektur-metamodell-erweiterung.md) | Architektur-spezifische Metamodell-Erweiterung (scope=solution) | functional | must | [US-037](user-stories/US-037-architektur-metamodell-erproben.md) |
+| [REQ-058](req/REQ-058-metamodell-exportieren.md) | Metamodell-Konfiguration exportieren (YAML/JSON) | functional | should | – (US ausstehend) |
+| [REQ-059](req/REQ-059-viewpoint-import-export.md) | Viewpoint importieren und exportieren | functional | should | – (US ausstehend) |
 
-**Konzept**: §6 Kern-Entitätstypen, §14 Erweiterbarkeit, §15 Schema-Evolution | **ADRs**: –
+**Konzept**: §6 Kern-Entitätstypen, §13 Integration/Import-Export, §14 Erweiterbarkeit, §15 Schema-Evolution | **ADRs**: –
 
 ---
 
@@ -205,7 +207,8 @@ Alle 7 UCs haben einen `primary_actor`. ✓
 | NFR-Lücke | Nur 1 messbare NFR (REQ-008); DoD verlangt mind. 5 | alle UCs |
 | UC-06 TreeNode | US-054 blockiert durch TreeNode-Implementierung (kein eigenes REQ/UC für TreeNode-Verwaltung) | US-054 |
 | UC für Plateau/Go-Live | Noch nicht angelegt (in UC-05 als „künftiger UC" referenziert) | Plateau-Modus |
-| UC für Viewpoints | UC für Viewpoint-Verwaltung noch nicht angelegt | Viewpoint-BO |
+| UC für Viewpoints | UC für Viewpoint-Verwaltung noch nicht angelegt (REQ-059 bereits vorhanden für Import/Export) | Viewpoint-BO |
+| REQ-058/059 ohne US | Metamodell-Export und Viewpoint-Import/Export haben noch keine User Stories | UC-04 |
 | UC für NavigationsTree | Kein eigener UC für TreeNode-CRUD (Ordner anlegen, umbenennen, löschen) | TreeNode-BO |
 
 ---
