@@ -28,11 +28,36 @@ Der Business Engineer (siehe `.claude/agents/business-engineer.md`) modelliert h
 
 ## Übersicht der modellierten Business Objects
 
+### Identity & Access
+
 | ID | Name (DE) | Name (EN) | Status | Version |
 |---|---|---|---|---|
 | [person](./person.md) | Person | Person | draft | 0.1.0 |
 | [role](./role.md) | Rolle | Role | draft | 0.1.0 |
 | [system-admin-account](./system-admin-account.md) | System-Admin-Account | System Admin Account | draft | 0.1.0 |
+| [local-credential](./local-credential.md) | Lokaler Credential | Local Credential | draft | 0.1.0 |
+
+### Architecture Repository
+
+| ID | Name (DE) | Name (EN) | Status | Version |
+|---|---|---|---|---|
+| [architecture](./architecture.md) | Architektur-Repository | Architecture | draft | 0.1.0 |
+| [plateau](./plateau.md) | Plateau | Plateau | draft | 0.1.0 |
+| [solution](./solution.md) | Solution / Änderungsinitiative | Solution | draft | 0.1.0 |
+
+### Metamodell & Konfiguration
+
+| ID | Name (DE) | Name (EN) | Status | Version |
+|---|---|---|---|---|
+| [metamodel-configuration](./metamodel-configuration.md) | Metamodell-Konfiguration | Metamodel Configuration | draft | 0.5.0 |
+| [viewpoint](./viewpoint.md) | Viewpoint / Architektursicht | Viewpoint | draft | 0.1.0 |
+
+### Darstellung & Navigation
+
+| ID | Name (DE) | Name (EN) | Status | Version |
+|---|---|---|---|---|
+| [catalog](./catalog.md) | Katalog / Tabellenansicht | Catalog | draft | 0.1.0 |
+| [tree-node](./tree-node.md) | Navigationsbaum-Knoten | Tree Node | draft | 0.1.0 |
 
 ## Capability Map
 

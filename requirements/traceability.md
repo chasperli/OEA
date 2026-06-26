@@ -1,19 +1,211 @@
 # Traceability-Matrix
 
-Trace zwischen Use Cases, Konzept-Kapiteln und ADRs.
+Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Stories. Wird per `/trace-check` auf Konsistenz geprüft oder manuell gepflegt.
 
-Wird per `/trace-check` automatisch aktualisiert oder manuell gepflegt.
+**Stand**: 2026-06-26 | **REQs gesamt**: 50 | **USs gesamt**: 54 | **UCs gesamt**: 6
 
-## Use Case × Konzept × ADR
+---
 
-| Use Case | Konzept-Kapitel | ADRs | NFRs | Status |
+## 1. UC × REQ × US – Vollständige Trace-Tabelle
+
+### UC-01: Login
+
+**Primärer Akteur**: SH-03 | **Prio**: must | **Status**: draft
+
+| REQ | Titel | Typ | Prio | USs |
 |---|---|---|---|---|
-| | | | | |
+| [REQ-001](req/REQ-001-oidc-login-session.md) | OIDC-Login und Session-Handling | functional | must | [US-001](user-stories/US-001-oidc-login.md) |
+| [REQ-002](req/REQ-002-api-key-authentication.md) | API-Key-Authentifizierung | functional | must | [US-002](user-stories/US-002-api-key-auth.md) |
+| [REQ-003](req/REQ-003-zugriff-ohne-rollenzuweisung.md) | Zugriff ohne Rollenzuweisung | functional | must | [US-003](user-stories/US-003-zugriff-ohne-rolle.md) |
+| [REQ-004](req/REQ-004-ablehnung-unbekannte-offboarded-person.md) | Ablehnung unbekannter/offboardeter Personen | functional | must | [US-004](user-stories/US-004-ablehnung-unbekannte-person.md) |
+| [REQ-005](req/REQ-005-audit-log-login.md) | Audit-Log Login-Ereignisse | functional | must | [US-005](user-stories/US-005-audit-log-login.md) |
+| [REQ-006](req/REQ-006-keine-preisgabe-account-existenz.md) | Keine Preisgabe der Account-Existenz | security | must | [US-006](user-stories/US-006-generische-fehlermeldung.md) |
+| [REQ-007](req/REQ-007-lifecycle-uebergang-invited-active.md) | Lifecycle-Übergang invited→active | functional | must | [US-007](user-stories/US-007-lifecycle-invited-active.md) |
+| [REQ-008](req/REQ-008-login-latenz.md) | Login-Latenz ≤ 500 ms (p95) | non-functional | must | [US-008](user-stories/US-008-login-latenz.md) |
+| [REQ-009](req/REQ-009-passkey-login.md) | Passkey-Login | functional | should | [US-009](user-stories/US-009-passkey-login.md) |
+| [REQ-010](req/REQ-010-username-passwort-totp.md) | Username/Passwort + TOTP | functional | must | [US-010](user-stories/US-010-totp-login.md) |
+| [REQ-011](req/REQ-011-username-passwort-minimal.md) | Username/Passwort minimal | functional | must | [US-011](user-stories/US-011-passwort-minimal.md) |
+| [REQ-012](req/REQ-012-token-lebensdauer-lokal.md) | Token-Lebensdauer lokal konfigurierbar | functional | must | [US-012](user-stories/US-012-token-lebensdauer-konfigurierbar.md) |
 
-## Coverage-Lücken
+**Konzept**: §21 API-Architektur, §8 Organisation/Rollen/Personen | **ADRs**: [ADR-006](../adrs/ADR-006-auth-stack-wahl.md)
 
-<!-- Use Cases, die noch keine ADR oder kein Konzept-Bezug haben -->
+---
 
-## Verwaiste Konzept-Kapitel
+### UC-02: System-Admin-Bootstrapping
 
-<!-- Konzept-Kapitel, auf die kein Use Case verweist – Anzeichen für unnötigen Scope -->
+**Primärer Akteur**: SH-06 | **Prio**: must | **Status**: draft
+
+| REQ | Titel | Typ | Prio | USs |
+|---|---|---|---|---|
+| [REQ-013](req/REQ-013-lokales-bootstrapping.md) | Lokales Bootstrapping | functional | must | [US-013](user-stories/US-013-lokales-bootstrapping.md) |
+| [REQ-014](req/REQ-014-remote-bootstrapping.md) | Remote-Bootstrapping | functional | must | [US-014](user-stories/US-014-remote-bootstrapping.md) |
+| [REQ-015](req/REQ-015-kein-paralleles-bootstrapping.md) | Kein paralleles Bootstrapping | functional | must | [US-015](user-stories/US-015-kein-paralleles-bootstrapping.md) |
+| [REQ-016](req/REQ-016-audit-log-bootstrapping.md) | Audit-Log Bootstrapping | functional | must | [US-016](user-stories/US-016-audit-log-bootstrapping.md) |
+| [REQ-017](req/REQ-017-sichere-setup-token-uebergabe.md) | Sichere Setup-Token-Übergabe | security | must | [US-017](user-stories/US-017-sichere-setup-token-uebergabe.md) |
+| [REQ-018](req/REQ-018-warnung-leerer-admin-claim.md) | Warnung bei leerem Admin-Claim | functional | must | [US-018](user-stories/US-018-warnung-leerer-admin-claim.md) |
+| [REQ-019](req/REQ-019-deaktivierbarkeit-lokaler-admin.md) | Deaktivierbarkeit des lokalen Admins | functional | must | [US-019](user-stories/US-019-deaktivierbarkeit-lokaler-admin.md) |
+
+**Konzept**: §21 API-Architektur | **ADRs**: [ADR-006](../adrs/ADR-006-auth-stack-wahl.md)
+
+---
+
+### UC-03: Authentifizierungsmethode einrichten
+
+**Primärer Akteur**: SH-04 | **Prio**: must | **Status**: draft
+
+| REQ | Titel | Typ | Prio | USs |
+|---|---|---|---|---|
+| [REQ-020](req/REQ-020-erzwingung-zweiter-faktor.md) | Erzwingung eines zweiten Faktors | functional | must | [US-031](user-stories/US-031-2fa-erzwingung-konfigurieren.md) |
+| [REQ-021](req/REQ-021-enrollment-token-validierung.md) | Enrollment-Token-Validierung | functional | must | [US-020](user-stories/US-020-enrollment-einstieg-einladungslink.md) |
+| [REQ-022](req/REQ-022-totp-enrollment.md) | TOTP-Enrollment | functional | must | [US-021](user-stories/US-021-totp-enrollment.md) |
+| [REQ-023](req/REQ-023-passkey-enrollment.md) | Passkey-Enrollment | functional | should | [US-022](user-stories/US-022-passkey-enrollment.md) |
+| [REQ-024](req/REQ-024-initiales-passwort-admin.md) | Initiales Passwort durch Admin | functional | must | [US-023](user-stories/US-023-initiales-passwort-admin.md) |
+| [REQ-025](req/REQ-025-audit-log-enrollment.md) | Audit-Log Enrollment | functional | must | [US-024](user-stories/US-024-audit-log-enrollment.md) |
+| [REQ-026](req/REQ-026-weitere-methode-authentifizierte-person.md) | Weitere Methode für eingeloggte Person | functional | must | [US-025](user-stories/US-025-weitere-methode-eingeloggte-person.md) |
+| [REQ-027](req/REQ-027-passwort-generator.md) | Passwort-Generator | functional | should | [US-026](user-stories/US-026-passwort-generator.md) |
+| [REQ-028](req/REQ-028-passwort-richtlinien.md) | Passwort-Richtlinien konfigurierbar | functional | must | [US-027](user-stories/US-027-passwort-richtlinien-konfigurieren.md) |
+| [REQ-029](req/REQ-029-rollen-basierte-2fa-ausnahme.md) | Rollenbasierte 2FA-Ausnahme | functional | should | [US-028](user-stories/US-028-rollen-basierte-2fa-ausnahme.md) |
+| [REQ-030](req/REQ-030-mehrere-totp-credentials.md) | Mehrere TOTP-Credentials | functional | should | [US-029](user-stories/US-029-mehrere-totp-credentials.md) |
+| [REQ-031](req/REQ-031-passwort-reset-durch-admin.md) | Passwort-Reset durch Admin | functional | must | [US-030](user-stories/US-030-passwort-reset-durch-admin.md) |
+
+**Konzept**: §21 API-Architektur, §8 Organisation/Rollen/Personen | **ADRs**: [ADR-006](../adrs/ADR-006-auth-stack-wahl.md)
+
+---
+
+### UC-04: Metamodell gemeinsam konfigurieren
+
+**Primärer Akteur**: SH-03 | **Prio**: must | **Status**: draft
+
+| REQ | Titel | Typ | Prio | USs |
+|---|---|---|---|---|
+| [REQ-032](req/REQ-032-entitytype-gui-konfiguration.md) | EntityType per GUI konfigurieren | functional | must | [US-032](user-stories/US-032-entitytype-anlegen.md) |
+| [REQ-033](req/REQ-033-metamodell-import.md) | Metamodell-Import | functional | must | [US-033](user-stories/US-033-metamodell-importieren.md) |
+| [REQ-034](req/REQ-034-audit-log-metamodell.md) | Audit-Log Metamodell-Änderungen | functional | must | [US-034](user-stories/US-034-audit-log-metamodell.md) |
+| [REQ-035](req/REQ-035-metamodell-sperrmodus.md) | Metamodell-Sperrmodus (editMode) | functional | must | [US-035](user-stories/US-035-metamodell-sperrmodus.md) |
+| [REQ-036](req/REQ-036-connection-entitytype.md) | Connection-EntityType (isConnection) | functional | must | [US-036](user-stories/US-036-connection-entitytype-anlegen.md) |
+| [REQ-037](req/REQ-037-architektur-metamodell-erweiterung.md) | Architektur-spezifische Metamodell-Erweiterung (scope=solution) | functional | must | [US-037](user-stories/US-037-architektur-metamodell-erproben.md) |
+
+**Konzept**: §6 Kern-Entitätstypen, §14 Erweiterbarkeit, §15 Schema-Evolution | **ADRs**: –
+
+---
+
+### UC-05: Architektur-Vision einer Änderungsinitiative beschreiben
+
+**Primärer Akteur**: SH-04 | **Prio**: must | **Status**: draft
+
+| REQ | Titel | Typ | Prio | USs |
+|---|---|---|---|---|
+| [REQ-038](req/REQ-038-solution-anlegen.md) | Solution anlegen | functional | must | [US-038](user-stories/US-038-solution-anlegen.md) |
+| [REQ-039](req/REQ-039-landschaft-ausgangsbasis.md) | Landschaft als Ausgangsbasis anzeigen | functional | must | [US-039](user-stories/US-039-landschaft-ausgangsbasis-anzeigen.md) |
+| [REQ-040](req/REQ-040-entity-deltas-erfassen.md) | EntityDeltas einer Solution erfassen | functional | must | [US-040](user-stories/US-040-delta-neue-entitaet.md), [US-041](user-stories/US-041-delta-modified.md), [US-042](user-stories/US-042-delta-retiring.md), [US-045](user-stories/US-045-delta-neue-entitaet-diagramm.md) |
+| [REQ-041](req/REQ-041-diff-ansicht.md) | Diff-Ansicht (aktueller vs. Zielzustand) | functional | should | [US-043](user-stories/US-043-diff-ansicht.md) |
+| [REQ-042](req/REQ-042-konflikt-warnung-parallele-solutions.md) | Konflikt-Warnung bei parallelen Solutions | functional | should | [US-044](user-stories/US-044-konflikt-warnung.md) |
+
+**Konzept**: §6 Kern-Entitätstypen, §11 Temporales Modell, §12 Domain-Sichten, §16 Beispiel-Walkthrough | **ADRs**: [ADR-007](../adrs/ADR-007-canvas-bibliothek.md) (deferred, betrifft US-045)
+
+---
+
+### UC-06: Architektur-Katalog anlegen, konfigurieren und verwenden
+
+**Primärer Akteur**: SH-03 (alle Stakeholder) | **Prio**: must | **Status**: draft
+
+| REQ | Titel | Typ | Prio | USs |
+|---|---|---|---|---|
+| [REQ-043](req/REQ-043-katalog-anlegen.md) | Katalog anlegen | functional | must | [US-046](user-stories/US-046-katalog-anlegen.md) |
+| [REQ-044](req/REQ-044-spalten-konfigurieren.md) | Spalten eines Katalogs konfigurieren | functional | must | [US-047](user-stories/US-047-spalten-konfigurieren.md) |
+| [REQ-045](req/REQ-045-join-definition-konfigurieren.md) | Join-Definition konfigurieren | functional | must | [US-048](user-stories/US-048-join-hinzufuegen.md) |
+| [REQ-046](req/REQ-046-katalog-abfrage.md) | Katalog-Abfrage ausführen (Live-Daten) | functional | must | [US-049](user-stories/US-049-katalog-daten-anzeigen.md) |
+| [REQ-047](req/REQ-047-filter-setzen-und-speichern.md) | Filter setzen und als SavedFilter speichern | functional | must | [US-051](user-stories/US-051-ad-hoc-filter.md), [US-052](user-stories/US-052-saved-filter.md) |
+| [REQ-048](req/REQ-048-saved-view.md) | SavedView anlegen und beim Öffnen anwenden | functional | should | [US-053](user-stories/US-053-saved-view.md) |
+| [REQ-049](req/REQ-049-join-modus-laufzeit.md) | Join-Modus zur Laufzeit umschalten | functional | must | [US-050](user-stories/US-050-join-modus-wechseln.md) |
+| [REQ-050](req/REQ-050-katalog-navigationsbaum.md) | Katalog im Navigationsbaum einordnen | functional | should | [US-054](user-stories/US-054-katalog-navigationsbaum.md) |
+
+**Konzept**: §6 Kern-Entitätstypen, §12 Domain-Sichten | **ADRs**: –
+
+---
+
+## 2. UC × Konzept × ADR – Übersicht
+
+| UC | Konzept-Kapitel | ADRs | NFRs |
+|---|---|---|---|
+| [UC-01](use-cases/UC-01-login.md) | §8 Organisation/Rollen, §21 API-Architektur | [ADR-006](../adrs/ADR-006-auth-stack-wahl.md) | REQ-008 (Latenz ≤500ms p95) |
+| [UC-02](use-cases/UC-02-system-admin-bootstrapping.md) | §21 API-Architektur | [ADR-006](../adrs/ADR-006-auth-stack-wahl.md) | – |
+| [UC-03](use-cases/UC-03-authentifizierungsmethode-einrichten.md) | §8 Organisation/Rollen, §21 API-Architektur | [ADR-006](../adrs/ADR-006-auth-stack-wahl.md) | – |
+| [UC-04](use-cases/UC-04-metamodell-konfigurieren.md) | §6 Kern-Entitätstypen, §14 Erweiterbarkeit, §15 Schema-Evolution | – | – |
+| [UC-05](use-cases/UC-05-architektur-vision-beschreiben.md) | §6 Kern-Entitätstypen, §11 Temporales Modell, §12 Domain-Sichten, §16 Walkthrough | [ADR-007](../adrs/ADR-007-canvas-bibliothek.md) (deferred) | – |
+| [UC-06](use-cases/UC-06-katalog-anlegen-und-verwenden.md) | §6 Kern-Entitätstypen, §12 Domain-Sichten | – | – |
+
+---
+
+## 3. REQ-Typ-Übersicht
+
+| Typ | REQ-IDs | Anzahl |
+|---|---|---|
+| functional | REQ-001–007, REQ-009–022, REQ-024–040, REQ-043–050 | 47 |
+| non-functional | REQ-008 | 1 |
+| security | REQ-006, REQ-017 | 2 |
+
+*Hinweis: REQ-006 und REQ-017 sind als `security` typisiert und erscheinen auch in der functional-Zählung der jeweiligen UCs.*
+
+---
+
+## 4. Story-Points-Übersicht
+
+| UC | USs | SP gesamt | Anmerkung |
+|---|---|---|---|
+| UC-01 | US-001–012 | ~29 | inkl. US-008 (Performance-Test) |
+| UC-02 | US-013–019 | ~17 | |
+| UC-03 | US-020–031 | ~29 | |
+| UC-04 | US-032–037 | ~18 | |
+| UC-05 | US-038–045 | ~34 | US-045 (Diagramm-Pfad) = 8 SP; blockiert durch ADR-007 |
+| UC-06 | US-046–054 | **31** | Details: US-046=3, US-047=5, US-048=5, US-049=5, US-050=3, US-051=3, US-052=2, US-053=3, US-054=2 |
+| **Gesamt** | **54 USs** | **~158 SP** | |
+
+---
+
+## 5. Coverage-Lücken
+
+### REQs ohne US
+
+Alle REQs haben mind. eine zugehörige US. ✓
+
+### USs ohne REQ-Bezug
+
+Alle USs referenzieren mind. ein REQ. ✓
+
+### UCs ohne Konzept-Bezug
+
+Alle 6 UCs haben mind. einen Konzept-Bezug. ✓
+
+### UCs ohne primären Stakeholder
+
+Alle 6 UCs haben einen `primary_actor`. ✓
+
+### Offene Punkte (bekannte Lücken)
+
+| Lücke | Beschreibung | Betrifft |
+|---|---|---|
+| ADR-007 deferred | Canvas-Bibliothek nicht entschieden; US-045 blockiert bis Client-App-Entscheidung (ADR-008) | US-045 |
+| ADR-008 fehlt | Client App vs. Web Portal – noch nicht angelegt | UC-06 (Diagramm-Editierung), UC-05 (Diagramm-Pfad) |
+| ADR-001–005 offen | Gruppe-A-ADRs: URN-Schema, Enterprise Continuum, Product vs. Project, Reifikation, Layer-Klassifikation | Domänenmodell allgemein |
+| NFR-Lücke | Nur 1 messbare NFR (REQ-008); DoD verlangt mind. 5 | alle UCs |
+| UC-06 TreeNode | US-054 blockiert durch TreeNode-Implementierung (kein eigenes REQ/UC für TreeNode-Verwaltung) | US-054 |
+| UC für Plateau/Go-Live | Noch nicht angelegt (in UC-05 als „künftiger UC" referenziert) | Plateau-Modus |
+| UC für Viewpoints | UC für Viewpoint-Verwaltung noch nicht angelegt | Viewpoint-BO |
+| UC für NavigationsTree | Kein eigener UC für TreeNode-CRUD (Ordner anlegen, umbenennen, löschen) | TreeNode-BO |
+
+---
+
+## 6. Verwaiste Konzept-Kapitel (Auswahl)
+
+Konzept-Kapitel, auf die noch kein UC verweist – potenzielle Scope-Kandidaten:
+
+| Konzept-Kapitel | Thema | Status |
+|---|---|---|
+| §9 Zuständigkeiten / RACI | Rollen und Verantwortlichkeiten im EA-Team | kein UC |
+| §10 Governance | Genehmigungsworkflows | kein UC |
+| §13 Integration | Import/Export, XMI, API-Integrationen | kein UC |
+| §17 Beispiel-Diagramme | Visualisierungs-Beispiele | kein UC (Diagramm-UC noch TBD) |
+| §18 Reporting | Export-Formate, PDF-Berichte | kein UC |
+| §19 Suche | Volltext-Suche über Repository | kein UC |
+| §22 Datenschutz | DSGVO-Aspekte, Audit-Retention | kein UC |

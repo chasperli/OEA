@@ -15,3 +15,7 @@ Zielorientierte Szenarien aus Stakeholder-Sicht. Pro Use Case eine Datei mit Sch
 |---|---|---|---|---|
 | [UC-01](./UC-01-login.md) | Login | SH-03 | must | draft |
 | [UC-02](./UC-02-system-admin-bootstrapping.md) | System-Admin-Bootstrapping | SH-06 | must | draft |
+| [UC-03](./UC-03-authentifizierungsmethode-einrichten.md) | Authentifizierungsmethode einrichten | SH-04 | must | draft |
+| [UC-04](./UC-04-metamodell-konfigurieren.md) | Metamodell gemeinsam konfigurieren | SH-03 | must | draft |
+| [UC-05](./UC-05-architektur-vision-beschreiben.md) | Architektur-Vision einer Änderungsinitiative beschreiben | SH-04 | must | draft |
+| [UC-06](./UC-06-katalog-anlegen-und-verwenden.md) | Architektur-Katalog anlegen, konfigurieren und verwenden | SH-03 (alle) | must | draft |

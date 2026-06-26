@@ -37,10 +37,11 @@ Die TOGAF-basierten Kern-Entitätstypen aus [§6 Kern-Entitätstypen](../concept
 Diese Typen können nicht gelöscht oder in ihrer Grundstruktur verändert werden. Sie können durch Stereotypen und optionale Properties erweitert werden.
 
 **Konfigurierbare Elemente**:
-Das Architekturteam kann die Konfiguration durch drei Kategorien erweitern (gemäß [§14 Erweiterbarkeit](../concept/40-extensibility/14-erweiterbarkeit.md)):
+Das Architekturteam kann die Konfiguration durch vier Kategorien erweitern (gemäß [§14 Erweiterbarkeit](../concept/40-extensibility/14-erweiterbarkeit.md)):
 1. **Custom EntityTypes**: neue Typen, die nicht im TOGAF-Kern enthalten sind (z.B. `SecurityZone`, `DataPipeline`); ein EntityType kann als **Connection-Typ** markiert werden, der eine Verbindung zwischen zwei Entitäten modelliert und Start und Ziel erzwingt (REQ-036)
 2. **Stereotypes**: nicht-brechende Erweiterungen bestehender Typen mit zusätzlichen Properties (z.B. `SaaSApplication` auf `ApplicationComponent`)
 3. **ConstraintRules**: deklarative Validierungsregeln für Entities (z.B. "jede Interface muss einen Owner haben")
+4. **Viewpoints**: benannte Architektursichten, die festlegen, welche EntityTypes und Connection-Typen in einem Diagramm dieses Typs erscheinen dürfen und in welcher Notation dargestellt wird (ArchiMate 3, UML oder BPMN 2.0); siehe [viewpoint.md](./viewpoint.md)
 
 Der **Bearbeitungs-Modus** (`editMode`) steuert, ob Änderungen am Metamodell via GUI und Import oder ausschliesslich per Import möglich sind. Im Sperrmodus `import-only` ist die GUI-Bearbeitung für alle Nutzer deaktiviert; das YAML-File wird zur einzigen Quelle der Wahrheit (REQ-035).
 
@@ -70,6 +71,7 @@ Das **effektive Metamodell** einer Solution ergibt sich als Union: Instanz-Typen
 | entityTypeDefinitions | EntityTypeDefinition[] | required | [] | | Liste der benutzerdefinierten Entitätstypen |
 | stereotypes | Stereotype[] | required | [] | | Liste der definierten Stereotypen |
 | constraintRules | ConstraintRule[] | required | [] | | Liste der Constraint-Regeln |
+| viewpoints | ViewpointDefinition[] | required | [] | Enthält system-defined (built-in) + user-defined Viewpoints | Liste der Viewpoints; Verweis auf [viewpoint.md](./viewpoint.md) für Vollspezifikation |
 
 ### EntityTypeDefinition
 
@@ -229,7 +231,7 @@ message: "Jede Interface muss einen Owner-ApplicationComponent zugewiesen haben"
 
 ## Verwendung in Use Cases
 
-- [UC-04: Metamodell konfigurieren](../requirements/use-cases/UC-04-metamodell-konfigurieren.md) (erzeugt und verwaltet MetamodelConfiguration)
+- [UC-04: Metamodell konfigurieren](../requirements/use-cases/UC-04-metamodell-konfigurieren.md) (erzeugt und verwaltet MetamodelConfiguration inkl. Viewpoints)
 
 ## Änderungshistorie
 
@@ -239,3 +241,4 @@ message: "Jede Interface muss einen Owner-ApplicationComponent zugewiesen haben"
 | 0.2.0 | 2026-06-25 | Business Engineer | `editMode` (Sperrmodus REQ-035) und Connection-Attribute (`isConnection`, `allowedSourceTypes`, `allowedTargetTypes`) zu EntityTypeDefinition hinzugefügt (REQ-036); BR-06/07/08 ergänzt |
 | 0.3.0 | 2026-06-25 | Business Engineer | Zwei-Ebenen-Scoping eingeführt (REQ-037): `scope`, `architectureId`, `parentId`; BR-09/10 ergänzt; `editMode` gilt unabhängig pro Scope-Ebene |
 | 0.4.0 | 2026-06-25 | Business Engineer | `scope=architecture` → `scope=solution`; `architectureId` → `solutionId`; Scope-Container präzisiert als Solution (Plateau-Prinzip, Option 3) |
+| 0.5.0 | 2026-06-26 | Business Engineer | Viewpoints als vierte konfigurierbare Kategorie ergänzt; `viewpoints: ViewpointDefinition[]` zum Wurzel-Objekt hinzugefügt; Verweis auf viewpoint.md |
