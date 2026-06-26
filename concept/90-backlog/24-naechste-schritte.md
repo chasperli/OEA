@@ -14,12 +14,12 @@ Stand: 2026-06-26 — Requirements-Phase abgeschlossen. Alle §23-Punkte kategor
 
 ### Nächste Phase: Implementation
 
-**Vor dem ersten Commit noch zu entscheiden (Tech-ADRs):**
+**Tech-ADRs — alle entschieden:**
 
-1. **ADR-012** — Backend-Stack (Sprache + Framework)
-2. **ADR-013** — API-Stil (REST + OpenAPI-Strategie)
-3. **ADR-014** — Frontend-Komponentenbibliothek + WYSIWYG-Editor (TipTap)
-4. **ADR-015** — DB-Migration-Tool (Flyway vs. Liquibase) — eng mit ADR-012 verbunden
+- ~~ADR-012~~ ✓ Backend: TypeScript + NestJS 10.x + Drizzle ORM; PlantUML via `plantuml-server`-Container
+- ~~ADR-013~~ ✓ API-Stil: REST + OpenAPI 3.x (code-first via `@nestjs/swagger`)
+- ~~ADR-014~~ ✓ Frontend: PrimeVue 4 + TipTap 2.x (WYSIWYG)
+- ~~ADR-015~~ ✓ DB-Migration: Drizzle Kit (integriert mit Drizzle ORM, kein JVM)
 
 **Walking Skeleton (UC-06 Minimal-Scope, 22 SP):**
 

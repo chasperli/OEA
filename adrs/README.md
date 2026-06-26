@@ -47,3 +47,7 @@ In `.claude/commands/`:
 | [ADR-009](./ADR-009-client-app-framework.md) | Client-App-Framework: Electron (vs. Tauri v2) | accepted | 2026-06-26 | – |
 | [ADR-010](./ADR-010-n-connection-data-lineage.md) | Modellierung DataFlow↔DataObject: n-Connection vs. Property-String | accepted | 2026-06-26 | – |
 | [ADR-011](./ADR-011-frontend-framework.md) | Frontend-Framework: Vue 3 + TypeScript (Composition API) | accepted | 2026-06-26 | – |
+| [ADR-012](./ADR-012-backend-stack.md) | Backend-Stack: TypeScript + NestJS + Drizzle ORM; PlantUML via plantuml-server | accepted | 2026-06-26 | – |
+| [ADR-013](./ADR-013-api-stil.md) | API-Stil: REST + OpenAPI 3.x (code-first via @nestjs/swagger) | accepted | 2026-06-26 | – |
+| [ADR-014](./ADR-014-frontend-komponentenbibliothek.md) | Frontend-Komponentenbibliothek: PrimeVue 4 + TipTap 2.x | accepted | 2026-06-26 | – |
+| [ADR-015](./ADR-015-db-migration.md) | DB-Migration: Drizzle Kit (integriert mit Drizzle ORM, kein JVM) | accepted | 2026-06-26 | – |
