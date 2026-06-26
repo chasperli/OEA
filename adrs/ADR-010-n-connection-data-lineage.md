@@ -1,8 +1,8 @@
 # ADR-010: Modellierung der DataFlow↔DataObject-Beziehung (n-Connection vs. Property-String)
 
-**Status**: draft
+**Status**: proposed
 **Datum**: 2026-06-26
-**Entscheider**: TBD (Lead Enterprise Architekt + Data Architekt)
+**Entscheider**: SH-02 (Lukas – Data Architekt), SH-03 (Kurt – Lead EA)
 **Konsultiert**: SH-02 (Lukas), SH-03 (Kurt)
 **Informiert**: alle Stakeholder
 
@@ -91,29 +91,38 @@ In v1.0 wird Option A implementiert (`carriedDataObjectIds` als Property-String)
 
 ## Entscheidung
 
-**Offen — Entscheidung ausstehend.**
+Wir wählen **Option B (n-Connection)**, weil es dem Kern-Designprinzip von OEA (Connections als First-Class-Entities mit Integer-IDs) entspricht, einen klaren Wettbewerbsvorteil gegenüber Abacus schafft und die Renderer-Frage durch das **3-Punkte-Kreis-Muster** gelöst ist.
 
-Tendenz der bisherigen Diskussion: **Option B (n-Connection)** entspricht dem Kern-Designprinzip von OEA (Connections als First-Class-Entities mit Integer-IDs) und ist der explizite Differenzierungspunkt gegenüber Abacus. Die Frage der Renderer-Darstellung (React Flow, ADR-007) und der Metamodell-Kontrolle (welche EntityTypes dürfen als Connection-Source in anderen Connections auftreten?) muss vor der Entscheidung geklärt werden.
+**Renderer-Lösung (3-Punkte-Kreis, Referenz Obsidian)**:
+Eine Connection, die über n-Connections mit weiteren Entitäten verknüpft ist (d.h. selbst `sourceEntityId` einer anderen Connection ist), erhält auf ihrer Linie im Canvas einen kleinen Kreis mit drei Punkten (`•••`). Doppelklick öffnet ein **Verbindungs-Panel** mit allen verknüpften Entitäten und Connections. Am oberen Rand des Panels befinden sich Filter-Chips, einen pro vorhandenem Connection-Typ (z.B. `carries-data (2)`, `security-control (1)`). Die Grundidee stammt aus Obsidians Graph-View / Hover-Preview.
 
-**Voraussetzungen für Entscheidung zu Option B**:
-1. Klärung: Wie stellt React Flow eine Kante dar, deren Quelle eine andere Kante ist? (Proof of Concept empfohlen)
-2. Klärung: Soll die Erlaubnis, als Connection-Source aufzutreten, im Metamodell pro EntityType konfigurierbar sein (`allowsConnectionAsSource: bool` auf EntityTypeDefinition)?
-3. Klärung: Sollen n-Connections beliebig tief sein (Connection-of-Connection-of-Connection), oder nur einmal verschachtelt?
+**Metamodell-Kontrolle**:
+`allowsConnectionAsSource: bool` (Default: `false`) wird als neues Feld auf `EntityTypeDefinition` in MetamodelConfiguration ergänzt. Nur EntityTypes mit `allowsConnectionAsSource=true` (z.B. `data-flow`) dürfen als `sourceEntityId` in einer anderen Connection auftreten. Dies regelt `entity.md BR-04` (Lockerung von `isConnection=false`-Pflicht auf `allowsConnectionAsSource=true`).
+
+**Tiefe**: n-Connections sind für v1.0 **einmal verschachtelt** (Connection-of-Connection). Connection-of-Connection-of-Connection ist nicht im Scope von v1.0.
+
+**Ausstehend vor Acceptance**: Formale Bestätigung, dass die Änderung von BR-04 (entity.md) und das neue Feld `allowsConnectionAsSource` auf EntityTypeDefinition freigegeben sind.
 
 ## Konsequenzen (vorläufig, je nach Entscheidung)
 
-### Wenn Option B gewählt wird
+### Positive Konsequenzen
 
-- **entity.md BR-04** wird gelockert: `sourceEntityId` darf auf eine ArchitectureEntity zeigen, deren Metatyp `isConnection=true` ist, sofern der EntityType des laufenden Objekts dies im Metamodell erlaubt
-- **metamodel-configuration.md** erhält ggf. `allowsConnectionAsSource: bool` auf EntityTypeDefinition (Default: `false`)
-- **React Flow Canvas**: Spezial-Rendering für n-Connection-Edges (z.B. als gestrichelter Anker auf einer Kante); muss in ADR-007-Folge geklärt werden
-- **Lineage-API**: Graph-Traversierung versteht Connection-Entities als traversierbare Zwischenknoten
+- **entity.md BR-04** wird gelockert: `sourceEntityId` darf auf eine ArchitectureEntity zeigen, deren Metatyp `isConnection=true` ist, sofern deren EntityTypeDefinition `allowsConnectionAsSource=true` hat
+- **metamodel-configuration.md**: `allowsConnectionAsSource: bool` (Default: `false`) auf EntityTypeDefinition; nur explizit freigegebene Typen (z.B. `data-flow`) können in n-Connections als Quelle auftreten
+- **Canvas**: 3-Punkte-Kreis-Indikator auf Connection-Linie; Doppelklick → Verbindungs-Panel mit Typ-Filtern (REQ-063)
+- **Lineage-API**: Graph-Traversierung versteht Connection-Entities als traversierbare Zwischenknoten; keine String-Parserei (REQ-062)
+- **Erweiterbar**: `carries-data` kann in v2.0 um `columnMapping`-Property für Column-Level-Lineage erweitert werden ohne Schemabruch
 
-### Wenn Option A gewählt wird (oder C für v1.0)
+### Negative Konsequenzen / Trade-offs
 
-- `carriedDataObjectIds`-Property bleibt als String; Backend parst bei Lineage-Query
-- entity.md BR-04 bleibt wie bisher (isConnection=false für source/target)
-- Technische Schuld für v2.0 wird bewusst akzeptiert
+- Komplexerer Canvas-Renderer (3-Punkte-Indikator muss bei jedem Laden berechnet werden: hat diese Connection n-Connections?)
+- Backend muss Connection-Entities als Graphknoten (nicht nur Kanten) verstehen
+- Nutzer-Lernkurve: dass eine Linie selbst ein Objekt ist, das weitere Verbindungen haben kann, ist konzeptuell anspruchsvoller als Property-Strings
+
+### Folgeentscheidungen
+
+- entity.md BR-04 anpassen (Freigabe `allowsConnectionAsSource=true`-Typen als source)
+- MetamodelConfiguration v0.7.0: `allowsConnectionAsSource` auf EntityTypeDefinition
 
 ## Bezüge
 
