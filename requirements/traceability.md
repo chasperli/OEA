@@ -2,7 +2,7 @@
 
 Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Stories. Wird per `/trace-check` auf Konsistenz geprüft oder manuell gepflegt.
 
-**Stand**: 2026-06-26 | **REQs gesamt**: 81 | **USs gesamt**: 83 | **UCs gesamt**: 10
+**Stand**: 2026-06-27 | **REQs gesamt**: 83 | **USs gesamt**: 83 | **UCs gesamt**: 10
 
 ---
 
@@ -198,7 +198,7 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 | Typ | REQ-IDs | Anzahl |
 |---|---|---|
 | functional | REQ-001–007, REQ-009–022, REQ-024–040, REQ-043–070, REQ-076–077 | 68 |
-| non-functional | REQ-008, REQ-071, REQ-072, REQ-073, REQ-074, REQ-075 | **6** ✓ |
+| non-functional | REQ-008, REQ-071, REQ-072, REQ-073, REQ-074, REQ-075, REQ-082, REQ-083 | **8** ✓ |
 | security | REQ-006, REQ-017 | 2 |
 
 *Hinweis: REQ-006 und REQ-017 sind als `security` typisiert und erscheinen auch in der functional-Zählung der jeweiligen UCs.*
@@ -213,6 +213,8 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 | [REQ-073](req/REQ-073-systemverfuegbarkeit.md) | Systemverfügbarkeit | availability | must | ≥ 99,5 % / Monat (exkl. Wartung); RTO ≤ 30 min |
 | [REQ-074](req/REQ-074-gleichzeitige-nutzer-skalierbarkeit.md) | Gleichzeitige Nutzer / Skalierbarkeit | scalability | should | 50 Nutzer ohne Latenz-Degradierung > 2×; 500k Entitäten |
 | [REQ-075](req/REQ-075-plattformunabhaengigkeit-deployment.md) | Plattformunabhängigkeit und Cloud-Betreibbarkeit | portability | must | Docker Compose + Helm auf Linux/macOS/Win; kein Vendor-Lock-in (DB, S3, OIDC austauschbar) |
+| [REQ-082](req/REQ-082-datensicherung-retention.md) | Datensicherung und Point-in-Time-Recovery | reliability | must | RPO ≤ 24h; RTO ≤ 4h; Backup-Retention ≥ 30 Tage |
+| [REQ-083](req/REQ-083-audit-log-retention.md) | Audit-Log-Retention und Abfrage-Performance | compliance | should | Retention ≥ 2 Jahre; p95 Abfrage 30 Tage ≤ 5s; append-only garantiert |
 
 ---
 
@@ -285,7 +287,7 @@ Alle 7 UCs haben einen `primary_actor`. ✓
 | ADR-008 ✓ accepted | Client App + Web Portal entschieden (2026-06-26) | UC-05, UC-06 |
 | ~~ADR-001–005 offen~~ ✓ | Gruppe-A-ADRs alle accepted (2026-06-26): URN-Schema, Continuum-Repo, Product/Project, Reifikation, App-vs-Tech | – |
 | Walking Skeleton ✓ | UC-06 (Katalog) als Walking-Skeleton-UC; Prerequisites: UC-02, UC-01, UC-04 (US-033); 6 USs / 22 SP | [docs/walking-skeleton.md](../docs/walking-skeleton.md) |
-| NFR-Lücke ✓ | 6 NFRs vorhanden (REQ-008, 071–075); über DoD-Ziel | – |
+| NFR-Lücke ✓ | 8 NFRs vorhanden (REQ-008, 071–075, 082–083); über DoD-Ziel | – |
 | UC-06 TreeNode | US-054 blockiert durch TreeNode-Implementierung (kein eigenes REQ/UC für TreeNode-Verwaltung) | US-054 |
 | UC für Plateau/Go-Live | Noch nicht angelegt (in UC-05 als „künftiger UC" referenziert) | Plateau-Modus |
 | UC für Viewpoints | UC für Viewpoint-Verwaltung noch nicht angelegt (REQ-059 bereits vorhanden für Import/Export) | Viewpoint-BO |
