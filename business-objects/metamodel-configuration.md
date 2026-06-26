@@ -78,6 +78,7 @@ Das **effektive Metamodell** einer Solution ergibt sich als Union: Instanz-Typen
 | architectureLayers | ArchitectureLayerDefinition[] | required | [] | | Liste der Architekturebenen; leer = keine Ebenen-Kategorisierung |
 | architectureDomains | ArchitectureDomainDefinition[] | required | [] | | Liste der Architekturdomänen; leer = keine Domänen-Kategorisierung |
 | mandatoryConnectionConstraints | MandatoryConnectionConstraint[] | required | [] | | Deklarative Pflicht-Connection-Regeln |
+| arc42Collections | Arc42ChapterCollection[] | required | [] | | Konfigurierbare Arc42-Kapitelsammlungen (Verweis auf [arc42.md](./arc42.md)) |
 
 ### EntityTypeDefinition
 
@@ -395,3 +396,4 @@ mandatoryConnectionConstraints:
 | 0.6.0 | 2026-06-26 | Business Engineer | PropertyDefinition überarbeitet: `type/required` → `dataType (kind: int/varchar/enum)` + `validationMode (mandatory/warning/optional)` + `category`; neues Sub-Objekt `PropertyDataType`; `architectureLayerId` zu EntityTypeDefinition; neue Sub-Objekte `ArchitectureLayerDefinition`, `ArchitectureDomainDefinition`, `MandatoryConnectionConstraint`; drei neue Felder im Wurzel-Objekt; BR-11–18 ergänzt; YAML-Beispiele aktualisiert |
 | 0.7.0 | 2026-06-26 | Business Engineer | `allowsConnectionAsSource: boolean` (Default false) zu EntityTypeDefinition hinzugefügt (ADR-010, n-Connection); BR-08 erweitert |
 | 0.8.0 | 2026-06-26 | Business Engineer | `creationSteps: CreationStep[]` zu EntityTypeDefinition hinzugefügt; neues Sub-Objekt `CreationStep` mit stepTypes properties/domainAssignment/connectionAssignment; BR-19–22 ergänzt (REQ-066) |
+| 0.9.0 | 2026-06-26 | Business Engineer | `arc42Collections: Arc42ChapterCollection[]` zum Wurzel-Objekt hinzugefügt (Verweis auf arc42.md); eingebaute EntityTypes `arc42-meta-object` und `arc42-describes` deklariert (REQ-067) |
