@@ -134,6 +134,7 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 | [UC-04](use-cases/UC-04-metamodell-konfigurieren.md) | §6 Kern-Entitätstypen, §14 Erweiterbarkeit, §15 Schema-Evolution | – | – |
 | [UC-05](use-cases/UC-05-architektur-vision-beschreiben.md) | §6 Kern-Entitätstypen, §11 Temporales Modell, §12 Domain-Sichten, §16 Walkthrough | [ADR-007](../adrs/ADR-007-canvas-bibliothek.md) (accepted), [ADR-008](../adrs/ADR-008-gui-architektur-dual-track.md) (accepted) | – |
 | [UC-06](use-cases/UC-06-katalog-anlegen-und-verwenden.md) | §6 Kern-Entitätstypen, §12 Domain-Sichten | – | – |
+| [UC-07](use-cases/UC-07-dashboard-anlegen-und-verwenden.md) | §21 Visualisierungs-Strategie (Web Portal) | – | Performance-NFR ausstehend |
 
 ---
 
@@ -159,7 +160,8 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 | UC-04 | US-032–037 | ~18 | |
 | UC-05 | US-038–045 | ~34 | US-045 (Diagramm-Pfad) = 8 SP; ADR-007 + ADR-008 accepted; US-045 entsperrt |
 | UC-06 | US-046–054 | **31** | Details: US-046=3, US-047=5, US-048=5, US-049=5, US-050=3, US-051=3, US-052=2, US-053=3, US-054=2 |
-| **Gesamt** | **54 USs** | **~158 SP** | |
+| UC-07 | US-055 ff. | TBD | REQs und USs noch abzuleiten |
+| **Gesamt** | **54 USs + UC-07 TBD** | **~158 SP + UC-07 TBD** | |
 
 ---
 
@@ -175,11 +177,11 @@ Alle USs referenzieren mind. ein REQ. ✓
 
 ### UCs ohne Konzept-Bezug
 
-Alle 6 UCs haben mind. einen Konzept-Bezug. ✓
+Alle 7 UCs haben mind. einen Konzept-Bezug. ✓
 
 ### UCs ohne primären Stakeholder
 
-Alle 6 UCs haben einen `primary_actor`. ✓
+Alle 7 UCs haben einen `primary_actor`. ✓
 
 ### Offene Punkte (bekannte Lücken)
 
@@ -206,6 +208,6 @@ Konzept-Kapitel, auf die noch kein UC verweist – potenzielle Scope-Kandidaten:
 | §10 Governance | Genehmigungsworkflows | kein UC |
 | §13 Integration | Import/Export, XMI, API-Integrationen | kein UC |
 | §17 Beispiel-Diagramme | Visualisierungs-Beispiele | kein UC (Diagramm-UC noch TBD) |
-| §18 Reporting | Export-Formate, PDF-Berichte | kein UC |
+| §18 Reporting | Export-Formate, PDF-Berichte | teilweise UC-07 (Dashboard = live Reporting); PDF-Export TBD |
 | §19 Suche | Volltext-Suche über Repository | kein UC |
 | §22 Datenschutz | DSGVO-Aspekte, Audit-Retention | kein UC |
