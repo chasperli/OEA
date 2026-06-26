@@ -105,31 +105,35 @@ Der `content`-Wert einer Arc42MetaObject-Entität unterstützt:
 | Markdown | Standard CommonMark | Inline-Rendering |
 | Mermaid | ` ```mermaid ` … ` ``` ` | Client-seitiges Rendering via mermaid.js |
 | PlantUML | ` ```plantuml ` … ` ``` ` | Server-seitiges Rendering via PlantUML-Server oder WASM |
-| Entity-Mention | `/@` → Autocomplete → `[@Name](entity:ID)` | Inline-Badge mit Link zur Entität (in Code-Blöcken: reiner Textname) |
+| Draw.io | ` ```drawio ` … ` ``` ` | SVG-Rendering via draw.io-Viewer-Library; Bearbeitung im draw.io-Editor-Popup |
+| Entity-Mention | `[[` → Autocomplete → `[[Name\|entity:ID]]` | Inline-Badge mit Link zur Entität (in Code-Blöcken: reiner Textname) |
 
-### Entity-Mention via `/@`
+### Entity-Mention via `[[`
 
-Überall im Editor — in Freitext und innerhalb von Mermaid- und PlantUML-Codeblöcken — löst das Tippen von `/@` ein Autocomplete-Dropdown aus, das live gegen das Entity-Repository sucht. Der Nutzer tippt weiter, um das Ergebnis einzuschränken; mit Enter oder Klick wird die Entität eingesetzt.
+Überall im Editor — in Freitext, innerhalb von Mermaid-, PlantUML- und Draw.io-Codeblöcken — löst das Tippen von `[[` ein Autocomplete-Dropdown aus, das live gegen das Entity-Repository sucht. Der Nutzer tippt weiter, um das Ergebnis einzuschränken; mit Enter oder Klick wird die Entität eingesetzt.
+
+`[[` (doppelte eckige Klammer) ist als Trigger eindeutig: es erscheint weder in URLs, noch in E-Mail-Adressen, noch in Mermaid/PlantUML/Draw.io-Syntax — null False-Positives. Bekannt aus Obsidian, Logseq, Confluence als „Link zu einem Objekt".
 
 **Speicherformat je Kontext:**
 
 | Kontext | Eingabe | Gespeicherter Wert |
 |---|---|---|
-| Markdown-Freitext | `/@CRM` → Auswahl | `[@CRM-System](entity:1)` |
-| Mermaid-Codeblock | `/@CRM` → Auswahl | `"CRM-System"` (reiner Text, Name zum Zeitpunkt der Auswahl) |
-| PlantUML-Codeblock | `/@CRM` → Auswahl | `CRM-System` (reiner Text) |
+| Markdown-Freitext | `[[CRM` → Auswahl | `[[CRM-System\|entity:1]]` |
+| Mermaid-Codeblock | `[[CRM` → Auswahl | `CRM-System` (reiner Text, Name zum Zeitpunkt der Auswahl) |
+| PlantUML-Codeblock | `[[CRM` → Auswahl | `CRM-System` (reiner Text) |
+| Draw.io Shape-Label | `[[CRM` → Auswahl | `CRM-System` (reiner Text im Shape-Label) |
 
-Im **Markdown-Freitext** wird ein Entity-Link `[@Name](entity:ID)` gespeichert. Beim Rendering löst das System den aktuellen Namen via ID auf — wird die Entität umbenannt, zeigt der Link automatisch den neuen Namen. Klick öffnet die Entitäts-Detailansicht.
+Im **Markdown-Freitext** wird `[[Name|entity:ID]]` gespeichert. Beim Rendering löst das System den aktuellen Namen via ID auf — wird die Entität umbenannt, zeigt der Badge automatisch den neuen Namen. Klick öffnet die Entitäts-Detailansicht.
 
-In **Mermaid- und PlantUML-Blöcken** kann kein strukturierter Link in den Diagrammquelltext eingebettet werden. Das Autocomplete setzt dort den Namen als reinen Text ein (z.B. als Node-Label oder Komponentenname). Der Bezug ist dadurch lesefreundlich, aber nicht ID-stabil — eine Umbenennung im Repo wird nicht automatisch nachgezogen.
+In **Mermaid-, PlantUML- und Draw.io-Blöcken** kann kein strukturierter Link eingebettet werden. Das Autocomplete setzt dort den Namen als reinen Text ein. Der Bezug ist dadurch lesefreundlich, aber nicht ID-stabil — eine Umbenennung im Repo wird nicht automatisch nachgezogen.
 
 **Beispiel** (Kontextabgrenzung mit Mermaid + Entity-Mentions):
 
 ````markdown
 ## Systemkontext CRM-System
 
-Das [@CRM-System](entity:1) kommuniziert mit [@SAP ERP](entity:3)
-über die DataFlow-Verbindung [@ERP→CRM Kundenstamm-Sync](entity:5).
+Das [[CRM-System|entity:1]] kommuniziert mit [[SAP ERP|entity:3]]
+über die DataFlow-Verbindung [[ERP→CRM Kundenstamm-Sync|entity:5]].
 
 ```mermaid
 C4Context
@@ -161,8 +165,9 @@ Alle Schnittstellen sind im EA-Modell als DataFlow-Entitäten erfasst.
 | BR-04 | Wird eine `Arc42ChapterCollection` einem EntityType zugewiesen, der bereits eine andere Collection trägt, sind beide gültig (additive Zuweisung) | onCreate | – |
 | BR-05 | `Arc42QuestionTemplate.answerEntityTypeId` muss ein EntityType sein, der `arc42-meta-object` als direkten oder transitiven Eltern-Typ hat (`extends`-Kette) | onCreate, onUpdate | – |
 | BR-06 | Der `content`-Wert darf maximal 100.000 Zeichen betragen; PlantUML/Mermaid-Codeblöcke werden vor dem Speichern nicht gerendert — Rendering erfolgt rein client-/serverseitig beim Abruf | onRead | – |
-| BR-07 | Entity-Mentions im Markdown-Freitext werden im Format `[@Name](entity:ID)` gespeichert; beim Rendering MUSS das System den aktuellen `name`-Wert der referenzierten Entität via ID auflösen — bei gelöschter Entität wird `[gelöscht](entity:ID)` angezeigt | onRead | – |
-| BR-08 | Entity-Mentions innerhalb von Mermaid/PlantUML-Codeblöcken werden als reiner Textname gespeichert; keine ID-Auflösung beim Rendering (Diagramm-Syntax erlaubt keine Links) | onCreate, onUpdate | – |
+| BR-07 | Entity-Mentions im Markdown-Freitext werden im Format `[[Name\|entity:ID]]` gespeichert; beim Rendering MUSS das System den aktuellen `name`-Wert der referenzierten Entität via ID auflösen — bei gelöschter Entität wird `[gelöscht|entity:ID]` in roter Schrift angezeigt | onRead | – |
+| BR-08 | Entity-Mentions innerhalb von Mermaid-, PlantUML- und Draw.io-Codeblöcken werden als reiner Textname gespeichert; keine ID-Auflösung beim Rendering (Code-Syntax erlaubt keine OEA-spezifischen Links) | onCreate, onUpdate | – |
+| BR-09 | Draw.io-Codeblöcke (` ```drawio `) enthalten valides `<mxGraphModel>`-XML; ungültige XML-Struktur wird vor dem Speichern als Fehler markiert; vor dem Rendering MUSS das XML serverseitig oder via DOMParser sanitisiert werden (keine `<script>`-Tags, keine `javascript:`-URIs in `href`-Attributen) | onSave, onRead | – |
 
 ## Verwendung
 
@@ -182,3 +187,4 @@ Alle Schnittstellen sind im EA-Modell als DataFlow-Entitäten erfasst.
 |---|---|---|---|
 | 0.1.0 | 2026-06-26 | Business Engineer | Initial draft |
 | 0.2.0 | 2026-06-26 | Business Engineer | Entity-Mention via `/@` ergänzt: Speicherformat je Kontext (Markdown vs. Mermaid/PlantUML), BR-07/08 hinzugefügt |
+| 0.3.0 | 2026-06-26 | Business Engineer | Trigger `/@` → `[[`; Speicherformat `[[Name\|entity:ID]]`; Draw.io als neues Format ergänzt (Formats-Tabelle, Entity-Mention-Tabelle, BR-09) |
