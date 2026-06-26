@@ -59,7 +59,7 @@ Wir wählen **Option 1: REST + OpenAPI 3.x**.
 | Dokumentation | Swagger UI unter `/api/docs` (nur non-production) |
 | Typ-Generierung Frontend | `openapi-typescript` (generiert `types.d.ts` aus Spec) |
 | Echtzeit-Events | SSE unter `GET /api/v1/events` (§23 #26); kein WebSocket in v1.0 |
-| Graph-Queries | `POST /api/v1/graph/cypher` (openCypher via Apache AGE, §22 §23) |
+| Graph-Traversal | `POST /api/v1/entities/{id}/impact` (Recursive CTE, Tiefe konfigurierbar; ADR-016) |
 | Analytics | `POST /api/v1/analytics/query` (SQL-Analytics, §22) |
 | Authentifizierung | Bearer-Token (JWT) im `Authorization`-Header (ADR-006) |
 

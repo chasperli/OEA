@@ -69,9 +69,9 @@ Schema-Änderung in TypeScript (schema.ts)
   → docker compose up      → NestJS-Bootstrap führt Migrations automatisch aus
 ```
 
-**Initialisierungs-Migrations** (manuell ergänzt, nicht aus Schema generiert):
-- `0001_init_age_extension.sql`: `CREATE EXTENSION IF NOT EXISTS age;` + Graph-Initialisierung
-- `0002_init_schema.sql`: Core-Tabellen (aus Drizzle-Schema generiert)
+**Initialisierungs-Migrations** (manuell ergänzt oder aus Schema generiert):
+- `0001_init_schema.sql`: Core-Tabellen — entities, entity_versions, audit_events, entity_plateau_states (aus Drizzle-Schema generiert)
+- `0002_init_indexes.sql`: GIN-Index auf `entities.properties`, B-Tree-Indizes auf häufige Filter-Spalten
 
 **NestJS-Integration:**
 
@@ -98,12 +98,12 @@ Migrations laufen synchron vor dem App-Start — kein separater Container nötig
 
 - Drizzle Kit ist jünger als Flyway/Liquibase; Edge-Cases (komplexe Schema-Änderungen) können manuelle SQL-Korrekturen in der generierten Datei erfordern
 - Rollback: Drizzle Kit unterstützt kein automatisches Rollback; Down-Migrations müssen manuell geschrieben werden (akzeptabel für v1.0)
-- Apache AGE-spezifische Befehle (`SELECT create_graph(...)`) müssen manuell in die erste Migrations-Datei eingetragen werden
+- `entity_versions` und `audit_events` werden von Drizzle Kit nicht automatisch mit Custom-Triggern versehen; die Snapshot-Logik liegt im NestJS-Service-Layer
 
 ## Bezüge
 
 **Verwandte ADRs**: [ADR-012](./ADR-012-backend-stack.md) (Drizzle ORM), [ADR-011](./ADR-011-frontend-framework.md)
 
-**Konzept**: [§23 #1 Persistenz-Entscheidung](../concept/90-backlog/23-offene-punkte.md) (PostgreSQL + AGE, entschieden)
+**Konzept**: [§23 #1 Persistenz-Entscheidung](../concept/90-backlog/23-offene-punkte.md) (PostgreSQL 15 + JSONB; AGE deferred — ADR-016)
 
 **Requirements**: [REQ-075](../requirements/req/REQ-075-plattformunabhaengigkeit-deployment.md) (Docker-Compose-Deployment ohne manuelle Setup-Schritte)

@@ -71,7 +71,6 @@ Begründung: Ein-Sprachen-Stack (TypeScript überall) ist der dominante Faktor �
 | Runtime | Node.js | 22 LTS | MIT |
 | Framework | NestJS | 10.x | MIT |
 | DB-Client | node-postgres (`pg`) | 8.x | MIT |
-| Graph-Query | `@apache-age/pg` | aktuell | Apache 2.0 |
 | ORM | Drizzle ORM | 0.x | Apache 2.0 |
 | Validierung | class-validator + class-transformer | aktuell | MIT |
 | PlantUML | `plantuml/plantuml-server` (Docker) | latest | LGPL |
@@ -89,14 +88,14 @@ Begründung: Ein-Sprachen-Stack (TypeScript überall) ist der dominante Faktor �
 - Entwickler lernt TypeScript einmal und kann sofort in Front- und Backend arbeiten
 - Typ-Sharing: DTOs aus Backend per `openapi-typescript` in Vue 3 Frontend generieren (kein manuelles Duplizieren)
 - NestJS-Struktur (Module/Controller/Service) ist klar und wartbar
-- Drizzle ORM: JSONB-Properties der Entities sind direkt modellierbar; openCypher via `@apache-age/pg` für Graph-Queries
+- Drizzle ORM: JSONB-Properties der Entities sind direkt modellierbar; Graph-Traversal via Recursive CTEs in v1.0 (ADR-016)
 - Docker-Image: reines Node.js-Image (~200 MB) ohne JVM
 
 ### Negative Konsequenzen / Trade-offs
 
 - PlantUML als separater Docker-Service; minimaler Betriebsaufwand aber dokumentiert
 - NestJS-Lernkurve: Decorators, DI, Module sind ungewohnt; Dokumentation ist gut
-- `@apache-age/pg` ist weniger verbreitet als Standard-JDBC-Treiber; bei Problemen Fallback auf raw `pg`-Queries möglich
+- Recursive CTEs für Graph-Traversal: bei Tiefen > 5 Hops oder sehr grossen Graphen kann Performance nachlassen — Apache AGE als v2.0-Option (ADR-016)
 
 ### Folgeentscheidungen
 
@@ -107,7 +106,7 @@ Begründung: Ein-Sprachen-Stack (TypeScript überall) ist der dominante Faktor �
 
 ## Bezüge
 
-**Verwandte ADRs**: [ADR-011](./ADR-011-frontend-framework.md) (Vue 3 + TypeScript), [ADR-013](./ADR-013-api-stil.md), [ADR-015](./ADR-015-db-migration.md)
+**Verwandte ADRs**: [ADR-011](./ADR-011-frontend-framework.md) (Vue 3 + TypeScript), [ADR-013](./ADR-013-api-stil.md), [ADR-015](./ADR-015-db-migration.md), [ADR-016](./ADR-016-persistenz-strategie.md) (DB-Wahl)
 
 **Requirements**: [REQ-069](../requirements/req/REQ-069-arc42-dokumentation-bearbeiten.md) (PlantUML), [REQ-075](../requirements/req/REQ-075-plattformunabhaengigkeit-deployment.md) (Portabilität)
 

@@ -51,3 +51,4 @@ In `.claude/commands/`:
 | [ADR-013](./ADR-013-api-stil.md) | API-Stil: REST + OpenAPI 3.x (code-first via @nestjs/swagger) | accepted | 2026-06-26 | – |
 | [ADR-014](./ADR-014-frontend-komponentenbibliothek.md) | Frontend-Komponentenbibliothek: PrimeVue 4 + TipTap 2.x | accepted | 2026-06-26 | – |
 | [ADR-015](./ADR-015-db-migration.md) | DB-Migration: Drizzle Kit (integriert mit Drizzle ORM, kein JVM) | accepted | 2026-06-26 | – |
+| [ADR-016](./ADR-016-persistenz-strategie.md) | Persistenz: PostgreSQL 15 + JSONB; Versioning via entity_versions; kein AGE in v1.0 | accepted | 2026-06-27 | – |
