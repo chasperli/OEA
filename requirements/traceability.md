@@ -268,6 +268,7 @@ Alle 7 UCs haben einen `primary_actor`. ✓
 | ~~ADR-007 proposed~~ ✓ | Canvas-Bibliothek (React Flow) accepted (2026-06-26); US-045 entsperrt | US-045 |
 | ADR-008 ✓ accepted | Client App + Web Portal entschieden (2026-06-26) | UC-05, UC-06 |
 | ~~ADR-001–005 offen~~ ✓ | Gruppe-A-ADRs alle accepted (2026-06-26): URN-Schema, Continuum-Repo, Product/Project, Reifikation, App-vs-Tech | – |
+| Walking Skeleton ✓ | UC-06 (Katalog) als Walking-Skeleton-UC; Prerequisites: UC-02, UC-01, UC-04 (US-033); 6 USs / 22 SP | [docs/walking-skeleton.md](../docs/walking-skeleton.md) |
 | NFR-Lücke ✓ | 6 NFRs vorhanden (REQ-008, 071–075); über DoD-Ziel | – |
 | UC-06 TreeNode | US-054 blockiert durch TreeNode-Implementierung (kein eigenes REQ/UC für TreeNode-Verwaltung) | US-054 |
 | UC für Plateau/Go-Live | Noch nicht angelegt (in UC-05 als „künftiger UC" referenziert) | Plateau-Modus |
