@@ -149,13 +149,13 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 
 | UC | Konzept-Kapitel | ADRs | NFRs |
 |---|---|---|---|
-| [UC-01](use-cases/UC-01-login.md) | §8 Organisation/Rollen, §21 API-Architektur | [ADR-006](../adrs/ADR-006-auth-stack-wahl.md) | REQ-008 (Latenz ≤500ms p95) |
+| [UC-01](use-cases/UC-01-login.md) | §8 Organisation/Rollen, §21 API-Architektur | [ADR-006](../adrs/ADR-006-auth-stack-wahl.md) | REQ-008 (Login-Latenz), REQ-073 (Verfügbarkeit), REQ-074 (Skalierbarkeit) |
 | [UC-02](use-cases/UC-02-system-admin-bootstrapping.md) | §21 API-Architektur | [ADR-006](../adrs/ADR-006-auth-stack-wahl.md) | – |
 | [UC-03](use-cases/UC-03-authentifizierungsmethode-einrichten.md) | §8 Organisation/Rollen, §21 API-Architektur | [ADR-006](../adrs/ADR-006-auth-stack-wahl.md) | – |
 | [UC-04](use-cases/UC-04-metamodell-konfigurieren.md) | §6 Kern-Entitätstypen, §14 Erweiterbarkeit, §15 Schema-Evolution | – | – |
 | [UC-05](use-cases/UC-05-architektur-vision-beschreiben.md) | §6 Kern-Entitätstypen, §11 Temporales Modell, §12 Domain-Sichten, §16 Walkthrough | [ADR-007](../adrs/ADR-007-canvas-bibliothek.md) (accepted), [ADR-008](../adrs/ADR-008-gui-architektur-dual-track.md) (accepted) | – |
 | [UC-06](use-cases/UC-06-katalog-anlegen-und-verwenden.md) | §6 Kern-Entitätstypen, §12 Domain-Sichten | – | – |
-| [UC-07](use-cases/UC-07-dashboard-anlegen-und-verwenden.md) | §21 Visualisierungs-Strategie (Web Portal) | – | Performance-NFR ausstehend |
+| [UC-07](use-cases/UC-07-dashboard-anlegen-und-verwenden.md) | §21 Visualisierungs-Strategie (Web Portal) | – | REQ-073 (Verfügbarkeit), REQ-074 (Skalierbarkeit) |
 | [UC-08](use-cases/UC-08-data-lineage-modellieren.md) | §6 Kern-Entitätstypen, §13 Fach-Technik-Verlinkung, §14 Erweiterbarkeit, §15 Schema-Evolution, §20 GRC/DSGVO | [ADR-010](../adrs/ADR-010-n-connection-data-lineage.md) (accepted) | – |
 | [UC-09](use-cases/UC-09-loesungsarchitektur-arc42-dokumentieren.md) | §14 Erweiterbarkeit, §18 Reporting | – | – |
 
@@ -180,11 +180,21 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 
 | Typ | REQ-IDs | Anzahl |
 |---|---|---|
-| functional | REQ-001–007, REQ-009–022, REQ-024–040, REQ-043–050 | 47 |
-| non-functional | REQ-008 | 1 |
+| functional | REQ-001–007, REQ-009–022, REQ-024–040, REQ-043–070 | 66 |
+| non-functional | REQ-008, REQ-071, REQ-072, REQ-073, REQ-074 | **5** ✓ |
 | security | REQ-006, REQ-017 | 2 |
 
 *Hinweis: REQ-006 und REQ-017 sind als `security` typisiert und erscheinen auch in der functional-Zählung der jeweiligen UCs.*
+
+### NFR-Übersicht
+
+| REQ | Titel | Kategorie | Prio | Kernzielwert |
+|---|---|---|---|---|
+| [REQ-008](req/REQ-008-login-latenz.md) | Login-Latenz | performance | should | p95 < 300ms bei 10k Personen |
+| [REQ-071](req/REQ-071-katalog-abfrage-latenz.md) | Katalog-Abfrage-Latenz | performance | must | p95 < 500ms mit 3 Joins bei 10k Entitäten |
+| [REQ-072](req/REQ-072-canvas-rendering-latenz.md) | Canvas-Rendering-Latenz | performance | must | Time-to-Interactive < 1.500ms bei 150 Entities |
+| [REQ-073](req/REQ-073-systemverfuegbarkeit.md) | Systemverfügbarkeit | availability | must | ≥ 99,5 % / Monat (exkl. Wartung); RTO ≤ 30 min |
+| [REQ-074](req/REQ-074-gleichzeitige-nutzer-skalierbarkeit.md) | Gleichzeitige Nutzer / Skalierbarkeit | scalability | should | 50 Nutzer ohne Latenz-Degradierung > 2×; 500k Entitäten |
 
 ---
 
@@ -242,7 +252,7 @@ Alle 7 UCs haben einen `primary_actor`. ✓
 | ~~ADR-007 proposed~~ ✓ | Canvas-Bibliothek (React Flow) accepted (2026-06-26); US-045 entsperrt | US-045 |
 | ADR-008 ✓ accepted | Client App + Web Portal entschieden (2026-06-26) | UC-05, UC-06 |
 | ADR-001–005 offen | Gruppe-A-ADRs: URN-Schema, Enterprise Continuum, Product vs. Project, Reifikation, Layer-Klassifikation | Domänenmodell allgemein |
-| NFR-Lücke | Nur 1 messbare NFR (REQ-008); DoD verlangt mind. 5 | alle UCs |
+| NFR-Lücke ✓ | 5 NFRs vorhanden (REQ-008, 071–074); DoD-Ziel erfüllt | – |
 | UC-06 TreeNode | US-054 blockiert durch TreeNode-Implementierung (kein eigenes REQ/UC für TreeNode-Verwaltung) | US-054 |
 | UC für Plateau/Go-Live | Noch nicht angelegt (in UC-05 als „künftiger UC" referenziert) | Plateau-Modus |
 | UC für Viewpoints | UC für Viewpoint-Verwaltung noch nicht angelegt (REQ-059 bereits vorhanden für Import/Export) | Viewpoint-BO |
