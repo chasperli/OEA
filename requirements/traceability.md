@@ -2,7 +2,7 @@
 
 Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Stories. Wird per `/trace-check` auf Konsistenz geprüft oder manuell gepflegt.
 
-**Stand**: 2026-06-26 | **REQs gesamt**: 50 | **USs gesamt**: 54 | **UCs gesamt**: 6
+**Stand**: 2026-06-26 | **REQs gesamt**: 77 | **USs gesamt**: 76 | **UCs gesamt**: 10
 
 ---
 
@@ -158,6 +158,7 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 | [UC-07](use-cases/UC-07-dashboard-anlegen-und-verwenden.md) | §21 Visualisierungs-Strategie (Web Portal) | – | REQ-073 (Verfügbarkeit), REQ-074 (Skalierbarkeit) |
 | [UC-08](use-cases/UC-08-data-lineage-modellieren.md) | §6 Kern-Entitätstypen, §13 Fach-Technik-Verlinkung, §14 Erweiterbarkeit, §15 Schema-Evolution, §20 GRC/DSGVO | [ADR-010](../adrs/ADR-010-n-connection-data-lineage.md) (accepted) | – |
 | [UC-09](use-cases/UC-09-loesungsarchitektur-arc42-dokumentieren.md) | §14 Erweiterbarkeit, §18 Reporting | – | – |
+| [UC-10](use-cases/UC-10-geschaeftsprozesse-modellieren.md) | §9 Prozess-Architektur, §6 Kern-Entitätstypen | – | REQ-071 (Katalog-Latenz), REQ-072 (Canvas-Latenz) |
 
 ---
 
@@ -180,7 +181,7 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 
 | Typ | REQ-IDs | Anzahl |
 |---|---|---|
-| functional | REQ-001–007, REQ-009–022, REQ-024–040, REQ-043–070 | 66 |
+| functional | REQ-001–007, REQ-009–022, REQ-024–040, REQ-043–070, REQ-076–077 | 68 |
 | non-functional | REQ-008, REQ-071, REQ-072, REQ-073, REQ-074, REQ-075 | **6** ✓ |
 | security | REQ-006, REQ-017 | 2 |
 
@@ -212,7 +213,8 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 | UC-07 | US-055–062 | **28** | US-055=3, US-056=5, US-057=8, US-058=3, US-059=2, US-060=3, US-061=5, US-062=2 |
 | UC-08 | US-063–068 | **24** | US-063=3, US-064=5, US-065=5, US-066=3, US-067=5, US-068=3 |
 | UC-09 | US-070–073 | **20** | US-070=5, US-071=5, US-072=5, US-073=5 |
-| **Gesamt** | **73 USs** | **~238 SP** | |
+| UC-10 | US-074–076 | **16** | US-074=8, US-075=5, US-076=3 |
+| **Gesamt** | **76 USs** | **~254 SP** | |
 
 ---
 
@@ -246,6 +248,19 @@ Alle 7 UCs haben einen `primary_actor`. ✓
 | [REQ-056](req/REQ-056-dashboard-zugriff-sichtbarkeit.md) | Zugriff und Sichtbarkeit | US-055, US-062 |
 | [REQ-057](req/REQ-057-widget-grid-layout.md) | Widget-Grid-Layout | US-060 |
 
+### UC-10: Geschäftsprozesse modellieren
+
+**Primärer Akteur**: SH-08 | **Prio**: must | **Status**: proposed
+
+| REQ | Titel | Typ | Prio | USs |
+|---|---|---|---|---|
+| [REQ-076](req/REQ-076-bpmn-prozesstypen-metamodell.md) | BPMN-Prozesselemente und OrganizationalUnit im Metamodell | functional | must | [US-074](user-stories/US-074-prozessdiagramm-anlegen-und-bpmn-elemente-platzieren.md) |
+| [REQ-077](req/REQ-077-rollen-orgunit-personen-prozess-zuordnung.md) | Rollen, Organisationseinheiten und Personen Prozesselementen zuordnen | functional | must | [US-075](user-stories/US-075-lane-orgunit-und-rolle-zuordnen.md), [US-076](user-stories/US-076-aufgabe-person-zuordnen.md) |
+
+**Konzept**: §9 Prozess-Architektur, §6 Kern-Entitätstypen | **ADRs**: ADR-007 (Nested Nodes)
+
+---
+
 ### Offene Punkte (bekannte Lücken)
 
 | Lücke | Beschreibung | Betrifft |
@@ -253,7 +268,7 @@ Alle 7 UCs haben einen `primary_actor`. ✓
 | ~~ADR-007 proposed~~ ✓ | Canvas-Bibliothek (React Flow) accepted (2026-06-26); US-045 entsperrt | US-045 |
 | ADR-008 ✓ accepted | Client App + Web Portal entschieden (2026-06-26) | UC-05, UC-06 |
 | ADR-001–005 offen | Gruppe-A-ADRs: URN-Schema, Enterprise Continuum, Product vs. Project, Reifikation, Layer-Klassifikation | Domänenmodell allgemein |
-| NFR-Lücke ✓ | 5 NFRs vorhanden (REQ-008, 071–074); DoD-Ziel erfüllt | – |
+| NFR-Lücke ✓ | 6 NFRs vorhanden (REQ-008, 071–075); über DoD-Ziel | – |
 | UC-06 TreeNode | US-054 blockiert durch TreeNode-Implementierung (kein eigenes REQ/UC für TreeNode-Verwaltung) | US-054 |
 | UC für Plateau/Go-Live | Noch nicht angelegt (in UC-05 als „künftiger UC" referenziert) | Plateau-Modus |
 | UC für Viewpoints | UC für Viewpoint-Verwaltung noch nicht angelegt (REQ-059 bereits vorhanden für Import/Export) | Viewpoint-BO |
