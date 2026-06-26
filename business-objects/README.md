@@ -49,7 +49,7 @@ Der Business Engineer (siehe `.claude/agents/business-engineer.md`) modelliert h
 
 | ID | Name (DE) | Name (EN) | Status | Version |
 |---|---|---|---|---|
-| [metamodel-configuration](./metamodel-configuration.md) | Metamodell-Konfiguration | Metamodel Configuration | draft | 0.5.0 |
+| [metamodel-configuration](./metamodel-configuration.md) | Metamodell-Konfiguration | Metamodel Configuration | draft | 0.6.0 |
 | [viewpoint](./viewpoint.md) | Viewpoint / Architektursicht | Viewpoint | draft | 0.1.0 |
 
 ### Darstellung & Navigation
@@ -58,6 +58,7 @@ Der Business Engineer (siehe `.claude/agents/business-engineer.md`) modelliert h
 |---|---|---|---|---|
 | [catalog](./catalog.md) | Katalog / Tabellenansicht | Catalog | draft | 0.1.0 |
 | [tree-node](./tree-node.md) | Navigationsbaum-Knoten | Tree Node | draft | 0.1.0 |
+| [dashboard](./dashboard.md) | Dashboard / C-Level-Auswertung | Dashboard | draft | 0.1.0 |
 
 ## Capability Map
 
