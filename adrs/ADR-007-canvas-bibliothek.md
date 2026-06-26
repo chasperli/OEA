@@ -5,8 +5,11 @@
 **Entscheider**: Inhaber des Repositorys
 **Konsultiert**: Requirements Engineer (UC-05, US-045, REQ-040)
 **Informiert**: –
+**Aktualisiert**: 2026-06-26 — React Flow → **Vue Flow** infolge ADR-011 (Frontend-Framework: Vue 3)
 
-> **Zuvor zurückgestellt** (bis ADR-008 entschieden): [ADR-008](./ADR-008-gui-architektur-dual-track.md) (accepted) legt fest, dass der interaktive Diagramm-Canvas in der **Client App** läuft. Damit ist der Blockierungsgrund entfallen. Dieser ADR ist jetzt zur Entscheidung bereit (status=proposed).
+> **Zuvor zurückgestellt** (bis ADR-008 entschieden): [ADR-008](./ADR-008-gui-architektur-dual-track.md) (accepted) legt fest, dass der interaktive Diagramm-Canvas in der **Client App** läuft. Damit ist der Blockierungsgrund entfallen.
+
+> **Update 2026-06-26**: [ADR-011](./ADR-011-frontend-framework.md) entscheidet das Frontend-Framework auf **Vue 3 + TypeScript**. Damit wird die ursprüngliche Wahl React Flow durch **Vue Flow** (`@vue-flow/core`, MIT) ersetzt — ein direkter Port von React Flow für Vue 3 mit identischen Konzepten (Nodes, Edges, Composables statt Hooks).
 
 ## Kontext und Problem
 
@@ -23,7 +26,7 @@ Dafür wird eine **Web-Canvas-Bibliothek** benötigt, die:
 ## Entscheidungstreiber
 
 - **OSS-Kompatibilität**: OEA steht unter Apache 2.0; die Canvas-Bibliothek muss eine kompatible Open-Source-Lizenz haben (MIT, Apache 2.0, BSD)
-- **React/TypeScript-native**: das Frontend wird als React-Anwendung entwickelt; die Bibliothek soll sich natürlich in dieses Ökosystem einfügen
+- **Vue 3/TypeScript-native**: das Frontend wird als Vue 3-Anwendung entwickelt (ADR-011); die Bibliothek soll sich natürlich in dieses Ökosystem einfügen
 - **In-Place-Editierung**: Name-Eingabe direkt auf dem Canvas-Knoten (US-045 AC1–AC3)
 - **Serialisierbarkeit**: Diagramm-State als diff-bares JSON; kein proprietäres Binärformat (Concern SH-04: Git-nativer Workflow)
 - **Custom Node Shapes**: verschiedene Entitätstypen (ApplicationComponent, Interface, BusinessProcess …) brauchen unterschiedliche visuelle Darstellungen
@@ -32,21 +35,23 @@ Dafür wird eine **Web-Canvas-Bibliothek** benötigt, die:
 
 ## Betrachtete Optionen
 
-### Option 1: React Flow (xyflow)
+### Option 1: Vue Flow (`@vue-flow/core`) ✓ GEWÄHLT
 
-React Flow ist eine MIT-lizenzierte Bibliothek speziell für node-based UIs und interaktive Graphen in React. Nodes sind React-Komponenten – vollständige Kontrolle über Darstellung und Editierverhalten.
+Vue Flow ist ein direkter Port von React Flow für Vue 3. MIT-lizenziert. Nodes sind Vue 3-Komponenten.
 
 - **Pro**:
-  - Beste React-TypeScript-Integration; Nodes sind plain React-Komponenten
-  - Aktive Community, breite Adoption (Retool, Prefect, n8n u.a.)
-  - In-Place-Editierung einfach implementierbar (Input-Element im Node-Component)
+  - Beste Vue 3/TypeScript-Integration; Nodes sind plain Vue-Komponenten (SFCs)
+  - Gleiche Konzepte wie React Flow (Nodes, Edges, Handles, MiniMap, Controls) — React-Flow-Dokumentation ist übertragbar
+  - `useVueFlow()` Composable statt React-Hooks — idiomatisches Vue 3
+  - In-Place-Editierung einfach implementierbar (Input-Element in Node-SFC)
   - State (Nodes, Edges) als JSON-Array; diff-freundlich
   - MIT-Lizenz, keine Einschränkungen
-  - Umfangreiche Dokumentation und Beispiele
+  - Aktiv gepflegt; GitHub: `bcakmakoglu/vue-flow`
 - **Contra**:
-  - Ursprünglich für Flow/DAG-Diagramme optimiert; ArchiMate-/EA-spezifisches Layout muss selbst gebaut werden
+  - Kleinere Community als React Flow (aber ähnliche API → React-Flow-Ressourcen nutzbar)
+  - Ursprünglich für Flow/DAG-Diagramme optimiert; EA-spezifisches Layout muss selbst gebaut werden
   - Auto-Layout (hierarchisch, layered) braucht externe Bibliothek (ELK.js, dagre)
-  - Für sehr grosse Graphen (>1000 Knoten) sind Performance-Optimierungen nötig (Virtualisierung)
+  - Für sehr grosse Graphen (>1000 Knoten) ggf. Performance-Optimierungen nötig
 
 ### Option 2: maxGraph (Community-Fork von mxGraph)
 
@@ -92,20 +97,20 @@ Kommerzielle Canvas-Bibliothek mit professioneller EA-Diagramm-Unterstützung.
 
 ## Entscheidung
 
-Wir wählen **Option 1: React Flow**, weil es die beste Integration in den React/TypeScript-Stack bietet, die In-Place-Editierung durch React-Komponenten als Nodes trivial realisierbar ist, der State als diff-bares JSON-Array vorliegt, und die Community-Stärke die langfristige Wartung sichert.
+Wir wählen **Option 1: Vue Flow** (`@vue-flow/core`), weil es die beste Integration in den Vue 3/TypeScript-Stack bietet (ADR-011), die In-Place-Editierung durch Vue-Komponenten als Nodes trivial realisierbar ist, der State als diff-bares JSON-Array vorliegt, und die Konzepte 1:1 von React Flow übernommen wurden (Portierungsaufwand minimal, Doku übertragbar).
 
 Die EA-spezifischen Lücken (Auto-Layout, ArchiMate-Shape-Bibliothek) sind bekannte, lösbare Probleme:
 - Auto-Layout wird über **ELK.js** (Eclipse Layout Kernel, EPL 2.0; per Bundling Apache 2.0-kompatibel verwendbar) nachgerüstet, sobald die Anforderung konkret wird
-- Custom Shapes (ApplicationComponent, Interface, BusinessProcess etc.) werden als React-Komponenten direkt im OEA-Frontend definiert – kein Third-Party-Shape-Set nötig
+- Custom Shapes (ApplicationComponent, Interface, BusinessProcess etc.) werden als Vue-SFCs direkt im OEA-Frontend definiert — kein Third-Party-Shape-Set nötig
 
-GoJS scheidet wegen kommerzieller Lizenz aus. maxGraph und AntV X6 sind technisch geeignet, aber React Flow ist für den vorliegenden Stack die natürlichste Wahl.
+GoJS scheidet wegen kommerzieller Lizenz aus. maxGraph und AntV X6 sind technisch geeignet, haben aber keine native Vue 3-Integration. Vue Flow ist für den vorliegenden Stack die natürlichste Wahl.
 
 ## Konsequenzen
 
 ### Positive Konsequenzen
 
-- US-045 (Neue Entität im Diagramm anlegen) ist implementierbar: Typeahead-Vorschlagsliste und In-Place-Edit sind über React-Nodes direkt realisierbar
-- Entwickler im Frontend-Team müssen keine neue Abstraktionsschicht für die Canvas-Bibliothek erlernen – React Flow ist React
+- US-045 (Neue Entität im Diagramm anlegen) ist implementierbar: Typeahead-Vorschlagsliste und In-Place-Edit sind über Vue-Node-SFCs direkt realisierbar
+- Entwickler müssen keine neue Abstraktionsschicht erlernen — Vue Flow ist Vue 3
 - Diagramm-State (Nodes, Edges, Positionen) ist als JSON in der Datenbank speicherbar und git-diff-freundlich
 
 ### Negative Konsequenzen / Trade-offs
@@ -135,6 +140,6 @@ GoJS scheidet wegen kommerzieller Lizenz aus. maxGraph und AntV X6 sind technisc
 
 ## Notizen
 
-React Flow v11+ (xyflow) ist der aktuelle Stand; die npm-Packages heissen `@xyflow/react` (React Flow v12+) bzw. `reactflow` (v11). Vor Implementierung prüfen, welche Version aktuell stabil ist.
+Vue Flow: `@vue-flow/core` (MIT). GitHub: `bcakmakoglu/vue-flow`. Setzt Vue 3.x voraus. Vor Implementierung aktuelle Stable-Version prüfen.
 
 ELK.js (Eclipse Layout Kernel) ist unter EPL 2.0 lizenziert. Die EPL 2.0 erlaubt die Nutzung in Apache 2.0-Projekten, solange ELK.js nicht modifiziert und separat ausgeliefert wird (Bundling via npm ist akzeptabel). Im Zweifelsfall Rechtshinweis im NOTICE-File ergänzen.

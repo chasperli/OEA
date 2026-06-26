@@ -42,7 +42,8 @@ In `.claude/commands/`:
 | [ADR-004](./ADR-004-reifikation-details.md) | Max-Tiefe 1 (v1.0); alle Connections haben Integer-ID; 3-Dot-Circle-UI | accepted | 2026-06-26 | – |
 | [ADR-005](./ADR-005-app-vs-tech-default.md) | Kein erzwungener Default; zwei optionale Starter-Pakete beim Bootstrapping | accepted | 2026-06-26 | – |
 | [ADR-006](./ADR-006-auth-stack-wahl.md) | Auth-Stack-Wahl (Entra ID + Authentik Pflicht, lokale Auth optional) | accepted | 2026-06-24 | – |
-| [ADR-007](./ADR-007-canvas-bibliothek.md) | Canvas-Bibliothek für interaktive Diagramm-Editierung (React Flow) | accepted | 2026-06-26 | – |
+| [ADR-007](./ADR-007-canvas-bibliothek.md) | Canvas-Bibliothek: Vue Flow (`@vue-flow/core`) — aktualisiert von React Flow infolge ADR-011 | accepted | 2026-06-26 | – |
 | [ADR-008](./ADR-008-gui-architektur-dual-track.md) | GUI-Architektur: Client App + Web Portal (Dual-Track-Delivery) | accepted | 2026-06-26 | – |
 | [ADR-009](./ADR-009-client-app-framework.md) | Client-App-Framework: Electron (vs. Tauri v2) | accepted | 2026-06-26 | – |
 | [ADR-010](./ADR-010-n-connection-data-lineage.md) | Modellierung DataFlow↔DataObject: n-Connection vs. Property-String | accepted | 2026-06-26 | – |
+| [ADR-011](./ADR-011-frontend-framework.md) | Frontend-Framework: Vue 3 + TypeScript (Composition API) | accepted | 2026-06-26 | – |
