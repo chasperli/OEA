@@ -1,54 +1,174 @@
-## 23. Offene Punkte / nächste Entscheidungen
+## 23. Offene Punkte – Status-Übersicht
 
-Diese Themen sind bewusst noch nicht entschieden und werden in Folge-ADRs geklärt:
+Stand: 2026-06-26 — alle 47 ursprünglichen Punkte kategorisiert und abgearbeitet.
 
-1. **Persistenz-Technologie**: Graph-DB, Postgres+JSONB, oder Git+Index – zu entscheiden anhand Query-Anforderungen (siehe [§22 (Auswertbarkeit)](../70-platform/22-auswertbarkeit.md) – Graph-Traversierung und Analytics)
-2. **Identitäts-Schema**: URN-Format für Entity-IDs (`urn:ea:org:domain:type:id`?)
-3. **Bitemporalität**: Reicht Gültigkeits-Zeit (Plateau), oder brauchen wir zusätzlich Erfassungszeit?
-4. **Diff-Semantik**: Wie werden Plateau-Diffs berechnet – property-by-property oder nur Lifecycle-basiert?
-5. **BPMN-Speicherung**: Natives BPMN-XML im Repo, oder Konvertierung ins interne Modell + Re-Export?
-6. **Referenz-Integrität über Plateaus**: Wenn eine Entität in einem Plateau `retired` ist, darf eine andere Entität sie dort noch referenzieren?
-7. **ITSM-Konnektor-Scope**: Welche ITSM-Systeme werden initial unterstützt (ServiceNow als erstes? generischer REST-Adapter?)
-8. **Sync-Konflikt-Resolution**: Wie werden Mastership-Konflikte behandelt – Letzter gewinnt, manuelle Auflösung, Master immer siegt?
-9. **PPM-Konnektor-Scope**: Welche PPM-Tools initial unterstützen (Jira, OpenProject, ServiceNow SPM)?
-10. **Schema-Profile**: Welche Profile ausliefern (enterprise-safe, enterprise-classical, product-less, solo-architect)? Wie werden sie versioniert?
-11. **Abgrenzung Product vs. Project**: Dürfen beide im selben Repository koexistieren? Wenn ja, wie werden Duplikate/Overlaps behandelt?
-12. **SAFe-Capability-Kollision**: Finale Lösung für Namensgleichheit TOGAF-Capability vs. SAFe-Capability (Stereotype ist Vorschlag, aber reicht das UI-seitig?)
-13. **Continuum-Repository-Verhältnis**: Separate Git-Repos für Continuum und Instanzen, oder ein Repo mit zwei Top-Level-Ordnern? (Governance-Frage)
-14. **TRM-Taxonomie-Pflege**: Eigenes TRM vom TOGAF-Beispiel ableiten oder ein standardisiertes Branchenmodell (z.B. von Open Group) als Basis?
-15. **Scope-Ausdrucksstärke für Schema-Evolution**: Wie mächtig muss die Scope-Query-Sprache sein? Nur Properties + IN-Listen, oder volle Graph-Queries?
-16. **Data-Quality-Score-Gewichtung**: Wer definiert Gewichte pro Property-Relevanz? Zentral im Schema oder pro Organisation konfigurierbar?
-17. **Person-Datenhaltung und DSGVO**: Welche Detail-Tiefe für Person-Entitäten (full vs. reference-only vs. anonymized)? Wie wird Rechtmäßigkeit der Verarbeitung modelliert?
-18. **Skill-Taxonomie**: SFIA als Standardreferenz mitliefern, oder nur als Import-Option? Updates bei neuen SFIA-Versionen?
-19. **BPM-Tool-Adapter-Scope**: Welche BPM-Tools initial unterstützen (Camunda, Signavio, BIC, ARIS)? Lese- oder auch Schreibzugriff?
-20. **PCF-Integration**: APQC-PCF lizenzpflichtig – wie im Open-Source-Tool handhaben? Nur Verweise auf Codes, oder Taxonomie mitliefern?
-21. **Carbon-Assessment-Methodik**: Welche Methoden unterstützen (SCI, GHG Protocol)? Automatische Schätzung oder nur manuelle Pflege?
-22. **Contract-Dokumenten-Ablage**: Verträge selbst im Repo oder nur Referenzen zu externen DMS?
-23. **Query-Sprachen**: Cypher + SQL nebeneinander oder einheitliche DSL? Wie werden Ergebnisse kombinierbar?
-24. **Persistenz-Entscheidung für Walking Skeleton**: Postgres+JSONB+AGE als Default – final?
-25. **Graph-Query-Standard**: openCypher, GQL (ISO), oder Gremlin? (Einfluss auf DB-Wahl)
-26. **Event-Transport**: SSE als Default, aber welche weiteren Optionen initial (WebSocket, Kafka, Webhooks)?
-27. **API-Authentifizierungs-Scope**: OIDC als Muss, aber welche IdPs initial getestet (Keycloak, Auth0, Azure AD)?
-28. **Modul-Isolierung**: Module in gleichem Prozess, als Sidecar oder als eigenständige Services?
-29. **CLI-Query-Tool Scope**: Volle Query-Engine lokal oder nur Proxy zum Server?
-30. **Maximale Reifikations-Tiefe**: Default 2 – ist das für alle realistischen Fälle ausreichend? Pro-Schema konfigurierbar oder global?
-31. **Relation-Adressierung**: Alle Relationen immer direkt per URN erreichbar (`/relations/{urn}`) oder nur die mit Meta-Properties? Hat Auswirkungen auf Storage-Overhead.
-32. **Relation-Lifecycle pro Plateau**: Wenn Relationen eigenen Lifecycle haben – wie in UI darstellen (Farbe auf Kante? Separate Relation-Liste pro Plateau?)
-33. **GRC-Adapter-Priorität**: Verinice zuerst (Open Source, ISMS-nah), ServiceNow GRC (Enterprise-Verbreitung), oder OSCAL-basierter generischer Export?
-34. **Verarbeitungsverzeichnis-Format**: Eigenes Schema oder sich an nationalen Behörden-Vorgaben (BSI, CNIL, ICO) orientieren?
-35. **Control-Framework-Integration**: ISO 27001 Annex A als Continuum-Artefakt auslieferbar, oder nur strukturelle Unterstützung ohne Inhalte?
-36. **Audit-Trail-Speicherung**: Gleiche DB wie Repository, separater Store, oder externes System (Write-Only-Log)?
-37. **Schutzbedarfs-Vererbung**: Automatische Ableitung aus Data Entities, oder nur manuelle Pflege mit Validierungs-Hint?
-38. **Property-Level-AuthZ-Konfiguration**: Global im Schema, oder pro Organisation im Deployment? Welche UI zum Pflegen?
-39. **Segregation-of-Duties-Erzwingung**: Soft-Constraint (Warning) oder Hard-Constraint (blockiert Aktion)? Wer kann SoD-Regeln überschreiben?
-40. **Application-vs-Technology-Klassifikations-Prinzip**: Welche Variante gilt als Default-Prinzip im Auslieferungszustand (Plattform-Services=Technology vs. Produkte-mit-PO=Application)? Oder bewusst undefiniert, damit jede Org selbst entscheidet?
-41. **Requirements-Versionierung-Trigger**: Welche Änderungen erzeugen automatisch eine neue Version (statement, acceptanceCriteria, priority)? Welche sind "minor" und brauchen keine neue Version?
-42. **System-Requirements-Scope**: Sollen SystemRequirements im Tool nur referenziert (externalReference auf Jira/Doors) oder auch direkt erfasst werden können? Wenn beides erlaubt: wann was?
-43. **ReqIF-Import-Export**: Als Modul (über API-Adapter) oder gar nicht? Falls ja: Mapping-Konventionen zu Architecture/System-Requirement-Stereotypen?
-44. **Logical-Stub-Auto-Generierung**: Per Default aktiv, opt-in, oder opt-out? Wie werden auto-generierte Stubs visuell von gepflegten unterschieden? Lifecycle eines Auto-Stubs (verfällt nach Zeit?, wird bei nachträglicher Pflege "promoted"?)
-45. **Inventar-Sicht-Scope**: Welche EntityTypes erscheinen in der Default-Inventar-Sicht? Nur Application + Technology, oder auch DataComponent, Interface, BusinessService?
-46. **Visualisierungs-Strategie / Renderer-Notation**: Welche Diagramm-Notation(en) unterstützt das Tool? Textbasiert (PlantUML, Mermaid, D2, Graphviz, Structurizr DSL), grafisch (Archi/ArchiMate-XML, drawio), oder use-case-bezogene Mischung? Entscheidung nach Abschluss der Requirements-Engineering-Phase basierend auf Persona- und Use-Case-Analyse. Siehe §21.2.1.
-47. **Bestandstool-Migration**: Sollen vorhandene Modelle aus Sparx EA, Archi, anderen EA-Tools importiert werden können? Welche Formate (ArchiMate Open Exchange, XMI, eigene Importer)?
+---
+
+### 23.1 Geschlossen durch ADR oder Business Object
+
+| # | Thema | Geschlossen durch | Entscheidung (Kurzform) |
+|---|---|---|---|
+| 2 | Identitäts-Schema / URN-Format | [ADR-001](../../adrs/ADR-001-urn-schema.md) | Integer-ID intern; `urn:oea:{instance-slug}:{id}` für externe Referenzen |
+| 5 | BPMN-Speicherung | [business-objects/process.md](../../business-objects/process.md) | Internes Modell; `bpmn-contained-in`-Connection als Repo-Repräsentation; kein natives BPMN-XML in der DB |
+| 11 | Product vs. Project | [ADR-003](../../adrs/ADR-003-product-vs-project.md) | `work-initiative` als built-in Basis; `product` und `project` als konfigurierbare Metamodell-Subtypen |
+| 13 | Continuum-Repository-Verhältnis | [ADR-002](../../adrs/ADR-002-continuum-repository.md) | Ein Repository mit `scope`-Property (built-in/imported/organization) + Import-Mechanismus |
+| 27 | API-Authentifizierungs-Scope | [ADR-006](../../adrs/ADR-006-auth-stack-wahl.md) | OIDC; Microsoft Entra ID + Authentik als Pflicht-Integrationen; lokale Auth optional |
+| 30 | Maximale Reifikations-Tiefe | [ADR-004](../../adrs/ADR-004-reifikation-details.md) | Tiefe 1 in v1.0; `allowsConnectionAsSource`-Flag; `maxConnectionDepth` konfigurierbar für v2.0 |
+| 31 | Relation-Adressierung | [ADR-004](../../adrs/ADR-004-reifikation-details.md) | Alle Connections teilen den Integer-ID-Namespace mit Entities |
+| 40 | Application-vs-Technology-Klassifikations-Default | [ADR-005](../../adrs/ADR-005-app-vs-tech-default.md) | Kein erzwungener Default; zwei optionale Starter-Pakete beim Bootstrapping |
+| 46 | Visualisierungs-Strategie / Renderer-Notation | [ADR-007](../../adrs/ADR-007-canvas-bibliothek.md), [REQ-068](../../requirements/req/REQ-068-arc42-wysiwyg-editor.md), [REQ-078](../../requirements/req/REQ-078-drawio-einbetten.md) | Mermaid (client-seitig, kein Server), PlantUML (konfigurierter Server), draw.io (Embed via Code-Block), Vue Flow (interaktiver Canvas) |
+
+---
+
+### 23.2 Für v1.0 entschieden (Konzept-Entscheid)
+
+Diese Punkte sind im Konzept entschieden, benötigen aber noch eine formale ADR bei der Implementierung.
+
+---
+
+**#1 / #24 — Persistenz-Technologie und Walking-Skeleton-Stack**
+
+**Entscheidung**: PostgreSQL 15 + JSONB + Apache AGE (openCypher-Graph-Extension).
+
+Begründung: Eine Datenbank-Instanz für beide Query-Paradigmen (SQL-Analytics + Graph-Traversierung, §22.1). JSONB ermöglicht flexible Properties ohne Schema-Migration bei Klasse-3-Properties (§15.1). Apache AGE ist Open Source (Apache 2.0), PostgreSQL-nativ und unterstützt openCypher. REQ-075 schreibt PostgreSQL 15 ohne proprietäre Extensions als Portabilitätsziel vor — AGE erfüllt diese Anforderung. → Formale ADR bei Backend-Sprint.
+
+---
+
+**#3 — Bitemporalität: Reicht Gültigkeits-Zeit (Plateau)?**
+
+**Entscheidung**: Ja — nur Gültigkeitszeit in v1.0. Keine separate Erfassungszeit.
+
+Begründung: Das Plateau-Modell (§11) bildet Gültigkeitszeiträume (wann ist ein Architekturzustand gültig?) vollständig ab. Erfassungszeit (wann wurde eine Änderung im System erfasst?) ist über das Audit-Log abdeckbar (§21.8), ohne das Datenmodell zu verdoppeln. Vollständige Bitemporalität ist für v2.0 als optionale Erweiterung möglich.
+
+---
+
+**#4 — Diff-Semantik: Property-by-Property oder Lifecycle-basiert?**
+
+**Entscheidung**: Beides kombiniert — exakt wie in §11.5 definiert.
+
+PlateauDiff enthält: `entitiesAdded`, `entitiesRetired`, `entitiesModified` (property-by-property), `lifecycleTransitions`. Berechnungsregeln sind in §11.5 festgelegt und gelten verbindlich. Keine weiteren Diff-Dimensionen in v1.0.
+
+---
+
+**#6 — Referenz-Integrität über Plateaus**
+
+**Entscheidung**: Soft-Constraint (Warning) in v1.0.
+
+Wenn Entität A in Plateau P als `retired` markiert ist, darf Entität B in Plateau P noch auf A verweisen — das Tool zeigt eine Warning ("Cross-Plateau-Konflikt"), blockiert aber nicht. Begründung: Migrations-Übergangszustände sind real; Hard-Constraint würde valide Zwischen-Modelle blockieren. v2.0: per Metamodell-Konfiguration auf Error konfigurierbar.
+
+---
+
+**#10 — Schema-Profile**
+
+**Entscheidung**: Schema-Profile als formales Konzept entfallen.
+
+ADR-005 Starter-Pakete übernehmen diese Funktion. Beim Bootstrapping wählt der Admin ein oder mehrere Starter-Pakete; das ergibt de facto ein initiales Schema-Profil. Zusätzliche Profile würden einen dritten Konfigurationsmechanismus neben Starter-Paketen und `scope`-Property einführen — unnötige Komplexität.
+
+---
+
+**#12 — SAFe-Capability-Kollision (TOGAF Capability vs. SAFe Capability)**
+
+**Entscheidung**: Stereotype-Ansatz ist final.
+
+- TOGAF Capability = `EntityType: capability` (built-in, §6)
+- SAFe Capability = Subtyp via Metamodell: `EntityType: safe-capability` mit `extends: work-initiative` (oder eigener Subtyp von `capability`)
+
+Im UI wird der vollständige EntityType-Name angezeigt (`capability` vs. `safe-capability`). Kein Namenskonflikt auf Daten-Ebene, da der EntityType-Identifier eindeutig ist.
+
+---
+
+**#23 / #25 — Query-Sprachen und Graph-Query-Standard**
+
+**Entscheidung**: Zweischicht-Ansatz (§22.4) mit openCypher als Graph-Standard.
+
+```
+/api/v1/entities/search      ← typisierte REST-Abfragen (einfacher Einstieg)
+/api/v1/graph/traverse       ← strukturierte Traversal-API (mittel)
+/api/v1/graph/cypher         ← openCypher für mächtige Graph-Queries (fortgeschritten)
+/api/v1/analytics/query      ← SQL für Analytics
+/api/v1/analytics/views/{n}  ← benannte vordefinierte Views
+```
+
+openCypher (statt Gremlin oder ISO GQL): Apache AGE implementiert openCypher; Tooling-Reife; Neo4j-Kompatibilität bei späterer DB-Migration. Keine proprietäre DSL — Investitionsschutz für Query-Autoren.
+
+---
+
+**#26 — Event-Transport**
+
+**Entscheidung**: Server-Sent Events (SSE) als Default in v1.0.
+
+`GET /api/v1/events` als SSE-Stream; Events sind JSON mit `type`, `entityId`, `plateauId`, `timestamp`. WebSocket optional ab v2.0 für bidirektionale Use Cases (z.B. kollaborative Echtzeit-Bearbeitung). Kafka/Webhooks als Integration-Adapter (nicht Teil des Kern-Event-Bus).
+
+---
+
+**#28 — Modul-Isolierung: gleicher Prozess, Sidecar oder eigenständige Services?**
+
+**Entscheidung**: Monolith-first in v1.0 — alle Module im gleichen Prozess.
+
+Interne Modul-Kommunikation über einen internen Event-Bus (kein Netzwerk-Overhead). Modul-Grenzen werden durch klare Package-Struktur und Interface-Kontrakte sichergestellt, sodass spätere Extraktion zu Sidecar/Service ohne API-Breaking-Change möglich ist. Begründung: Operativer Overhead eines verteilten Systems ist für ein OSS-Tool in v1.0 unverhältnismäßig.
+
+---
+
+**#29 — CLI-Query-Tool: volle Query-Engine lokal oder Proxy?**
+
+**Entscheidung**: v1.0 — CLI ist Proxy zum Server (REST-API-Client).
+
+`oea query --server http://localhost:8080 "MATCH ..."` leitet Queries an den Server weiter. Vorteil: kein doppelter Query-Engine-Code in v1.0. v2.0: embedded DuckDB/Kuzu für offline und CI-Pipeline-Nutzung ohne laufenden Server (§22.10).
+
+---
+
+**#32 — Relation-Lifecycle pro Plateau: UI-Darstellung**
+
+**Entscheidung**: Kantenfarbe auf dem Canvas nach Lifecycle-State; 3-Dot-Circle für Verbindungs-Panel.
+
+Farb-Konvention (konsistent mit §11.5 Plateau-Diff-Visualisierung):
+- `planned` / neu in Plateau: grün
+- `active` / unverändert: grau/neutral
+- `sunset` / `modified`: gelb/orange
+- `retired` / entfernt aus Plateau: rot
+
+Separates Relation-Liste-Panel: verfügbar im Detail-Panel der Canvas-Entität, nicht als eigene Top-Level-Ansicht (zu komplex für v1.0).
+
+---
+
+**#36 — Audit-Trail-Speicherung**
+
+**Entscheidung**: Gleiche PostgreSQL-Instanz, separate append-only Tabelle `audit_events`.
+
+Keine DELETE-Berechtigung auf dieser Tabelle, auch nicht für Admins (Constraint auf DB-Ebene). Felder: `id`, `timestamp`, `actor_id`, `action_type`, `entity_id`, `before_snapshot`, `after_snapshot`, `session_id`. v2.0: optionaler Export in SIEM (Splunk, Elastic, Wazuh) über Webhook-Adapter.
+
+---
+
+### 23.3 Zurückgestellt — Integration-Phase oder v2.0
+
+Diese Punkte sind bewusst nicht für v1.0 entschieden. Sie werden beim jeweiligen Modul-Sprint oder in v2.0 adressiert.
+
+| # | Thema | Zurückgestellt bis | Erste Orientierung |
+|---|---|---|---|
+| 7 | ITSM-Konnektor-Scope | ITSM-Modul-Sprint | ServiceNow als erstes Zielsystem (Enterprise-Verbreitung, SH-05); generischer REST-Adapter als Fallback |
+| 8 | Sync-Konflikt-Resolution | ITSM-Modul-Sprint | Letzter-gewinnt als Default; manuelle Auflösung konfigurierbar; Master-System-Flag pro Property |
+| 9 | PPM-Konnektor-Scope | PPM-Modul-Sprint | Jira Software + OpenProject als erste Zielsysteme; ServiceNow SPM als Enterprise-Option |
+| 14 | TRM-Taxonomie-Pflege | v2.0 / Starter-Paket | TOGAF-Beispiel-TRM initial; eigenes TRM als organisation-eigenes Starter-Paket importierbar |
+| 15 | Scope-Ausdrucksstärke für Schema-Evolution | v2.0 | v1.0: Properties + IN-Listen (Pattern 2, §15.2); Graph-Queries als Scope-Kriterium ab v2.0 |
+| 16 | Data-Quality-Score-Gewichtung | v2.0 | Per-Organisation konfigurierbar; Schema definiert Gewichts-Property; Default-Gewichte im Starter-Paket |
+| 17 | Person-Datenhaltung und DSGVO | DSGVO-Modul-Sprint | v1.0: Reference-only (Name + E-Mail); kein biometrisches/sensitives Datum direkt in OEA |
+| 18 | Skill-Taxonomie | v2.0 | SFIA nur als Import-Option (nicht mitliefern wegen SFIA-Lizenz); Import-Format: CSV/JSON |
+| 19 | BPM-Tool-Adapter-Scope | BPMN-Modul-Sprint | BPMN-XML-Import aus Camunda als erstes Ziel; Lese-only initial |
+| 20 | PCF-Integration | v2.0 | APQC-PCF nicht mitliefern (Lizenzpflicht); nur Code-Referenzen; Import-Option für Lizenznehmer |
+| 21 | Carbon-Assessment-Methodik | v2.0 | SCI (Software Carbon Intensity) als Methodik-Kandidat; manuell in v1.0; automatische Schätzung v2.0 |
+| 22 | Contract-Dokumenten-Ablage | v2.0 | v1.0: nur externe Referenzen (URL/ID zu DMS); keine eigene Dokumentenablage in OEA |
+| 33 | GRC-Adapter-Priorität | GRC-Modul-Sprint | Verinice zuerst (OSS, ISMS-nah) oder OSCAL-Export; hängt von Community-Feedback ab |
+| 34 | Verarbeitungsverzeichnis-Format | DSGVO-Modul-Sprint | BSI-Orientierung (DE) als Primär-Schema; CNIL/ICO als Sekundär-Option |
+| 35 | Control-Framework-Integration | v2.0 | v1.0: nur strukturelle Unterstützung (EntityType + Relation); ISO 27001 Annex A als Continuum-Artefakt ab v2.0 |
+| 37 | Schutzbedarfs-Vererbung | v2.0 | v1.0: manuelle Pflege mit Validierungs-Hint; automatische Ableitung (DataEntity → Application) ab v2.0 |
+| 38 | Property-Level-AuthZ-Konfiguration | Security-Sprint | Per-Deployment konfigurierbar (YAML im Admin-Bereich); Admin-UI in v1.1 |
+| 39 | Segregation-of-Duties-Erzwingung | v2.0 | v1.0: Soft-Constraint (Warning); Hard-Constraint konfigurierbar ab v2.0; Override durch konfigurierten Admin-Rolle |
+| 41 | Requirements-Versionierungs-Trigger | Requirements-Modul-Sprint | Trigger: Änderungen an `statement`, `acceptanceCriteria`, `priority`; Tipp-/Formatänderungen = kein Versionsbump |
+| 42 | System-Requirements-Scope | Requirements-Modul-Sprint | Beides erlaubt (direkte Erfassung + externe Referenz); admin-konfigurierbar per Metamodell |
+| 43 | ReqIF-Import-Export | Requirements-Modul-Sprint | Modul/Adapter, nicht Kern; Mapping-Konventionen bei Modul-Entwicklung definieren |
+| 44 | Logical-Stub-Auto-Generierung | v2.0 | Opt-in; auto-generierte Stubs mit `(auto)`-Badge; kein automatischer Verfall; "Promote"-Aktion für Pflege |
+| 45 | Inventar-Sicht-Scope | UX-Sprint | Default: `applicationcomponent` + `technologycomponent` sichtbar; alle weiteren via Viewpoint konfigurierbar (ADR-002) |
+| 47 | Bestandstool-Migration | v1.1 | ArchiMate Open Exchange (Archi/Sparx EA) als erstes Import-Format; XMI als zweites |
 
 ---
 

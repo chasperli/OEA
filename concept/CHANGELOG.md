@@ -2,6 +2,18 @@
 
 Dieses Dokument hält fest, wie sich das Konzeptpapier selbst entwickelt hat. Format orientiert sich an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach Semantic Versioning (auf Konzept-Ebene: Major = grundlegend neue Konzepte, Minor = neue Kapitel/Abschnitte, Patch = Korrekturen).
 
+## [v0.17] – §23 Offene Punkte vollständig abgearbeitet; §24 auf Implementation ausgerichtet
+
+### Geändert
+- §23 (Offene Punkte): alle 47 ursprünglichen Punkte kategorisiert und abgeschlossen
+  - 9 Punkte geschlossen durch ADRs oder Business Objects (ADR-001–007, process.md)
+  - 14 Punkte für v1.0 im Konzept entschieden (Persistenz PostgreSQL+AGE, Bitemporalität, Diff-Semantik, Query-Sprachen/openCypher, Event-Transport/SSE, Modul-Isolierung/Monolith, Audit-Trail, u.a.)
+  - 24 Punkte bewusst auf Integration-Phase oder v2.0 zurückgestellt (ITSM/PPM/GRC/DSGVO-Konnektoren, Spezial-Taxonomien, fortgeschrittene Governance-Features)
+- §24 (Nächste Schritte): aktualisiert auf Implementation-Phase; ausstehende Tech-ADRs (ADR-012–015) explizit benannt; Walking-Skeleton-Scope und Module-Sprint-Reihenfolge dokumentiert
+
+### Begründung
+Requirements-Phase ist abgeschlossen (alle DoD-Kriterien erfüllt, Trace-Check grün). §23 war der letzte inhaltlich offene Block im Konzept. Mit der Kategorisierung ist klargestellt, was v1.0 enthalten muss und was bewusst für spätere Phasen zurückgestellt wird.
+
 ## [v0.16] – Lokale Authentifizierung als Alternative zu OIDC
 
 ### Hinzugefügt
