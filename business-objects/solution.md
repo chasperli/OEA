@@ -117,9 +117,9 @@ Solution „Salesforce-Einführung" (Projekt-Modus, kein Plateau)
 
 | Attribut | Typ | Beschreibung |
 |---|---|---|
-| entityId | reference | Betroffene Entität (neu: Entität wird durch diese Solution erstmalig angelegt) |
+| entityId | integer | FK → [ArchitectureEntity](./entity.md).id (fortlaufender Integer ≥ 1); bei `deltaType=new` wird die Entität durch diese Solution erstmalig angelegt |
 | deltaType | enum `[new, modified, retiring]` | Art der Änderung |
-| changes | map | Für `modified`: geänderte Properties (vorher/nachher) |
+| changes | map | Für `modified`: geänderte PropertyValues (vorher/nachher); Format entspricht `ArchitectureEntity.properties` |
 
 ## Business Rules
 

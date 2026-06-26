@@ -109,6 +109,7 @@ MetamodelConfiguration (scope=instance, editMode=import-only)
 | **Plateau** | Stabiler Architektur-Zustand (Baseline / Target) | [plateau.md](./plateau.md) |
 | **Solution** | Initiative mit Entitäts-Deltas zwischen Plateaus | [solution.md](./solution.md) |
 | **MetamodelConfiguration** | Instanz-Metamodell + optionale Solution-Erweiterung | [metamodel-configuration.md](./metamodel-configuration.md) |
+| **ArchitectureEntity** | Konkrete Instanz eines Entitätstyps (UUID + Metatyp-Referenz) | [entity.md](./entity.md) |
 | **EntityDelta** | Werteobjekt: einzelne Änderung einer Entität in einer Solution | in solution.md definiert |
 
 ---
