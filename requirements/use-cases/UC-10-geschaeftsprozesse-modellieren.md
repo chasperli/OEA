@@ -6,8 +6,8 @@ status: proposed
 priority: must
 created: 2026-06-26
 author: requirements-engineer
+primary_actor: SH-08
 references:
-  primary_actor: SH-08
   secondary_actors:
     - SH-04
     - SH-07
