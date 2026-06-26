@@ -1,6 +1,6 @@
 # ADR-009: Client-App-Framework – Electron vs. Tauri
 
-**Status**: proposed
+**Status**: accepted
 **Datum**: 2026-06-26
 **Entscheider**: Inhaber des Repositorys
 **Konsultiert**: Requirements Engineer (US-045), Frontend-Engineer
