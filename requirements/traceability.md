@@ -2,7 +2,7 @@
 
 Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Stories. Wird per `/trace-check` auf Konsistenz geprüft oder manuell gepflegt.
 
-**Stand**: 2026-06-26 | **REQs gesamt**: 77 | **USs gesamt**: 76 | **UCs gesamt**: 10
+**Stand**: 2026-06-26 | **REQs gesamt**: 78 | **USs gesamt**: 80 | **UCs gesamt**: 10
 
 ---
 
@@ -274,7 +274,8 @@ Alle 7 UCs haben einen `primary_actor`. ✓
 | UC für Plateau/Go-Live | Noch nicht angelegt (in UC-05 als „künftiger UC" referenziert) | Plateau-Modus |
 | UC für Viewpoints | UC für Viewpoint-Verwaltung noch nicht angelegt (REQ-059 bereits vorhanden für Import/Export) | Viewpoint-BO |
 | UC-08 ✓ | REQ-060–064 + US-063–068 abgeleitet (2026-06-26); ADR-010 accepted | – |
-| REQ-058/059 ohne US | Metamodell-Export und Viewpoint-Import/Export haben noch keine User Stories | UC-04 |
+| ~~REQ-058/059 ohne US~~ ✓ | US-078 (Export) und US-079 (Viewpoint I/E) angelegt (2026-06-26) | UC-04 |
+| ~~REQ-065 ohne US~~ ✓ | US-080 (Katalog-Join Connection-Primary) angelegt (2026-06-26) | UC-06/08 |
 | UC für NavigationsTree | Kein eigener UC für TreeNode-CRUD (Ordner anlegen, umbenennen, löschen) | TreeNode-BO |
 
 ---

@@ -7,6 +7,7 @@ priority: should
 created: 2026-06-26
 last_updated: 2026-06-26
 author: requirements-engineer
+primary_actor: SH-04
 references:
   stakeholders:
     - SH-04
