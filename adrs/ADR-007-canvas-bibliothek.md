@@ -1,12 +1,12 @@
 # ADR-007: Canvas-Bibliothek für interaktive Diagramm-Editierung
 
-**Status**: deferred
+**Status**: proposed
 **Datum**: 2026-06-26
 **Entscheider**: Inhaber des Repositorys
 **Konsultiert**: Requirements Engineer (UC-05, US-045, REQ-040)
 **Informiert**: –
 
-> **Zurückgestellt**: Die Canvas-Bibliothekswahl hängt von der Entscheidung zwischen Client App (vollständiger Modellier-Umfang) und Web Portal (Publikation, eingeschränkter Umfang) ab. Diese Architektur-Entscheidung muss zuerst getroffen werden (ADR-008 ausstehend). Der interaktive Diagramm-Canvas ist primär ein Client-App-Feature. React Flow als Kandidat bleibt dokumentiert, ist aber noch nicht entschieden.
+> **Zuvor zurückgestellt** (bis ADR-008 entschieden): [ADR-008](./ADR-008-gui-architektur-dual-track.md) (accepted) legt fest, dass der interaktive Diagramm-Canvas in der **Client App** läuft. Damit ist der Blockierungsgrund entfallen. Dieser ADR ist jetzt zur Entscheidung bereit (status=proposed).
 
 ## Kontext und Problem
 
