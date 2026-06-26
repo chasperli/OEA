@@ -28,6 +28,8 @@ references:
     - UC-04
     - UC-06
     - UC-07
+  adrs:
+    - ADR-010
 ---
 
 # UC-08: Datenflusskarte (Data Lineage) modellieren und analysieren
@@ -264,7 +266,7 @@ Lukas (SH-02)
 
 - **Lineage-Graph-API** (`GET /api/v1/lineage`): traversiert ArchitectureEntity-Graphen entlang DataFlow-Kanten (BFS), wobei `carriedDataObjectIds` als Property-String geparst wird; max. Tiefe konfigurierbar; Zykluserkennung via Visited-Set
 - **carriedDataObjectIds-Format**: kommaseparierter Integer-String in PropertyValue; beim Abfragen serverseitig geparst; keine FK-Constraint auf DB-Ebene (soft-referenz)
-- **Konsequenz für ADR**: Die Entscheidung, `carriedDataObjectIds` als Property-String statt als echte FK-Relation zu speichern, ist ein bewusster Trade-off zwischen Einfachheit (alles bleibt im ArchitectureEntity-PropertyValue-Modell) und Integrität (keine DB-Constraints). Das sollte in einem ADR festgehalten werden.
+- **[ADR-010](../../adrs/ADR-010-n-connection-data-lineage.md) (draft)**: Die Frage Property-String vs. n-Connection (`carries-data`) ist offen. Der aktuelle Hauptablauf nutzt Property-String (Option A); bei Entscheidung für n-Connection (Option B) entfällt `carriedDataObjectIds` und wird durch einen eigenständigen `carries-data`-EntityType ersetzt, der DataFlow→DataObject als Connection-of-Connection abbildet.
 
 ## Realisierende Bestandteile
 
@@ -277,7 +279,7 @@ Lukas (SH-02)
 - [ ] Soll die Lineage-API auch transitiv durch `data-object`-zu-`data-object`-Transformationen traversieren (z.B. wenn ein DataObject aus mehreren anderen abgeleitet ist), oder nur System-zu-System-Pfade?
 - [ ] Wie werden Avolution-Datenmodelle (XMI/ArchiMate) auf `data-object`/`data-flow` EntityTypes gemappt? Import-Mapping muss definiert werden (Konzept §13).
 - [ ] Braucht `data-flow` ein zusätzliches Property `transformationRule` für Column-Level-Lineage als Vorarbeit für v2.0?
-- [ ] Ist `carriedDataObjectIds` als Property-String die richtige Modellierungs-Wahl oder sollten DataObject-Referenzen als eigener Connection-Typ (`carries-data`) modelliert werden? → Designentscheidung mit ADR-Potenzial.
+- [ ] Ist `carriedDataObjectIds` als Property-String die richtige Modellierungs-Wahl oder sollte die Beziehung als n-Connection (`carries-data`, Connection-of-Connection) modelliert werden? → Erfasst in [ADR-010](../../adrs/ADR-010-n-connection-data-lineage.md) (draft); Entscheidung ausstehend. Der UC nutzt interim Property-String (Option A/C); bei Entscheidung für n-Connection (Option B) ist REQ-Anpassung nötig.
 
 ## Notizen
 

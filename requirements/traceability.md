@@ -137,7 +137,7 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 | [UC-05](use-cases/UC-05-architektur-vision-beschreiben.md) | §6 Kern-Entitätstypen, §11 Temporales Modell, §12 Domain-Sichten, §16 Walkthrough | [ADR-007](../adrs/ADR-007-canvas-bibliothek.md) (accepted), [ADR-008](../adrs/ADR-008-gui-architektur-dual-track.md) (accepted) | – |
 | [UC-06](use-cases/UC-06-katalog-anlegen-und-verwenden.md) | §6 Kern-Entitätstypen, §12 Domain-Sichten | – | – |
 | [UC-07](use-cases/UC-07-dashboard-anlegen-und-verwenden.md) | §21 Visualisierungs-Strategie (Web Portal) | – | Performance-NFR ausstehend |
-| [UC-08](use-cases/UC-08-data-lineage-modellieren.md) | §6 Kern-Entitätstypen, §13 Fach-Technik-Verlinkung, §14 Erweiterbarkeit, §15 Schema-Evolution, §20 GRC/DSGVO | – | – |
+| [UC-08](use-cases/UC-08-data-lineage-modellieren.md) | §6 Kern-Entitätstypen, §13 Fach-Technik-Verlinkung, §14 Erweiterbarkeit, §15 Schema-Evolution, §20 GRC/DSGVO | [ADR-010](../adrs/ADR-010-n-connection-data-lineage.md) (draft) | – |
 
 ---
 
