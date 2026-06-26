@@ -181,7 +181,7 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 | Typ | REQ-IDs | Anzahl |
 |---|---|---|
 | functional | REQ-001–007, REQ-009–022, REQ-024–040, REQ-043–070 | 66 |
-| non-functional | REQ-008, REQ-071, REQ-072, REQ-073, REQ-074 | **5** ✓ |
+| non-functional | REQ-008, REQ-071, REQ-072, REQ-073, REQ-074, REQ-075 | **6** ✓ |
 | security | REQ-006, REQ-017 | 2 |
 
 *Hinweis: REQ-006 und REQ-017 sind als `security` typisiert und erscheinen auch in der functional-Zählung der jeweiligen UCs.*
@@ -195,6 +195,7 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 | [REQ-072](req/REQ-072-canvas-rendering-latenz.md) | Canvas-Rendering-Latenz | performance | must | Time-to-Interactive < 1.500ms bei 150 Entities |
 | [REQ-073](req/REQ-073-systemverfuegbarkeit.md) | Systemverfügbarkeit | availability | must | ≥ 99,5 % / Monat (exkl. Wartung); RTO ≤ 30 min |
 | [REQ-074](req/REQ-074-gleichzeitige-nutzer-skalierbarkeit.md) | Gleichzeitige Nutzer / Skalierbarkeit | scalability | should | 50 Nutzer ohne Latenz-Degradierung > 2×; 500k Entitäten |
+| [REQ-075](req/REQ-075-plattformunabhaengigkeit-deployment.md) | Plattformunabhängigkeit und Cloud-Betreibbarkeit | portability | must | Docker Compose + Helm auf Linux/macOS/Win; kein Vendor-Lock-in (DB, S3, OIDC austauschbar) |
 
 ---
 
