@@ -84,7 +84,7 @@ Die `General`-Kategorie enthält die unveränderlichen Systemfelder jeder Archit
 | `name` | Name | ja |
 | `description` | Beschreibung | ja |
 | `entityTypeId` | Typ | nein (unveränderlich nach Anlage) |
-| `abstractionLevel` | Abstraktionsebene | ja |
+| `isLogical` | Logisch | ja |
 
 ### Custom-Kategorien (metamodell-konfiguriert)
 
@@ -102,7 +102,7 @@ Alle weiteren Properties werden in `PropertyGroup`-Kategorien definiert, die im 
 | entityTypeId | string | required | | FK → `EntityTypeDefinition.id`; muss in MetamodelConfiguration der Instanz existieren; unveränderlich nach Anlage | **[General]** Metatyp-Referenz; legt Typ, Properties und Notation fest |
 | name | string | required | | max. 255 Zeichen | **[General]** Anzeigename (z.B. „SAP S/4HANA", „Rechnungsfreigabe") |
 | description | string | required | `""` | max. 2000 Zeichen; nie null | **[General]** Fachliche Beschreibung; immer vorhanden, initial leer |
-| abstractionLevel | enum | required | `logical` | `logical \| physical` | **[General]** Abstraktionsebene: `logical` = konzeptionell/unabhängig von Implementierung; `physical` = konkrete Umsetzung. Relevant für Plateau-Darstellung (s.u.) |
+| isLogical | boolean | required | `true` | | **[General]** `true` = logische/konzeptionelle Entität (z.B. Fähigkeit, Prozess, Daten-Konzept); `false` = physische Entität (konkrete Umsetzung, z.B. Server, Datenbank-Tabelle, Applikations-Instanz). Relevant für Plateau-Darstellung (s.u.) |
 | version | integer | required | `1` | ≥ 1; vom System inkrementiert bei jedem Update | Optimistic-Lock-Zähler (ADR-016); Client muss aktuelle Version beim Update mitsenden |
 | stereotypeIds | string[] | optional | `[]` | FK → `StereotypeDefinition.id`; alle IDs müssen im Metamodell existieren und auf den `entityTypeId` anwendbar sein | Zugewiesene Stereotypes (z.B. `saas-application`) |
 | architectureDomainIds | string[] | optional | `[]` | FK → `ArchitectureDomainDefinition.id`; Instanz-Zuweisung (ergänzt Layer-Zuweisung des Metatyps) | Architektur-Domänen, denen diese Entität zugeordnet ist |
@@ -114,14 +114,14 @@ Alle weiteren Properties werden in `PropertyGroup`-Kategorien definiert, die im 
 | updatedAt | datetime | optional | null | ISO 8601, UTC | Letzte Änderung |
 | updatedBy | reference | optional | null | target: person | Zuletzt ändernde Person |
 
-### abstractionLevel — Bedeutung im Plateau-Kontext
+### isLogical — Bedeutung im Plateau-Kontext
 
 | Wert | Bedeutung | Plateau-Verhalten |
 |---|---|---|
-| `logical` | Konzeptionelle Entität (z.B. „CRM-Fähigkeit", „Kundenstamm" als Daten-Konzept) | Existiert über Plateau-Grenzen hinweg; Lifecycle-State ändert sich pro Plateau |
-| `physical` | Konkrete Umsetzung (z.B. „SAP CRM 7.0 auf Server PROD-01", „Tabelle customers in PostgreSQL") | Hat klaren Zeitraum der Produktiv-Existenz; typischerweise `active` in Baseline, `retired` in Target |
+| `true` (logisch) | Konzeptionelle Entität (z.B. „CRM-Fähigkeit", „Kundenstamm" als Daten-Konzept) | Existiert über Plateau-Grenzen hinweg; Lifecycle-State ändert sich pro Plateau |
+| `false` (physisch) | Konkrete Umsetzung (z.B. „SAP CRM 7.0 auf Server PROD-01", „Tabelle customers in PostgreSQL") | Hat klaren Zeitraum der Produktiv-Existenz; typischerweise `active` in Baseline, `retired` in Target |
 
-Der `abstractionLevel` kann beim Anlegen gesetzt werden und ist nachträglich editierbar. Die `EntityTypeDefinition` im Metamodell kann einen `defaultAbstractionLevel` für neue Instanzen vorgeben (z.B. `capability` → default `logical`; `server` → default `physical`).
+`isLogical` kann beim Anlegen gesetzt werden und ist nachträglich editierbar. Die `EntityTypeDefinition` im Metamodell kann einen `defaultIsLogical`-Wert für neue Instanzen vorgeben (z.B. `capability` → `true`; `server` → `false`).
 
 ### EntityVersion (Werteobjekt / Snapshot)
 
@@ -133,7 +133,7 @@ Pro Update auf einer ArchitectureEntity wird automatisch ein Version-Snapshot er
 | version | integer | Version zum Zeitpunkt dieses Snapshots |
 | name | string | Name vor dem Update |
 | description | string | Beschreibung vor dem Update |
-| abstractionLevel | string | Abstraktionsebene vor dem Update |
+| isLogical | boolean | Logisch-Flag vor dem Update |
 | properties | object | Custom-Properties vor dem Update (JSONB) |
 | changedBy | integer | Wer hat dieses Update ausgelöst |
 | changedAt | datetime | Zeitpunkt des Updates |
@@ -172,7 +172,7 @@ Pro Update auf einer ArchitectureEntity wird automatisch ein Version-Snapshot er
 | BR-09 | `stereotypeIds` dürfen nur Stereotypes referenzieren, die für den `entityTypeId`-Metatyp definiert sind | onCreate, onUpdate | – |
 | BR-10 | `sourceEntityId` und `targetEntityId` sind nach Anlage einer Verbindung unveränderlich; Kantenrichtung kann nicht geändert werden | onUpdate | – |
 | BR-11 | `description` ist immer vorhanden (nie null); initial leerer String `""`; max. 2000 Zeichen | onCreate, onUpdate | – |
-| BR-12 | `abstractionLevel` muss einer der Werte `logical` oder `physical` sein; Default ist `logical`; kann nachträglich geändert werden | onCreate, onUpdate | – |
+| BR-12 | `isLogical` ist ein Boolean; Default ist `true`; kann nachträglich geändert werden | onCreate, onUpdate | – |
 | BR-13 | Bei jedem Update auf eine ArchitectureEntity MUSS der Client die aktuelle `version` mitsenden; stimmt sie nicht mit dem gespeicherten Wert überein → HTTP 409 Conflict; nach erfolgreichem Update wird `version` um 1 erhöht (Optimistic Locking, ADR-016) | onUpdate | ADR-016 |
 | BR-14 | Vor jedem Update MUSS ein EntityVersion-Snapshot des vorherigen Zustands in `entity_versions` geschrieben werden; dieser Snapshot ist unveränderlich | onUpdate | ADR-016 |
 | BR-15 | Keine `PropertyGroup` im Metamodell darf den reservierten Namen `general` (case-insensitive) tragen; General-Felder sind systemdefiniert und nicht erweiterbar | Metamodell-Konfiguration | – |
@@ -250,4 +250,4 @@ entity:
 |---|---|---|---|
 | 0.1.0 | 2026-06-26 | Business Engineer | Initial draft; Integer-ID; entityTypeId als obligatorische Metatyp-Referenz; PropertyValue-Werteobjekt; BR-01–BR-10 |
 | 0.2.0 | 2026-06-26 | Business Engineer | BR-04 erweitert: `sourceEntityId` darf auf Connection-Instanz zeigen wenn `allowsConnectionAsSource=true` (ADR-010) |
-| 0.3.0 | 2026-06-27 | Business Engineer | `abstractionLevel` (logical/physical) hinzugefügt (BR-12); `description` als Pflichtfeld mit Default `""` (BR-11); General-Kategorie formalisiert (BR-15); `version`-Attribut für Optimistic Locking (BR-13); EntityVersion-Snapshot-Mechanismus (BR-14; ADR-016) |
+| 0.3.0 | 2026-06-27 | Business Engineer | `isLogical: boolean` (General, default true) hinzugefügt (BR-12); `description` als Pflichtfeld mit Default `""` (BR-11); General-Kategorie formalisiert (BR-15); `version`-Attribut für Optimistic Locking (BR-13); EntityVersion-Snapshot-Mechanismus (BR-14; ADR-016) |

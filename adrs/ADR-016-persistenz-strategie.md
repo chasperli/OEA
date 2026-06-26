@@ -85,8 +85,7 @@ entities (
   entity_type_id TEXT NOT NULL,          -- FK → entity_types.id
   name          TEXT NOT NULL,           -- General: Name
   description   TEXT NOT NULL DEFAULT '', -- General: Beschreibung (immer vorhanden)
-  abstraction_level TEXT NOT NULL        -- 'logical' | 'physical'
-                DEFAULT 'logical',
+  is_logical    BOOLEAN NOT NULL DEFAULT TRUE, -- General: true=logisch, false=physisch
   version       INTEGER NOT NULL DEFAULT 1, -- Optimistic Lock
   source_entity_id INTEGER,             -- nur Verbindungen (isConnection=true)
   target_entity_id INTEGER,             -- nur Verbindungen (isConnection=true)
@@ -104,7 +103,7 @@ entity_versions (
   version       INTEGER NOT NULL,        -- korrespondiert mit entities.version
   name          TEXT NOT NULL,
   description   TEXT NOT NULL,
-  abstraction_level TEXT NOT NULL,
+  is_logical    BOOLEAN NOT NULL,
   properties    JSONB NOT NULL,
   changed_by    INTEGER NOT NULL,
   changed_at    TIMESTAMPTZ NOT NULL DEFAULT NOW(),
