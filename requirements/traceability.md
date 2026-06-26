@@ -2,7 +2,7 @@
 
 Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Stories. Wird per `/trace-check` auf Konsistenz geprüft oder manuell gepflegt.
 
-**Stand**: 2026-06-26 | **REQs gesamt**: 80 | **USs gesamt**: 82 | **UCs gesamt**: 10
+**Stand**: 2026-06-26 | **REQs gesamt**: 81 | **USs gesamt**: 83 | **UCs gesamt**: 10
 
 ---
 
@@ -176,6 +176,20 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 | [REQ-080](req/REQ-080-rechtschreibungspruefung-wysiwyg.md) | Rechtschreibungsprüfung im WYSIWYG-Editor | functional | could | [US-082](user-stories/US-082-rechtschreibungspruefung-wysiwyg.md) |
 
 **Konzept**: §14 Erweiterbarkeit, §18 Reporting | **ADRs**: –
+
+---
+
+### UC-10: Geschäftsprozesse modellieren (BPMN)
+
+**Primärer Akteur**: SH-08 (Anna) | **Prio**: should | **Status**: draft
+
+| REQ | Titel | Typ | Prio | USs |
+|---|---|---|---|---|
+| [REQ-076](req/REQ-076-bpmn-prozesstypen-metamodell.md) | BPMN-Prozesstypen im Metamodell (19 EntityTypes + 9 Connections) | functional | should | [US-074](user-stories/US-074-prozessdiagramm-anlegen.md) |
+| [REQ-077](req/REQ-077-rollen-orgunit-personen-prozess-zuordnung.md) | Rollen, OrgUnit und Personen Prozess-Zuordnung | functional | should | [US-075](user-stories/US-075-lane-orgunit-rolle-zuordnen.md), [US-076](user-stories/US-076-usertask-person-zuordnen.md) |
+| [REQ-081](req/REQ-081-bpmn-dataobject-prozess-lineage.md) | BPMN-DataObject-Integration und Prozess-Datenlineage | functional | should | [US-083](user-stories/US-083-bpmn-dataobject-anreicherung.md) |
+
+**Konzept**: §9 Prozess-Architektur, §6 Kern-Entitätstypen | **ADRs**: [ADR-007](../adrs/ADR-007-canvas-bibliothek.md) (Vue Flow)
 
 ---
 
