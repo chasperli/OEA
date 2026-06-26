@@ -15,11 +15,11 @@ Diese Entscheidungen sollten vor oder parallel zum Requirements Engineering gekl
 
 | ID | Titel | Status | Priorität |
 |---|---|---|---|
-| ADR-001 | URN-Schema und Stabilitäts-Garantien | draft | hoch |
-| ADR-002 | Enterprise Continuum: Ein Repo oder zwei? | draft | hoch |
-| ADR-003 | Product vs. Project: Koexistenz oder Trennung? | draft | hoch |
-| ADR-004 | Reifikations-Details (Max-Tiefe, UI-Darstellung) | draft | mittel |
-| ADR-005 | Application-vs-Technology-Klassifikations-Prinzip | draft | mittel |
+| ADR-001 | URN-Schema und Stabilitäts-Garantien | **accepted** | hoch |
+| ADR-002 | Enterprise Continuum: Ein Repo oder zwei? | **accepted** | hoch |
+| ADR-003 | Product vs. Project: Koexistenz oder Trennung? | **accepted** | hoch |
+| ADR-004 | Reifikations-Details (Max-Tiefe, UI-Darstellung) | **accepted** | mittel |
+| ADR-005 | Application-vs-Technology-Klassifikations-Prinzip | **accepted** | mittel |
 
 ## Weitere ADR-Kandidaten
 
@@ -36,6 +36,11 @@ In `.claude/commands/`:
 
 | ID | Titel | Status | Datum | Supersedes |
 |---|---|---|---|---|
+| [ADR-001](./ADR-001-urn-schema.md) | Integer-ID intern + externe URN `urn:oea:{instance}:{id}` | accepted | 2026-06-26 | – |
+| [ADR-002](./ADR-002-continuum-repository.md) | Ein Repository + Import-Mechanismus (scope: built-in/imported/organization) | accepted | 2026-06-26 | – |
+| [ADR-003](./ADR-003-product-vs-project.md) | work-initiative als built-in Basis; product/project als Metamodell-Subtypen | accepted | 2026-06-26 | – |
+| [ADR-004](./ADR-004-reifikation-details.md) | Max-Tiefe 1 (v1.0); alle Connections haben Integer-ID; 3-Dot-Circle-UI | accepted | 2026-06-26 | – |
+| [ADR-005](./ADR-005-app-vs-tech-default.md) | Kein erzwungener Default; zwei optionale Starter-Pakete beim Bootstrapping | accepted | 2026-06-26 | – |
 | [ADR-006](./ADR-006-auth-stack-wahl.md) | Auth-Stack-Wahl (Entra ID + Authentik Pflicht, lokale Auth optional) | accepted | 2026-06-24 | – |
 | [ADR-007](./ADR-007-canvas-bibliothek.md) | Canvas-Bibliothek für interaktive Diagramm-Editierung (React Flow) | accepted | 2026-06-26 | – |
 | [ADR-008](./ADR-008-gui-architektur-dual-track.md) | GUI-Architektur: Client App + Web Portal (Dual-Track-Delivery) | accepted | 2026-06-26 | – |
