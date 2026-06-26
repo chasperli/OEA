@@ -2,7 +2,7 @@
 
 Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Stories. Wird per `/trace-check` auf Konsistenz geprüft oder manuell gepflegt.
 
-**Stand**: 2026-06-26 | **REQs gesamt**: 78 | **USs gesamt**: 80 | **UCs gesamt**: 10
+**Stand**: 2026-06-26 | **REQs gesamt**: 80 | **USs gesamt**: 82 | **UCs gesamt**: 10
 
 ---
 
@@ -84,8 +84,9 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 | [REQ-035](req/REQ-035-metamodell-sperrmodus.md) | Metamodell-Sperrmodus (editMode) | functional | must | [US-035](user-stories/US-035-metamodell-sperrmodus.md) |
 | [REQ-036](req/REQ-036-connection-entitytype.md) | Connection-EntityType (isConnection) | functional | must | [US-036](user-stories/US-036-connection-entitytype-anlegen.md) |
 | [REQ-037](req/REQ-037-architektur-metamodell-erweiterung.md) | Architektur-spezifische Metamodell-Erweiterung (scope=solution) | functional | must | [US-037](user-stories/US-037-architektur-metamodell-erproben.md) |
-| [REQ-058](req/REQ-058-metamodell-exportieren.md) | Metamodell-Konfiguration exportieren (YAML/JSON) | functional | should | – (US ausstehend) |
-| [REQ-059](req/REQ-059-viewpoint-import-export.md) | Viewpoint importieren und exportieren | functional | should | – (US ausstehend) |
+| [REQ-058](req/REQ-058-metamodell-exportieren.md) | Metamodell-Konfiguration exportieren (YAML/JSON) | functional | should | [US-078](user-stories/US-078-metamodell-konfiguration-exportieren.md) |
+| [REQ-059](req/REQ-059-viewpoint-import-export.md) | Viewpoint importieren und exportieren | functional | should | [US-079](user-stories/US-079-viewpoint-exportieren-und-importieren.md) |
+| [REQ-079](req/REQ-079-mehrsprachige-benutzeroberflaeche.md) | Mehrsprachige Benutzeroberfläche (i18n) | functional | should | [US-081](user-stories/US-081-sprache-umschalten.md) |
 
 **Konzept**: §6 Kern-Entitätstypen, §13 Integration/Import-Export, §14 Erweiterbarkeit, §15 Schema-Evolution | **ADRs**: –
 
@@ -172,6 +173,7 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 | [REQ-068](req/REQ-068-arc42-wysiwyg-editor.md) | Arc42 WYSIWYG-Editor mit Mermaid/PlantUML-Rendering | functional | should | [US-072](user-stories/US-072-arc42-mermaid-plantuml.md) |
 | [REQ-069](req/REQ-069-arc42-dokumentation-bearbeiten.md) | Arc42-Dokumentation zu einer Entität bearbeiten und anzeigen | functional | should | [US-071](user-stories/US-071-arc42-frage-beantworten.md) |
 | [REQ-070](req/REQ-070-entity-mention-autocomplete.md) | Entity-Mention via /@ (Autocomplete + ID-stabile Verlinkung) | functional | should | [US-073](user-stories/US-073-entity-mention-autocomplete.md) |
+| [REQ-080](req/REQ-080-rechtschreibungspruefung-wysiwyg.md) | Rechtschreibungsprüfung im WYSIWYG-Editor | functional | could | [US-082](user-stories/US-082-rechtschreibungspruefung-wysiwyg.md) |
 
 **Konzept**: §14 Erweiterbarkeit, §18 Reporting | **ADRs**: –
 
