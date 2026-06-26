@@ -271,8 +271,8 @@ Als CIO möchte ich ein übersichtliches Dashboard mit den wichtigsten Architekt
 
 ## Realisierende Bestandteile
 
-- Requirements: REQ-051 ff. (noch abzuleiten)
-- User Stories: US-055 ff. (noch abzuleiten)
+- Requirements: [REQ-051](../req/REQ-051-dashboard-anlegen.md), [REQ-052](../req/REQ-052-widget-konfigurieren.md), [REQ-053](../req/REQ-053-property-aggregation-datasource.md), [REQ-054](../req/REQ-054-catalog-query-datasource.md), [REQ-055](../req/REQ-055-dashboard-daten-abrufen.md), [REQ-056](../req/REQ-056-dashboard-zugriff-sichtbarkeit.md), [REQ-057](../req/REQ-057-widget-grid-layout.md)
+- User Stories: [US-055](../user-stories/US-055-dashboard-anlegen.md), [US-056](../user-stories/US-056-kpi-widget-konfigurieren.md), [US-057](../user-stories/US-057-chart-widget-konfigurieren.md), [US-058](../user-stories/US-058-table-widget-konfigurieren.md), [US-059](../user-stories/US-059-text-widget-hinzufuegen.md), [US-060](../user-stories/US-060-widget-layout-anpassen.md), [US-061](../user-stories/US-061-dashboard-im-webportal-anzeigen.md), [US-062](../user-stories/US-062-persoenliches-dashboard.md)
 - ADRs: –
 - Test Cases: noch keine
 - Implementation: noch keine

@@ -160,8 +160,8 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 | UC-04 | US-032–037 | ~18 | |
 | UC-05 | US-038–045 | ~34 | US-045 (Diagramm-Pfad) = 8 SP; ADR-007 + ADR-008 accepted; US-045 entsperrt |
 | UC-06 | US-046–054 | **31** | Details: US-046=3, US-047=5, US-048=5, US-049=5, US-050=3, US-051=3, US-052=2, US-053=3, US-054=2 |
-| UC-07 | US-055 ff. | TBD | REQs und USs noch abzuleiten |
-| **Gesamt** | **54 USs + UC-07 TBD** | **~158 SP + UC-07 TBD** | |
+| UC-07 | US-055–062 | **28** | US-055=3, US-056=5, US-057=8, US-058=3, US-059=2, US-060=3, US-061=5, US-062=2 |
+| **Gesamt** | **62 USs** | **~186 SP** | |
 
 ---
 
@@ -182,6 +182,18 @@ Alle 7 UCs haben mind. einen Konzept-Bezug. ✓
 ### UCs ohne primären Stakeholder
 
 Alle 7 UCs haben einen `primary_actor`. ✓
+
+### UC-07 REQ/US-Übersicht
+
+| REQ | Titel | USs |
+|---|---|---|
+| [REQ-051](req/REQ-051-dashboard-anlegen.md) | Dashboard anlegen | US-055, US-062 |
+| [REQ-052](req/REQ-052-widget-konfigurieren.md) | Widget konfigurieren | US-056, US-057, US-058, US-059 |
+| [REQ-053](req/REQ-053-property-aggregation-datasource.md) | PropertyAggregation-DataSource | US-056, US-057 |
+| [REQ-054](req/REQ-054-catalog-query-datasource.md) | CatalogQuery-DataSource | US-058 |
+| [REQ-055](req/REQ-055-dashboard-daten-abrufen.md) | Dashboard-Daten live berechnen | US-061 |
+| [REQ-056](req/REQ-056-dashboard-zugriff-sichtbarkeit.md) | Zugriff und Sichtbarkeit | US-055, US-062 |
+| [REQ-057](req/REQ-057-widget-grid-layout.md) | Widget-Grid-Layout | US-060 |
 
 ### Offene Punkte (bekannte Lücken)
 
