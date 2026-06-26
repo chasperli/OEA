@@ -20,3 +20,4 @@ Zielorientierte Szenarien aus Stakeholder-Sicht. Pro Use Case eine Datei mit Sch
 | [UC-05](./UC-05-architektur-vision-beschreiben.md) | Architektur-Vision einer Änderungsinitiative beschreiben | SH-04 | must | draft |
 | [UC-06](./UC-06-katalog-anlegen-und-verwenden.md) | Architektur-Katalog anlegen, konfigurieren und verwenden | SH-03 (alle) | must | draft |
 | [UC-07](./UC-07-dashboard-anlegen-und-verwenden.md) | Dashboard anlegen, konfigurieren und im Web Portal verwenden | SH-03 (alle) | should | draft |
+| [UC-08](./UC-08-data-lineage-modellieren.md) | Datenflusskarte (Data Lineage) modellieren und analysieren | SH-02 | should | draft |

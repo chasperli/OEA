@@ -137,6 +137,7 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 | [UC-05](use-cases/UC-05-architektur-vision-beschreiben.md) | §6 Kern-Entitätstypen, §11 Temporales Modell, §12 Domain-Sichten, §16 Walkthrough | [ADR-007](../adrs/ADR-007-canvas-bibliothek.md) (accepted), [ADR-008](../adrs/ADR-008-gui-architektur-dual-track.md) (accepted) | – |
 | [UC-06](use-cases/UC-06-katalog-anlegen-und-verwenden.md) | §6 Kern-Entitätstypen, §12 Domain-Sichten | – | – |
 | [UC-07](use-cases/UC-07-dashboard-anlegen-und-verwenden.md) | §21 Visualisierungs-Strategie (Web Portal) | – | Performance-NFR ausstehend |
+| [UC-08](use-cases/UC-08-data-lineage-modellieren.md) | §6 Kern-Entitätstypen, §13 Fach-Technik-Verlinkung, §14 Erweiterbarkeit, §15 Schema-Evolution, §20 GRC/DSGVO | – | – |
 
 ---
 
@@ -163,7 +164,8 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 | UC-05 | US-038–045 | ~34 | US-045 (Diagramm-Pfad) = 8 SP; ADR-007 + ADR-008 accepted; US-045 entsperrt |
 | UC-06 | US-046–054 | **31** | Details: US-046=3, US-047=5, US-048=5, US-049=5, US-050=3, US-051=3, US-052=2, US-053=3, US-054=2 |
 | UC-07 | US-055–062 | **28** | US-055=3, US-056=5, US-057=8, US-058=3, US-059=2, US-060=3, US-061=5, US-062=2 |
-| **Gesamt** | **62 USs** | **~186 SP** | |
+| UC-08 | – (US ausstehend) | – | REQ-060 ff. und US-063 ff. noch nicht abgeleitet |
+| **Gesamt** | **62 USs** | **~186 SP** | UC-08 noch ohne SP |
 
 ---
 
@@ -208,6 +210,7 @@ Alle 7 UCs haben einen `primary_actor`. ✓
 | UC-06 TreeNode | US-054 blockiert durch TreeNode-Implementierung (kein eigenes REQ/UC für TreeNode-Verwaltung) | US-054 |
 | UC für Plateau/Go-Live | Noch nicht angelegt (in UC-05 als „künftiger UC" referenziert) | Plateau-Modus |
 | UC für Viewpoints | UC für Viewpoint-Verwaltung noch nicht angelegt (REQ-059 bereits vorhanden für Import/Export) | Viewpoint-BO |
+| UC-08 ohne REQ/US | Data-Lineage-UC angelegt; REQ-060 ff. und US-063 ff. noch zu ableiten | SH-02 |
 | REQ-058/059 ohne US | Metamodell-Export und Viewpoint-Import/Export haben noch keine User Stories | UC-04 |
 | UC für NavigationsTree | Kein eigener UC für TreeNode-CRUD (Ordner anlegen, umbenennen, löschen) | TreeNode-BO |
 

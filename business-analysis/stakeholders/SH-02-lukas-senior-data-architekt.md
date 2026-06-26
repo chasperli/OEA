@@ -61,7 +61,9 @@ Lukas ist erfahrener Data Architekt in einem Mittelstands-Unternehmen, das Abacu
 
 ## Beteiligte Use Cases
 
-<!-- Wird gefüllt, sobald Use Cases definiert sind -->
+| UC | Titel | Rolle |
+|---|---|---|
+| [UC-08](../../requirements/use-cases/UC-08-data-lineage-modellieren.md) | Datenflusskarte (Data Lineage) modellieren und analysieren | Primärer Akteur |
 
 ## Konzept-Bezüge
 
