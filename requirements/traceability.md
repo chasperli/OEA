@@ -2,7 +2,7 @@
 
 Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Stories. Wird per `/trace-check` auf Konsistenz geprüft oder manuell gepflegt.
 
-**Stand**: 2026-06-28 | **REQs gesamt**: 106 | **USs gesamt**: 106 | **UCs gesamt**: 16
+**Stand**: 2026-06-28 | **REQs gesamt**: 123 | **USs gesamt**: 123 | **UCs gesamt**: 20
 
 ---
 
@@ -103,6 +103,9 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 | [REQ-040](req/REQ-040-entity-deltas-erfassen.md) | EntityDeltas einer Solution erfassen | functional | must | [US-040](user-stories/US-040-delta-neue-entitaet.md), [US-041](user-stories/US-041-delta-modified.md), [US-042](user-stories/US-042-delta-retiring.md), [US-045](user-stories/US-045-delta-neue-entitaet-diagramm.md) |
 | [REQ-041](req/REQ-041-diff-ansicht.md) | Diff-Ansicht (aktueller vs. Zielzustand) | functional | should | [US-043](user-stories/US-043-diff-ansicht.md) |
 | [REQ-042](req/REQ-042-konflikt-warnung-parallele-solutions.md) | Konflikt-Warnung bei parallelen Solutions | functional | should | [US-044](user-stories/US-044-konflikt-warnung.md) |
+| [REQ-121](req/REQ-121-canvas-raster.md) | Canvas-Raster mit Orientierungslinien | functional | must | [US-121](user-stories/US-121-canvas-raster.md) |
+| [REQ-122](req/REQ-122-connection-routing-modi.md) | Connection-Routing-Modi (Curved, Gerade, Orthogonal) | functional | must | [US-122](user-stories/US-122-connection-routing-modi.md) |
+| [REQ-123](req/REQ-123-connection-ankerpunkte.md) | Ankerpunkte auf Connections | functional | must | [US-123](user-stories/US-123-connection-ankerpunkte.md) |
 
 **Konzept**: §6 Kern-Entitätstypen, §11 Temporales Modell, §12 Domain-Sichten, §16 Beispiel-Walkthrough | **ADRs**: [ADR-007](../adrs/ADR-007-canvas-bibliothek.md) (accepted), [ADR-008](../adrs/ADR-008-gui-architektur-dual-track.md) (accepted)
 
@@ -166,6 +169,10 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 | [UC-14](use-cases/UC-14-aenderungshistorie-einsehen.md) | §6 Kern-Entitätstypen | [ADR-016](../adrs/ADR-016-persistenz-strategie.md) | – |
 | [UC-15](use-cases/UC-15-entitaetsstand-wiederherstellen.md) | §6 Kern-Entitätstypen | [ADR-016](../adrs/ADR-016-persistenz-strategie.md) | – |
 | [UC-16](use-cases/UC-16-teilwiederherstellung-entitaet.md) | §6 Kern-Entitätstypen | [ADR-016](../adrs/ADR-016-persistenz-strategie.md) | – |
+| [UC-17](use-cases/UC-17-continuum-bausteine-verwalten.md) | §4 Enterprise Continuum und TRM | [ADR-002](../adrs/ADR-002-continuum-repository.md) | – |
+| [UC-18](use-cases/UC-18-continuum-paket-importieren.md) | §4 Enterprise Continuum und TRM | [ADR-002](../adrs/ADR-002-continuum-repository.md) | – |
+| [UC-19](use-cases/UC-19-trm-konfigurieren.md) | §4 Enterprise Continuum und TRM | [ADR-002](../adrs/ADR-002-continuum-repository.md) | – |
+| [UC-20](use-cases/UC-20-continuum-conformance-analysieren.md) | §4 Enterprise Continuum und TRM | [ADR-002](../adrs/ADR-002-continuum-repository.md) | – |
 
 ---
 
@@ -288,11 +295,69 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 
 ---
 
+### UC-17: Wiederverwendbare Architektur-Bausteine verwalten
+
+**Primärer Akteur**: SH-03 | **Prio**: must | **Status**: draft
+
+| REQ | Titel | Typ | Prio | USs |
+|---|---|---|---|---|
+| [REQ-107](req/REQ-107-abb-anlegen-verfeinern.md) | ABB anlegen und Verfeinerungs-Hierarchie verwalten | functional | must | [US-107](user-stories/US-107-abb-anlegen-verfeinern.md) |
+| [REQ-108](req/REQ-108-sbb-governance-status-verwalten.md) | SBB Governance-Status verwalten | functional | must | [US-108](user-stories/US-108-sbb-governance-verwalten.md) |
+| [REQ-109](req/REQ-109-architecture-pattern-verwalten.md) | Architecture Pattern anlegen und verwalten | functional | must | [US-109](user-stories/US-109-architecture-pattern-anlegen.md) |
+| [REQ-110](req/REQ-110-reference-architecture-komponieren.md) | Reference Architecture aus Bausteinen komponieren | functional | must | [US-110](user-stories/US-110-reference-architecture-komponieren.md) |
+| [REQ-111](req/REQ-111-continuum-schreibschutz.md) | Schreibschutz für importierte und built-in Continuum-Bausteine | functional | must | [US-111](user-stories/US-111-continuum-scope-schutz.md) |
+
+**Konzept**: §4 Enterprise Continuum und TRM | **ADRs**: [ADR-002](../adrs/ADR-002-continuum-repository.md) (Continuum-Repository)
+
+---
+
+### UC-18: Continuum-Paket importieren
+
+**Primärer Akteur**: SH-03 | **Prio**: should | **Status**: draft
+
+| REQ | Titel | Typ | Prio | USs |
+|---|---|---|---|---|
+| [REQ-112](req/REQ-112-builtin-pakete-aktivieren.md) | Eingebettete Continuum-Pakete aktivieren | functional | should | [US-112](user-stories/US-112-builtin-pakete-aktivieren.md) |
+| [REQ-113](req/REQ-113-paket-datei-upload.md) | Continuum-Paket per Datei-Upload importieren | functional | should | [US-113](user-stories/US-113-paket-datei-upload.md) |
+| [REQ-114](req/REQ-114-atomarer-paket-import.md) | Atomarer Paket-Import mit Konflikt-Handling | functional | should | [US-114](user-stories/US-114-atomarer-import-konflikt-handling.md) |
+
+**Konzept**: §4 Enterprise Continuum und TRM | **ADRs**: [ADR-002](../adrs/ADR-002-continuum-repository.md) (Continuum-Repository)
+
+---
+
+### UC-19: Technical Reference Model konfigurieren
+
+**Primärer Akteur**: SH-03 | **Prio**: must | **Status**: draft
+
+| REQ | Titel | Typ | Prio | USs |
+|---|---|---|---|---|
+| [REQ-115](req/REQ-115-trm-kategorie-hierarchie-verwalten.md) | TRM-Kategorie-Hierarchie verwalten | functional | must | [US-115](user-stories/US-115-trm-hierarchie-verwalten.md) |
+| [REQ-116](req/REQ-116-trm-sbb-governance-zuordnung.md) | SBB-Governance-Zuordnung je TRM-Kategorie | functional | must | [US-116](user-stories/US-116-trm-sbb-governance-zuordnung.md) |
+| [REQ-117](req/REQ-117-trm-review-datum.md) | TRM-Kategorie Review-Datum automatisch setzen und filtern | functional | should | [US-117](user-stories/US-117-trm-review-datum.md) |
+
+**Konzept**: §4 Enterprise Continuum und TRM | **ADRs**: [ADR-002](../adrs/ADR-002-continuum-repository.md) (Continuum-Repository)
+
+---
+
+### UC-20: Architektur-Conformance zum Continuum analysieren
+
+**Primärer Akteur**: SH-03 | **Prio**: should | **Status**: draft
+
+| REQ | Titel | Typ | Prio | USs |
+|---|---|---|---|---|
+| [REQ-118](req/REQ-118-abb-abdeckungs-analyse.md) | ABB-Abdeckungs-Analyse (Gap-Quote) | functional | should | [US-118](user-stories/US-118-abb-abdeckungs-analyse.md) |
+| [REQ-119](req/REQ-119-standards-drift-analyse.md) | Standards-Drift-Analyse (prohibited und Abweichungs-Report) | functional | should | [US-119](user-stories/US-119-standards-drift-analyse.md) |
+| [REQ-120](req/REQ-120-technology-diversity-analyse.md) | Technology-Diversity-Analyse mit Executive-Summary-Export | functional | should | [US-120](user-stories/US-120-technology-diversity-analyse.md) |
+
+**Konzept**: §4 Enterprise Continuum und TRM | **ADRs**: [ADR-002](../adrs/ADR-002-continuum-repository.md) (Continuum-Repository)
+
+---
+
 ## 3. REQ-Typ-Übersicht
 
 | Typ | REQ-IDs | Anzahl |
 |---|---|---|
-| functional | REQ-001–007, REQ-009–022, REQ-024–040, REQ-043–070, REQ-076–081, REQ-084–106 | 95 |
+| functional | REQ-001–007, REQ-009–022, REQ-024–040, REQ-043–070, REQ-076–081, REQ-084–106, REQ-107–123 | 112 |
 | non-functional | REQ-008, REQ-071, REQ-072, REQ-073, REQ-074, REQ-075, REQ-082, REQ-083 | **8** ✓ |
 | security | REQ-006, REQ-017 | 2 |
 | could | REQ-080 (Rechtschreibprüfung) | 1 |
@@ -322,7 +387,7 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 | UC-02 | US-013–019 | ~17 | |
 | UC-03 | US-020–031 | ~29 | |
 | UC-04 | US-032–037 | ~18 | |
-| UC-05 | US-038–045 | ~34 | US-045 (Diagramm-Pfad) = 8 SP; ADR-007 + ADR-008 accepted; US-045 entsperrt |
+| UC-05 | US-038–045, US-121–123 | ~47 | US-045 (Diagramm-Pfad) = 8 SP; US-121=3, US-122=5, US-123=5 (Canvas-Raster + Routing) |
 | UC-06 | US-046–054 + US-069 | **39** | Details: US-046=3, US-047=5, US-048=5, US-049=5, US-050=3, US-051=3, US-052=2, US-053=3, US-054=2; US-069 (Wizard)=8 |
 | UC-07 | US-055–062 | **28** | US-055=3, US-056=5, US-057=8, US-058=3, US-059=2, US-060=3, US-061=5, US-062=2 |
 | UC-08 | US-063–068 | **24** | US-063=3, US-064=5, US-065=5, US-066=3, US-067=5, US-068=3 |
@@ -334,7 +399,11 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 | UC-14 | US-098–100 | **13** | US-098=5, US-099=5, US-100=3 |
 | UC-15 | US-101–103 | **11** | US-101=5, US-102=3, US-103=3 |
 | UC-16 | US-104–106 | **16** | US-104=8, US-105=5, US-106=3 |
-| **Gesamt** | **106 USs** | **~364 SP** | |
+| UC-17 | US-107–111 | **20** | US-107=5, US-108=5, US-109=3, US-110=5, US-111=2 |
+| UC-18 | US-112–114 | **13** | US-112=3, US-113=5, US-114=5 |
+| UC-19 | US-115–117 | **12** | US-115=5, US-116=5, US-117=2 |
+| UC-20 | US-118–120 | **13** | US-118=5, US-119=5, US-120=3 |
+| **Gesamt** | **123 USs** | **~435 SP** | |
 
 ---
 
@@ -350,11 +419,11 @@ Alle USs referenzieren mind. ein REQ. ✓
 
 ### UCs ohne Konzept-Bezug
 
-Alle 7 UCs haben mind. einen Konzept-Bezug. ✓
+Alle 20 UCs haben mind. einen Konzept-Bezug. ✓
 
 ### UCs ohne primären Stakeholder
 
-Alle 7 UCs haben einen `primary_actor`. ✓
+Alle 20 UCs haben einen `primary_actor`. ✓
 
 ### UC-07 REQ/US-Übersicht
 
@@ -399,6 +468,8 @@ Alle bekannten Lücken wurden geschlossen. Stand 2026-06-28:
 | UC für Viewpoint-Verwaltung | ✓ UC-12 angelegt + REQ-090–093 + US-090–093 |
 | UC für Navigationsbaum | ✓ UC-13 angelegt + REQ-094–097 + US-094–097 |
 | UC-11–16 ohne REQs/USs | ✓ REQ-084–106 + US-084–106 angelegt (2026-06-28) |
+| Enterprise Continuum nicht modelliert | ✓ 5 Continuum-BOs + UC-17–20 + REQ-107–120 + US-107–120 angelegt (2026-06-28) |
+| Canvas-Diagramm-Anforderungen (Raster, Routing, Ankerpunkte) | ✓ REQ-121–123 + US-121–123 angelegt (2026-06-28) |
 
 ---
 
