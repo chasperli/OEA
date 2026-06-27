@@ -2,7 +2,7 @@
 
 Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Stories. Wird per `/trace-check` auf Konsistenz geprüft oder manuell gepflegt.
 
-**Stand**: 2026-06-28 | **REQs gesamt**: 128 | **USs gesamt**: 128 | **UCs gesamt**: 21
+**Stand**: 2026-06-28 | **REQs gesamt**: 131 | **USs gesamt**: 128 | **UCs gesamt**: 21
 
 ---
 
@@ -153,13 +153,13 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 
 | UC | Konzept-Kapitel | ADRs | NFRs |
 |---|---|---|---|
-| [UC-01](use-cases/UC-01-login.md) | §8 Organisation/Rollen, §21 API-Architektur | [ADR-006](../adrs/ADR-006-auth-stack-wahl.md) | REQ-008 (Login-Latenz), REQ-073 (Verfügbarkeit), REQ-074 (Skalierbarkeit) |
+| [UC-01](use-cases/UC-01-login.md) | §8 Organisation/Rollen, §21 API-Architektur | [ADR-006](../adrs/ADR-006-auth-stack-wahl.md) | REQ-008 (Login-Latenz), REQ-073 (Verfügbarkeit), REQ-074 (Skalierbarkeit), REQ-129 (Verschlüsselung), REQ-130 (WCAG) |
 | [UC-02](use-cases/UC-02-system-admin-bootstrapping.md) | §21 API-Architektur | [ADR-006](../adrs/ADR-006-auth-stack-wahl.md) | – |
 | [UC-03](use-cases/UC-03-authentifizierungsmethode-einrichten.md) | §8 Organisation/Rollen, §21 API-Architektur | [ADR-006](../adrs/ADR-006-auth-stack-wahl.md) | – |
 | [UC-04](use-cases/UC-04-metamodell-konfigurieren.md) | §6 Kern-Entitätstypen, §14 Erweiterbarkeit, §15 Schema-Evolution | – | – |
 | [UC-05](use-cases/UC-05-architektur-vision-beschreiben.md) | §6 Kern-Entitätstypen, §11 Temporales Modell, §12 Domain-Sichten, §16 Walkthrough | [ADR-007](../adrs/ADR-007-canvas-bibliothek.md) (accepted), [ADR-008](../adrs/ADR-008-gui-architektur-dual-track.md) (accepted) | – |
-| [UC-06](use-cases/UC-06-katalog-anlegen-und-verwenden.md) | §6 Kern-Entitätstypen, §12 Domain-Sichten | – | – |
-| [UC-07](use-cases/UC-07-dashboard-anlegen-und-verwenden.md) | §21 Visualisierungs-Strategie (Web Portal) | – | REQ-073 (Verfügbarkeit), REQ-074 (Skalierbarkeit) |
+| [UC-06](use-cases/UC-06-katalog-anlegen-und-verwenden.md) | §6 Kern-Entitätstypen, §12 Domain-Sichten | – | REQ-130 (WCAG) |
+| [UC-07](use-cases/UC-07-dashboard-anlegen-und-verwenden.md) | §21 Visualisierungs-Strategie (Web Portal) | – | REQ-073 (Verfügbarkeit), REQ-074 (Skalierbarkeit), REQ-130 (WCAG) |
 | [UC-08](use-cases/UC-08-data-lineage-modellieren.md) | §6 Kern-Entitätstypen, §13 Fach-Technik-Verlinkung, §14 Erweiterbarkeit, §15 Schema-Evolution, §20 GRC/DSGVO | [ADR-010](../adrs/ADR-010-n-connection-data-lineage.md) (accepted) | – |
 | [UC-09](use-cases/UC-09-loesungsarchitektur-arc42-dokumentieren.md) | §14 Erweiterbarkeit, §18 Reporting | – | – |
 | [UC-10](use-cases/UC-10-geschaeftsprozesse-modellieren.md) | §9 Prozess-Architektur, §6 Kern-Entitätstypen | – | REQ-071 (Katalog-Latenz), REQ-072 (Canvas-Latenz) |
@@ -173,7 +173,7 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 | [UC-18](use-cases/UC-18-continuum-paket-importieren.md) | §4 Enterprise Continuum und TRM | [ADR-002](../adrs/ADR-002-continuum-repository.md) | – |
 | [UC-19](use-cases/UC-19-trm-konfigurieren.md) | §4 Enterprise Continuum und TRM | [ADR-002](../adrs/ADR-002-continuum-repository.md) | – |
 | [UC-20](use-cases/UC-20-continuum-conformance-analysieren.md) | §4 Enterprise Continuum und TRM | [ADR-002](../adrs/ADR-002-continuum-repository.md) | – |
-| [UC-21](use-cases/UC-21-property-sichtbarkeit-konfigurieren.md) | §6 Kern-Entitätstypen, §8 Organisation/Rollen | – | – |
+| [UC-21](use-cases/UC-21-property-sichtbarkeit-konfigurieren.md) | §6 Kern-Entitätstypen, §8 Organisation/Rollen | – | REQ-129 (Verschlüsselung), REQ-131 (Graph-Traversal-Latenz) |
 
 ---
 
@@ -375,12 +375,12 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 | Typ | Beispiel-REQs | Anzahl |
 |---|---|---|
 | functional | REQ-001–002, REQ-004, REQ-009–011, REQ-013–014, REQ-018, … REQ-124–128 | **108** |
-| non-functional | REQ-008, REQ-071–075, REQ-082–083 | **8** |
+| non-functional | REQ-008, REQ-071–075, REQ-082–083, REQ-129–131 | **11** |
 | business-rule | REQ-003, REQ-007, REQ-015, REQ-019, REQ-020 | **5** |
 | compliance | REQ-005, REQ-016, REQ-025, REQ-034 | **4** |
 | constraint | REQ-006, REQ-017 | **2** |
 | data | REQ-012 | **1** |
-| **Gesamt** | | **128** |
+| **Gesamt** | | **131** |
 
 *Hinweis: `priority: could` ist eine Priorität, kein Typ — REQ-080 (Rechtschreibprüfung) ist `type: functional, priority: could`.*
 
@@ -396,6 +396,9 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 | [REQ-075](req/REQ-075-plattformunabhaengigkeit-deployment.md) | Plattformunabhängigkeit und Cloud-Betreibbarkeit | portability | must | Docker Compose + Helm auf Linux/macOS/Win; kein Vendor-Lock-in (DB, S3, OIDC austauschbar) |
 | [REQ-082](req/REQ-082-datensicherung-retention.md) | Datensicherung und Point-in-Time-Recovery | reliability | must | RPO ≤ 24h; RTO ≤ 4h; Backup-Retention ≥ 30 Tage |
 | [REQ-083](req/REQ-083-audit-log-retention.md) | Audit-Log-Retention und Abfrage-Performance | compliance | should | Retention ≥ 2 Jahre; p95 Abfrage 30 Tage ≤ 5s; append-only garantiert |
+| [REQ-129](req/REQ-129-datenverschluesselung.md) | Datenverschlüsselung at-rest und in-transit | security | must | TLS 1.2+; AES-256 at-rest; 0 hardcodierte Schlüssel; Secrets-Scanner in CI |
+| [REQ-130](req/REQ-130-wcag-barrierefreiheit.md) | Barrierefreiheit WCAG 2.1 Level AA | accessibility | should | 0 critical/serious Violations (Axe); Canvas Level A + Alternativ-Listenansicht |
+| [REQ-131](req/REQ-131-graph-traversal-latenz.md) | Graph-Traversal-Latenz (ABAC connection-scoped) | performance | must | Traversal-Overhead p95 ≤ 200 ms kalt / ≤ 10 ms warm (Cache TTL 60 s) |
 
 ---
 
@@ -492,6 +495,7 @@ Alle bekannten Lücken wurden geschlossen. Stand 2026-06-28:
 | Enterprise Continuum nicht modelliert | ✓ 5 Continuum-BOs + UC-17–20 + REQ-107–120 + US-107–120 angelegt (2026-06-28) |
 | Canvas-Diagramm-Anforderungen (Raster, Routing, Ankerpunkte) | ✓ REQ-121–123 + US-121–123 angelegt (2026-06-28) |
 | Property-Level-Autorisierung (role.md: „folgt späterem UC") | ✓ UC-21 + REQ-124–128 + US-124–128 angelegt (2026-06-28) |
+| NFR-Lücken (Verschlüsselung, Barrierefreiheit, Graph-Traversal) | ✓ REQ-129–131 angelegt (2026-06-28) |
 
 ---
 
