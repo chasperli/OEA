@@ -53,7 +53,8 @@ Das `snapshot`-JSON enthält **alle** Felder der Entität zum Zeitpunkt `version
 | `description` | string | Fachliche Beschreibung |
 | `isLogical` | boolean | Logisch/physisch-Flag |
 | `stereotypeIds` | string[] | Zugewiesene Stereotypes |
-| `properties` | object | Key-Value-Map der Custom-Properties |
+| `properties` | object | Vollständige Property-Map: **alle** für diesen EntityType konfigurierten Properties zum Zeitpunkt des Snapshots, inklusive jener mit leerem oder null-Wert; kein Property wird weggelassen, auch wenn es keinen gesetzten Wert hat |
+| `propertyDefinitions` | object[] | Kopie der `PropertyDefinition`-Einträge des EntityTypes aus der MetamodelConfiguration zum Zeitpunkt des Snapshots (name, dataType, validationMode, category); ermöglicht Interpretation des Snapshots auch nach späteren Metamodell-Änderungen |
 | `sourceEntityId` | integer \| null | Quell-Entität (nur bei Verbindungen) |
 | `targetEntityId` | integer \| null | Ziel-Entität (nur bei Verbindungen) |
 | `createdAt` | datetime | Anlage-Zeitstempel |
@@ -62,7 +63,7 @@ Das `snapshot`-JSON enthält **alle** Felder der Entität zum Zeitpunkt `version
 | `updatedBy` | string \| null | Person der letzten Änderung vor diesem Snapshot |
 | `version` | integer | Versionsnummer zum Zeitpunkt der Sicherung (identisch mit `versionNumber`) |
 
-Bei der Wiederherstellung (UC-15) werden trotz vollständigem Snapshot nur die **wiederherstellbaren** Felder auf die Entität angewendet (`name`, `description`, `isLogical`, `stereotypeIds`, `properties`). Die unveränderlichen Felder im Snapshot dienen ausschliesslich dem Audit-Zweck.
+Bei der Wiederherstellung (UC-15) werden trotz vollständigem Snapshot nur die **wiederherstellbaren** Felder auf die Entität angewendet (`name`, `description`, `isLogical`, `stereotypeIds`, `properties`). Die unveränderlichen Felder sowie `propertyDefinitions` im Snapshot dienen ausschliesslich dem Audit-Zweck.
 
 ## Beziehungen
 
@@ -81,7 +82,7 @@ Bei der Wiederherstellung (UC-15) werden trotz vollständigem Snapshot nur die *
 | BR-04 | Das Schreiben des `EntityVersion`-Datensatzes und das Anwenden der Entitätsänderung MÜSSEN in **derselben DB-Transaktion** erfolgen; schlägt die Transaktion fehl, wird weder Schnappschuss noch Änderung persistiert | onUpdate (entity) | ADR-016 |
 | BR-05 | `changedFields` MUSS mindestens ein Element enthalten; ein Update, das keinen Feldwert ändert, darf keine `EntityVersion` erzeugen und MUSS mit HTTP 304 abgewiesen werden | onCreate | – |
 | BR-06 | Wenn `restoredFromVersion` gesetzt ist, MUSS der referenzierte `versionNumber`-Wert für dieselbe `entityId` in `entity_versions` existieren | onCreate | UC-15 |
-| BR-07 | Der `snapshot` enthält ALLE Felder der Entität und wird nicht validiert oder transformiert — er ist eine exakte, vollständige Kopie des Entitätszustands zum Zeitpunkt der Sicherung, auch wenn spätere Metamodell-Änderungen einzelne Werte obsolet machen | onCreate | – |
+| BR-07 | Der `snapshot` enthält ALLE Felder der Entität sowie alle konfigurierten Properties (auch leere) und eine Kopie der zugehörigen `PropertyDefinitions`; er wird nicht validiert oder transformiert — er ist eine vollständige, in sich lesbare Kopie des Entitätszustands zum Zeitpunkt der Sicherung, auch wenn spätere Metamodell-Änderungen einzelne Werte oder Definitionen obsolet machen | onCreate | – |
 
 ## Lifecycle
 
