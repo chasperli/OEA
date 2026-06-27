@@ -13,6 +13,8 @@ Sieben Persona-Profile als primäre Anwender und Sponsoren von OEA. Jedes Profil
 | [SH-05](SH-05-cio-konzern.md) | CIO | CIO | Konzern | Multi-Tool (Ardoq, Avolution, LeanIX, Sparx) |
 | [SH-06](SH-06-max-operator-kmu.md) | Max | Operator | reguliertes KMU | hybride Infra, gemischter Stack |
 | [SH-07](SH-07-sabine-business-engineer.md) | Sabine | Senior Business Engineer | Globalkonzern | strukturierte Business-Modellierung |
+| [SH-08](SH-08-anna-business-analyst.md) | Anna | Business Analyst / Prozessverantwortliche | Mittelstand | – |
+| [SH-09](SH-09-rigobert-produkt-owner.md) | Rigobert | Produkt Owner / Repository-Inhaber | – | OEA (eigene Instanz) |
 
 ## Eigenschaften der Auswahl
 

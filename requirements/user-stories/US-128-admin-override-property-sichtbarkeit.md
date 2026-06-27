@@ -7,12 +7,12 @@
 
 ## Story
 
-Als Lukas – System-Administrator möchte ich im Bedarfsfall (Fehleranalyse, Migration) alle Properties einer Entität lesen können, auch wenn diese auf `role-restricted` oder `connection-scoped` gesetzt sind, damit ich die Systemintegrität sicherstellen kann — mit Audit-Log-Eintrag für jeden Override-Zugriff.
+Als Rigobert – Produkt Owner und System-Administrator möchte ich im Bedarfsfall (Fehleranalyse, Migration) alle Properties einer Entität lesen können, auch wenn diese auf `role-restricted` oder `connection-scoped` gesetzt sind, damit ich die Systemintegrität sicherstellen kann — mit Audit-Log-Eintrag für jeden Override-Zugriff.
 
 ## Bezug
 
 **Use Case**: [UC-21](../use-cases/UC-21-property-sichtbarkeit-konfigurieren.md)
-**Persona**: SH-06 – System Administrator
+**Persona**: Rigobert – Produkt Owner / Repository-Inhaber (SH-09)
 **Requirements**: [REQ-128](../req/REQ-128-property-sichtbarkeit-admin-override.md)
 
 ## Akzeptanzkriterien
