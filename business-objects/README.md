@@ -55,6 +55,16 @@ Der Business Engineer (siehe `.claude/agents/business-engineer.md`) modelliert h
 | [viewpoint](./viewpoint.md) | Viewpoint / Architektursicht | Viewpoint | draft | 0.2.0 |
 | [document-collection](./document-collection.md) | Strukturierte Dokumentation | Document Collection | draft | 0.2.0 |
 
+### Enterprise Continuum (TOGAF)
+
+| ID | Name (DE) | Name (EN) | Status | Version |
+|---|---|---|---|---|
+| [architecture-building-block](./architecture-building-block.md) | Architektur-Baustein (ABB) | Architecture Building Block | draft | 0.1.0 |
+| [solution-building-block](./solution-building-block.md) | Lösungs-Baustein (SBB) | Solution Building Block | draft | 0.1.0 |
+| [architecture-pattern](./architecture-pattern.md) | Architektur-Muster | Architecture Pattern | draft | 0.1.0 |
+| [reference-architecture](./reference-architecture.md) | Referenzarchitektur | Reference Architecture | draft | 0.1.0 |
+| [trm-category](./trm-category.md) | TRM-Kategorie | TRM Category | draft | 0.1.0 |
+
 ### Darstellung & Navigation
 
 | ID | Name (DE) | Name (EN) | Status | Version |
