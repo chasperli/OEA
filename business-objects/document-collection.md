@@ -1,7 +1,7 @@
 ---
 id: document-collection
 title: DocumentCollection – Strukturierte Dokumentation
-version: 0.2.0
+version: 0.3.0
 status: draft
 created: 2026-06-26
 last_updated: 2026-06-27
@@ -31,20 +31,32 @@ Eine Entität kann mehreren Dokumentationstypen zugeordnet sein (1 Entity → n 
 
 ## Kernkonzepte
 
-### DocumentationEntry (built-in EntityType)
+### DocumentItem (atomare Einheit einer DocumentCollection)
 
-`documentation-entry` ist ein eingebauter, erweiterbarer EntityType mit `isConnection=false`. Er repräsentiert den Inhalt eines Kapitels für eine bestimmte dokumentierte Entität.
+`DocumentItem` ist die atomare Inhalts-Einheit einer `DocumentCollection`. Es ersetzt und erweitert den bisherigen `DocumentationEntry`. Jeder DocumentItem entspricht einem Kapitel und trägt sowohl Struktur-Metadaten (Name, Alias, Position) als auch den eigentlichen Inhalt (WYSIWYG).
 
-| Attribut | Typ | Optional | Beschreibung |
-|---|---|---|---|
-| id | integer | required | Fortlaufende Integer-ID (gemeinsamer Nummernraum mit allen anderen Entitäten) |
-| entityTypeId | string | required | `documentation-entry` oder ein Subtyp davon (z.B. `license-entry`) |
-| name | string | required | Kurzbezeichnung (z.B. „Kontextabgrenzung CRM-System") |
-| content | rich-text | required | WYSIWYG-Inhalt; unterstützt Markdown, Mermaid, PlantUML, Draw.io und Entity-Mentions |
-| chapterRef | string | optional | ID des `DocumentChapterDefinition`, dem dieser Eintrag zugeordnet ist |
-| collectionRef | string | optional | ID der `DocumentCollectionDefinition`, zu der dieser Eintrag gehört |
+| Attribut | Typ | Optional | Default | Beschreibung |
+|---|---|---|---|---|
+| id | string | required | | UUID v4; global eindeutig |
+| collectionId | string | required | | Verweis auf die zugehörige `DocumentCollection`-Instanz |
+| name | string | required | | Kapitelbezeichnung; wird in Navigation und Gliederung angezeigt (max. 200 Zeichen) |
+| alias | string | optional | null | Kurzname für Querverweise; muss innerhalb der Collection eindeutig sein (kebab-case; max. 60 Zeichen); wird in `{{`-Autocomplete als primärer Suchbegriff verwendet |
+| content | rich-text | required | `""` | WYSIWYG-Inhalt; unterstützt Markdown, Mermaid, PlantUML, Draw.io, Entity-Mentions (`[[`) und DocumentItem-Querverweise (`{{`) |
+| parentId | string | optional | null | Verweis auf übergeordneten DocumentItem innerhalb derselben Collection; `null` = Wurzel-Kapitel |
+| sortOrder | integer | required | | Reihenfolge unter denselben Geschwister-Items (gemeinsamer Scope: alle Kinder desselben `parentId`); aufsteigend |
+| chapterRef | string | optional | null | Optionale Verknüpfung auf `DocumentChapterDefinition.chapterId` des auslösenden Templates |
+| createdAt | datetime | required | | ISO 8601, UTC |
+| createdBy | reference | required | | target: person |
+| lastModifiedAt | datetime | required | | ISO 8601, UTC |
+| lastModifiedBy | reference | required | | target: person |
 
-**Subtypen** können via `extends: documentation-entry` auf EntityTypeDefinition-Ebene definiert werden. Damit können zusätzliche Properties für spezifische Kapiteltypen ergänzt werden (z.B. `licenseType`, `expiryDate` für Lizenzregister-Kapitel).
+**Nesting:** DocumentItems bilden einen Baum innerhalb einer Collection. Die Tiefe ist auf **5 Ebenen** begrenzt (Ebene 0 = Wurzel). Geschwister-Items teilen denselben `parentId` und werden via `sortOrder` geordnet. Zyklen sind verboten (BR-11).
+
+**Subtypen:** Via `extends: documentation-entry` auf EntityTypeDefinition-Ebene können Subtypen mit zusätzlichen Properties definiert werden (z.B. `licenseType`, `expiryDate` für Lizenzregister-Kapitel). Subtypen erben alle DocumentItem-Attribute.
+
+### DocumentationEntry (built-in EntityType — deprecated)
+
+`documentation-entry` bleibt als Basis-EntityType für Subtyp-Definitionen erhalten, wird aber auf Instanzebene durch `DocumentItem` ersetzt. Bestehende `DocumentationEntry`-Instanzen werden per Migration zu `DocumentItem`-Einträgen konvertiert.
 
 ### Documents (built-in Connection-Typ)
 
@@ -131,6 +143,7 @@ Der `content`-Wert einer `DocumentationEntry`-Entität unterstützt:
 | PlantUML | ` ```plantuml ` … ` ``` ` | Server-seitiges Rendering via PlantUML-Server oder WASM |
 | Draw.io | ` ```drawio ` … ` ``` ` | SVG-Rendering via draw.io-Viewer-Library; Bearbeitung im draw.io-Editor-Popup |
 | Entity-Mention | `[[` → Autocomplete → `[[Name\|entity:ID]]` | Inline-Badge mit Link zur Entität (in Code-Blöcken: reiner Textname) |
+| DocumentItem-Querverweis | `{{` → Autocomplete → `{{Name\|item:ID}}` | Inline-Link auf das referenzierte Kapitel; zeigt `name` des Ziel-Items (in Code-Blöcken: reiner Textname) |
 
 ### Entity-Mention via `[[`
 
@@ -146,6 +159,19 @@ Der `content`-Wert einer `DocumentationEntry`-Entität unterstützt:
 | Draw.io Shape-Label | `[[CRM` → Auswahl | `CRM-System` (reiner Text) |
 
 Im **Markdown-Freitext** wird `[[Name|entity:ID]]` gespeichert. Beim Rendering löst das System den aktuellen Namen via ID auf — wird die Entität umbenannt, zeigt der Badge automatisch den neuen Namen. In **Code-Blöcken** wird der Name als reiner Text eingesetzt; Umbenennung im Repo wird nicht automatisch nachgezogen.
+
+### DocumentItem-Querverweis via `{{`
+
+Das Tippen von `{{` im Freitext-Bereich des WYSIWYG-Editors öffnet ein Autocomplete-Dropdown für DocumentItems innerhalb derselben `DocumentCollection`. Suche erfolgt sowohl über `alias` als auch über `name`.
+
+**Speicherformat:**
+
+| Kontext | Eingabe | Gespeicherter Wert | Rendering |
+|---|---|---|---|
+| Markdown-Freitext | `{{kontex` → Auswahl „Kontextabgrenzung" | `{{Kontextabgrenzung\|item:uuid}}` | Inline-Link; zeigt aktuellen `name` des Ziel-Items |
+| Code-Blöcke | `{{kontex` → Auswahl | `Kontextabgrenzung` (reiner Text) | Kein Link; reiner Textname |
+
+**Auflösung:** Beim Rendering löst das System den aktuellen `name` des referenzierten DocumentItems via ID auf. Wird das Kapitel umbenannt, zeigt der Verweis automatisch den neuen Namen. Wird das Kapitel gelöscht, zeigt der Verweis `[gelöschtes Kapitel|item:uuid]` in roter Schrift (analog Entity-Mention).
 
 ## Beziehungen
 
@@ -169,6 +195,11 @@ Im **Markdown-Freitext** wird `[[Name|entity:ID]]` gespeichert. Beim Rendering l
 | BR-08 | Entity-Mentions im Markdown-Freitext werden im Format `[[Name\|entity:ID]]` gespeichert; beim Rendering MUSS das System den aktuellen `name`-Wert via ID auflösen — bei gelöschter Entität: `[gelöscht|entity:ID]` in roter Schrift | onRead | – |
 | BR-09 | Entity-Mentions innerhalb von Code-Blöcken (Mermaid, PlantUML, Draw.io) werden als reiner Textname gespeichert; keine ID-Auflösung beim Rendering | onCreate, onUpdate | – |
 | BR-10 | Draw.io-Codeblöcke (` ```drawio `) enthalten valides `<mxGraphModel>`-XML; ungültige XML-Struktur wird vor dem Speichern als Fehler markiert; das XML MUSS serverseitig oder via DOMParser sanitisiert werden (keine `<script>`-Tags, keine `javascript:`-URIs in `href`-Attributen) | onSave, onRead | – |
+| BR-11 | `DocumentItem.parentId` DARF NICHT zu einem Zyklus führen; Zyklus-Prüfung erfolgt beim Setzen und Ändern von `parentId` | onCreate, onUpdate | – |
+| BR-12 | Die Verschachtelungstiefe eines DocumentItems (Abstand zur Wurzel) DARF 5 nicht überschreiten; Ebene 0 = `parentId=null` | onCreate, onUpdate | – |
+| BR-13 | `DocumentItem.alias` muss innerhalb derselben `DocumentCollection` eindeutig sein (case-insensitive); Leerzeichen und Sonderzeichen sind nicht erlaubt (kebab-case-Validierung) | onCreate, onUpdate | – |
+| BR-14 | DocumentItem-Querverweise (`{{Name\|item:uuid}}`) MÜSSEN beim Rendering via ID aufgelöst werden; zeigt bei gelöschtem Ziel `[gelöschtes Kapitel\|item:uuid]` in roter Schrift | onRead | – |
+| BR-15 | Ein DocumentItem-Querverweis DARF NICHT auf ein DocumentItem einer anderen `DocumentCollection` verweisen; Collection-Grenzen sind Scope-Grenzen für `{{` | onCreate, onUpdate | – |
 
 ## Verwendung
 
@@ -188,3 +219,4 @@ Im **Markdown-Freitext** wird `[[Name|entity:ID]]` gespeichert. Beim Rendering l
 |---|---|---|---|
 | 0.1.0 | 2026-06-26 | Business Engineer | Initial draft als arc42.md (Arc42-spezifisch) |
 | 0.2.0 | 2026-06-27 | Business Engineer | Generalisierung: Arc42MetaObject → DocumentationEntry; Arc42Describes → Documents; Arc42ChapterCollection → DocumentCollectionDefinition; Arc42QuestionTemplate → DocumentChapterDefinition; drei vordefinierte Templates (Arc42, Third-Party, Lizenzregister); 1-Entity-zu-n-Collections-Beziehung explizit modelliert (BR-04/BR-05) |
+| 0.3.0 | 2026-06-28 | Business Engineer | `DocumentItem` als neue atomare Instanz-Einheit eingeführt (ersetzt `DocumentationEntry`); Attribute: `name`, `alias`, `content`, `parentId` (Verschachtelung bis 5 Ebenen), `sortOrder`; `{{`-Querverweis-Syntax im WYSIWYG-Editor für kapitelübergreifende Verweise; BR-11–15 ergänzt; `DocumentationEntry` als deprecated markiert |
