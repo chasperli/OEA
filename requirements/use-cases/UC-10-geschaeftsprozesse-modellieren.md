@@ -2,7 +2,7 @@
 id: UC-10
 title: Geschäftsprozesse nach BPMN 2.0 modellieren
 version: 0.1.0
-status: proposed
+status: draft
 priority: must
 created: 2026-06-26
 author: requirements-engineer
