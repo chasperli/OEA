@@ -2,7 +2,7 @@
 identifier: metamodel-configuration
 name_de: Metamodell-Konfiguration
 name_en: Metamodel Configuration
-version: 0.6.0
+version: 1.1.0
 status: draft
 maturity: initial
 owner_role: Business Engineer
@@ -110,6 +110,9 @@ Das **effektive Metamodell** einer Solution ergibt sich als Union: Instanz-Typen
 | category | string | required | | max. 100 Zeichen; frei wählbar | Kategorie-Zuordnung (z.B. `"Kosten"`, `"Organisation"`, `"Compliance"`, `"Sicherheit"`) |
 | defaultValue | string | optional | null | muss zur dataType-Definition passen | Standardwert als String-Repräsentation |
 | description | string | optional | | max. 500 Zeichen | Fachliche Beschreibung des Attributs |
+| visibilityMode | enum | optional | `public` | `[public, role-restricted, connection-scoped]` | Steuert, wer den Wert lesen und schreiben darf (REQ-124); `public` = alle; `role-restricted` = nur `allowedRoles`; `connection-scoped` = ABAC via Graph-Traversal |
+| allowedRoles | Role[] | conditional | [] | Pflicht wenn `visibilityMode=role-restricted`; mind. 1 Eintrag | Rollen, die den Wert lesen und schreiben dürfen |
+| scopingConnectionType | string | conditional | null | Pflicht wenn `visibilityMode=connection-scoped`; muss gültige `isConnection=true`-ConnectionType-ID referenzieren | Connection-Typ, der den Scope definiert (z.B. `DomainAssignment`) |
 
 ### PropertyDataType
 
@@ -405,3 +408,4 @@ mandatoryConnectionConstraints:
 | 0.8.0 | 2026-06-26 | Business Engineer | `creationSteps: CreationStep[]` zu EntityTypeDefinition hinzugefügt; neues Sub-Objekt `CreationStep` mit stepTypes properties/domainAssignment/connectionAssignment; BR-19–22 ergänzt (REQ-066) |
 | 0.9.0 | 2026-06-26 | Business Engineer | `arc42Collections: Arc42ChapterCollection[]` zum Wurzel-Objekt hinzugefügt (Verweis auf arc42.md); eingebaute EntityTypes `arc42-meta-object` und `arc42-describes` deklariert (REQ-067) |
 | 1.0.0 | 2026-06-27 | Business Engineer | `arc42Collections` → `documentCollectionDefinitions`; Arc42-spezifische Benennung generalisiert; Arc42 wird Template, nicht Systemkonzept (Verweis auf document-collection.md) |
+| 1.1.0 | 2026-06-28 | Business Engineer | `PropertyDefinition` um `visibilityMode`, `allowedRoles`, `scopingConnectionType` erweitert (UC-21, REQ-124); drei Sichtbarkeits-Modi: `public` (Default), `role-restricted`, `connection-scoped` (ABAC via Graph-Traversal) |
