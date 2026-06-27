@@ -15,6 +15,7 @@ references:
   use_cases:
     - UC-14
     - UC-15
+    - UC-16
 ---
 
 # EntityVersion – Entitäts-Versionsschnappschuss
@@ -39,7 +40,8 @@ references:
 | appliedBy | reference | required | | target: person | Person, die die Änderung vorgenommen hat |
 | changeReason | string | optional | null | max. 1000 Zeichen | Optionale Begründung, die beim Update angegeben wurde |
 | changedFields | string[] | required | [] | Dot-Notation; z.B. `["name", "properties.owner"]` | Felder, die sich in der Transition von `versionNumber` zu `versionNumber+1` geändert haben |
-| restoredFromVersion | integer | optional | null | FK → EntityVersion.versionNumber derselben entityId | Gesetzt, wenn diese Transition eine Wiederherstellung war (UC-15); gibt an, aus welchem früheren Stand wiederhergestellt wurde |
+| restoredFromVersion | integer | optional | null | FK → EntityVersion.versionNumber derselben entityId | Gesetzt, wenn diese Transition eine Wiederherstellung war (UC-15/UC-16); gibt an, aus welchem früheren Stand wiederhergestellt wurde |
+| restoredFields | string[] | optional | null | Dot-Notation; z.B. `["description", "properties.owner"]`; nur bei UC-16 | Bei Teilwiederherstellung: exakte Liste der wiederhergestellten Felder; null bei Vollwiederherstellung (UC-15) oder regulären Updates |
 
 ### Snapshot-Inhalt
 
