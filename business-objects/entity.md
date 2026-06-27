@@ -105,7 +105,6 @@ Alle weiteren Properties werden in `PropertyGroup`-Kategorien definiert, die im 
 | isLogical | boolean | required | `true` | | **[General]** `true` = logische/konzeptionelle Entität (z.B. Fähigkeit, Prozess, Daten-Konzept); `false` = physische Entität (konkrete Umsetzung, z.B. Server, Datenbank-Tabelle, Applikations-Instanz). Relevant für Plateau-Darstellung (s.u.) |
 | version | integer | required | `1` | ≥ 1; vom System inkrementiert bei jedem Update | Optimistic-Lock-Zähler (ADR-016); Client muss aktuelle Version beim Update mitsenden |
 | stereotypeIds | string[] | optional | `[]` | FK → `StereotypeDefinition.id`; alle IDs müssen im Metamodell existieren und auf den `entityTypeId` anwendbar sein | Zugewiesene Stereotypes (z.B. `saas-application`) |
-| architectureDomainIds | string[] | optional | `[]` | FK → `ArchitectureDomainDefinition.id`; Instanz-Zuweisung (ergänzt Layer-Zuweisung des Metatyps) | Architektur-Domänen, denen diese Entität zugeordnet ist |
 | properties | PropertyValue[] | optional | `[]` | Keys müssen `PropertyDefinition.name` des `entityTypeId`-Typs entsprechen; mandatory-Properties müssen befüllt sein | Werte der vom Metatyp definierten Custom-Properties (nicht-General) |
 | sourceEntityId | integer | conditional | null | REQUIRED wenn `EntityType.isConnection=true`; FK → ArchitectureEntity.id mit `isConnection=false`; unveränderlich nach Anlage | Quell-Entität (nur bei Verbindungen) |
 | targetEntityId | integer | conditional | null | REQUIRED wenn `EntityType.isConnection=true`; FK → ArchitectureEntity.id mit `isConnection=false`; unveränderlich nach Anlage | Ziel-Entität (nur bei Verbindungen) |
@@ -151,7 +150,6 @@ Pro Update auf einer ArchitectureEntity wird automatisch ein Version-Snapshot er
 |---|---|---|---|---|
 | instanceOf | [metamodel-configuration](./metamodel-configuration.md) → EntityTypeDefinition | n:1 | **no** | Jede Entität gehört genau einem Metatyp an; PFLICHT |
 | hasSterotypes | [metamodel-configuration](./metamodel-configuration.md) → StereotypeDefinition | n:0..n | yes | Zugewiesene Stereotypes |
-| belongsToDomains | [metamodel-configuration](./metamodel-configuration.md) → ArchitectureDomainDefinition | n:0..n | yes | Architektur-Domänen-Zugehörigkeit |
 | source | ArchitectureEntity (isConnection=false) | 1:0..1 | conditional | Quell-Entität (nur Verbindungen) |
 | target | ArchitectureEntity (isConnection=false) | 1:0..1 | conditional | Ziel-Entität (nur Verbindungen) |
 | referencedBy | EntityDelta (in [solution](./solution.md)) | 1:0..n | yes | Solutions, die diese Entität ändern |
@@ -168,14 +166,13 @@ Pro Update auf einer ArchitectureEntity wird automatisch ein Version-Snapshot er
 | BR-05 | Wenn `EntityTypeDefinition.isConnection=false`: `sourceEntityId` und `targetEntityId` MÜSSEN null sein | onCreate, onUpdate | – |
 | BR-06 | Alle `PropertyValue.propertyName`-Werte MÜSSEN PropertyDefinitions des `entityTypeId`-Metatyps entsprechen; unbekannte Property-Namen werden abgelehnt (422) | onCreate, onUpdate | – |
 | BR-07 | PropertyDefinitions mit `validationMode=mandatory` MÜSSEN einen nicht-leeren Wert haben; fehlt der Wert → 422; `validationMode=warning` → Save mit Warnung-Response möglich; `validationMode=optional` → immer valid | onCreate, onUpdate | – |
-| BR-08 | `architectureDomainIds` dürfen nur auf `ArchitectureDomainDefinition.id`-Werte der MetamodelConfiguration der Instanz zeigen | onCreate, onUpdate | – |
-| BR-09 | `stereotypeIds` dürfen nur Stereotypes referenzieren, die für den `entityTypeId`-Metatyp definiert sind | onCreate, onUpdate | – |
-| BR-10 | `sourceEntityId` und `targetEntityId` sind nach Anlage einer Verbindung unveränderlich; Kantenrichtung kann nicht geändert werden | onUpdate | – |
-| BR-11 | `description` ist immer vorhanden (nie null); initial leerer String `""`; max. 2000 Zeichen | onCreate, onUpdate | – |
-| BR-12 | `isLogical` ist ein Boolean; Default ist `true`; kann nachträglich geändert werden | onCreate, onUpdate | – |
-| BR-13 | Bei jedem Update auf eine ArchitectureEntity MUSS der Client die aktuelle `version` mitsenden; stimmt sie nicht mit dem gespeicherten Wert überein → HTTP 409 Conflict; nach erfolgreichem Update wird `version` um 1 erhöht (Optimistic Locking, ADR-016) | onUpdate | ADR-016 |
-| BR-14 | Vor jedem Update MUSS ein EntityVersion-Snapshot des vorherigen Zustands in `entity_versions` geschrieben werden; dieser Snapshot ist unveränderlich | onUpdate | ADR-016 |
-| BR-15 | Keine `PropertyGroup` im Metamodell darf den reservierten Namen `general` (case-insensitive) tragen; General-Felder sind systemdefiniert und nicht erweiterbar | Metamodell-Konfiguration | – |
+| BR-08 | `stereotypeIds` dürfen nur Stereotypes referenzieren, die für den `entityTypeId`-Metatyp definiert sind | onCreate, onUpdate | – |
+| BR-09 | `sourceEntityId` und `targetEntityId` sind nach Anlage einer Verbindung unveränderlich; Kantenrichtung kann nicht geändert werden | onUpdate | – |
+| BR-10 | `description` ist immer vorhanden (nie null); initial leerer String `""`; max. 2000 Zeichen | onCreate, onUpdate | – |
+| BR-11 | `isLogical` ist ein Boolean; Default ist `true`; kann nachträglich geändert werden | onCreate, onUpdate | – |
+| BR-12 | Bei jedem Update auf eine ArchitectureEntity MUSS der Client die aktuelle `version` mitsenden; stimmt sie nicht mit dem gespeicherten Wert überein → HTTP 409 Conflict; nach erfolgreichem Update wird `version` um 1 erhöht (Optimistic Locking, ADR-016) | onUpdate | ADR-016 |
+| BR-13 | Vor jedem Update MUSS ein EntityVersion-Snapshot des vorherigen Zustands in `entity_versions` geschrieben werden; dieser Snapshot ist unveränderlich | onUpdate | ADR-016 |
+| BR-14 | Keine `PropertyGroup` im Metamodell darf den reservierten Namen `general` (case-insensitive) tragen; General-Felder sind systemdefiniert und nicht erweiterbar | Metamodell-Konfiguration | – |
 
 ## Lifecycle
 

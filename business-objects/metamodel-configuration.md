@@ -45,8 +45,7 @@ Das Architekturteam kann die Konfiguration durch sieben Kategorien erweitern (ge
 3. **ConstraintRules**: deklarative Ausdrucks-Validierungsregeln für Entities (z.B. "jede Interface muss einen Owner haben")
 4. **Viewpoints**: benannte Architektursichten, die festlegen, welche EntityTypes und Connection-Typen in einem Diagramm dieses Typs erscheinen dürfen und in welcher Notation dargestellt wird (ArchiMate 3, UML oder BPMN 2.0); siehe [viewpoint.md](./viewpoint.md)
 5. **ArchitectureLayers**: frei definierbare Architekturebenen (z.B. Business, Application, Technology oder domänenspezifische Ebenen); jedem EntityType kann genau eine Ebene zugewiesen werden; steuern Sortierung, Farb-Codierung und Filterbarkeit im Web Portal
-6. **ArchitectureDomains**: frei definierbare Architekturdomänen (z.B. Finance, HR, Logistik); entity-instanzseitige Zuordnung (ein Entity kann mehreren Domänen zugehören); Basis für Domänen-Filter in Katalogen und Dashboard-Gruppierungen
-7. **MandatoryConnectionConstraints**: deklarative Regeln, die eine Pflicht-Connection zwischen zwei EntityTypes erzwingen (z.B. „jede ApplicationComponent muss mindestens eine `runs-on`-Connection zu einer TechnologyComponent haben"); ergänzen ConstraintRules um strukturelle Verbindungs-Validierung
+6. **MandatoryConnectionConstraints**: deklarative Regeln, die eine Pflicht-Connection zwischen zwei EntityTypes erzwingen (z.B. „jede ApplicationComponent muss mindestens eine `runs-on`-Connection zu einer TechnologyComponent haben"); ergänzen ConstraintRules um strukturelle Verbindungs-Validierung
 
 Der **Bearbeitungs-Modus** (`editMode`) steuert, ob Änderungen am Metamodell via GUI und Import oder ausschliesslich per Import möglich sind. Im Sperrmodus `import-only` ist die GUI-Bearbeitung für alle Nutzer deaktiviert; das YAML-File wird zur einzigen Quelle der Wahrheit (REQ-035).
 
@@ -72,14 +71,13 @@ Das **effektive Metamodell** einer Solution ergibt sich als Union: Instanz-Typen
 | schemaVersion | string | required | "1.0" | Semver | Aktuelle Schema-Version der Konfiguration |
 | lastModifiedAt | datetime | required | | ISO 8601, UTC | Zeitpunkt der letzten Änderung |
 | lastModifiedBy | reference | required | | target: person | Person, die die letzte Änderung vorgenommen hat |
-| editMode | enum | required | `gui-and-import` | `[gui-and-import, import-only]` | Steuert, ob GUI-Bearbeitung des Metamodells (EntityTypes, Stereotypes, Layer, Domains) erlaubt ist; `import-only` = Sperrmodus (REQ-035); gilt unabhängig pro Scope-Ebene |
+| editMode | enum | required | `gui-and-import` | `[gui-and-import, import-only]` | Steuert, ob GUI-Bearbeitung des Metamodells (EntityTypes, Stereotypes, Layer) erlaubt ist; `import-only` = Sperrmodus (REQ-035); gilt unabhängig pro Scope-Ebene |
 | rulesEditMode | enum | required | `gui-and-import` | `[gui-and-import, import-only]` | Steuert GUI-Bearbeitung von `constraintRules` und `mandatoryConnectionConstraints` unabhängig von `editMode`; `import-only` = nur JSON-Import erlaubt (ADR-018) |
 | entityTypeDefinitions | EntityTypeDefinition[] | required | [] | | Liste der benutzerdefinierten Entitätstypen |
 | stereotypes | Stereotype[] | required | [] | | Liste der definierten Stereotypen |
 | constraintRules | ConstraintRule[] | required | [] | | Liste der Ausdrucks-Constraint-Regeln |
 | viewpoints | ViewpointDefinition[] | required | [] | Enthält system-defined (built-in) + user-defined Viewpoints | Liste der Viewpoints; Verweis auf [viewpoint.md](./viewpoint.md) für Vollspezifikation |
 | architectureLayers | ArchitectureLayerDefinition[] | required | [] | | Liste der Architekturebenen; leer = keine Ebenen-Kategorisierung |
-| architectureDomains | ArchitectureDomainDefinition[] | required | [] | | Liste der Architekturdomänen; leer = keine Domänen-Kategorisierung |
 | mandatoryConnectionConstraints | MandatoryConnectionConstraint[] | required | [] | | Deklarative Pflicht-Connection-Regeln |
 | arc42Collections | Arc42ChapterCollection[] | required | [] | | Konfigurierbare Arc42-Kapitelsammlungen (Verweis auf [arc42.md](./arc42.md)) |
 
@@ -163,7 +161,7 @@ Das **effektive Metamodell** einer Solution ergibt sich als Union: Instanz-Typen
 
 | Attribut | Typ | Optional | Beschreibung |
 |---|---|---|---|
-| property | string | required | Eigenschaftsname der Entität (z.B. `owner`, `architectureDomainIds`) |
+| property | string | required | Eigenschaftsname der Entität (z.B. `owner`, `criticality`) |
 | operator | enum | required | `[notNull, isNull, equals, notEquals, contains, notContains, startsWith, matches, greaterThan, lessThan, between, minCount, maxCount]` |
 | value | string \| number | conditional | Vergleichswert; nicht benötigt bei `notNull`/`isNull` |
 | group | ConditionGroup | optional | Verschachtelte Untergruppe (ermöglicht komplexe AND/OR-Kombinationen) |
@@ -179,18 +177,6 @@ Das **effektive Metamodell** einer Solution ergibt sich als Union: Instanz-Typen
 | description | string | optional | | max. 500 Zeichen | Beschreibung des Geltungsbereichs dieser Ebene |
 
 **Verwendung**: Jeder `EntityTypeDefinition` kann über `architectureLayerId` genau einer Ebene zugewiesen werden. Entity-Instanzen erben die Ebene ihres Typs. Ebenen steuern Sortierung und Filterbarkeit in Katalogen und Dashboards.
-
-### ArchitectureDomainDefinition
-
-| Attribut | Typ | Optional | Default | Constraints | Beschreibung |
-|---|---|---|---|---|---|
-| id | string | required | | kebab-case, eindeutig | Technischer Bezeichner (z.B. `finance`, `hr`, `logistics`) |
-| name | string | required | | eindeutig in der MetamodelConfiguration | Anzeigename (z.B. „Finance", „Human Resources", „Logistik") |
-| color | string | optional | | Hex-Farbcode (#RRGGBB) | Farb-Codierung |
-| description | string | optional | | max. 500 Zeichen | Beschreibung der fachlichen Domäne |
-| responsiblePersonId | reference | optional | null | target: person | Fachlich Verantwortliche Person |
-
-**Verwendung**: Die Domänenzuordnung erfolgt **instanzseitig** – jede Entity-Instanz kann einer oder mehreren Domänen zugeordnet werden (Mehrfach-Zuordnung erlaubt, da Systeme oft domänenübergreifend genutzt werden). Die Zuordnung wird als System-Attribut `architectureDomainIds: string[]` an jeder Entität gespeichert.
 
 ### MandatoryConnectionConstraint
 
