@@ -43,6 +43,7 @@ Der Business Engineer (siehe `.claude/agents/business-engineer.md`) modelliert h
 |---|---|---|---|---|
 | [architecture](./architecture.md) | Architektur-Repository | Architecture | draft | 0.3.0 |
 | [entity](./entity.md) | Architektur-Entität | Architecture Entity | draft | 0.1.0 |
+| [entity-version](./entity-version.md) | Entitäts-Versionsschnappschuss | Entity Version | draft | 0.1.0 |
 | [plateau](./plateau.md) | Plateau | Plateau | draft | 0.1.0 |
 | [solution](./solution.md) | Solution / Änderungsinitiative | Solution | draft | 0.1.0 |
 
