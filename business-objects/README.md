@@ -50,9 +50,9 @@ Der Business Engineer (siehe `.claude/agents/business-engineer.md`) modelliert h
 
 | ID | Name (DE) | Name (EN) | Status | Version |
 |---|---|---|---|---|
-| [metamodel-configuration](./metamodel-configuration.md) | Metamodell-Konfiguration | Metamodel Configuration | draft | 0.9.0 |
+| [metamodel-configuration](./metamodel-configuration.md) | Metamodell-Konfiguration | Metamodel Configuration | draft | 1.0.0 |
 | [viewpoint](./viewpoint.md) | Viewpoint / Architektursicht | Viewpoint | draft | 0.2.0 |
-| [arc42](./arc42.md) | Arc42 Dokumentations-Framework | Arc42 Documentation Framework | draft | 0.1.0 |
+| [document-collection](./document-collection.md) | Strukturierte Dokumentation | Document Collection | draft | 0.2.0 |
 
 ### Darstellung & Navigation
 

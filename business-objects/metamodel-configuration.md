@@ -79,7 +79,7 @@ Das **effektive Metamodell** einer Solution ergibt sich als Union: Instanz-Typen
 | viewpoints | ViewpointDefinition[] | required | [] | Enthält system-defined (built-in) + user-defined Viewpoints | Liste der Viewpoints; Verweis auf [viewpoint.md](./viewpoint.md) für Vollspezifikation |
 | architectureLayers | ArchitectureLayerDefinition[] | required | [] | | Liste der Architekturebenen; leer = keine Ebenen-Kategorisierung |
 | mandatoryConnectionConstraints | MandatoryConnectionConstraint[] | required | [] | | Deklarative Pflicht-Connection-Regeln |
-| arc42Collections | Arc42ChapterCollection[] | required | [] | | Konfigurierbare Arc42-Kapitelsammlungen (Verweis auf [arc42.md](./arc42.md)) |
+| documentCollectionDefinitions | DocumentCollectionDefinition[] | required | [] | | Betreiberdefinierte Dokumentationstypen mit Kapiteln (Arc42, Third-Party, Lizenzregister usw.); Verweis auf [document-collection.md](./document-collection.md) |
 
 ### EntityTypeDefinition
 
@@ -404,3 +404,4 @@ mandatoryConnectionConstraints:
 | 0.7.0 | 2026-06-26 | Business Engineer | `allowsConnectionAsSource: boolean` (Default false) zu EntityTypeDefinition hinzugefügt (ADR-010, n-Connection); BR-08 erweitert |
 | 0.8.0 | 2026-06-26 | Business Engineer | `creationSteps: CreationStep[]` zu EntityTypeDefinition hinzugefügt; neues Sub-Objekt `CreationStep` mit stepTypes properties/domainAssignment/connectionAssignment; BR-19–22 ergänzt (REQ-066) |
 | 0.9.0 | 2026-06-26 | Business Engineer | `arc42Collections: Arc42ChapterCollection[]` zum Wurzel-Objekt hinzugefügt (Verweis auf arc42.md); eingebaute EntityTypes `arc42-meta-object` und `arc42-describes` deklariert (REQ-067) |
+| 1.0.0 | 2026-06-27 | Business Engineer | `arc42Collections` → `documentCollectionDefinitions`; Arc42-spezifische Benennung generalisiert; Arc42 wird Template, nicht Systemkonzept (Verweis auf document-collection.md) |
