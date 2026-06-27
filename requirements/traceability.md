@@ -2,7 +2,7 @@
 
 Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Stories. Wird per `/trace-check` auf Konsistenz geprüft oder manuell gepflegt.
 
-**Stand**: 2026-06-28 | **REQs gesamt**: 123 | **USs gesamt**: 123 | **UCs gesamt**: 20
+**Stand**: 2026-06-28 | **REQs gesamt**: 128 | **USs gesamt**: 128 | **UCs gesamt**: 21
 
 ---
 
@@ -173,6 +173,7 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 | [UC-18](use-cases/UC-18-continuum-paket-importieren.md) | §4 Enterprise Continuum und TRM | [ADR-002](../adrs/ADR-002-continuum-repository.md) | – |
 | [UC-19](use-cases/UC-19-trm-konfigurieren.md) | §4 Enterprise Continuum und TRM | [ADR-002](../adrs/ADR-002-continuum-repository.md) | – |
 | [UC-20](use-cases/UC-20-continuum-conformance-analysieren.md) | §4 Enterprise Continuum und TRM | [ADR-002](../adrs/ADR-002-continuum-repository.md) | – |
+| [UC-21](use-cases/UC-21-property-sichtbarkeit-konfigurieren.md) | §6 Kern-Entitätstypen, §8 Organisation/Rollen | – | – |
 
 ---
 
@@ -353,11 +354,27 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 
 ---
 
+### UC-21: Property-Sichtbarkeit konfigurieren
+
+**Primärer Akteur**: SH-03 | **Prio**: must | **Status**: draft
+
+| REQ | Titel | Typ | Prio | USs |
+|---|---|---|---|---|
+| [REQ-124](req/REQ-124-propertydefinition-visibilitymode.md) | PropertyDefinition um visibilityMode erweitern | functional | must | [US-124](user-stories/US-124-property-visibilitymode-konfigurieren.md) |
+| [REQ-125](req/REQ-125-property-sichtbarkeit-konfigurationsmaske.md) | Konfigurationsmaske für Property-Sichtbarkeit im Metamodell-Editor | functional | must | [US-125](user-stories/US-125-property-sichtbarkeit-konfigurationsmaske.md) |
+| [REQ-126](req/REQ-126-property-sichtbarkeit-enforcement-rolle.md) | Enforcement role-restricted Property-Sichtbarkeit | functional | must | [US-126](user-stories/US-126-role-restricted-property-enforcement.md) |
+| [REQ-127](req/REQ-127-property-sichtbarkeit-enforcement-connection-scoped.md) | Enforcement connection-scoped Property-Sichtbarkeit (ABAC) | functional | must | [US-127](user-stories/US-127-connection-scoped-property-domainarchitekt.md) |
+| [REQ-128](req/REQ-128-property-sichtbarkeit-admin-override.md) | Admin-Override für Property-Sichtbarkeit | functional | should | [US-128](user-stories/US-128-admin-override-property-sichtbarkeit.md) |
+
+**Konzept**: §6 Kern-Entitätstypen, §8 Organisation/Rollen/Personen | **ADRs**: –
+
+---
+
 ## 3. REQ-Typ-Übersicht
 
 | Typ | REQ-IDs | Anzahl |
 |---|---|---|
-| functional | REQ-001–007, REQ-009–022, REQ-024–040, REQ-043–070, REQ-076–081, REQ-084–106, REQ-107–123 | 112 |
+| functional | REQ-001–007, REQ-009–022, REQ-024–040, REQ-043–070, REQ-076–081, REQ-084–106, REQ-107–128 | 117 |
 | non-functional | REQ-008, REQ-071, REQ-072, REQ-073, REQ-074, REQ-075, REQ-082, REQ-083 | **8** ✓ |
 | security | REQ-006, REQ-017 | 2 |
 | could | REQ-080 (Rechtschreibprüfung) | 1 |
@@ -403,7 +420,8 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 | UC-18 | US-112–114 | **13** | US-112=3, US-113=5, US-114=5 |
 | UC-19 | US-115–117 | **12** | US-115=5, US-116=5, US-117=2 |
 | UC-20 | US-118–120 | **13** | US-118=5, US-119=5, US-120=3 |
-| **Gesamt** | **123 USs** | **~435 SP** | |
+| UC-21 | US-124–128 | **22** | US-124=3, US-125=3, US-126=5, US-127=8, US-128=3 |
+| **Gesamt** | **128 USs** | **~457 SP** | |
 
 ---
 
@@ -419,11 +437,11 @@ Alle USs referenzieren mind. ein REQ. ✓
 
 ### UCs ohne Konzept-Bezug
 
-Alle 20 UCs haben mind. einen Konzept-Bezug. ✓
+Alle 21 UCs haben mind. einen Konzept-Bezug. ✓
 
 ### UCs ohne primären Stakeholder
 
-Alle 20 UCs haben einen `primary_actor`. ✓
+Alle 21 UCs haben einen `primary_actor`. ✓
 
 ### UC-07 REQ/US-Übersicht
 
@@ -470,6 +488,7 @@ Alle bekannten Lücken wurden geschlossen. Stand 2026-06-28:
 | UC-11–16 ohne REQs/USs | ✓ REQ-084–106 + US-084–106 angelegt (2026-06-28) |
 | Enterprise Continuum nicht modelliert | ✓ 5 Continuum-BOs + UC-17–20 + REQ-107–120 + US-107–120 angelegt (2026-06-28) |
 | Canvas-Diagramm-Anforderungen (Raster, Routing, Ankerpunkte) | ✓ REQ-121–123 + US-121–123 angelegt (2026-06-28) |
+| Property-Level-Autorisierung (role.md: „folgt späterem UC") | ✓ UC-21 + REQ-124–128 + US-124–128 angelegt (2026-06-28) |
 
 ---
 
