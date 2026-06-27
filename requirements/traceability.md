@@ -372,14 +372,17 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 
 ## 3. REQ-Typ-Übersicht
 
-| Typ | REQ-IDs | Anzahl |
+| Typ | Beispiel-REQs | Anzahl |
 |---|---|---|
-| functional | REQ-001–007, REQ-009–022, REQ-024–040, REQ-043–070, REQ-076–081, REQ-084–106, REQ-107–128 | 117 |
-| non-functional | REQ-008, REQ-071, REQ-072, REQ-073, REQ-074, REQ-075, REQ-082, REQ-083 | **8** ✓ |
-| security | REQ-006, REQ-017 | 2 |
-| could | REQ-080 (Rechtschreibprüfung) | 1 |
+| functional | REQ-001–002, REQ-004, REQ-009–011, REQ-013–014, REQ-018, … REQ-124–128 | **108** |
+| non-functional | REQ-008, REQ-071–075, REQ-082–083 | **8** |
+| business-rule | REQ-003, REQ-007, REQ-015, REQ-019, REQ-020 | **5** |
+| compliance | REQ-005, REQ-016, REQ-025, REQ-034 | **4** |
+| constraint | REQ-006, REQ-017 | **2** |
+| data | REQ-012 | **1** |
+| **Gesamt** | | **128** |
 
-*Hinweis: REQ-006 und REQ-017 sind als `security` typisiert und erscheinen auch in der functional-Zählung der jeweiligen UCs. REQ-080 ist `priority: could`.*
+*Hinweis: `priority: could` ist eine Priorität, kein Typ — REQ-080 (Rechtschreibprüfung) ist `type: functional, priority: could`.*
 
 ### NFR-Übersicht
 
