@@ -15,6 +15,7 @@ references:
   - concept: concept/20-entities/06-kern-entitaetstypen.md
   - concept: concept/40-extensibility/14-erweiterbarkeit.md
   - concept: concept/40-extensibility/15-schema-evolution.md
+  - adr: adrs/ADR-017-architektur-layer-strategie.md
 ---
 
 # Business Object: MetamodelConfiguration

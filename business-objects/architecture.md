@@ -13,6 +13,7 @@ references:
   - concept: concept/20-entities/06-kern-entitaetstypen.md
   - concept: concept/40-extensibility/14-erweiterbarkeit.md
   - concept: concept/90-backlog/23-offene-punkte.md
+  - adr: adrs/ADR-017-architektur-layer-strategie.md
 ---
 
 # Architektur-Modell: Übersicht
