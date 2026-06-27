@@ -16,6 +16,7 @@ references:
   - concept: concept/40-extensibility/14-erweiterbarkeit.md
   - concept: concept/40-extensibility/15-schema-evolution.md
   - adr: adrs/ADR-017-architektur-layer-strategie.md
+  - adr: adrs/ADR-018-business-rule-engine.md
 ---
 
 # Business Object: MetamodelConfiguration
@@ -71,7 +72,8 @@ Das **effektive Metamodell** einer Solution ergibt sich als Union: Instanz-Typen
 | schemaVersion | string | required | "1.0" | Semver | Aktuelle Schema-Version der Konfiguration |
 | lastModifiedAt | datetime | required | | ISO 8601, UTC | Zeitpunkt der letzten Änderung |
 | lastModifiedBy | reference | required | | target: person | Person, die die letzte Änderung vorgenommen hat |
-| editMode | enum | required | `gui-and-import` | `[gui-and-import, import-only]` | Steuert, ob GUI-Bearbeitung erlaubt ist; `import-only` = Sperrmodus (REQ-035); gilt unabhängig pro Scope-Ebene |
+| editMode | enum | required | `gui-and-import` | `[gui-and-import, import-only]` | Steuert, ob GUI-Bearbeitung des Metamodells (EntityTypes, Stereotypes, Layer, Domains) erlaubt ist; `import-only` = Sperrmodus (REQ-035); gilt unabhängig pro Scope-Ebene |
+| rulesEditMode | enum | required | `gui-and-import` | `[gui-and-import, import-only]` | Steuert GUI-Bearbeitung von `constraintRules` und `mandatoryConnectionConstraints` unabhängig von `editMode`; `import-only` = nur JSON-Import erlaubt (ADR-018) |
 | entityTypeDefinitions | EntityTypeDefinition[] | required | [] | | Liste der benutzerdefinierten Entitätstypen |
 | stereotypes | Stereotype[] | required | [] | | Liste der definierten Stereotypen |
 | constraintRules | ConstraintRule[] | required | [] | | Liste der Ausdrucks-Constraint-Regeln |
@@ -144,9 +146,27 @@ Das **effektive Metamodell** einer Solution ergibt sich als Union: Instanz-Typen
 | name | string | required | | kebab-case, eindeutig | Regelbezeichner (z.B. `every-interface-has-owner`) |
 | appliesTo | string | required | | gültiger EntityType-Name | Geltungsbereich: Entitätstyp |
 | scope | ScopeDefinition | optional | null | null = gilt für alle Instanzen des Typs | Einschränkung auf Teilmenge (§15.2) |
-| rule | string | required | | Ausdruck-String | Validierungsausdruck (z.B. `entity.owner != null`) |
-| severity | enum | required | warning | `[hint, warning, error]` | Schweregrad bei Regelverletzung |
+| ruleMode | enum | required | `structured` | `[structured, expression]` | `structured` = GUI-Builder-Bedingungen (zu CEL kompiliert); `expression` = direkter CEL-Ausdruck (ADR-018) |
+| conditions | ConditionGroup | conditional | null | REQUIRED wenn `ruleMode=structured` | Verschachtelte AND/OR-Bedingungsstruktur; vom Backend zu CEL kompiliert |
+| expression | string | conditional | null | REQUIRED wenn `ruleMode=expression`; gültiger CEL-Ausdruck | Direkter CEL-Ausdruck (z.B. `entity.owner != null`) |
+| severity | enum | required | `warning` | `[hint, warning, error]` | Schweregrad bei Regelverletzung |
 | message | string | required | | max. 500 Zeichen | Meldung für den Nutzer bei Verletzung |
+
+### ConditionGroup
+
+| Attribut | Typ | Optional | Beschreibung |
+|---|---|---|---|
+| all | Condition[] | conditional | AND-Verknüpfung; mindestens eine von `all` oder `any` muss gesetzt sein |
+| any | Condition[] | conditional | OR-Verknüpfung |
+
+### Condition
+
+| Attribut | Typ | Optional | Beschreibung |
+|---|---|---|---|
+| property | string | required | Eigenschaftsname der Entität (z.B. `owner`, `architectureDomainIds`) |
+| operator | enum | required | `[notNull, isNull, equals, notEquals, contains, notContains, startsWith, matches, greaterThan, lessThan, between, minCount, maxCount]` |
+| value | string \| number | conditional | Vergleichswert; nicht benötigt bei `notNull`/`isNull` |
+| group | ConditionGroup | optional | Verschachtelte Untergruppe (ermöglicht komplexe AND/OR-Kombinationen) |
 
 ### ArchitectureLayerDefinition
 
