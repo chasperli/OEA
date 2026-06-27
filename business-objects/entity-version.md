@@ -43,26 +43,26 @@ references:
 
 ### Snapshot-Inhalt
 
-Das `snapshot`-JSON enthält alle **wiederherstellbaren** Felder der Entität zum Zeitpunkt `versionNumber`. Nicht wiederherstellbare Systemfelder werden nicht mitgespeichert.
+Das `snapshot`-JSON enthält **alle** Felder der Entität zum Zeitpunkt `versionNumber` — einschliesslich systemseitig unveränderlicher Felder. Der Snapshot ist ein vollständiges, in sich lesbares Abbild des Entitätszustands: Ein Auditor oder ein Wiederherstellungs-Prozess soll den Zustand zu jedem Zeitpunkt vollständig rekonstruieren können, ohne weitere Daten nachschlagen zu müssen.
 
 | Feld im Snapshot | Typ | Beschreibung |
 |---|---|---|
-| `name` | string | Anzeigename zum Zeitpunkt dieser Version |
+| `id` | integer | Primärschlüssel der Entität |
+| `entityTypeId` | string | Metatyp zum Zeitpunkt dieser Version |
+| `name` | string | Anzeigename |
 | `description` | string | Fachliche Beschreibung |
 | `isLogical` | boolean | Logisch/physisch-Flag |
 | `stereotypeIds` | string[] | Zugewiesene Stereotypes |
 | `properties` | object | Key-Value-Map der Custom-Properties |
+| `sourceEntityId` | integer \| null | Quell-Entität (nur bei Verbindungen) |
+| `targetEntityId` | integer \| null | Ziel-Entität (nur bei Verbindungen) |
+| `createdAt` | datetime | Anlage-Zeitstempel |
+| `createdBy` | string | Anlage-Person (ID) |
+| `updatedAt` | datetime \| null | Zeitpunkt der letzten Änderung vor diesem Snapshot |
+| `updatedBy` | string \| null | Person der letzten Änderung vor diesem Snapshot |
+| `version` | integer | Versionsnummer zum Zeitpunkt der Sicherung (identisch mit `versionNumber`) |
 
-**Nicht im Snapshot** (systemseitig unveränderlich, brauchen keine Historisierung):
-
-| Feld | Grund |
-|---|---|
-| `id` | Primärschlüssel; niemals geändert |
-| `entityTypeId` | Unveränderlich nach Anlage (entity.md BR-03) |
-| `sourceEntityId` | Verbindungsendpunkt; unveränderlich (entity.md BR-09) |
-| `targetEntityId` | Verbindungsendpunkt; unveränderlich (entity.md BR-09) |
-| `createdAt` | Anlage-Zeitstempel; niemals geändert |
-| `createdBy` | Anlage-Person; niemals geändert |
+Bei der Wiederherstellung (UC-15) werden trotz vollständigem Snapshot nur die **wiederherstellbaren** Felder auf die Entität angewendet (`name`, `description`, `isLogical`, `stereotypeIds`, `properties`). Die unveränderlichen Felder im Snapshot dienen ausschliesslich dem Audit-Zweck.
 
 ## Beziehungen
 
@@ -81,7 +81,7 @@ Das `snapshot`-JSON enthält alle **wiederherstellbaren** Felder der Entität zu
 | BR-04 | Das Schreiben des `EntityVersion`-Datensatzes und das Anwenden der Entitätsänderung MÜSSEN in **derselben DB-Transaktion** erfolgen; schlägt die Transaktion fehl, wird weder Schnappschuss noch Änderung persistiert | onUpdate (entity) | ADR-016 |
 | BR-05 | `changedFields` MUSS mindestens ein Element enthalten; ein Update, das keinen Feldwert ändert, darf keine `EntityVersion` erzeugen und MUSS mit HTTP 304 abgewiesen werden | onCreate | – |
 | BR-06 | Wenn `restoredFromVersion` gesetzt ist, MUSS der referenzierte `versionNumber`-Wert für dieselbe `entityId` in `entity_versions` existieren | onCreate | UC-15 |
-| BR-07 | Der `snapshot`-Inhalt wird nicht validiert oder transformiert — er ist eine exakte Kopie des Entitätszustands zum Zeitpunkt der Sicherung, auch wenn spätere Metamodell-Änderungen einzelne Werte obsolet machen | onCreate | – |
+| BR-07 | Der `snapshot` enthält ALLE Felder der Entität und wird nicht validiert oder transformiert — er ist eine exakte, vollständige Kopie des Entitätszustands zum Zeitpunkt der Sicherung, auch wenn spätere Metamodell-Änderungen einzelne Werte obsolet machen | onCreate | – |
 
 ## Lifecycle
 
