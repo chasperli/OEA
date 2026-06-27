@@ -52,6 +52,23 @@ concept/
 └── 90-backlog/                        ← Offene Fragen und nächste Schritte
 ```
 
+## Definition of Done – Requirements-Phase
+
+Stand 2026-06-28: Requirements-Phase abgeschlossen.
+
+- [x] Vision formuliert (`business-analysis/vision.md`)
+- [x] Mindestens 3 Stakeholder-Profile mit Concerns (8 vorhanden)
+- [x] Mindestens 10 Use Cases, alle priorisiert nach MoSCoW (16 UCs: 11 must, 5 should)
+- [x] Mindestens 5 NFRs mit messbaren Zielwerten (8 vorhanden: REQ-008, REQ-071–075, REQ-082–083)
+- [x] Gruppe-A-ADRs (ADR-001 bis ADR-005) entschieden (alle `accepted`)
+- [x] Walking-Skeleton-UC identifiziert (UC-06 Katalog; 22 SP; Prerequisites UC-01, UC-02, UC-04)
+- [x] Traceability-Matrix gepflegt (`requirements/traceability.md`; 106 REQs / 106 USs / 16 UCs)
+- [x] Trace-Check ohne Warnings (alle 16 UCs mit REQs und USs abgedeckt)
+
+**Nächste Phase**: Walking Skeleton → Details in `concept/90-backlog/24-naechste-schritte.md`
+
+---
+
 ## Arbeitsweise
 
 Dieses Dokument ist die **Diskussionsgrundlage** für das Metamodell. Änderungen erfolgen per PR mit ADR-Referenz. Jede substanzielle Änderung sollte:

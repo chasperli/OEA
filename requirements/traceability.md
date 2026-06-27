@@ -2,7 +2,7 @@
 
 Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Stories. Wird per `/trace-check` auf Konsistenz geprüft oder manuell gepflegt.
 
-**Stand**: 2026-06-27 | **REQs gesamt**: 83 | **USs gesamt**: 83 | **UCs gesamt**: 10
+**Stand**: 2026-06-28 | **REQs gesamt**: 106 | **USs gesamt**: 106 | **UCs gesamt**: 16
 
 ---
 
@@ -160,6 +160,12 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 | [UC-08](use-cases/UC-08-data-lineage-modellieren.md) | §6 Kern-Entitätstypen, §13 Fach-Technik-Verlinkung, §14 Erweiterbarkeit, §15 Schema-Evolution, §20 GRC/DSGVO | [ADR-010](../adrs/ADR-010-n-connection-data-lineage.md) (accepted) | – |
 | [UC-09](use-cases/UC-09-loesungsarchitektur-arc42-dokumentieren.md) | §14 Erweiterbarkeit, §18 Reporting | – | – |
 | [UC-10](use-cases/UC-10-geschaeftsprozesse-modellieren.md) | §9 Prozess-Architektur, §6 Kern-Entitätstypen | – | REQ-071 (Katalog-Latenz), REQ-072 (Canvas-Latenz) |
+| [UC-11](use-cases/UC-11-plateau-definieren-und-go-live.md) | §11 Temporales Modell | [ADR-017](../adrs/ADR-017-fully-open-layers.md) | – |
+| [UC-12](use-cases/UC-12-viewpoint-verwalten.md) | §12 Domain-Sichten | – | – |
+| [UC-13](use-cases/UC-13-navigationsbaum-verwalten.md) | §12 Domain-Sichten | – | – |
+| [UC-14](use-cases/UC-14-aenderungshistorie-einsehen.md) | §6 Kern-Entitätstypen | [ADR-016](../adrs/ADR-016-persistenz-strategie.md) | – |
+| [UC-15](use-cases/UC-15-entitaetsstand-wiederherstellen.md) | §6 Kern-Entitätstypen | [ADR-016](../adrs/ADR-016-persistenz-strategie.md) | – |
+| [UC-16](use-cases/UC-16-teilwiederherstellung-entitaet.md) | §6 Kern-Entitätstypen | [ADR-016](../adrs/ADR-016-persistenz-strategie.md) | – |
 
 ---
 
@@ -193,15 +199,105 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 
 ---
 
+### UC-11: Plateau definieren und Go-Live durchführen
+
+**Primärer Akteur**: SH-03 | **Prio**: must | **Status**: draft
+
+| REQ | Titel | Typ | Prio | USs |
+|---|---|---|---|---|
+| [REQ-084](req/REQ-084-plateau-anlegen.md) | Plateau anlegen | functional | must | [US-084](user-stories/US-084-plateau-anlegen.md) |
+| [REQ-085](req/REQ-085-plateau-uebersicht.md) | Plateau-Übersicht strukturiert | functional | must | [US-085](user-stories/US-085-plateau-uebersicht.md) |
+| [REQ-086](req/REQ-086-go-live-zweistufige-bestaetigung.md) | Go-Live zweistufige Bestätigung | functional | must | [US-086](user-stories/US-086-go-live-bestaetigung.md) |
+| [REQ-087](req/REQ-087-go-live-kein-enforcement.md) | Go-Live kein Enforcement | functional | must | [US-087](user-stories/US-087-go-live-kein-enforcement.md) |
+| [REQ-088](req/REQ-088-go-live-atomare-transition.md) | Go-Live atomare Transition | functional | must | [US-088](user-stories/US-088-go-live-atomare-transition.md) |
+| [REQ-089](req/REQ-089-plateau-realized-schreibgeschuetzt.md) | Realized-Plateau schreibgeschützt | functional | must | [US-089](user-stories/US-089-plateau-realized-readonly.md) |
+
+**Konzept**: §11 Temporales Modell | **ADRs**: [ADR-017](../adrs/ADR-017-fully-open-layers.md) (Fully Open Layers)
+
+---
+
+### UC-12: Viewpoint verwalten
+
+**Primärer Akteur**: SH-03 | **Prio**: must | **Status**: draft
+
+| REQ | Titel | Typ | Prio | USs |
+|---|---|---|---|---|
+| [REQ-090](req/REQ-090-viewpoint-anlegen-bearbeiten-loeschen.md) | Viewpoint anlegen, bearbeiten, löschen | functional | must | [US-090](user-stories/US-090-viewpoint-crud.md) |
+| [REQ-091](req/REQ-091-viewpoint-notation-mapping.md) | Viewpoint Notation-Mapping | functional | must | [US-091](user-stories/US-091-viewpoint-notation-mapping.md) |
+| [REQ-092](req/REQ-092-system-viewpoint-schreibgeschuetzt.md) | System-Viewpoints schreibgeschützt | functional | must | [US-092](user-stories/US-092-system-viewpoint-readonly.md) |
+| [REQ-093](req/REQ-093-viewpoint-loeschen-warnung.md) | Viewpoint-Löschen Warnung | functional | must | [US-093](user-stories/US-093-viewpoint-loeschen-warnung.md) |
+
+**Konzept**: §12 Domain-Sichten | **ADRs**: –
+
+---
+
+### UC-13: Navigationsbaum verwalten
+
+**Primärer Akteur**: SH-03 | **Prio**: must | **Status**: draft
+
+| REQ | Titel | Typ | Prio | USs |
+|---|---|---|---|---|
+| [REQ-094](req/REQ-094-navigationsbaum-ordner-crud.md) | Ordner-CRUD | functional | must | [US-094](user-stories/US-094-navigationsbaum-ordner-crud.md) |
+| [REQ-095](req/REQ-095-navigationsbaum-item-soft-reference.md) | Item-Verwaltung mit Soft-Reference | functional | must | [US-095](user-stories/US-095-navigationsbaum-item-soft-reference.md) |
+| [REQ-096](req/REQ-096-navigationsbaum-drag-drop.md) | Drag & Drop mit Zyklus-Schutz | functional | must | [US-096](user-stories/US-096-navigationsbaum-drag-drop.md) |
+| [REQ-097](req/REQ-097-navigationsbaum-mehrfach-einordnung.md) | Mehrfach-Einordnung | functional | must | [US-097](user-stories/US-097-navigationsbaum-mehrfach-einordnung.md) |
+
+**Konzept**: §12 Domain-Sichten | **ADRs**: –
+
+---
+
+### UC-14: Änderungshistorie einsehen
+
+**Primärer Akteur**: SH-03 | **Prio**: must | **Status**: draft
+
+| REQ | Titel | Typ | Prio | USs |
+|---|---|---|---|---|
+| [REQ-098](req/REQ-098-versionshistorie-zeitlinie.md) | Versionshistorie-Zeitlinie | functional | must | [US-098](user-stories/US-098-versionshistorie-zeitlinie.md) |
+| [REQ-099](req/REQ-099-versionshistorie-diff-ansicht.md) | Feldweise Diff-Ansicht | functional | must | [US-099](user-stories/US-099-versionshistorie-diff.md) |
+| [REQ-100](req/REQ-100-versionshistorie-snapshot-abruf.md) | Vollständiger Snapshot-Abruf | functional | must | [US-100](user-stories/US-100-versionshistorie-snapshot.md) |
+
+**Konzept**: §6 Kern-Entitätstypen | **ADRs**: [ADR-016](../adrs/ADR-016-persistenz-strategie.md) (Persistenz-Strategie)
+
+---
+
+### UC-15: Entitätsstand wiederherstellen
+
+**Primärer Akteur**: SH-03 | **Prio**: should | **Status**: draft
+
+| REQ | Titel | Typ | Prio | USs |
+|---|---|---|---|---|
+| [REQ-101](req/REQ-101-entitaet-vollwiederherstellung.md) | Vollständige Wiederherstellung | functional | should | [US-101](user-stories/US-101-entitaet-vollwiederherstellung.md) |
+| [REQ-102](req/REQ-102-wiederherstellung-audit-snapshot.md) | Audit-Snapshot vor Wiederherstellung | functional | should | [US-102](user-stories/US-102-wiederherstellung-audit-snapshot.md) |
+| [REQ-103](req/REQ-103-wiederherstellung-atomare-transaktion.md) | Atomare Wiederherstellungstransaktion | functional | should | [US-103](user-stories/US-103-wiederherstellung-transaktion.md) |
+
+**Konzept**: §6 Kern-Entitätstypen | **ADRs**: [ADR-016](../adrs/ADR-016-persistenz-strategie.md) (Persistenz-Strategie)
+
+---
+
+### UC-16: Entität teilweise wiederherstellen
+
+**Primärer Akteur**: SH-03 | **Prio**: should | **Status**: draft
+
+| REQ | Titel | Typ | Prio | USs |
+|---|---|---|---|---|
+| [REQ-104](req/REQ-104-teilwiederherstellung-wizard.md) | Dreistufiger Wizard | functional | should | [US-104](user-stories/US-104-teilwiederherstellung-wizard.md) |
+| [REQ-105](req/REQ-105-teilwiederherstellung-feldauswahl.md) | Selektive Feldauswahl | functional | should | [US-105](user-stories/US-105-teilwiederherstellung-feldauswahl.md) |
+| [REQ-106](req/REQ-106-teilwiederherstellung-restored-fields.md) | restoredFields-Tracking | functional | should | [US-106](user-stories/US-106-teilwiederherstellung-restored-fields.md) |
+
+**Konzept**: §6 Kern-Entitätstypen | **ADRs**: [ADR-016](../adrs/ADR-016-persistenz-strategie.md) (Persistenz-Strategie)
+
+---
+
 ## 3. REQ-Typ-Übersicht
 
 | Typ | REQ-IDs | Anzahl |
 |---|---|---|
-| functional | REQ-001–007, REQ-009–022, REQ-024–040, REQ-043–070, REQ-076–077 | 68 |
+| functional | REQ-001–007, REQ-009–022, REQ-024–040, REQ-043–070, REQ-076–081, REQ-084–106 | 95 |
 | non-functional | REQ-008, REQ-071, REQ-072, REQ-073, REQ-074, REQ-075, REQ-082, REQ-083 | **8** ✓ |
 | security | REQ-006, REQ-017 | 2 |
+| could | REQ-080 (Rechtschreibprüfung) | 1 |
 
-*Hinweis: REQ-006 und REQ-017 sind als `security` typisiert und erscheinen auch in der functional-Zählung der jeweiligen UCs.*
+*Hinweis: REQ-006 und REQ-017 sind als `security` typisiert und erscheinen auch in der functional-Zählung der jeweiligen UCs. REQ-080 ist `priority: could`.*
 
 ### NFR-Übersicht
 
@@ -232,7 +328,13 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 | UC-08 | US-063–068 | **24** | US-063=3, US-064=5, US-065=5, US-066=3, US-067=5, US-068=3 |
 | UC-09 | US-070–073 | **20** | US-070=5, US-071=5, US-072=5, US-073=5 |
 | UC-10 | US-074–076 | **16** | US-074=8, US-075=5, US-076=3 |
-| **Gesamt** | **76 USs** | **~254 SP** | |
+| UC-11 | US-084–089 | **21** | US-084=5, US-085=3, US-086=3, US-087=2, US-088=5, US-089=3 |
+| UC-12 | US-090–093 | **15** | US-090=8, US-091=3, US-092=2, US-093=2 |
+| UC-13 | US-094–097 | **18** | US-094=5, US-095=5, US-096=5, US-097=3 |
+| UC-14 | US-098–100 | **13** | US-098=5, US-099=5, US-100=3 |
+| UC-15 | US-101–103 | **11** | US-101=5, US-102=3, US-103=3 |
+| UC-16 | US-104–106 | **16** | US-104=8, US-105=5, US-106=3 |
+| **Gesamt** | **106 USs** | **~364 SP** | |
 
 ---
 
@@ -281,20 +383,22 @@ Alle 7 UCs haben einen `primary_actor`. ✓
 
 ### Offene Punkte (bekannte Lücken)
 
-| Lücke | Beschreibung | Betrifft |
-|---|---|---|
-| ~~ADR-007 proposed~~ ✓ | Canvas-Bibliothek (React Flow) accepted (2026-06-26); US-045 entsperrt | US-045 |
-| ADR-008 ✓ accepted | Client App + Web Portal entschieden (2026-06-26) | UC-05, UC-06 |
-| ~~ADR-001–005 offen~~ ✓ | Gruppe-A-ADRs alle accepted (2026-06-26): URN-Schema, Continuum-Repo, Product/Project, Reifikation, App-vs-Tech | – |
-| Walking Skeleton ✓ | UC-06 (Katalog) als Walking-Skeleton-UC; Prerequisites: UC-02, UC-01, UC-04 (US-033); 6 USs / 22 SP | [docs/walking-skeleton.md](../docs/walking-skeleton.md) |
-| NFR-Lücke ✓ | 8 NFRs vorhanden (REQ-008, 071–075, 082–083); über DoD-Ziel | – |
-| UC-06 TreeNode | US-054 blockiert durch TreeNode-Implementierung (kein eigenes REQ/UC für TreeNode-Verwaltung) | US-054 |
-| UC für Plateau/Go-Live | Noch nicht angelegt (in UC-05 als „künftiger UC" referenziert) | Plateau-Modus |
-| UC für Viewpoints | UC für Viewpoint-Verwaltung noch nicht angelegt (REQ-059 bereits vorhanden für Import/Export) | Viewpoint-BO |
-| UC-08 ✓ | REQ-060–064 + US-063–068 abgeleitet (2026-06-26); ADR-010 accepted | – |
-| ~~REQ-058/059 ohne US~~ ✓ | US-078 (Export) und US-079 (Viewpoint I/E) angelegt (2026-06-26) | UC-04 |
-| ~~REQ-065 ohne US~~ ✓ | US-080 (Katalog-Join Connection-Primary) angelegt (2026-06-26) | UC-06/08 |
-| UC für NavigationsTree | Kein eigener UC für TreeNode-CRUD (Ordner anlegen, umbenennen, löschen) | TreeNode-BO |
+Alle bekannten Lücken wurden geschlossen. Stand 2026-06-28:
+
+| Lücke | Status |
+|---|---|
+| ADR-001–005 (Gruppe A) | ✓ alle accepted |
+| ADR-007 Canvas-Bibliothek | ✓ accepted (Vue Flow) |
+| ADR-008 GUI-Architektur | ✓ accepted |
+| ADR-016 Persistenz-Strategie | ✓ accepted (EntityVersion) |
+| ADR-017 Fully Open Layers | ✓ accepted |
+| Walking Skeleton | ✓ UC-06 identifiziert; docs/walking-skeleton.md vorhanden |
+| NFR-Lücke (DoD ≥5) | ✓ 8 NFRs mit messbaren Zielwerten |
+| UC-06 TreeNode (US-054 blockiert) | ✓ UC-13 (Navigationsbaum) angelegt; US-054 entsperrt |
+| UC für Plateau/Go-Live | ✓ UC-11 angelegt + REQ-084–089 + US-084–089 |
+| UC für Viewpoint-Verwaltung | ✓ UC-12 angelegt + REQ-090–093 + US-090–093 |
+| UC für Navigationsbaum | ✓ UC-13 angelegt + REQ-094–097 + US-094–097 |
+| UC-11–16 ohne REQs/USs | ✓ REQ-084–106 + US-084–106 angelegt (2026-06-28) |
 
 ---
 
