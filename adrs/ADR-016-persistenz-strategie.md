@@ -171,9 +171,9 @@ SELECT DISTINCT entity_id FROM impact;
 
 ### Folgeentscheidungen
 
-- **ADR-012**: `@apache-age/pg` entfernen; AGE-Referenzen streichen
+- **ADR-012**: Java 21 + Spring Boot 3 + Hibernate; `@JdbcTypeCode(SqlTypes.JSON)` ersetzt JSONB als DB-neutraler Ansatz; Optimistic Locking via Hibernate `@Version` (konform mit diesem ADR)
 - **ADR-013**: `POST /api/v1/graph/cypher` (AGE) entfernen; Graph-Traversal via REST-Endpunkt `POST /api/v1/entities/{id}/impact`
-- **ADR-015**: AGE-Init-Migration streichen
+- **ADR-015**: Flyway (Spring-nativ) statt Drizzle Kit; AGE-Init-Migration entfällt
 
 ## Bezüge
 

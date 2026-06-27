@@ -1,109 +1,125 @@
-# ADR-015: Datenbank-Migrations-Tool – Drizzle Kit
+# ADR-015: Datenbank-Migrations-Tool – Flyway
 
 **Status**: accepted
-**Datum**: 2026-06-26
+**Datum**: 2026-06-27
 **Entscheider**: Inhaber des Repositorys
-**Konsultiert**: Requirements Engineer
+**Konsultiert**: Business Engineer
 **Informiert**: –
 
 ## Kontext und Problem
 
-Das PostgreSQL-Schema (Tabellen, Indizes, AGE-Graph-Setup, Constraints) muss versioniert und automatisch migriert werden — bei jedem Deployment und bei jedem `docker compose up`. Das Migrations-Tool muss in den TypeScript/NestJS-Stack (ADR-012) passen, ohne eine externe JVM-Abhängigkeit einzuführen.
+Das Datenbankschema (Tabellen, Indizes, Constraints) muss versioniert und automatisch migriert werden — bei jedem Deployment und bei `docker compose up`. OEA unterstützt fünf Zieldatenbanken (PostgreSQL, MySQL, MariaDB, SQL Server, Oracle; ADR-012). Das Migrations-Tool muss in den Java/Spring-Boot-Stack (ADR-012) passen und alle fünf Datenbanken unterstützen.
 
 ## Entscheidungstreiber
 
-- **Kein JVM im NestJS-Container**: Flyway und Liquibase sind Java-Tools; ihre Verwendung würde entweder einen JVM-Layer im Node.js-Image oder einen separaten Migrations-Container erfordern
-- **TypeScript-Integration**: Migrations sollten im gleichen Toolchain wie das Backend verwaltet werden
-- **SQL-Transparenz**: Migrations-Dateien müssen als lesbares SQL vorliegen (kein proprietäres Format), damit sie reviewt und versioniert werden können
-- **Spring-Boot-ähnliche Auto-Migration**: `docker compose up` soll Migrations automatisch ausführen (kein manueller Schritt)
-- **Konsistenz mit ORM**: ADR-012 wählt Drizzle ORM; das Migrations-Tool sollte integriert sein
+- **Multi-DB-Support**: PostgreSQL, MySQL, MariaDB, SQL Server, Oracle müssen alle unterstützt werden
+- **Spring-Boot-Integration**: automatische Migrations bei App-Start ohne separaten Container
+- **SQL-Transparenz**: plain SQL-Dateien, reviewbar und git-diffbar
+- **OSS**: keine kommerziellen Features nötig; Community Edition muss ausreichen
+- **REQ-075**: `docker compose up` soll ohne manuelle Migrations-Schritte funktionieren
 
 ## Betrachtete Optionen
 
-### Option 1: Drizzle Kit ✓
+### Option 1: Flyway Community ✓
 
-Drizzle Kit ist das offizielle CLI/Migration-Tool von Drizzle ORM. Es generiert SQL-Migrations aus dem TypeScript-Schema.
+Flyway ist das de-facto-Standard-Migrations-Tool im Java/Spring-Ökosystem.
 
 - **Pro**:
-  - Vollständig integriert mit Drizzle ORM (ADR-012): Schema als TypeScript → SQL-Migration automatisch generiert (`drizzle-kit generate`)
-  - Migrations sind plain SQL-Dateien im Repository — lesbar, reviewbar, git-diffbar
-  - `drizzle-kit migrate` führt Migrations beim App-Start via NestJS-Bootstrap aus (kein separater Service)
-  - Kein JVM, kein externer Prozess: läuft als Node.js-CLI
-  - MIT-Lizenz
-- **Contra**: Weniger battle-tested als Flyway; bei komplexen Migrations (z.B. Apache AGE Graph-Initialisierung) muss raw SQL direkt in die Migrations-Datei
+  - Spring Boot hat nativen Flyway-Support (`spring.flyway.*`): Migrations laufen automatisch beim App-Start
+  - Unterstützt alle 5 Ziel-DBs in der Community Edition: PostgreSQL, MySQL, MariaDB, SQL Server, Oracle
+  - plain SQL-Migrationsdateien (`V1__init.sql`, `V2__add_index.sql`) — lesbar, reviewbar, versioniert
+  - Battle-tested: im Einsatz in tausenden von Java-Enterprise-Projekten
+  - Apache 2.0-Lizenz (Community Edition)
+- **Contra**: Kein automatisches Schema-Diff aus Java-Entities (Migrations werden manuell geschrieben); Rollback-Support nur in kommerzieller Edition — Down-Migrations müssen manuell als neue Migration geschrieben werden
 
-### Option 2: Flyway (via Docker-Container)
-
-Flyway kann als separater Docker-Container (`flyway/flyway`) vor dem Backend starten und Migrations ausführen.
-
-- **Pro**: Sehr battle-tested, SQL-basiert, grosse Community
-- **Contra**: Separater Container in `docker-compose.yml`; Java-basiert; kein nativer TypeScript-Schema-Sync; manuell SQL schreiben (kein Schema-Diff); Lizenz: Apache 2.0 (Community), Teile proprietär (Teams/Enterprise)
-- Scheidet aus: unnötige Komplexität für TypeScript-Stack
-
-### Option 3: Liquibase (via Docker-Container)
+### Option 2: Liquibase Community
 
 Ähnlich Flyway, aber XML/YAML/SQL-Formate.
 
-- **Pro**: Mächtig, etabliert, Rollback-Support
-- **Contra**: Dieselben Nachteile wie Flyway (JVM, separater Container); XML-Format für Migrations ist weniger lesbar als plain SQL; Lizenz: Apache 2.0 Community, proprietäre Features
-- Scheidet aus
+- **Pro**: Rollback-Support in Community Edition; mehrere Formats
+- **Contra**: XML-Changeset-Format für DB-neutrale Migrations ist weniger lesbar als plain SQL; höhere Komplexität; Apache 2.0 Community, proprietäre Features
+- Scheidet aus: Flyway mit plain SQL ist einfacher und ausreichend
 
-### Option 4: node-pg-migrate
+### Option 3: Drizzle Kit (Node.js)
 
-Reines Node.js-Migrations-Tool, SQL-basiert.
+Migrations-Tool von Drizzle ORM; war an TypeScript/NestJS-Stack gebunden.
 
-- **Pro**: Kein JVM, Node.js-nativ, SQL-Migrations
-- **Contra**: Kein Schema-Sync mit Drizzle ORM (manuell SQL schreiben); ein zusätzliches Tool neben Drizzle; kleinere Community
-- Scheidet aus wenn Drizzle ORM gewählt
+- **Contra**: Node.js-basiert; kein Java/Spring-Integration; kein Oracle-Support; entfällt mit ADR-012-Entscheidung für Java
+
+### Option 4: Hibernate `hbm2ddl` / `validate`
+
+Hibernate kann das Schema automatisch aus Entities generieren (`spring.jpa.hibernate.ddl-auto=update`).
+
+- **Pro**: kein separates Tool; immer synchron mit Entities
+- **Contra**: **Nicht für Produktion geeignet** — unkontrollierte Schema-Änderungen bei Code-Änderungen; kein Versions-Tracking; keine Rollback-Möglichkeit; scheidet aus für produktive Deployments
 
 ## Entscheidung
 
-Wir wählen **Option 1: Drizzle Kit**.
+**Option 1: Flyway Community (Apache 2.0).**
 
-**Workflow:**
+Spring Boot integriert Flyway nativ — kein separater Container, kein manueller Schritt:
 
-```
-Schema-Änderung in TypeScript (schema.ts)
-  → drizzle-kit generate   → SQL-Migrationsdatei (z.B. 0003_add_audit_events.sql)
-  → Git-Commit             → Review im PR
-  → docker compose up      → NestJS-Bootstrap führt Migrations automatisch aus
-```
-
-**Initialisierungs-Migrations** (manuell ergänzt oder aus Schema generiert):
-- `0001_init_schema.sql`: Core-Tabellen — entities, entity_versions, audit_events, entity_plateau_states (aus Drizzle-Schema generiert)
-- `0002_init_indexes.sql`: GIN-Index auf `entities.properties`, B-Tree-Indizes auf häufige Filter-Spalten
-
-**NestJS-Integration:**
-
-```typescript
-// app.module.ts Bootstrap
-async function bootstrap() {
-  await migrate(db, { migrationsFolder: './drizzle' });
-  // dann App starten
-}
+```yaml
+# application.yml
+spring:
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
 ```
 
-Migrations laufen synchron vor dem App-Start — kein separater Container nötig.
+Migrations laufen automatisch beim App-Start vor dem ersten DB-Zugriff.
+
+### Migrations-Konvention
+
+```
+src/main/resources/db/migration/
+  V1__init_core_schema.sql        ← entities, entity_versions, audit_events
+  V2__init_plateau_schema.sql     ← plateaus, entity_plateau_states
+  V3__init_metamodel_schema.sql   ← metamodel_configurations, entity_type_definitions
+  V4__add_indexes.sql             ← Indizes (DB-neutral: B-Tree)
+```
+
+Naming-Schema: `V{version}__{beschreibung}.sql` (Flyway-Standard).
+
+### DB-spezifische Migrations
+
+Für DB-spezifische Optimierungen (z.B. GIN-Index auf PostgreSQL) werden separate Flyway-Locations pro Dialekt genutzt:
+
+```yaml
+spring:
+  flyway:
+    locations:
+      - classpath:db/migration          # DB-neutral (Pflicht)
+      - classpath:db/migration/${DB_DIALECT:postgresql}  # DB-spezifisch (optional)
+```
+
+So erhalten PostgreSQL-Deployments GIN-Indexe, ohne dass andere Datenbanken scheitern.
+
+### Rollback-Strategie
+
+Flyway Community unterstützt kein automatisches Rollback. Strategie für v1.0:
+
+- **Forward-only**: Fehlerhafte Migrations werden durch eine neue `V{n+1}__rollback_*.sql`-Migration rückgängig gemacht
+- **Pre-Migration-Backup**: Betreiber sichern die DB vor jedem Deployment (empfohlen in Betriebsdokumentation)
 
 ## Konsequenzen
 
 ### Positive Konsequenzen
 
 - `docker compose up` führt automatisch alle ausstehenden Migrations aus — zero-config für Betreiber
-- SQL-Migrationsdateien sind im Repository versioniert und im PR reviewbar
-- Drizzle Kit + Drizzle ORM: TypeScript-Schema und DB-Schema bleiben automatisch synchron
-- Kein JVM, kein zusätzlicher Docker-Container für Migrations
+- plain SQL-Migrations: im Repository versioniert, im PR reviewbar, für alle 5 DBs portabel
+- Spring-nativer Start: kein separater Migrations-Container
+- Unterstützung aller 5 Zieldatenbanken ohne Lizenzkosten
 
 ### Negative Konsequenzen / Trade-offs
 
-- Drizzle Kit ist jünger als Flyway/Liquibase; Edge-Cases (komplexe Schema-Änderungen) können manuelle SQL-Korrekturen in der generierten Datei erfordern
-- Rollback: Drizzle Kit unterstützt kein automatisches Rollback; Down-Migrations müssen manuell geschrieben werden (akzeptabel für v1.0)
-- `entity_versions` und `audit_events` werden von Drizzle Kit nicht automatisch mit Custom-Triggern versehen; die Snapshot-Logik liegt im NestJS-Service-Layer
+- Migrations werden manuell geschrieben (kein Schema-Diff aus Hibernate-Entities); erfordert Disziplin beim Entwickler
+- Kein automatisches Rollback; Down-Migrations als neue Version schreiben
+- `baseline-on-migrate: true` für Installationen mit bestehendem Schema nötig (Upgrade-Szenarien)
 
 ## Bezüge
 
-**Verwandte ADRs**: [ADR-012](./ADR-012-backend-stack.md) (Drizzle ORM), [ADR-011](./ADR-011-frontend-framework.md)
+**Verwandte ADRs**: [ADR-012](./ADR-012-backend-stack.md) (Java + Spring Boot), [ADR-016](./ADR-016-persistenz-strategie.md) (Persistenz-Strategie)
 
-**Konzept**: [§23 #1 Persistenz-Entscheidung](../concept/90-backlog/23-offene-punkte.md) (PostgreSQL 15 + JSONB; AGE deferred — ADR-016)
-
-**Requirements**: [REQ-075](../requirements/req/REQ-075-plattformunabhaengigkeit-deployment.md) (Docker-Compose-Deployment ohne manuelle Setup-Schritte)
+**Requirements**: [REQ-075](../requirements/req/REQ-075-plattformunabhaengigkeit-deployment.md)
