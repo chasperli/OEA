@@ -2,7 +2,7 @@
 
 Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Stories. Wird per `/trace-check` auf Konsistenz geprüft oder manuell gepflegt.
 
-**Stand**: 2026-06-28 | **REQs gesamt**: 131 | **USs gesamt**: 128 | **UCs gesamt**: 21
+**Stand**: 2026-06-28 | **REQs gesamt**: 134 | **USs gesamt**: 131 | **UCs gesamt**: 21
 
 ---
 
@@ -188,6 +188,9 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 | [REQ-069](req/REQ-069-arc42-dokumentation-bearbeiten.md) | Arc42-Dokumentation zu einer Entität bearbeiten und anzeigen | functional | should | [US-071](user-stories/US-071-arc42-frage-beantworten.md) |
 | [REQ-070](req/REQ-070-entity-mention-autocomplete.md) | Entity-Mention via /@ (Autocomplete + ID-stabile Verlinkung) | functional | should | [US-073](user-stories/US-073-entity-mention-autocomplete.md) |
 | [REQ-080](req/REQ-080-rechtschreibungspruefung-wysiwyg.md) | Rechtschreibungsprüfung im WYSIWYG-Editor | functional | could | [US-082](user-stories/US-082-rechtschreibungspruefung-wysiwyg.md) |
+| [REQ-132](req/REQ-132-document-item-struktur.md) | DocumentItem als atomare Einheit der DocumentCollection | functional | must | [US-129](user-stories/US-129-document-item-anlegen.md) |
+| [REQ-133](req/REQ-133-document-item-verschachtelung.md) | Verschachtelung von DocumentItems (hierarchische Kapitelstruktur) | functional | must | [US-130](user-stories/US-130-document-item-verschachtelung.md) |
+| [REQ-134](req/REQ-134-document-item-querverweis.md) | DocumentItem-Querverweis via {{ im WYSIWYG-Editor | functional | must | [US-131](user-stories/US-131-document-item-querverweis.md) |
 
 **Konzept**: §14 Erweiterbarkeit, §18 Reporting | **ADRs**: –
 
@@ -374,13 +377,13 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 
 | Typ | Beispiel-REQs | Anzahl |
 |---|---|---|
-| functional | REQ-001–002, REQ-004, REQ-009–011, REQ-013–014, REQ-018, … REQ-124–128 | **108** |
+| functional | REQ-001–002, REQ-004, REQ-009–011, REQ-013–014, REQ-018, … REQ-124–128, REQ-132–134 | **111** |
 | non-functional | REQ-008, REQ-071–075, REQ-082–083, REQ-129–131 | **11** |
 | business-rule | REQ-003, REQ-007, REQ-015, REQ-019, REQ-020 | **5** |
 | compliance | REQ-005, REQ-016, REQ-025, REQ-034 | **4** |
 | constraint | REQ-006, REQ-017 | **2** |
 | data | REQ-012 | **1** |
-| **Gesamt** | | **131** |
+| **Gesamt** | | **134** |
 
 *Hinweis: `priority: could` ist eine Priorität, kein Typ — REQ-080 (Rechtschreibprüfung) ist `type: functional, priority: could`.*
 
@@ -414,7 +417,7 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 | UC-06 | US-046–054 + US-069 | **39** | Details: US-046=3, US-047=5, US-048=5, US-049=5, US-050=3, US-051=3, US-052=2, US-053=3, US-054=2; US-069 (Wizard)=8 |
 | UC-07 | US-055–062 | **28** | US-055=3, US-056=5, US-057=8, US-058=3, US-059=2, US-060=3, US-061=5, US-062=2 |
 | UC-08 | US-063–068 | **24** | US-063=3, US-064=5, US-065=5, US-066=3, US-067=5, US-068=3 |
-| UC-09 | US-070–073 | **20** | US-070=5, US-071=5, US-072=5, US-073=5 |
+| UC-09 | US-070–073, US-129–131 | **35** | US-070=5, US-071=5, US-072=5, US-073=5; US-129=5, US-130=5, US-131=5 (DocumentItem) |
 | UC-10 | US-074–076 | **16** | US-074=8, US-075=5, US-076=3 |
 | UC-11 | US-084–089 | **21** | US-084=5, US-085=3, US-086=3, US-087=2, US-088=5, US-089=3 |
 | UC-12 | US-090–093 | **15** | US-090=8, US-091=3, US-092=2, US-093=2 |
@@ -427,7 +430,7 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 | UC-19 | US-115–117 | **12** | US-115=5, US-116=5, US-117=2 |
 | UC-20 | US-118–120 | **13** | US-118=5, US-119=5, US-120=3 |
 | UC-21 | US-124–128 | **22** | US-124=3, US-125=3, US-126=5, US-127=8, US-128=3 |
-| **Gesamt** | **128 USs** | **~457 SP** | |
+| **Gesamt** | **131 USs** | **~472 SP** | |
 
 ---
 
@@ -435,7 +438,23 @@ Vollständige Verfolgbarkeit von Use Cases über Requirements bis zu User Storie
 
 ### REQs ohne US
 
-Alle REQs haben mind. eine zugehörige US. ✓
+Alle funktionalen REQs haben mind. eine zugehörige US. ✓
+
+NFRs (`type: non-functional`) haben bewusst keine User Stories — sie sind querschneidende Anforderungen und werden durch Verifikationsmethoden (automatisierte Tests, Monitoring, Compliance-Checks) geprüft, nicht durch Story-Decomposition:
+
+| REQ | Kategorie | Verifikation |
+|---|---|---|
+| REQ-008 | performance | Lasttest (k6/Gatling) |
+| REQ-071 | performance | Lasttest |
+| REQ-072 | performance | Lighthouse / Playwright |
+| REQ-073 | availability | Uptime-Monitoring |
+| REQ-074 | scalability | Lasttest |
+| REQ-075 | portability | CI-Matrix (Docker, Helm) |
+| REQ-082 | reliability | Backup-Restore-Test |
+| REQ-083 | compliance | Audit-Log-Query-Test |
+| REQ-129 | security | testssl.sh, gitleaks |
+| REQ-130 | accessibility | Axe-Core CI, Screenreader |
+| REQ-131 | performance | Lasttest (Graph-Traversal) |
 
 ### USs ohne REQ-Bezug
 
@@ -496,6 +515,7 @@ Alle bekannten Lücken wurden geschlossen. Stand 2026-06-28:
 | Canvas-Diagramm-Anforderungen (Raster, Routing, Ankerpunkte) | ✓ REQ-121–123 + US-121–123 angelegt (2026-06-28) |
 | Property-Level-Autorisierung (role.md: „folgt späterem UC") | ✓ UC-21 + REQ-124–128 + US-124–128 angelegt (2026-06-28) |
 | NFR-Lücken (Verschlüsselung, Barrierefreiheit, Graph-Traversal) | ✓ REQ-129–131 angelegt (2026-06-28) |
+| DocumentCollection: DocumentItem-Modell | ✓ REQ-132–134 + US-129–131 angelegt (2026-06-28); business-objects/document-collection.md v0.3.0 |
 
 ---
 
