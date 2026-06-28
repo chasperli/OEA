@@ -156,6 +156,19 @@ package "Metamodell" #E8F5E9 {
     – ArchitectureLayerDefinition (id, name, sortOrder)
     Kein separates ORM-Mapping nötig – vollständig
     als atomares JSONB-Dokument gelesen/geschrieben.
+    ──────────────────────────────────────────────
+    Soft-Referenz Person → Actor (Built-in):
+    Der built-in EntityType "Actor" enthält eine
+    vordefinierte PropertyDefinition:
+      name: personId
+      dataType: { kind: int }
+      validationMode: optional
+      category: "System"
+      description: "Verknüpfung zur persons.id
+        (Tool-Benutzer); kein DB-FK – Soft-Referenz"
+    Damit kann ein Actor-Entity auf einen
+    konkreten Person-Datensatz verweisen, ohne
+    das IAM-Schema zu koppeln.
   end note
 
   metamodel_configurations "0..1" --o{ "0..*" metamodel_configurations : parent_id (scope=solution)
@@ -247,6 +260,12 @@ package "Repository" #FCE4EC {
     + created_by       : BIGINT        {NN} {FK→persons.id}
     + updated_at       : TIMESTAMPTZ
     + updated_by       : BIGINT        {FK→persons.id}
+    == Soft-Delete (ADR-019) ==
+    + deleted_at       : TIMESTAMPTZ
+    .. null = aktiv; gesetzt = gelöscht ..
+    + deleted_by       : BIGINT        {FK→persons.id}
+    + deletion_reason  : TEXT
+    .. INDEX ON entities(deleted_at) WHERE deleted_at IS NULL ..
   }
 
   class entity_versions <<Table>> #F8BBD9 {
