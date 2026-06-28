@@ -2,7 +2,7 @@
 
 **Status**: accepted
 **Datum**: 2026-06-26
-**Entscheider**: Inhaber des Repositorys
+**Entscheider**: [Rigobert – Produkt Owner](../business-analysis/stakeholders/SH-09-rigobert-produkt-owner.md) (SH-09)
 **Konsultiert**: Requirements Engineer (UC-05, US-045, REQ-040)
 **Informiert**: –
 **Aktualisiert**: 2026-06-26 — React Flow → **Vue Flow** infolge ADR-011 (Frontend-Framework: Vue 3)

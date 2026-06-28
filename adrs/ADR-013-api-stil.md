@@ -2,7 +2,7 @@
 
 **Status**: accepted
 **Datum**: 2026-06-26
-**Entscheider**: Inhaber des Repositorys
+**Entscheider**: [Rigobert – Produkt Owner](../business-analysis/stakeholders/SH-09-rigobert-produkt-owner.md) (SH-09)
 **Konsultiert**: Requirements Engineer
 **Informiert**: –
 **Aktualisiert**: 2026-06-28 — NestJS-Referenzen durch SpringDoc OpenAPI (Spring Boot 3) und Gradle-Workflow ersetzt; ADR-012 hat Java 21 + Spring Boot 3 gewählt, nicht NestJS

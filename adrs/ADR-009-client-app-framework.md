@@ -2,7 +2,7 @@
 
 **Status**: accepted
 **Datum**: 2026-06-26
-**Entscheider**: Inhaber des Repositorys
+**Entscheider**: [Rigobert – Produkt Owner](../business-analysis/stakeholders/SH-09-rigobert-produkt-owner.md) (SH-09)
 **Konsultiert**: Requirements Engineer (US-045), Frontend-Engineer
 **Informiert**: –
 **Aktualisiert**: 2026-06-28 — React Flow → Vue Flow und React/TypeScript → Vue/TypeScript infolge [ADR-011](./ADR-011-frontend-framework.md) (Frontend-Framework: Vue 3); Begründung und Entscheidung bleiben inhaltlich gültig, da Vue Flow denselben DOM-Rendering-Ansatz wie React Flow verwendet

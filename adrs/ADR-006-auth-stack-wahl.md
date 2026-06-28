@@ -2,7 +2,7 @@
 
 **Status**: accepted
 **Datum**: 2026-06-24
-**Entscheider**: Inhaber des Repositorys
+**Entscheider**: [Rigobert – Produkt Owner](../business-analysis/stakeholders/SH-09-rigobert-produkt-owner.md) (SH-09)
 **Konsultiert**: Requirements Engineer (UC-01 Login, REQ-001–REQ-011)
 **Informiert**: –
 
