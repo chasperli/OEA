@@ -1,0 +1,366 @@
+@startuml OEA – Datenmodell
+
+' ─────────────────────────────────────────────────────
+' Stil
+' ─────────────────────────────────────────────────────
+skinparam linetype ortho
+skinparam classAttributeIconSize 0
+skinparam class {
+  BackgroundColor White
+  BorderColor #555555
+  FontSize 11
+  AttributeFontSize 10
+}
+skinparam package {
+  BorderColor #888888
+  FontColor #333333
+  BackgroundColor #F8F8F8
+}
+hide empty methods
+
+' ─────────────────────────────────────────────────────
+' Legende Konventionen
+' {PK}   Primary Key
+' {FK}   Foreign Key
+' {UQ}   Unique Constraint
+' {NN}   NOT NULL (implizit bei PK; explizit bei anderen)
+' Enums als Kommentar: -- enum: a|b|c
+' ─────────────────────────────────────────────────────
+
+' ╔══════════════════════════════════════════════════════╗
+' ║  AUTH                                               ║
+' ╚══════════════════════════════════════════════════════╝
+package "Auth" #FFF8E1 {
+
+  class persons <<Table>> #FFECB3 {
+    + id            : BIGSERIAL          {PK}
+    --
+    + name          : TEXT               {NN}
+    + email         : TEXT               {NN} {UQ}
+    + employee_id   : TEXT
+    + active        : BOOLEAN            {NN} DEFAULT true
+    + start_date    : DATE
+    + end_date      : DATE
+    + detail_level  : TEXT               {NN} DEFAULT 'reference-only'
+    .. enum: full | reference-only | anonymized ..
+    + external_ref_system : TEXT
+    + external_ref_id     : TEXT
+    + created_at    : TIMESTAMPTZ        {NN} DEFAULT NOW()
+  }
+
+  class roles <<Table>> #FFECB3 {
+    + id             : TEXT              {PK}
+    .. kebab-case, z.B. 'enterprise-architect' ..
+    --
+    + name           : TEXT             {NN}
+    + description    : TEXT
+    + type           : TEXT             {NN}
+    .. enum: functional | process | project | governance | architectural ..
+    + permission_level : TEXT           {NN} DEFAULT 'read'
+    .. enum: read | write | admin ..
+    + is_standard_role : BOOLEAN        {NN} DEFAULT false
+    + is_builtin       : BOOLEAN        {NN} DEFAULT false
+  }
+
+  class person_roles <<Table>> #FFECB3 {
+    + person_id      : BIGINT           {PK} {FK→persons.id}
+    + role_id        : TEXT             {PK} {FK→roles.id}
+    + valid_from     : DATE             {PK}
+    --
+    + valid_to       : DATE
+    + assignment_type : TEXT
+    + percentage     : SMALLINT
+  }
+
+  class local_credentials <<Table>> #FFECB3 {
+    + id             : UUID             {PK} DEFAULT gen_random_uuid()
+    --
+    + person_id      : BIGINT           {NN} {FK→persons.id}
+    + type           : TEXT             {NN}
+    .. enum: passkey | totp | password ..
+    + status         : TEXT             {NN} DEFAULT 'active'
+    .. enum: active | revoked ..
+    + created_at     : TIMESTAMPTZ      {NN} DEFAULT NOW()
+    + last_used_at   : TIMESTAMPTZ
+    + revoked_at     : TIMESTAMPTZ
+    + revoked_reason : TEXT
+    .. enum: device_lost | superseded | admin_action | person_request ..
+    == passkey-spezifisch ==
+    + credential_id  : TEXT
+    .. Base64url; UNIQUE wenn type=passkey ..
+    + public_key     : TEXT
+    .. CBOR COSE-Key, Base64url ..
+    + sign_count     : INTEGER
+    .. Replay-Schutz; DEFAULT 0 ..
+    + aaguid         : TEXT
+    + device_label   : TEXT
+    == totp-spezifisch ==
+    + totp_secret    : TEXT
+    .. AES-verschlüsselt; RFC 6238 ..
+    + totp_label     : TEXT
+    == password-spezifisch ==
+    + password_hash  : TEXT
+    .. argon2id; max. 1 aktiv pro Person ..
+  }
+
+  persons       "1" --o{ "0..*" person_roles  : fills
+  roles         "1" --o{ "0..*" person_roles  : assigned via
+  persons       "1" --o{ "0..*" local_credentials : owns
+
+}
+
+' ╔══════════════════════════════════════════════════════╗
+' ║  METAMODELL                                         ║
+' ╚══════════════════════════════════════════════════════╝
+package "Metamodell" #E8F5E9 {
+
+  class metamodel_configurations <<Table>> #C8E6C9 {
+    + id               : UUID           {PK} DEFAULT gen_random_uuid()
+    --
+    + scope            : TEXT           {NN} DEFAULT 'instance'
+    .. enum: instance | solution ..
+    + parent_id        : UUID           {FK→metamodel_configurations.id}
+    .. null = Instanz-Standard (scope=instance) ..
+    + solution_id      : UUID           {FK→solutions.id}
+    .. nur gesetzt wenn scope=solution ..
+    + schema_version   : TEXT           {NN} DEFAULT '1.0'
+    + edit_mode        : TEXT           {NN} DEFAULT 'gui-and-import'
+    .. enum: gui-and-import | import-only ..
+    + rules_edit_mode  : TEXT           {NN} DEFAULT 'gui-and-import'
+    .. enum: gui-and-import | import-only ..
+    + last_modified_at : TIMESTAMPTZ    {NN} DEFAULT NOW()
+    + last_modified_by : BIGINT         {NN} {FK→persons.id}
+    == JSONB-Konfiguration ==
+    + config           : JSONB          {NN} DEFAULT '{}'
+    .. entityTypeDefinitions[]           ..
+    .. stereotypes[]                     ..
+    .. constraintRules[]                 ..
+    .. viewpoints[]                      ..
+    .. architectureLayers[]              ..
+    .. mandatoryConnectionConstraints[]  ..
+    .. documentCollectionDefinitions[]   ..
+  }
+
+  note right of metamodel_configurations
+    config-JSONB enthält die vollständige
+    Schemakonfiguration der Instanz:
+    – EntityTypeDefinition (id, name, isConnection,
+      allowedSourceTypes, allowedTargetTypes,
+      allowsConnectionAsSource, propertyDefs[],
+      creationSteps[], architectureLayerId)
+    – PropertyDefinition (name, displayLabel, dataType,
+      validationMode, category, visibilityMode,
+      allowedRoles[], scopingConnectionType)
+    – ConstraintRule (CEL-Ausdrücke, ruleMode,
+      severity, structured/expression)
+    – ArchitectureLayerDefinition (id, name, sortOrder)
+    Kein separates ORM-Mapping nötig – vollständig
+    als atomares JSONB-Dokument gelesen/geschrieben.
+  end note
+
+  metamodel_configurations "0..1" --o{ "0..*" metamodel_configurations : parent_id (scope=solution)
+
+}
+
+' ╔══════════════════════════════════════════════════════╗
+' ║  ARCHITEKTUR-PLANUNG                                ║
+' ╚══════════════════════════════════════════════════════╝
+package "Architektur-Planung" #E3F2FD {
+
+  class plateaus <<Table>> #BBDEFB {
+    + id          : UUID              {PK} DEFAULT gen_random_uuid()
+    --
+    + name        : TEXT              {NN} {UQ}
+    + description : TEXT
+    + status      : TEXT              {NN}
+    .. enum: baseline | transition | target | realized ..
+    + valid_from  : DATE
+    + valid_to    : DATE
+    + succeeds_id : UUID              {FK→plateaus.id}
+    .. null = kein Vorgänger ..
+    + created_at  : TIMESTAMPTZ       {NN} DEFAULT NOW()
+    + created_by  : BIGINT            {NN} {FK→persons.id}
+  }
+
+  class solutions <<Table>> #BBDEFB {
+    + id                     : UUID   {PK} DEFAULT gen_random_uuid()
+    --
+    + name                   : TEXT   {NN} {UQ}
+    + description            : TEXT
+    + status                 : TEXT   {NN} DEFAULT 'draft'
+    .. enum: draft | proposed | approved | in-progress | implemented | archived ..
+    + from_plateau_id        : UUID   {FK→plateaus.id}
+    .. null = Projekt-Modus (kein Baseline-Plateau) ..
+    + to_plateau_id          : UUID   {FK→plateaus.id}
+    .. null = Projekt-Modus; CHECK from_plateau_id IS NULL = to_plateau_id IS NULL ..
+    + owner_id               : BIGINT {NN} {FK→persons.id}
+    + metamodel_extension_id : UUID   {FK→metamodel_configurations.id}
+    .. null = nur Instanz-Standard-Typen verfügbar ..
+    + created_at             : TIMESTAMPTZ {NN} DEFAULT NOW()
+    + created_by             : BIGINT {NN} {FK→persons.id}
+  }
+
+  class entity_deltas <<Table>> #BBDEFB {
+    + id          : UUID              {PK} DEFAULT gen_random_uuid()
+    --
+    + solution_id : UUID              {NN} {FK→solutions.id}
+    + entity_id   : INTEGER           {NN} {FK→entities.id}
+    + delta_type  : TEXT              {NN}
+    .. enum: new | modified | retiring ..
+    + changes     : JSONB             {NN} DEFAULT '{}'
+    .. {before: {...}, after: {...}} für modified ..
+  }
+
+  plateaus "0..1" --o{ "0..*" plateaus     : succeeds_id
+  plateaus "0..1" --o{ "0..*" solutions    : from_plateau_id
+  plateaus "0..1" --o{ "0..*" solutions    : to_plateau_id
+  solutions "1"   --o{ "0..*" entity_deltas : contains
+  metamodel_configurations "0..1" --o{ "0..*" solutions : metamodel_extension_id
+
+}
+
+' ╔══════════════════════════════════════════════════════╗
+' ║  REPOSITORY (Kern-Datenhaltung)                     ║
+' ╚══════════════════════════════════════════════════════╝
+package "Repository" #FCE4EC {
+
+  class entities <<Table>> #F8BBD9 {
+    + id               : SERIAL        {PK}
+    .. fortlaufender INTEGER ≥ 1; instanzweit eindeutig ..
+    --
+    + entity_type_id   : TEXT          {NN}
+    .. logischer FK → MetamodelConfig EntityTypeDefinition.id ..
+    + name             : TEXT          {NN}
+    + description      : TEXT          {NN} DEFAULT ''
+    .. General-Feld; max. 2000 Zeichen ..
+    + is_logical       : BOOLEAN       {NN} DEFAULT true
+    .. true = konzeptionell; false = physisch ..
+    + version          : INTEGER       {NN} DEFAULT 1
+    .. Optimistic-Lock-Zähler (ADR-016) ..
+    + source_entity_id : INTEGER       {FK→entities.id}
+    .. nur gesetzt wenn EntityTypeDefinition.isConnection=true ..
+    + target_entity_id : INTEGER       {FK→entities.id}
+    .. nur gesetzt wenn EntityTypeDefinition.isConnection=true ..
+    + properties       : JSONB         {NN} DEFAULT '{}'
+    .. Custom-Properties des EntityType (nicht-General) ..
+    + created_at       : TIMESTAMPTZ   {NN} DEFAULT NOW()
+    + created_by       : BIGINT        {NN} {FK→persons.id}
+    + updated_at       : TIMESTAMPTZ
+    + updated_by       : BIGINT        {FK→persons.id}
+  }
+
+  class entity_versions <<Table>> #F8BBD9 {
+    + id          : BIGSERIAL          {PK}
+    --
+    + entity_id   : INTEGER            {NN} {FK→entities.id}
+    + version     : INTEGER            {NN}
+    .. UNIQUE(entity_id, version) ..
+    + name        : TEXT               {NN}
+    + description : TEXT               {NN}
+    + is_logical  : BOOLEAN            {NN}
+    + properties  : JSONB              {NN}
+    + changed_by  : BIGINT             {NN} {FK→persons.id}
+    + changed_at  : TIMESTAMPTZ        {NN} DEFAULT NOW()
+  }
+
+  class entity_plateau_states <<Table>> #F8BBD9 {
+    + entity_id       : INTEGER        {PK} {FK→entities.id}
+    + plateau_id      : UUID           {PK} {FK→plateaus.id}
+    --
+    + lifecycle_state : TEXT           {NN}
+    .. enum: planned | active | retiring | retired ..
+  }
+
+  class audit_events <<Table>> #F8BBD9 {
+    + id          : BIGSERIAL          {PK}
+    --
+    + event_type  : TEXT               {NN}
+    .. z.B. 'entity.deleted', 'entity_type.modified' ..
+    + entity_id   : INTEGER            {FK→entities.id}
+    .. nullable; null bei instanzweiten Events ..
+    + actor_id    : BIGINT             {NN} {FK→persons.id}
+    + occurred_at : TIMESTAMPTZ        {NN} DEFAULT NOW()
+    + payload     : JSONB              {NN} DEFAULT '{}'
+  }
+
+  entities         "1" --o{ "0..*" entity_versions       : snapshots
+  entities         "0..1" --o{ "0..*" entities           : source_entity_id
+  entities         "0..1" --o{ "0..*" entities           : target_entity_id
+  entities         "1" --o{ "0..*" entity_plateau_states : state per plateau
+  plateaus         "1" --o{ "0..*" entity_plateau_states : defines states
+  entities         "0..1" --o{ "0..*" entity_deltas      : changed by
+
+}
+
+' ╔══════════════════════════════════════════════════════╗
+' ║  NAVIGATION & DARSTELLUNG                           ║
+' ╚══════════════════════════════════════════════════════╝
+package "Navigation & Darstellung" #EDE7F6 {
+
+  class catalogs <<Table>> #D1C4E9 {
+    + id                  : UUID       {PK} DEFAULT gen_random_uuid()
+    --
+    + name                : TEXT       {NN} {UQ}
+    + description         : TEXT
+    + primary_entity_type : TEXT       {NN}
+    .. logischer FK → MetamodelConfig EntityTypeDefinition.id ..
+    + default_join_mode   : TEXT       {NN} DEFAULT 'aggregate'
+    .. enum: rows | aggregate ..
+    + scope               : TEXT       {NN} DEFAULT 'instance'
+    .. enum: instance | personal ..
+    + created_by          : BIGINT     {NN} {FK→persons.id}
+    + created_at          : TIMESTAMPTZ {NN} DEFAULT NOW()
+    + last_modified_at    : TIMESTAMPTZ {NN} DEFAULT NOW()
+    + last_modified_by    : BIGINT     {NN} {FK→persons.id}
+    == JSONB-Konfiguration ==
+    + config              : JSONB      {NN} DEFAULT '{}'
+    .. columns: ColumnConfig[]         ..
+    .. joinDefinitions: JoinDefinition[]   ..
+    .. savedFilters: SavedFilter[]         ..
+    .. savedViews: SavedView[]             ..
+  }
+
+  class tree_nodes <<Table>> #D1C4E9 {
+    + id          : UUID               {PK} DEFAULT gen_random_uuid()
+    --
+    + name        : TEXT               {NN}
+    .. UNIQUE innerhalb desselben parent_id ..
+    + description : TEXT
+    + parent_id   : UUID               {FK→tree_nodes.id}
+    .. null = Wurzelknoten (einer pro Instanz) ..
+    + sort_order  : INTEGER            {NN} DEFAULT 0
+    + created_by  : BIGINT             {NN} {FK→persons.id}
+    + created_at  : TIMESTAMPTZ        {NN} DEFAULT NOW()
+  }
+
+  class tree_node_items <<Table>> #D1C4E9 {
+    + id            : UUID             {PK} DEFAULT gen_random_uuid()
+    --
+    + tree_node_id  : UUID             {NN} {FK→tree_nodes.id ON DELETE CASCADE}
+    + item_type     : TEXT             {NN}
+    .. enum: tree-node | entity | diagram | catalog ..
+    + reference_id  : TEXT             {NN}
+    .. polymorphe Referenz: UUID (catalog/tree-node/diagram) ..
+    .. oder INTEGER-String (entity); kein DB-FK möglich ..
+    + display_label : TEXT
+    + sort_order    : INTEGER          {NN} DEFAULT 0
+  }
+
+  tree_nodes      "0..1" --o{ "0..*" tree_nodes       : parent_id
+  tree_nodes      "1"    --o{ "0..*" tree_node_items  : contains
+
+}
+
+' ─────────────────────────────────────────────────────
+' Cross-Package-Beziehungen
+' ─────────────────────────────────────────────────────
+persons "1" --o{ "0..*" entities               : created_by / updated_by
+persons "1" --o{ "0..*" solutions              : owner_id / created_by
+persons "1" --o{ "0..*" plateaus               : created_by
+persons "1" --o{ "0..*" metamodel_configurations : last_modified_by
+persons "1" --o{ "0..*" catalogs               : created_by / last_modified_by
+persons "1" --o{ "0..*" tree_nodes             : created_by
+persons "1" --o{ "0..*" entity_versions        : changed_by
+persons "1" --o{ "0..*" audit_events           : actor_id
+
+@enduml
