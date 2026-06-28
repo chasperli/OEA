@@ -5,10 +5,11 @@
 **Entscheider**: Inhaber des Repositorys
 **Konsultiert**: Requirements Engineer (US-045), Frontend-Engineer
 **Informiert**: –
+**Aktualisiert**: 2026-06-28 — React Flow → Vue Flow und React/TypeScript → Vue/TypeScript infolge [ADR-011](./ADR-011-frontend-framework.md) (Frontend-Framework: Vue 3); Begründung und Entscheidung bleiben inhaltlich gültig, da Vue Flow denselben DOM-Rendering-Ansatz wie React Flow verwendet
 
 ## Kontext und Problem
 
-[ADR-008](./ADR-008-gui-architektur-dual-track.md) hat entschieden, dass OEA eine **Client App** für den vollständigen Modellierungs-Umfang bereitstellt. Die Client App bettet die React/TypeScript-Oberfläche (inkl. React Flow Canvas, ADR-007) in eine native Desktop-Anwendung ein, die Zugriff auf Dateisystem, Offline-Betrieb und volle Plattform-Integration bietet.
+[ADR-008](./ADR-008-gui-architektur-dual-track.md) hat entschieden, dass OEA eine **Client App** für den vollständigen Modellierungs-Umfang bereitstellt. Die Client App bettet die Vue/TypeScript-Oberfläche (inkl. Vue Flow Canvas, ADR-007, ADR-011) in eine native Desktop-Anwendung ein, die Zugriff auf Dateisystem, Offline-Betrieb und volle Plattform-Integration bietet.
 
 Offen ist die Wahl des **Embedding-Frameworks**: Was stellt die native Hülle, den Prozessmanager, die IPC-Brücke und den Packaging-/Distributions-Mechanismus bereit?
 
@@ -16,8 +17,8 @@ Die beiden ernsthaften Kandidaten im OSS-Ökosystem 2026 sind **Electron** und *
 
 ## Entscheidungstreiber
 
-- **Canvas-Rendering-Konsistenz**: React Flow (ADR-007) ist eine DOM-basierte Canvas-Bibliothek – kein WebGL. DOM-Performance und CSS-Rendering-Fidelity sind vom Laufzeit-Browser abhängig. Inkonsistente System-WebViews sind ein Risiko für Diagramm-Editierung und Typeahead-Interaktion (US-045).
-- **Dev-Team-Fit**: Das OEA-Frontend ist React/TypeScript. Native Erweiterungen (IPC-Handler, Dateisystem-Zugriff, Auto-Update) sollten ebenfalls in einer dem Team vertrauten Sprache schreibbar sein.
+- **Canvas-Rendering-Konsistenz**: Vue Flow (ADR-007) ist eine DOM-basierte Canvas-Bibliothek – kein WebGL. DOM-Performance und CSS-Rendering-Fidelity sind vom Laufzeit-Browser abhängig. Inkonsistente System-WebViews sind ein Risiko für Diagramm-Editierung und Typeahead-Interaktion (US-045).
+- **Dev-Team-Fit**: Das OEA-Frontend ist Vue/TypeScript (ADR-011). Native Erweiterungen (IPC-Handler, Dateisystem-Zugriff, Auto-Update) sollten ebenfalls in einer dem Team vertrauten Sprache schreibbar sein.
 - **OSS-Lizenz-Kompatibilität**: Apache 2.0-Projekt; das Framework muss MIT, Apache 2.0 oder BSD sein.
 - **Installations-Grösse**: Relevant für OSS-Adoption; grosse Bundles erhöhen die Hürde für neue Nutzer.
 - **Offline-Betrieb und Dateisystem**: Architekten exportieren Modelle als YAML/JSON direkt in lokale Git-Repos; nativer Dateisystem-Zugriff ist Pflicht.
@@ -33,7 +34,7 @@ Electron (MIT) bettet **Chromium + Node.js** in die App ein. VS Code, Figma (Des
 
 - **Pro**:
   - Garantiert konsistentes Rendering auf allen Plattformen: alle Nutzer sehen dieselbe Chromium-Version
-  - React Flow und alle CSS-Features laufen auf einem bekannten, getesteten Engine-Stand
+  - Vue Flow und alle CSS-Features laufen auf einem bekannten, getesteten Engine-Stand
   - Node.js im Main-Prozess: Dateisystem, IPC, native Module – alles in JavaScript/TypeScript schreibbar; kein Rust nötig
   - Riesiges Ökosystem: `electron-updater` (Auto-Update), `electron-builder` (Packaging), umfangreiche Plugin-Sammlung
   - Grösste Community; ausgezeichnete Dokumentation; viele OSS-Vorbilder
@@ -60,7 +61,7 @@ Tauri v2 (MIT/Apache 2.0) nutzt die **System-eigene WebView** des Betriebssystem
     - macOS: WKWebView (Safari-Engine) – gut, aber abweichend von Chrome
     - Windows: WebView2 (Chromium-basiert) – nah an Electron
     - Linux: **WebKitGTK** – kann mehrere Versionen hinter dem aktuellen WebKit stehen; DOM-Performance für komplexe Canvas-Layouts nachweislich schwächer als Chromium
-  - React Flow ist für Chromium/Firefox optimiert; auf WebKitGTK (Linux) können subtile Rendering-Fehler oder Performance-Probleme auftreten, die nur auf dieser Plattform reproduzierbar sind
+  - Vue Flow ist für Chromium/Firefox optimiert; auf WebKitGTK (Linux) können subtile Rendering-Fehler oder Performance-Probleme auftreten, die nur auf dieser Plattform reproduzierbar sind
   - Native Erweiterungen (IPC, Plugins) werden in **Rust** geschrieben; das OEA-Team hat primär JS/TS-Kompetenz; jeder native Feature-Bedarf erfordert Rust-Know-how oder Community-Plugins
   - Tauri v2-Plugin-Ökosystem wächst, ist aber kleiner als Electrons; manche Features (z.B. spezifische System-APIs) sind als Community-Plugins noch unreif
   - `update`-Plugin (Auto-Update) für Tauri v2 ist verfügbar, aber weniger battle-tested als `electron-updater`
@@ -81,14 +82,14 @@ Neutralino (MIT) ist eine ultrakompakte Alternative (~2 MB): native Hülle + Sys
 ### Nicht betrachtete Optionen
 
 - **NW.js**: technisch ähnlich wie Electron (Chromium + Node.js), aber wesentlich kleinere Community und geringere Maintenance-Aktivität. Kein relevanter Vorteil gegenüber Electron.
-- **Flutter Desktop / Qt / native Frameworks**: inkompatibel mit dem React/TypeScript-Stack (ADR-007); erfordern separate Codebase; ausgeschlossen.
+- **Flutter Desktop / Qt / native Frameworks**: inkompatibel mit dem Vue/TypeScript-Stack (ADR-007, ADR-011); erfordern separate Codebase; ausgeschlossen.
 - **PWA (als Client-App-Ersatz)**: von ADR-008 explizit ausgeschlossen (Option 3 der dortigen Entscheidung).
 
 ## Entscheidung
 
 Wir wählen **Option 1: Electron**.
 
-**Begründung**: OEA ist eine canvas-intensive Modellierungs-App. React Flow (ADR-007) nutzt DOM-Rendering intensiv; Typeahead-Interaktionen (US-045), Drag-and-Drop und grosse Diagramme stellen hohe Ansprüche an Browser-Engine-Konsistenz. Das Linux-WebKitGTK-Risiko von Tauri ist für eine EA-Tool-Zielgruppe (häufig Linux-affine Architekten und Entwickler) nicht akzeptabel: plattformspezifische Rendering-Fehler im Canvas-Editor sind aufwändiger zu debuggen als das Mitführen von Chromium.
+**Begründung**: OEA ist eine canvas-intensive Modellierungs-App. Vue Flow (ADR-007) nutzt DOM-Rendering intensiv; Typeahead-Interaktionen (US-045), Drag-and-Drop und grosse Diagramme stellen hohe Ansprüche an Browser-Engine-Konsistenz. Das Linux-WebKitGTK-Risiko von Tauri ist für eine EA-Tool-Zielgruppe (häufig Linux-affine Architekten und Entwickler) nicht akzeptabel: plattformspezifische Rendering-Fehler im Canvas-Editor sind aufwändiger zu debuggen als das Mitführen von Chromium.
 
 Dazu kommt der Dev-Team-Fit: alle nativen Erweiterungen (Dateisystem-Watcher, lokaler Git-Export, IPC-Handler) können in TypeScript im Electron Main-Prozess geschrieben werden. Kein Rust-Know-how erforderlich.
 
@@ -108,7 +109,7 @@ Die grösste Schwäche – Bundle-Grösse – ist für eine professionelle Deskt
 
 ### Positive Konsequenzen
 
-- Konsistentes Rendering auf macOS, Windows und Linux: React Flow, Typeahead, CSS-Animationen verhalten sich überall gleich
+- Konsistentes Rendering auf macOS, Windows und Linux: Vue Flow, Typeahead, CSS-Animationen verhalten sich überall gleich
 - Native Erweiterungen (Dateisystem, lokaler Git-Export, System-Tray) in TypeScript schreibbar; kein neues Sprach-Know-how erforderlich
 - `electron-builder` erzeugt alle nötigen Plattform-Bundles aus einer CI-Pipeline
 - Auto-Update ohne Store-Abhängigkeit: OEA kann Updates über eigene GitHub-Releases oder selbst gehosteten S3-Bucket ausliefern
@@ -117,7 +118,7 @@ Die grösste Schwäche – Bundle-Grösse – ist für eine professionelle Deskt
 ### Negative Konsequenzen / Trade-offs
 
 - **Bundle-Grösse** ~80–120 MB komprimierter Installer; neuen Nutzern ist dies transparent zu kommunizieren (Erstinstallation dauert länger als eine Web-App)
-- **Speicher-Verbrauch**: Electron-App mit React Front-End liegt typisch bei 200–400 MB RAM; auf low-end Hardware spürbar
+- **Speicher-Verbrauch**: Electron-App mit Vue-Front-End liegt typisch bei 200–400 MB RAM; auf low-end Hardware spürbar
 - **Chromium-Updates**: mit jeder Electron-Hauptversion kommt eine neue Chromium-Version; Upgrade-Zyklus muss im Projekt-Prozess verankert werden (ca. quartalsweise)
 - **Tauri als Option für v2.x**: Wenn WebKitGTK auf Linux aufholt und das Tauri-Plugin-Ökosystem reift, kann die Entscheidung für spätere Versionen neu bewertet werden (Architektur-Entscheid, nicht Lock-in)
 
@@ -133,8 +134,9 @@ Die grösste Schwäche – Bundle-Grösse – ist für eine professionelle Deskt
 - [§21.2.1 Visualisierungs-Strategie](../concept/70-platform/21-api-architektur.md)
 
 **Verwandte ADRs**:
-- [ADR-007](./ADR-007-canvas-bibliothek.md): React Flow als Canvas-Bibliothek (accepted) – Rendering-Konsistenz ist Kernargument für Electron
+- [ADR-007](./ADR-007-canvas-bibliothek.md): Vue Flow als Canvas-Bibliothek (accepted, aktualisiert infolge ADR-011) – Rendering-Konsistenz ist Kernargument für Electron
 - [ADR-008](./ADR-008-gui-architektur-dual-track.md): Client App + Web Portal (accepted) – dieser ADR konkretisiert die Client-App-Seite
+- [ADR-011](./ADR-011-frontend-framework.md): Vue 3 + TypeScript (accepted) – hat React Flow → Vue Flow ausgelöst; dieser ADR hätte aktualisiert werden müssen
 
 **Use Cases / Requirements**:
 - [US-045](../requirements/user-stories/US-045-delta-neue-entitaet-diagramm.md): Neue Entität im Diagramm als Delta anlegen – letzter offener Blocker, wird durch diesen ADR entsperrt
@@ -143,4 +145,4 @@ Die grösste Schwäche – Bundle-Grösse – ist für eine professionelle Deskt
 
 `electron-builder` vs. `Electron Forge`: Beide sind verbreitet. `electron-builder` ist ausgereifter für Multi-Platform-Bundles mit Auto-Update; `Electron Forge` ist offiziell von Electronjs.org empfohlen und einfacher einzurichten, aber weniger flexibel bei Custom-Signing-Pipelines. Entscheidung kann beim Aufsetzen des Build-Systems getroffen werden; kein eigener ADR nötig.
 
-Tauri v3 (in Entwicklung, Stand 2026): Falls Tauri v3 die WebKitGTK-Linux-Situation verbessert und ein stabiles TypeScript/JavaScript-Plugin-API liefert, ist die Entscheidung für OEA v2.x neu zu evaluieren. Der Wechsel wäre möglich, da Business-Logik im Backend liegt (API-First, ADR-008) und das Frontend-React-Code unverändert bleibt.
+Tauri v3 (in Entwicklung, Stand 2026): Falls Tauri v3 die WebKitGTK-Linux-Situation verbessert und ein stabiles TypeScript/JavaScript-Plugin-API liefert, ist die Entscheidung für OEA v2.x neu zu evaluieren. Der Wechsel wäre möglich, da Business-Logik im Backend liegt (API-First, ADR-008) und das Frontend-Vue-Code unverändert bleibt.
