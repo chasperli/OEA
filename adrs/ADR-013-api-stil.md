@@ -5,6 +5,7 @@
 **Entscheider**: Inhaber des Repositorys
 **Konsultiert**: Requirements Engineer
 **Informiert**: –
+**Aktualisiert**: 2026-06-28 — NestJS-Referenzen durch SpringDoc OpenAPI (Spring Boot 3) und Gradle-Workflow ersetzt; ADR-012 hat Java 21 + Spring Boot 3 gewählt, nicht NestJS
 
 ## Kontext und Problem
 
@@ -26,7 +27,7 @@ Alle bisherigen REQs spezifizieren bereits REST-Endpunkte (`GET /api/v1/entities
 
 - **Pro**:
   - Universell: jeder HTTP-Client (curl, Postman, fetch, Python requests) kann die API nutzen
-  - `@nestjs/swagger` generiert OpenAPI 3.x Spec automatisch aus NestJS-Decorators (code-first)
+  - **SpringDoc OpenAPI** (`springdoc-openapi-starter-webmvc-ui`) generiert OpenAPI 3.x Spec automatisch aus Spring-Controller-Annotationen (code-first, [ADR-012](./ADR-012-backend-stack.md))
   - `openapi-typescript`: generiert typsichere Fetch-Clients für Vue 3-Frontend aus der Spec
   - Swagger UI ist out-of-the-box verfügbar (`/api/docs`)
   - Standard in EA-Tool-Integrationen (ITSM, PPM, CMDB alle sprechen REST)
@@ -54,7 +55,7 @@ Wir wählen **Option 1: REST + OpenAPI 3.x**.
 | Aspekt | Entscheidung |
 |---|---|
 | Paradigma | REST (ressourcenorientiert) |
-| Spezifikation | OpenAPI 3.x (code-first via `@nestjs/swagger`) |
+| Spezifikation | OpenAPI 3.x (code-first via SpringDoc OpenAPI, `springdoc-openapi-starter-webmvc-ui`) |
 | API-Basis-Pfad | `/api/v1/` (versioniert) |
 | Dokumentation | Swagger UI unter `/api/docs` (nur non-production) |
 | Typ-Generierung Frontend | `openapi-typescript` (generiert `types.d.ts` aus Spec) |
@@ -65,7 +66,7 @@ Wir wählen **Option 1: REST + OpenAPI 3.x**.
 
 **Versionierungsstrategie**: URL-basiert (`/api/v1/`, `/api/v2/`). Breaking Changes → neue Version; alte Version mind. 6 Monate parallel betreiben.
 
-**OpenAPI-Spec als CI-Artefakt**: `npm run generate:openapi` erzeugt `openapi.json`; wird in CI geprüft (kein Bruch ohne Version-Bump) und als Release-Artefakt published.
+**OpenAPI-Spec als CI-Artefakt**: `./gradlew generateOpenApiDocs` (via `springdoc-openapi-gradle-plugin`) erzeugt `openapi.json`; wird in CI geprüft (kein Bruch ohne Version-Bump) und als Release-Artefakt published.
 
 ## Konsequenzen
 
@@ -83,6 +84,6 @@ Wir wählen **Option 1: REST + OpenAPI 3.x**.
 
 ## Bezüge
 
-**Verwandte ADRs**: [ADR-012](./ADR-012-backend-stack.md) (NestJS), [ADR-006](./ADR-006-auth-stack-wahl.md) (Auth)
+**Verwandte ADRs**: [ADR-012](./ADR-012-backend-stack.md) (Java 21 + Spring Boot 3), [ADR-006](./ADR-006-auth-stack-wahl.md) (Auth)
 
 **Konzept**: [§21 API-Architektur](../concept/70-platform/21-api-architektur.md), [§22 Auswertbarkeit](../concept/70-platform/22-auswertbarkeit.md)
