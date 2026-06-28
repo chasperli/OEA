@@ -6,6 +6,7 @@
 **Konsultiert**: Business Engineer
 **Informiert**: ADR-012 (Backend-Stack), ADR-017 (Layer-Strategie)
 **Supersedes**: –
+**Aktualisiert**: 2026-06-28 — CEL-Library korrigiert: `@cel-community/cel-js` (npm/Node.js) → `dev.cel:cel` (Google CEL-Java, Maven); Entscheidungstreiber „TypeScript/Node.js" war falsch, ADR-012 hat Java 21 + Spring Boot 3 gewählt
 
 ## Kontext und Problem
 
@@ -23,7 +24,7 @@ Offen war: Welche OSS-Technologie wertet die Regelausdrücke aus, und wie wird d
 - **Zielgruppe ist nicht Entwickler**: Admins und Enterprise Architects sollen Regeln im GUI bauen können, ohne CEL/Code zu kennen
 - **Ausdrucksstärke**: Einfache Null-Checks bis zu Mehrfachbedingungen mit AND/OR; Cardinality-Checks auf Arrays
 - **JSON-Serialisierbarkeit**: Regeln müssen als JSON importiert/exportiert werden können
-- **TypeScript/Node.js Backend** (ADR-012): Java-basierte Rule Engines scheiden aus
+- **Java 21 + Spring Boot 3** ([ADR-012](./ADR-012-backend-stack.md)): die Rule-Engine muss JVM-kompatibel sein; Node.js/npm-Bibliotheken scheiden aus
 - **Sandboxing**: Regelauswertung muss sicher sein (kein `eval`); Regeln dürfen keinen Seiteneffekt haben
 - **Zukunftssicherheit**: Ausdruckssprache soll erweiterbar sein, ohne das Rule-Format zu brechen
 
@@ -33,8 +34,17 @@ Offen war: Welche OSS-Technologie wertet die Regelausdrücke aus, und wie wird d
 
 **Common Expression Language (CEL)** als Auswertungs-Engine; der Konfigurierer sieht nie die CEL-Syntax — das GUI generiert CEL-Ausdrücke aus einem visuellen Condition-Builder. Power-User können optional direkt CEL eingeben.
 
-- **Pro**: CEL ist typsicher, sandboxed, ohne Seiteneffekte; in Google Cloud, Kubernetes Admission Policies und Firebase etabliert; JS-Implementierung `@cel-community/cel-js` verfügbar; ausdrucksstark genug für alle absehbaren v1.0-Use-Cases; GUI-Abstraktion entkoppelt das Nutzer-Erlebnis von der Ausdruckssprache
-- **Contra**: `@cel-community/cel-js` ist weniger verbreitet als Drools/json-rules-engine; CEL-Compliance-Test-Suite muss geprüft werden; GUI-Builder-Entwicklung ist eigener Aufwand
+Java-Implementierung: **`dev.cel:cel`** — Googles offizielle CEL-Referenzimplementierung für die JVM (Apache 2.0). Diesel­be Organisation, die die CEL-Spezifikation pflegt. In Produktion in Kubernetes-Java-Clients und Istio-Java-Integrationen.
+
+```kotlin
+// build.gradle.kts
+dependencies {
+    implementation("dev.cel:cel:0.7.+")
+}
+```
+
+- **Pro**: CEL ist typsicher, sandboxed, ohne Seiteneffekte; in Google Cloud, Kubernetes Admission Policies und Firebase etabliert; `dev.cel:cel` ist die offizielle Java-Referenzimplementierung der CEL-Spezifikation; Expression-Syntax ist 1:1 identisch mit der ursprünglich geplanten JS-Implementierung — GUI-Builder, JSON-Format und CEL-Vorschau bleiben unverändert gültig; ausdrucksstark genug für alle absehbaren v1.0-Use-Cases; GUI-Abstraktion entkoppelt das Nutzer-Erlebnis von der Ausdruckssprache; Apache 2.0
+- **Contra**: `dev.cel:cel` ist noch im 0.x-Versions-Bereich (API kann sich ändern); im Java-Ökosystem jünger als Drools oder SpEL; GUI-Builder-Entwicklung ist eigener Aufwand
 
 ### Option 2: json-rules-engine
 
@@ -59,7 +69,7 @@ Nur GUI-Builder, kein freier Ausdrucks-Modus.
 
 ## Entscheidung
 
-**Option 1: CEL (`@cel-community/cel-js`) mit GUI-Abstraktionsschicht.**
+**Option 1: CEL (`dev.cel:cel`, Google CEL-Java) mit GUI-Abstraktionsschicht.**
 
 Kern-Prinzip: **CEL ist der Evaluator — unsichtbar für Konfigurierer.** Das GUI generiert CEL intern; der Konfigurierer arbeitet mit einem visuellen Condition-Builder.
 
@@ -173,12 +183,21 @@ Mögliche Kombination mit `editMode`:
 
 ### CEL-Sicherheitskontext
 
-CEL wird in einem eingeschränkten Kontext ausgeführt:
+CEL wird in einem eingeschränkten Kontext ausgeführt (Java-Implementierung via `dev.cel:cel`):
 
-- Kein Dateisystem-Zugriff, kein Netzwerk-Aufruf
-- Keine Seiteneffekte (pure evaluation)
-- Timeout: max. 100 ms pro Regelauswertung
+- Kein Dateisystem-Zugriff, kein Netzwerk-Aufruf — CEL ist per Spezifikation seiteneffektfrei
+- Keine Seiteneffekte (pure evaluation); kein Reflection-Zugriff auf beliebige Java-Klassen
+- Timeout: max. 100 ms pro Regelauswertung (Spring `@Async` + `CompletableFuture.get(100, MILLISECONDS)`)
 - Evaluierungskontext: `{ entity: ArchitectureEntity, metamodel: MetamodelContext }`
+
+```java
+// Beispiel: CEL-Auswertung im Spring-Service
+Cel cel = CelFactory.standardCelBuilder()
+    .addVar("entity", CelTypes.createMap(CelTypes.STRING, CelTypes.DYN))
+    .build();
+CelProgram program = cel.createProgram(cel.compile(expression).getAst());
+Object result = program.eval(Map.of("entity", entityProperties));
+```
 
 ---
 
@@ -195,7 +214,7 @@ CEL wird in einem eingeschränkten Kontext ausgeführt:
 ### Negative Konsequenzen / Trade-offs
 
 - GUI-Condition-Builder ist eigenständiger Frontend-Aufwand
-- `@cel-community/cel-js` ist kleines Paket — Abhängigkeit von Community-Pflege
+- `dev.cel:cel` befindet sich noch im 0.x-Versionsbereich; API-Stabilität vor Walking Skeleton prüfen (Alternativer Fallback: Spring Expression Language `SimpleEvaluationContext` — ohne CEL-Standardkonformität, aber zero additional dependency)
 - Import-Semantik (Replace-all) kann bei Versehen alle Rules löschen → Backup vor Import empfohlen (UI-Warnung)
 - `structured`-zu-CEL-Kompilierung muss getestet werden; Inkonsistenz zwischen Builder-Darstellung und tatsächlich ausgeführtem CEL möglich
 
@@ -207,7 +226,7 @@ CEL wird in einem eingeschränkten Kontext ausgeführt:
 
 ## Bezüge
 
-**Verwandte ADRs**: [ADR-012](./ADR-012-backend-stack.md) (TypeScript/Node.js), [ADR-017](./ADR-017-architektur-layer-strategie.md) (Fully Open → Rules als Kompensation)
+**Verwandte ADRs**: [ADR-012](./ADR-012-backend-stack.md) (Java 21 + Spring Boot 3), [ADR-017](./ADR-017-architektur-layer-strategie.md) (Fully Open → Rules als Kompensation)
 
 **Business Objects**: [metamodel-configuration.md](../business-objects/metamodel-configuration.md) (`constraintRules`, `mandatoryConnectionConstraints`, `rulesEditMode`)
 
