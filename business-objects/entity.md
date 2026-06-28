@@ -108,6 +108,9 @@ Alle weiteren Properties werden in `PropertyGroup`-Kategorien definiert, die im 
 | properties | PropertyValue[] | optional | `[]` | Keys müssen `PropertyDefinition.name` des `entityTypeId`-Typs entsprechen; mandatory-Properties müssen befüllt sein | Werte der vom Metatyp definierten Custom-Properties (nicht-General) |
 | sourceEntityId | integer | conditional | null | REQUIRED wenn `EntityType.isConnection=true`; FK → ArchitectureEntity.id mit `isConnection=false`; unveränderlich nach Anlage | Quell-Entität (nur bei Verbindungen) |
 | targetEntityId | integer | conditional | null | REQUIRED wenn `EntityType.isConnection=true`; FK → ArchitectureEntity.id mit `isConnection=false`; unveränderlich nach Anlage | Ziel-Entität (nur bei Verbindungen) |
+| parentEntityId | integer | optional | null | FK → ArchitectureEntity.id; nur bei Elementen (`isConnection=false`); keine Zyklen erlaubt | Elternelement im Explorer-Baum; erzeugt implizite Composition-Verbindung wenn beide Seiten `isStructuralGrouper=false` (→ ADR-021, REQ-141, REQ-142) |
+| isStructuralGrouper | boolean | required | `false` | | `true` = reine Navigationshilfe im Browser-Panel (kein ArchiMate-Element); erzeugt keine implizite Verbindung; erscheint mit Ordner-Icon statt ArchiMate-Icon |
+| autoCreated | boolean | required | `false` | nur relevant wenn `isConnection=true` | `true` = diese Verbindung wurde automatisch durch Setzen von `parentEntityId` erzeugt; wird beim Herauslösen automatisch gelöscht sofern nicht manuell bearbeitet |
 | createdAt | datetime | required | | ISO 8601, UTC | Anlage-Zeitpunkt |
 | createdBy | reference | required | | target: person | Anlegende Person |
 | updatedAt | datetime | optional | null | ISO 8601, UTC | Letzte Änderung |

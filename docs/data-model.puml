@@ -257,6 +257,12 @@ package "Repository" #FCE4EC {
     .. nur gesetzt wenn EntityTypeDefinition.isConnection=true ..
     + target_entity_id : INTEGER       {FK→entities.id}
     .. nur gesetzt wenn EntityTypeDefinition.isConnection=true ..
+    + parent_entity_id : INTEGER       {FK→entities.id}
+    .. nullable; nur bei Elements (isConnection=false); REQ-141/REQ-142; ADR-021 ..
+    + is_structural_grouper : BOOLEAN  {NN} DEFAULT false
+    .. true = reine Navigationshilfe (kein ArchiMate-Element); keine implizite Verbindung ..
+    + auto_created     : BOOLEAN       {NN} DEFAULT false
+    .. true = implizite Composition-Verbindung aus parent_entity_id; löschbar beim Herauslösen ..
     + properties       : JSONB         {NN} DEFAULT '{}'
     .. Custom-Properties des EntityType (nicht-General) ..
     + created_at       : TIMESTAMPTZ   {NN} DEFAULT NOW()
@@ -308,6 +314,7 @@ package "Repository" #FCE4EC {
   entities         "1" --o{ "0..*" entity_versions       : snapshots
   entities         "0..1" --o{ "0..*" entities           : source_entity_id
   entities         "0..1" --o{ "0..*" entities           : target_entity_id
+  entities         "0..1" --o{ "0..*" entities           : parent_entity_id
   entities         "1" --o{ "0..*" entity_plateau_states : state per plateau
   plateaus         "1" --o{ "0..*" entity_plateau_states : defines states
   entities         "0..1" --o{ "0..*" entity_deltas      : changed by
