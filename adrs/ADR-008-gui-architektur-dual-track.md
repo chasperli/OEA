@@ -5,6 +5,7 @@
 **Entscheider**: [Rigobert – Produkt Owner](../business-analysis/stakeholders/SH-09-rigobert-produkt-owner.md) (SH-09)
 **Konsultiert**: Requirements Engineer (UC-05, UC-06, US-045), Business Engineer (Viewpoint-BO, Catalog-BO)
 **Informiert**: –
+**Aktualisiert**: 2026-06-28 — React-SPA-Referenzen auf Vue 3 SPA aktualisiert (infolge ADR-011); ADR-007-Status von deferred auf accepted korrigiert (Vue Flow gewählt)
 
 ## Kontext und Problem
 
@@ -31,7 +32,7 @@ Zusätzlich ist die Canvas-Bibliothekswahl (ADR-007, deferred) davon abhängig, 
 
 ### Option 1: Web-only SPA (ein einziges Web-Frontend für alle Nutzer)
 
-Eine einzelne React-SPA bedient sowohl Modellierungs- als auch Konsumierungs-Nutzer. Der interaktive Diagramm-Editor läuft im Browser.
+Eine einzelne Vue 3 SPA bedient sowohl Modellierungs- als auch Konsumierungs-Nutzer. Der interaktive Diagramm-Editor läuft im Browser.
 
 - **Pro**:
   - Einzige Codebase für das Frontend; geringster Pflege-Aufwand
@@ -97,7 +98,7 @@ Wir wählen **Option 2: Client App + Web Portal (Dual-Track-Delivery)**.
 - Interaktive Diagramm-Editierung, Metamodell-Konfiguration, Solution-Management, Katalog-Konfiguration
 - Alle Aktionen, die schreibend auf das Repository zugreifen
 
-**Web Portal** (React SPA) für:
+**Web Portal** (Vue 3 SPA) für:
 - CIO (SH-05), Operator (SH-06), Domänen-Betrachter (SH-01, SH-02 in Konsumierungs-Rolle)
 - Read-only: Kataloge browsen, Diagramme anschauen, Architektur-Berichte konsumieren
 - URL-basierter Zugang ohne Installations-Anforderung
@@ -110,7 +111,7 @@ Business-Logik lebt ausschliesslich im Backend (API-First); beide GUIs sind rein
 
 ### Positive Konsequenzen
 
-- **ADR-007 (Canvas-Bibliothek) kann entschieden werden**: Da der interaktive Diagramm-Editor in der Client App läuft, ist React Flow als Kandidat weiterhin valide; die Entscheidung kann nun aufgehoben werden (von `deferred` zu `accepted`)
+- **ADR-007 (Canvas-Bibliothek) entschieden**: Da der interaktive Diagramm-Editor in der Client App läuft, wurde Vue Flow als Canvas-Bibliothek gewählt (ADR-007 `accepted`)
 - **Web Portal bleibt schlank**: Kein Canvas-Framework im Portal nötig; read-only Diagramm-Rendering kann über ein leichtes SVG-Renderer-Backend erfolgen
 - **Klare Feature-Ownership**: jede Story weiß, in welches Fahrzeug sie gehört
 - **Offline-Betrieb** für Architekten möglich (Client App kann lokal cachen)
@@ -151,7 +152,7 @@ Business-Logik lebt ausschliesslich im Backend (API-First); beide GUIs sind rein
 - [§21.2.1 Visualisierungs-Strategie](../concept/70-platform/21-api-architektur.md)
 
 **Verwandte ADRs**:
-- [ADR-007](./ADR-007-canvas-bibliothek.md): Canvas-Bibliothek (deferred; kann mit dieser Entscheidung weitergeführt werden)
+- [ADR-007](./ADR-007-canvas-bibliothek.md): Canvas-Bibliothek (accepted; Vue Flow gewählt; diese Entscheidung hat die Wahl ermöglicht)
 - ADR-009 (ausstehend): Client-App-Framework-Wahl
 
 **Use Cases / Requirements**:

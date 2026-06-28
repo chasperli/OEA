@@ -6,10 +6,11 @@
 **Konsultiert**: Requirements Engineer
 **Informiert**: ADR-012 (Backend), ADR-015 (Migration)
 **Supersedes**: –
+**Aktualisiert**: 2026-06-28 — Kontext korrigiert: ADR-012 hat nicht Drizzle ORM + `pg` gewählt, sondern Java 21 + Spring Boot 3 + Hibernate; Option-1-Pro entsprechend angepasst
 
 ## Kontext und Problem
 
-ADR-012 (Backend-Stack) hat Drizzle ORM und `pg` als DB-Client gewählt und dabei PostgreSQL + Apache AGE (openCypher) als Persistenz-Stack angenommen. Diese Annahme war nicht als formale Entscheidung dokumentiert. ADR-016 schliesst diese Lücke und klärt:
+ADR-012 (Backend-Stack) hat Java 21 + Spring Boot 3 + Hibernate als Backend-Stack gewählt und dabei PostgreSQL als Persistenz-Stack angenommen. Diese Annahme war nicht als formale Entscheidung dokumentiert. ADR-016 schliesst diese Lücke und klärt:
 
 1. Welche DB-Technologie (inkl. Erweiterungen)?
 2. Wie wird Content-History (Versionierung einzelner Entitäten) gehandhabt?
@@ -54,7 +55,7 @@ Nur bei multi-tenanter SaaS-Betrieb mit tausenden unabhängiger Organisationen a
   - Bewährteste Open-Source-Datenbank; GIN-Indexe für JSONB-Suche
   - Recursive CTEs (`WITH RECURSIVE`) für Graph-Traversal bis ~5 Hops — ausreichend für alle v1.0-Use-Cases (Impact-Analyse, Lineage)
   - Keine externe Extension; einfacheres `docker compose up`
-  - Drizzle ORM unterstützt JSONB nativ; typsichere Schema-Definition
+  - Hibernate + `@JdbcTypeCode(SqlTypes.JSON)` unterstützt JSONB nativ (Spring Boot 3, ADR-012); typsichere Schema-Definition via JPA
   - Lizenz: PostgreSQL License (sehr permissiv)
 - **Contra**: Graph-Traversal tiefer als 5 Hops oder komplexe Pfad-Queries (shortest path) sind mit Recursive CTEs umständlich — betrifft v1.0 nicht
 
