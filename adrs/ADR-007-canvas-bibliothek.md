@@ -5,7 +5,8 @@
 **Entscheider**: [Rigobert – Produkt Owner](../business-analysis/stakeholders/SH-09-rigobert-produkt-owner.md) (SH-09)
 **Konsultiert**: Requirements Engineer (UC-05, US-045, REQ-040)
 **Informiert**: –
-**Aktualisiert**: 2026-06-26 — React Flow → **Vue Flow** infolge ADR-011 (Frontend-Framework: Vue 3)
+**Aktualisiert**: 2026-06-26 — React Flow → **Vue Flow** infolge ADR-011 (Frontend-Framework: Vue 3)  
+**Aktualisiert**: 2026-06-28 — verbliebene React-Artefakte bereinigt; EPL 2.0-Lizenzbedingungen für ELK.js explizit dokumentiert; ADR-008-Status auf accepted korrigiert
 
 > **Zuvor zurückgestellt** (bis ADR-008 entschieden): [ADR-008](./ADR-008-gui-architektur-dual-track.md) (accepted) legt fest, dass der interaktive Diagramm-Canvas in der **Client App** läuft. Damit ist der Blockierungsgrund entfallen.
 
@@ -18,7 +19,7 @@ UC-05 (Architektur-Vision einer Änderungsinitiative beschreiben) erfordert, das
 Dafür wird eine **Web-Canvas-Bibliothek** benötigt, die:
 - Knoten (Entitäten) und Kanten (Relationen) interaktiv platzierbar und editierbar macht
 - In-Place-Texteditierung direkt auf dem Canvas-Element unterstützt (kein separater Dialog)
-- Sich in eine React/TypeScript-Webanwendung integriert
+- Sich in eine Vue 3/TypeScript-Webanwendung integriert
 - State als sauberes JSON serialisiert (Git-taugliche Diffs, kein Binärformat)
 
 §21.2.1 des Konzepts hat die Visualisierungsstrategie bewusst auf nach dem Requirements Engineering verschoben. Dieser ADR adressiert nur den **interaktiven Editier-Canvas** (Kernanforderung für UC-05 / Walking Skeleton), nicht die gesamte Visualisierungsstrategie (Rendering-Backends für read-only Diagramme, Notationsunterstützung etc.) – das bleibt ADR-008.
@@ -116,14 +117,14 @@ GoJS scheidet wegen kommerzieller Lizenz aus. maxGraph und AntV X6 sind technisc
 ### Negative Konsequenzen / Trade-offs
 
 - Auto-Layout für grosse EA-Diagramme (Bebauungsplan-Ansicht) ist nicht out-of-the-box; ELK.js-Integration ist eine eigene Aufgabe, wenn diese Ansicht gebaut wird
-- React Flow ist nicht speziell für ArchiMate oder TOGAF-Notation gebaut; alle domänenspezifischen Shapes müssen im OEA-Frontend selbst gepflegt werden
-- Performance bei sehr grossen Graphen (> 500 Knoten sichtbar) erfordert ggf. die React Flow Pro-Feature „Virtual Rendering" oder eigene Optimierungen; für Walking Skeleton kein Problem
+- Vue Flow ist nicht speziell für ArchiMate oder TOGAF-Notation gebaut; alle domänenspezifischen Shapes müssen im OEA-Frontend selbst gepflegt werden
+- Performance bei sehr grossen Graphen (> 500 Knoten sichtbar) erfordert ggf. eigene Virtualisierungsoptimierungen; für Walking Skeleton kein Problem
 
 ### Folgeentscheidungen
 
-- **ADR-008** (ausstehend): Vollständige Visualisierungsstrategie – welche Diagramm-Typen (ArchiMate Layer Views, C4, Sequenz, BPMN) rendert OEA, und mit welchen Backends (textbasiert vs. Canvas)? React Flow als Canvas-Bibliothek ist ein Baustein davon, löst aber nicht die gesamte Frage (§21.2.1)
+- **ADR-008** (accepted): Vollständige Visualisierungsstrategie – welche Diagramm-Typen (ArchiMate Layer Views, C4, Sequenz, BPMN) rendert OEA, und mit welchen Backends (textbasiert vs. Canvas)? Vue Flow ist der Canvas-Baustein für die Client App (§21.2.1)
 - **ELK.js-Integration**: wenn hierarchisches Auto-Layout für Bebauungsplan-Ansichten gebraucht wird; als separates Requirement zu spezifizieren
-- **Shape-Bibliothek**: ArchiMate-konforme Node-Shapes (ApplicationComponent, Interface, BusinessProcess, DataObject …) als React-Komponenten – Designaufgabe für UI-Designerin (SH-UI-Designer-Agent)
+- **Shape-Bibliothek**: ArchiMate-konforme Node-Shapes (ApplicationComponent, Interface, BusinessProcess, DataObject …) als Vue-SFCs – Designaufgabe für UI-Designerin (SH-UI-Designer-Agent)
 
 ## Bezüge
 
@@ -131,7 +132,7 @@ GoJS scheidet wegen kommerzieller Lizenz aus. maxGraph und AntV X6 sind technisc
 - [§21.2.1 Visualisierungs-Strategie](../concept/70-platform/21-api-architektur.md)
 
 **Verwandte ADRs**:
-- ADR-008 (ausstehend): Vollständige Visualisierungsstrategie
+- [ADR-008](./ADR-008-gui-architektur-dual-track.md) (accepted): Client App + Web Portal; Vue Flow läuft im Client-App-Kontext (Electron)
 
 **Use Cases / Requirements**:
 - [UC-05: Architektur-Vision einer Änderungsinitiative beschreiben](../requirements/use-cases/UC-05-architektur-vision-beschreiben.md)
@@ -142,4 +143,15 @@ GoJS scheidet wegen kommerzieller Lizenz aus. maxGraph und AntV X6 sind technisc
 
 Vue Flow: `@vue-flow/core` (MIT). GitHub: `bcakmakoglu/vue-flow`. Setzt Vue 3.x voraus. Vor Implementierung aktuelle Stable-Version prüfen.
 
-ELK.js (Eclipse Layout Kernel) ist unter EPL 2.0 lizenziert. Die EPL 2.0 erlaubt die Nutzung in Apache 2.0-Projekten, solange ELK.js nicht modifiziert und separat ausgeliefert wird (Bundling via npm ist akzeptabel). Im Zweifelsfall Rechtshinweis im NOTICE-File ergänzen.
+### ELK.js – EPL 2.0 Lizenzbedingungen
+
+ELK.js (Eclipse Layout Kernel) steht unter **EPL 2.0** (Eclipse Public License 2.0). EPL 2.0 ist ein schwaches Copyleft: es gilt nur für den EPL-lizenzierten Code selbst, nicht für das gesamte Projekt. Für OEA gelten folgende Bedingungen:
+
+| Bedingung | OEA-Situation | Massnahme |
+|---|---|---|
+| **Quellcode-Verfügbarkeit** | ELK.js wird unverändert als npm-Paket eingebunden | Kein Handlungsbedarf: upstream-Repo (`eclipse/elk`) ist öffentlich; Link im NOTICE-File genügt |
+| **Copyleft-Ansteckung** | EPL 2.0 ist ein „weak copyleft" — tritt nur bei Modifikation oder direkter Weitergabe der EPL-Datei auf | OEA modifiziert ELK.js nicht → kein Copyleft auf OEA-Eigencode |
+| **NOTICE-File-Pflicht** | Distribution des Electron-Bundles (`.dmg`, `.exe`, `.AppImage`) enthält ELK.js | NOTICE-File muss enthalten: `ELK.js (Eclipse Layout Kernel) – Eclipse Public License 2.0 – https://github.com/eclipse/elk` |
+| **Kompatibilität mit Apache 2.0** | EPL 2.0 enthält eine „Secondary License"-Klausel, die Kombination mit Apache 2.0 im gleichen Produkt erlaubt | Kein Konflikt; OEA-Projekt-Lizenz (Apache 2.0) bleibt unberührt |
+
+**Fazit**: ELK.js ist in OEA unter EPL 2.0 nutzbar. Einzige Pflicht bei Distribution: NOTICE-File-Eintrag. Wenn ELK.js zu einem späteren Zeitpunkt durch eine MIT/Apache-2.0-Alternative ersetzt wird (z.B. `elkjs`-Wrapper mit anderem Build), entfällt die Bedingung.

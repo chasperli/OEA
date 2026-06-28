@@ -155,9 +155,10 @@ Beide Modi sind JSON-importierbar. Das Backend validiert das Format und kompilie
 ```
 
 Import-Endpunkt: `POST /api/v1/metamodel/rules/import`
+Import-Vorschau: `POST /api/v1/metamodel/rules/import/preview` (**Dry-Run**, v1.0)
 Export-Endpunkt: `GET /api/v1/metamodel/rules/export`
 
-**Import-Semantik**: Replace-all (bestehende Rules werden komplett ersetzt). Ein Merge-Modus ist deferred für v2.0.
+**Import-Semantik**: Replace-all (bestehende Rules werden komplett ersetzt). Der Dry-Run-Endpunkt gibt eine Diff-Vorschau zurück (`added`, `removed`, `unchanged`) ohne die Rules tatsächlich zu speichern — Schutz vor versehentlichem Löschen. Ein Merge-Modus (add/update/delete einzelner Rules) ist deferred für v2.0.
 
 ---
 
@@ -215,13 +216,14 @@ Object result = program.eval(Map.of("entity", entityProperties));
 
 - GUI-Condition-Builder ist eigenständiger Frontend-Aufwand
 - `dev.cel:cel` befindet sich noch im 0.x-Versionsbereich; API-Stabilität vor Walking Skeleton prüfen (Alternativer Fallback: Spring Expression Language `SimpleEvaluationContext` — ohne CEL-Standardkonformität, aber zero additional dependency)
-- Import-Semantik (Replace-all) kann bei Versehen alle Rules löschen → Backup vor Import empfohlen (UI-Warnung)
+- Import-Semantik (Replace-all) kann bei Versehen alle Rules löschen → Dry-Run-Endpunkt (`/import/preview`) mitigiert das Risiko; zusätzlich UI-Warnung vor Bestätigung
 - `structured`-zu-CEL-Kompilierung muss getestet werden; Inkonsistenz zwischen Builder-Darstellung und tatsächlich ausgeführtem CEL möglich
 
 ### Folgeentscheidungen / Offene Punkte
 
 - **Operator-Erweiterung**: welche Operatoren in v2.0 (z.B. Cross-Entity-Checks: "jede Interface muss mindestens eine zugeordnete ApplicationComponent haben")? Betrifft CEL-Kontext-Erweiterung.
-- **Import-Merge-Modus**: Replace-all ist v1.0; Merge (add/update/delete einzelner Rules) kommt v2.0
+- **Import-Dry-Run**: `/import/preview` liefert Diff ohne Persistierung (v1.0, entschieden)
+- **Import-Merge-Modus**: Merge (add/update/delete einzelner Rules) kommt v2.0; Replace-all bleibt v1.0-Standard
 - **`MandatoryConnectionConstraint`-Builder**: strukturierter Builder für Connection-Constraints analog zu `ConstraintRule`; für v1.0 nur JSON-Import oder einfaches Formular
 
 ## Bezüge
