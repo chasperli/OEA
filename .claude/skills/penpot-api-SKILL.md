@@ -51,7 +51,7 @@ Variables are available automatically in every Claude Code session — no `expor
 
 ### Request Format
 
-All RPC calls use HTTP POST to `{API_BASE_URL}/api/rpc/command/{method-name}`
+All RPC calls use HTTP POST to `{PENPOT_API_URL}api/rpc/command/{method-name}`
 
 **Required Headers:**
 ```
@@ -60,73 +60,59 @@ Content-Type: application/json
 Accept: application/json
 ```
 
-The `Accept: application/json` header forces JSON response (default is Transit format, which is Clojure-specific).
+`Accept: application/json` forces JSON response (default is Transit/Clojure format).
 
 ### Self-Signed Certificate (Node.js)
 
-The Penpot instance uses a self-signed TLS certificate. Native `fetch` in Node.js rejects these by default. Use an `https.Agent` with `rejectUnauthorized: false`:
+Node.js 18+ built-in `fetch` does **not** support `https.Agent` for TLS options. Use the env var instead:
 
-```javascript
-const https = require('https');
-
-const agent = new https.Agent({ rejectUnauthorized: false });
-
-const response = await fetch(`${PENPOT_API_URL}api/rpc/command/get-profile`, {
-  method: "POST",
-  headers: {
-    "Authorization": `Token ${PENPOT_ACCESS_TOKEN}`,
-    "Content-Type": "application/json",
-    "Accept": "application/json"
-  },
-  body: "{}",
-  agent  // pass agent to every request
-});
+```bash
+NODE_TLS_REJECT_UNAUTHORIZED=0 node your-script.js
 ```
 
-Create a reusable helper to avoid repeating the agent on every call:
+Reusable RPC helper pattern:
 
 ```javascript
 const https = require('https');
-const agent = new https.Agent({ rejectUnauthorized: false });
+const agent = new https.Agent({ rejectUnauthorized: false }); // only works with node-fetch, not native fetch
 
-async function penpotFetch(command, body = {}) {
+async function rpc(command, body = {}) {
   const res = await fetch(`${process.env.PENPOT_API_URL}api/rpc/command/${command}`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Authorization": `Token ${process.env.PENPOT_ACCESS_TOKEN}`,
-      "Content-Type": "application/json",
-      "Accept": "application/json"
+      'Authorization': `Token ${process.env.PENPOT_ACCESS_TOKEN}`,
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
     },
     body: JSON.stringify(body),
-    agent
+    // NOTE: agent option is silently ignored by native fetch in Node 18+
+    // Run with NODE_TLS_REJECT_UNAUTHORIZED=0 instead
   });
-  if (!res.ok) throw new Error(`Penpot ${command} failed: ${res.status}`);
-  return res.json();
+  const text = await res.text();
+  if (!res.ok) throw new Error(`${command} failed (${res.status}): ${text.slice(0, 400)}`);
+  return JSON.parse(text);
 }
 ```
 
-> **Note:** `NODE_TLS_REJECT_UNAUTHORIZED=0` works as an alternative but disables TLS checks globally for the process — avoid it.
+### Response Format
 
-### Data Types & UUIDs
+**The API returns data directly — there is no `result` wrapper.**
 
-Penpot uses UUIDs for all identifiers:
-- **file_id**: Returned by `create-file`, used in all subsequent operations
-- **page_id**: Created when adding pages, identifies pages within files
-- **shape_id**: Generated for each shape (rectangle, text, frame, etc.)
-- **project_id**: Your Penpot project identifier
-
-Generate UUIDs in JavaScript/Node.js:
 ```javascript
-const { v4: uuidv4 } = require('uuid');
-const newId = uuidv4(); // e.g., "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+// ✗ WRONG (old assumption):
+const fileId = response.result.id;
+
+// ✓ CORRECT:
+const fileId = response.id;
 ```
 
-### Session Management
+### Root Frame UUID
 
-When calling `update-file`, you must provide:
-- `sessionId`: Set to the `file_id` (identifies the edit session)
-- `revn`: Revision number (start at 0, increment after each update)
-- `changes`: Array of change objects describing modifications
+Every Penpot page has a root frame with a fixed UUID. Shapes on the top level use this as their `parentId` and `frameId`:
+
+```javascript
+const ROOT = '00000000-0000-0000-0000-000000000000';
+```
 
 ---
 
@@ -134,399 +120,285 @@ When calling `update-file`, you must provide:
 
 ### 1. CREATE-FILE
 
-Create a new Penpot file.
+Creates a new file. Penpot automatically creates one default page — do not send an additional `add-page` change for it.
 
-**Endpoint:** `POST /api/rpc/command/create-file`
-
-**Request Body:**
+**Request:**
 ```json
 {
-  "name": "string (display name in Penpot UI)",
-  "project_id": "uuid (from PENPOT_PROJECT_ID env var)"
+  "name": "My Design File",
+  "project_id": "<PENPOT_PROJECT_ID>"
 }
 ```
 
-**Response:**
-```json
-{
-  "result": {
-    "id": "file-uuid",
-    "name": "string",
-    "project_id": "uuid",
-    "pages": [],
-    "version": 1
-  }
-}
-```
-
-**Example:**
+**Response:** File object directly (no wrapper):
 ```javascript
-const response = await fetch(`${PENPOT_API_URL}/api/rpc/command/create-file`, {
-  method: "POST",
-  headers: {
-    "Authorization": `Token ${PENPOT_ACCESS_TOKEN}`,
-    "Content-Type": "application/json",
-    "Accept": "application/json"
-  },
-  body: JSON.stringify({
-    name: "OEA_System_Context",
-    project_id: PENPOT_PROJECT_ID
-  })
-});
-
-const data = await response.json();
-const fileId = data.result.id;
-console.log(`Created file: ${fileId}`);
+const file = await rpc('create-file', { name: 'My File', project_id: PID });
+const fileId = file.id;                    // file UUID
+const pageId = file.data.pages[0];         // first (auto-created) page UUID
 ```
 
 ---
 
 ### 2. GET-FILE
 
-Retrieve complete file data including pages, shapes, and metadata.
-
-**Endpoint:** `POST /api/rpc/command/get-file`
-
-**Request Body:**
-```json
-{
-  "id": "file-uuid"
-}
-```
-
-**Response:** Full file object with pages array, shape hierarchy, assets, etc.
-
-**Example:**
 ```javascript
-const response = await fetch(`${PENPOT_API_URL}/api/rpc/command/get-file`, {
-  method: "POST",
-  headers: {
-    "Authorization": `Token ${PENPOT_ACCESS_TOKEN}`,
-    "Content-Type": "application/json",
-    "Accept": "application/json"
-  },
-  body: JSON.stringify({ id: fileId })
-});
-
-const fileData = await response.json();
-const pages = fileData.result.pages; // Array of pages in file
+const file = await rpc('get-file', { id: fileId });
+const pages = file.data.pages;             // array of page UUIDs
 ```
 
 ---
 
 ### 3. UPDATE-FILE
 
-Modify file structure by applying "changes" (add pages, shapes, update properties).
+Applies a batch of changes to a file.
 
-**Endpoint:** `POST /api/rpc/command/update-file`
-
-**Request Body:**
-```json
-{
-  "id": "file-uuid",
-  "sessionId": "file-uuid (same as id)",
-  "revn": 0,
-  "changes": [
-    { /* change object 1 */ },
-    { /* change object 2 */ }
-  ]
-}
+**Request — critical field names (all kebab-case):**
+```javascript
+await rpc('update-file', {
+  id: fileId,
+  'session-id': fileId,   // ← kebab-case, NOT sessionId; same value as id
+  revn: 0,                // current revision (0 for first update after create-file)
+  vern: 0,                // version number — required, start at 0
+  changes: [ /* change objects */ ],
+});
 ```
-
-**Critical Details:**
-- `sessionId` must equal `id` (identifies edit session)
-- `revn` must match server's current revision (typically 0 for first update, increments per change)
-- `changes` is an array – you can batch multiple operations
 
 **Response:**
-```json
-{
-  "result": {
-    "revn": 1,
-    "changes-revn": 1
-  }
-}
+```javascript
+{ revn: 0, lagged: [{ id: fileId, revn: 1, fileId, changes: [...] }] }
 ```
 
 ---
 
-## Change Types (for update-file)
+## Change Types
 
-### ADD-PAGE
-Adds a new page to the file.
+### ADD-OBJ — Add a shape
 
-```json
+**The change type is `add-obj`, NOT `add-shape`.**
+
+```javascript
 {
-  "type": "add-page",
-  "id": "uuid-for-new-page"
+  type: 'add-obj',
+  id: shapeId,            // UUID of the new shape
+  'page-id': pageId,      // ← kebab-case, NOT page_id
+  'parent-id': ROOT,      // UUID of parent (ROOT for top-level)
+  'frame-id': ROOT,       // UUID of containing frame (ROOT for top-level)
+  obj: { /* shape object — see below */ }
 }
 ```
 
-### ADD-SHAPE
+### DEL-OBJ — Delete a shape
 
-Adds a shape (rectangle, text, circle, frame, etc.) to a page.
-
-**Structure:**
-```json
-{
-  "type": "add-shape",
-  "id": "uuid-for-shape",
-  "page_id": "uuid-of-target-page",
-  "shape": {
-    "type": "rect|text|circle|path|frame|...",
-    "x": 0,
-    "y": 0,
-    "width": 200,
-    "height": 200,
-    "name": "Shape Display Name",
-    /* type-specific properties below */
-  }
-}
+```javascript
+{ type: 'del-obj', id: shapeId, 'page-id': pageId }
 ```
 
-#### Rectangle Shape
-```json
+### MOD-OBJ — Modify a shape
+
+```javascript
 {
-  "type": "add-shape",
-  "id": "uuid1",
-  "page_id": "uuid2",
-  "shape": {
-    "type": "rect",
-    "x": 100,
-    "y": 100,
-    "width": 200,
-    "height": 150,
-    "name": "Card Container",
-    "fill-color": "#FF6B6B",
-    "fill-opacity": 1,
-    "stroke-color": "#000000",
-    "stroke-opacity": 0.5,
-    "stroke-width": 2
-  }
-}
-```
-
-#### Text Shape
-```json
-{
-  "type": "add-shape",
-  "id": "uuid1",
-  "page_id": "uuid2",
-  "shape": {
-    "type": "text",
-    "x": 0,
-    "y": 0,
-    "width": 300,
-    "height": 100,
-    "name": "Title Text",
-    "content": "Welcome to Penpot",
-    "font-size": 24,
-    "font-weight": 700,
-    "font-family": "Roboto",
-    "text-color": "#333333",
-    "text-align": "center"
-  }
-}
-```
-
-#### Frame Shape
-```json
-{
-  "type": "add-shape",
-  "id": "uuid1",
-  "page_id": "uuid2",
-  "shape": {
-    "type": "frame",
-    "x": 0,
-    "y": 0,
-    "width": 1200,
-    "height": 800,
-    "name": "Desktop Layout"
-  }
-}
-```
-
-### MOD-OBJ
-
-Modifies existing shape properties (update color, position, text, etc.).
-
-```json
-{
-  "type": "mod-obj",
-  "id": "shape-uuid",
-  "operations": [
-    ["fill-color", "#0066FF"],
-    ["name", "Updated Name"],
-    ["x", 50],
-    ["y", 50]
+  type: 'mod-obj',
+  id: shapeId,
+  'page-id': pageId,
+  operations: [
+    { type: 'set', attr: 'name', val: 'New Name' },
+    { type: 'set', attr: 'x', val: 200 },
   ]
 }
 ```
 
-**Common Properties:**
-- `fill-color`: Hex color string (e.g., "#FF0000")
-- `fill-opacity`: 0-1 float
-- `name`: Display name in UI
-- `x`, `y`: Position coordinates
-- `width`, `height`: Dimensions
-- `content`: Text content (text shapes only)
-- `font-size`: Numeric size (text shapes)
-- `text-color`: Hex color (text shapes)
+### ADD-PAGE — Add an additional page
+
+```javascript
+{ type: 'add-page', id: newPageId }
+```
 
 ---
 
-## Workflow: Step-by-Step Example
+## Shape Object (`obj`)
 
-**Goal:** Create a file with a header frame and three colored boxes.
+Every shape object requires these fields. Missing any causes a 400 validation error.
+
+### Geometry helper
+
+```javascript
+function geo(x, y, w, h) {
+  return {
+    x, y, width: w, height: h, rotation: 0,
+    selrect: { x, y, width: w, height: h, x1: x, y1: y, x2: x + w, y2: y + h },
+    points: [{ x, y }, { x: x + w, y }, { x: x + w, y: y + h }, { x, y: y + h }],
+    transform: { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0 },
+    transformInverse: { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0 },
+    flipX: null, flipY: null,
+    proportion: 1, proportionLock: false,
+    r1: 0, r2: 0, r3: 0, r4: 0,  // corner radii
+  };
+}
+```
+
+### Rectangle
+
+```javascript
+const id = uuidv4();
+const obj = {
+  id, name: 'Card', type: 'rect',
+  parentId: ROOT, frameId: ROOT,
+  ...geo(x, y, w, h),
+  fills: [{ fillColor: '#FFFFFF', fillOpacity: 1 }],
+  strokes: [],   // or see stroke format below
+  shapes: [],
+};
+```
+
+### Stroke format
+
+Stroke keys are **kebab-case**. Do NOT include `stroke-type` or `stroke-position` — they are optional and have strict enum validation:
+
+```javascript
+strokes: [{
+  'stroke-color': '#E5E7EB',
+  'stroke-opacity': 1,
+  'stroke-width': 1,
+}]
+```
+
+### Text
+
+`font-size` and `font-weight` are **strings**, not numbers. Text content uses a paragraph tree:
+
+```javascript
+const id = uuidv4();
+const obj = {
+  id, name: 'Label', type: 'text',
+  parentId: ROOT, frameId: ROOT,
+  ...geo(x, y, w, h),
+  fills: [], strokes: [],
+  content: {
+    type: 'root',
+    children: [{
+      type: 'paragraph-set',
+      children: [{
+        type: 'paragraph',
+        'text-align': 'left',          // 'left' | 'center' | 'right'
+        children: [{
+          text: 'Hello World',
+          'font-size': '16',           // ← string
+          'font-weight': '700',        // ← string
+          fills: [{ 'fill-color': '#111827', 'fill-opacity': 1 }],
+          // ↑ fills array with kebab-case keys — NOT flat fill-color/fill-opacity
+        }],
+      }],
+    }],
+  },
+};
+```
+
+---
+
+## Complete Working Example
 
 ```javascript
 const { v4: uuidv4 } = require('uuid');
-const fetch = require('node-fetch'); // or use native fetch in Node 18+
+const ROOT = '00000000-0000-0000-0000-000000000000';
 
-const PENPOT_API_URL = process.env.PENPOT_API_URL;
-const PENPOT_TOKEN = process.env.PENPOT_ACCESS_TOKEN;
-const PENPOT_PROJECT_ID = process.env.PENPOT_PROJECT_ID;
+const API = process.env.PENPOT_API_URL;
+const TOKEN = process.env.PENPOT_ACCESS_TOKEN;
+const PID = process.env.PENPOT_PROJECT_ID;
 
-async function createDesign() {
-  // Step 1: Create file
-  console.log("Creating file...");
-  const createRes = await fetch(`${PENPOT_API_URL}/api/rpc/command/create-file`, {
-    method: "POST",
-    headers: {
-      "Authorization": `Token ${PENPOT_TOKEN}`,
-      "Content-Type": "application/json",
-      "Accept": "application/json"
-    },
-    body: JSON.stringify({
-      name: "Color Palette Demo",
-      project_id: PENPOT_PROJECT_ID
-    })
+async function rpc(command, body = {}) {
+  const res = await fetch(`${API}api/rpc/command/${command}`, {
+    method: 'POST',
+    headers: { 'Authorization': `Token ${TOKEN}`, 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify(body),
   });
-
-  const createData = await createRes.json();
-  if (!createData.result?.id) throw new Error("Failed to create file");
-  
-  const fileId = createData.result.id;
-  console.log(`✓ File created: ${fileId}`);
-
-  // Step 2: Add page
-  console.log("Adding page...");
-  const pageId = uuidv4();
-  
-  // Step 3: Add shapes (batched)
-  const frameId = uuidv4();
-  const box1Id = uuidv4();
-  const box2Id = uuidv4();
-  const box3Id = uuidv4();
-
-  const updateRes = await fetch(`${PENPOT_API_URL}/api/rpc/command/update-file`, {
-    method: "POST",
-    headers: {
-      "Authorization": `Token ${PENPOT_TOKEN}`,
-      "Content-Type": "application/json",
-      "Accept": "application/json"
-    },
-    body: JSON.stringify({
-      id: fileId,
-      sessionId: fileId,
-      revn: 0,
-      changes: [
-        // Add page
-        { type: "add-page", id: pageId },
-        
-        // Add frame
-        {
-          type: "add-shape",
-          id: frameId,
-          page_id: pageId,
-          shape: {
-            type: "frame",
-            x: 0,
-            y: 0,
-            width: 1200,
-            height: 800,
-            name: "Main Frame"
-          }
-        },
-        
-        // Add three colored boxes
-        {
-          type: "add-shape",
-          id: box1Id,
-          page_id: pageId,
-          shape: {
-            type: "rect",
-            x: 100,
-            y: 100,
-            width: 200,
-            height: 200,
-            name: "Red Box",
-            "fill-color": "#FF0000",
-            "fill-opacity": 1
-          }
-        },
-        {
-          type: "add-shape",
-          id: box2Id,
-          page_id: pageId,
-          shape: {
-            type: "rect",
-            x: 400,
-            y: 100,
-            width: 200,
-            height: 200,
-            name: "Green Box",
-            "fill-color": "#00FF00",
-            "fill-opacity": 1
-          }
-        },
-        {
-          type: "add-shape",
-          id: box3Id,
-          page_id: pageId,
-          shape: {
-            type: "rect",
-            x: 700,
-            y: 100,
-            width: 200,
-            height: 200,
-            name: "Blue Box",
-            "fill-color": "#0000FF",
-            "fill-opacity": 1
-          }
-        }
-      ]
-    })
-  });
-
-  const updateData = await updateRes.json();
-  if (!updateData.result) throw new Error("Failed to update file");
-  
-  console.log(`✓ Design created! File ID: ${fileId}`);
-  console.log(`✓ View at: ${PENPOT_API_URL}/dashboard/projects/${PENPOT_PROJECT_ID}`);
-  
-  return fileId;
+  const text = await res.text();
+  if (!res.ok) throw new Error(`${command} (${res.status}): ${text.slice(0, 400)}`);
+  return JSON.parse(text);
 }
 
-createDesign().catch(err => console.error("Error:", err));
+function geo(x, y, w, h) {
+  return {
+    x, y, width: w, height: h, rotation: 0,
+    selrect: { x, y, width: w, height: h, x1: x, y1: y, x2: x+w, y2: y+h },
+    points: [{ x, y }, { x: x+w, y }, { x: x+w, y: y+h }, { x, y: y+h }],
+    transform: { a:1,b:0,c:0,d:1,e:0,f:0 }, transformInverse: { a:1,b:0,c:0,d:1,e:0,f:0 },
+    flipX: null, flipY: null, proportion: 1, proportionLock: false, r1:0, r2:0, r3:0, r4:0,
+  };
+}
+
+function addRect(pageId, x, y, w, h, name, fillColor = '#FFFFFF', fillOpacity = 1, strokeColor = null, strokeWidth = 1) {
+  const id = uuidv4();
+  return {
+    type: 'add-obj', id, 'page-id': pageId, 'parent-id': ROOT, 'frame-id': ROOT,
+    obj: {
+      id, name, type: 'rect', parentId: ROOT, frameId: ROOT,
+      ...geo(x, y, w, h),
+      fills: [{ fillColor, fillOpacity }],
+      strokes: strokeColor ? [{ 'stroke-color': strokeColor, 'stroke-opacity': 1, 'stroke-width': strokeWidth }] : [],
+      shapes: [],
+    },
+  };
+}
+
+function addText(pageId, x, y, w, h, name, content, size = 14, weight = 400, color = '#111827', align = 'left') {
+  const id = uuidv4();
+  return {
+    type: 'add-obj', id, 'page-id': pageId, 'parent-id': ROOT, 'frame-id': ROOT,
+    obj: {
+      id, name, type: 'text', parentId: ROOT, frameId: ROOT,
+      ...geo(x, y, w, h),
+      fills: [], strokes: [],
+      content: {
+        type: 'root',
+        children: [{
+          type: 'paragraph-set',
+          children: [{
+            type: 'paragraph', 'text-align': align,
+            children: [{
+              text: content,
+              'font-size': String(size),
+              'font-weight': String(weight),
+              fills: [{ 'fill-color': color, 'fill-opacity': 1 }],
+            }],
+          }],
+        }],
+      },
+    },
+  };
+}
+
+async function main() {
+  // create-file also creates page[0] automatically
+  const file = await rpc('create-file', { name: 'Demo', project_id: PID });
+  const fileId = file.id;
+  const pageId = file.data.pages[0];
+
+  await rpc('update-file', {
+    id: fileId,
+    'session-id': fileId,   // kebab-case
+    revn: 0,
+    vern: 0,                // required
+    changes: [
+      addRect(pageId, 0, 0, 800, 600, 'Background', '#F1F3F9'),
+      addRect(pageId, 100, 100, 600, 400, 'Card', '#FFFFFF', 1, '#E5E7EB', 1),
+      addText(pageId, 140, 140, 300, 40, 'Title', 'OEA Demo', 24, 700, '#4F46E5', 'left'),
+    ],
+  });
+
+  console.log(`✓ File: ${fileId}`);
+  console.log(`  Open: ${API}dashboard/projects/${PID}`);
+}
+
+// Run with: NODE_TLS_REJECT_UNAUTHORIZED=0 node script.js
+main().catch(e => { console.error(e.message); process.exit(1); });
 ```
 
 ---
 
-## Error Handling
-
-### Common Error Responses
-
-| Status | Error | Cause | Solution |
-|--------|-------|-------|----------|
-| 400 | Bad Request | Malformed JSON, invalid shape properties | Validate shape object structure, check required fields |
-| 401 | Unauthorized | Token invalid/expired | Generate new token, verify env vars |
-| 500 | Internal Server Error | Backend error, Transit encoding issue | Already using `Accept: application/json`; check server logs |
-
-### Debug Checklist
+## Connectivity Check
 
 ```bash
-# Quick connectivity check (self-signed cert → -k flag required)
+# Self-signed cert → -k flag required
 curl -sk -X POST "${PENPOT_API_URL}api/rpc/command/get-profile" \
   -H "Authorization: Token ${PENPOT_ACCESS_TOKEN}" \
   -H "Content-Type: application/json" \
@@ -534,168 +406,40 @@ curl -sk -X POST "${PENPOT_API_URL}api/rpc/command/get-profile" \
   -d "{}" | python3 -m json.tool
 ```
 
-```javascript
-// 1. Verify env vars
-console.log("API URL:", process.env.PENPOT_API_URL);
-console.log("Token exists:", !!process.env.PENPOT_ACCESS_TOKEN);
-console.log("Project ID:", process.env.PENPOT_PROJECT_ID);
+---
 
-// 2. Test basic connectivity (self-signed cert: use agent options or --insecure equivalent)
-const testRes = await fetch(`${PENPOT_API_URL}api/rpc/command/get-profile`, {
-  method: "POST",
-  headers: {
-    "Authorization": `Token ${PENPOT_TOKEN}`,
-    "Content-Type": "application/json",
-    "Accept": "application/json"
-  },
-  body: "{}"
-});
-console.log("Profile check status:", testRes.status);
+## Common Errors
 
-// 3. Log full response
-const json = await testRes.json();
-console.log(JSON.stringify(json, null, 2));
-```
-
-### Transit Format Issues
-
-If you see response like `["^ ","~#'penpot/..."]`, the server returned Transit format instead of JSON.
-
-**Solution:** Ensure request has these exact headers:
-```javascript
-"Content-Type": "application/json",
-"Accept": "application/json"
-```
+| Status | Cause | Fix |
+|--------|-------|-----|
+| 400 `params-validation` | Missing/wrong field in shape `obj` | Check `selrect`, `parentId`, `frameId`, `points` are all present |
+| 400 on `stroke-type` | Invalid enum value | Remove `stroke-type` and `stroke-position` — they are optional |
+| 400 on `session-id` | Wrong key name | Use `'session-id'` (kebab-case), not `sessionId` |
+| 400 missing `vern` | `vern` not sent | Always include `vern: 0` in `update-file` |
+| 401 | Token invalid/expired | Generate new token in Penpot UI |
+| fetch failed | TLS cert rejected | Run with `NODE_TLS_REJECT_UNAUTHORIZED=0` |
 
 ---
 
-## Best Practices
+## Wireframe Conventions
 
-### 1. Batch Changes When Possible
-Instead of multiple `update-file` calls, group changes in one request:
+### Annotations ausserhalb des Artboards
 
-```javascript
-// ✗ Inefficient: 3 API calls
-await updateFile(fileId, [{ type: "add-page", ... }]);
-await updateFile(fileId, [{ type: "add-shape", ... }]);
-await updateFile(fileId, [{ type: "add-shape", ... }]);
-
-// ✓ Better: 1 API call
-await updateFile(fileId, [
-  { type: "add-page", ... },
-  { type: "add-shape", ... },
-  { type: "add-shape", ... }
-]);
-```
-
-### 2. Generate UUIDs in Advance
-Pre-generate all UUIDs before making API calls to avoid coordination issues:
+Spezifikationshinweise (Use-Case-Referenzen, REQ-IDs, Entwicklernotizen) gehören **niemals** in den Screen-Bereich. Sie werden stattdessen unterhalb des Screen-Hintergrunds platziert:
 
 ```javascript
-const ids = {
-  file: uuidv4(),
-  page: uuidv4(),
-  shapes: {
-    frame: uuidv4(),
-    box1: uuidv4(),
-    box2: uuidv4()
-  }
-};
+const FW = 1280, FH = 800;   // Screen dimensions
+
+// ✗ FALSCH — Text liegt innerhalb des Screen-Rechtecks und erscheint in der App:
+T(pid, x+400, y+756, 480, 18, 'UC', 'UC-01: Login | REQ-136', ...);
+
+// ✓ RICHTIG — Text liegt unterhalb des Screens (y + FH + Abstand):
+T(pid, x+400, y+FH+12, 480, 18, 'UC', 'UC-01: Login | REQ-136', ...);
 ```
 
-### 3. Validate Data Before API Calls
-Check shape properties have required fields:
+**Faustregel**: `y`–`y+FH` = App-UI. `y+FH+N` = Annotation/Spezifikation.
 
-```javascript
-function validateShape(shape) {
-  if (!["rect", "text", "circle", "frame"].includes(shape.type)) {
-    throw new Error(`Unknown shape type: ${shape.type}`);
-  }
-  if (typeof shape.x !== "number" || typeof shape.y !== "number") {
-    throw new Error("Shape must have numeric x, y coordinates");
-  }
-  if (shape.width <= 0 || shape.height <= 0) {
-    throw new Error("Shape width/height must be positive");
-  }
-}
-```
-
-### 4. Use Descriptive Names
-Give shapes meaningful names for UI clarity:
-
-```json
-{
-  "name": "Hero Section Header",
-  "type": "frame"
-}
-```
-
-### 5. Increment Revision Number Carefully
-After successful `update-file`, the response includes new `revn`. For subsequent updates, use that new number:
-
-```javascript
-let currentRevn = 0;
-
-// First update
-const res1 = await updateFile(fileId, changes, currentRevn);
-currentRevn = res1.result.revn; // Get new revision
-
-// Second update uses new revision
-const res2 = await updateFile(fileId, moreChanges, currentRevn);
-```
-
----
-
-## Integration with Claude Code
-
-Use this skill whenever you need to:
-
-1. **Generate designs programmatically:**
-   ```
-   "Create a design system mockup from this component definitions JSON"
-   ```
-
-2. **Automate design tasks:**
-   ```
-   "Generate 10 color variations of the OEA dashboard"
-   ```
-
-3. **Data-driven design:**
-   ```
-   "Create a Penpot file with typography samples for all sizes in design tokens"
-   ```
-
-4. **Workflow automation:**
-   ```
-   "Build a Python script that creates Penpot mockups from Figma specifications"
-   ```
-
----
-
-## Troubleshooting
-
-**Q: Getting "Already connected to a transport" errors?**  
-A: This is a Penpot MCP server bug (not your API usage). You're using raw RPC API, which should not have this issue. If it persists, restart Penpot server.
-
-**Q: Revisions don't increment correctly?**  
-A: Always use `sessionId` = `id` (same value). If mixing multiple edit sessions, ensure each uses its own `sessionId`.
-
-**Q: Can't see my generated file in Penpot UI?**  
-A: Verify:
-1. Correct `project_id` in create-file call
-2. File created successfully (check response)
-3. Penpot UI is viewing the correct project
-4. Try refreshing browser
-
-**Q: Text isn't appearing in text shapes?**  
-A: Ensure the `content` field is set:
-```json
-{
-  "type": "text",
-  "content": "Your text here",
-  ...
-}
-```
+Dieser Konvention folgen Figma, Sketch und Penpot gleichermassen: Alles innerhalb eines Artboards / Screen-Rechtecks wird als Produkt-UI betrachtet; Dokumentation und Rückverfolgbarkeit leben ausserhalb.
 
 ---
 
@@ -703,4 +447,3 @@ A: Ensure the `content` field is set:
 
 - [Penpot Technical Guide](https://help.penpot.app/technical-guide/)
 - [Penpot Data Model](https://help.penpot.app/technical-guide/developer/data-model/)
-- [Self-Hosted Setup](https://help.penpot.app/technical-guide/getting-started/)

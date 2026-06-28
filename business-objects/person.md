@@ -39,6 +39,7 @@ Im Kontext der Tool-Authentifizierung (siehe [UC-01 Login](../requirements/use-c
 | endDate | date | optional | | | Ende der Zugehörigkeit |
 | externalReference | reference | optional | | target: external-identity (z.B. AD, Workday, OIDC-Provider) | Verweis auf Master-System |
 | detailLevel | enum | required | reference-only | `[full, reference-only, anonymized]` | Steuert, wie viele Personendaten im Repository selbst gehalten werden |
+| uiTheme | enum | required | system | `[light, dark, system]` | Bevorzugtes UI-Farbschema; `system` übernimmt die OS-Einstellung (prefers-color-scheme) |
 
 ## Beziehungen
 
@@ -99,6 +100,8 @@ fillsRoles:
 ## Verwendung in Use Cases
 
 - [UC-01: Login](../requirements/use-cases/UC-01-login.md)
+- [UC-02: System-Admin-Bootstrapping](../requirements/use-cases/UC-02-system-admin-bootstrapping.md)
+- [UC-03: Authentifizierungsmethode einrichten](../requirements/use-cases/UC-03-authentifizierungsmethode-einrichten.md)
 
 ## Konzept-Bezug
 
@@ -115,3 +118,4 @@ Erste Modellierung im Rahmen von UC-01 Login. Attribute auf das für Authentifiz
 | Version | Datum | Autor | Änderung |
 |---|---|---|---|
 | 0.1.0 | 2026-06-24 | Business Engineer | Initial draft im Rahmen von UC-01 Login |
+| 0.2.0 | 2026-06-28 | Business Engineer | `uiTheme`-Attribut ergänzt (REQ-135: Dark-Mode-Präferenz pro Person, serverseitig persistiert) |

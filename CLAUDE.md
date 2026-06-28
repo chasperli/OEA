@@ -187,6 +187,31 @@ Workflow siehe `.claude/agents/README.md` und `docs/workflow-example.md`.
 - IMMER betroffene Konzept-Kapitel verlinken
 - NIEMALS ADR-Nummer wiederverwenden (auch nicht bei Rejected)
 
+### Bei Datenmodell-Änderungen
+
+Das Datenmodell besteht aus zwei synchron zu haltenden Quellen:
+- `docs/data-model.puml` – PlantUML-Gesamtdiagramm (Klassen, Attribute, Relationen, SQL-Constraints)
+- `business-objects/<name>.md` – Einzelbeschreibung je Business Object
+
+**Auslöser für eine Datenmodell-Prüfung** – bei jedem der folgenden Ereignisse MUSS geprüft werden, ob das Datenmodell noch aktuell ist und ggf. angepasst werden muss:
+
+| Ereignis | Was prüfen |
+|---|---|
+| Neues Business Object (`/new-business-object`) | Klasse in `data-model.puml` ergänzen; Attribute, Typen, Relationen eintragen |
+| Neues Requirement mit Daten-Auswirkung | Betroffenes BO in `business-objects/<name>.md` prüfen; neues Attribut/neue Relation in `data-model.puml` nachtragen |
+| Neuer Use Case, der ein bisher unbekanntes BO referenziert | BO anlegen, dann Datenmodell ergänzen |
+| Neue ADR mit Persistenz-Auswirkung (z. B. Soft-Delete, Audit-Log, neue Tabelle) | Konsequenzen in `data-model.puml` umsetzen |
+| Geändertes Business Object (Attribut umbenannt, Typ geändert, Relation entfernt) | `data-model.puml` synchron halten; bestehende REQs und USs auf Konsistenz prüfen |
+
+**Konkrete Schritte bei jeder Änderung:**
+
+1. `docs/data-model.puml` öffnen und prüfen, ob das betroffene BO/Attribut bereits enthalten ist
+2. Falls nicht vorhanden oder veraltet: Klasse, Attribute (mit Typ und Sichtbarkeit), Relationen und SQL-Constraints ergänzen/korrigieren
+3. Falls das zugehörige `business-objects/<name>.md` noch kein Attribut kennt: dort ebenfalls ergänzen
+4. Kurz notieren, warum die Änderung nötig war (z. B. als Kommentar in `data-model.puml` oder in der BO-Datei unter "Notizen")
+
+**Faustregel:** Jedes Attribut, das in einem REQ oder einer User Story vorkommt, muss auch im Datenmodell sichtbar sein — spätestens bevor die zugehörige User Story als `accepted` markiert wird.
+
 ## Anti-Patterns
 
 Bitte explizit vermeiden:
@@ -213,6 +238,12 @@ Bitte explizit vermeiden:
 
 - **Notation-spezifische Beispiele festschreiben** – siehe §21.2.1, Notation ist noch offen
 - **Erzwungene Tiefe** – Logical-Schicht ist optional, das ist Grundprinzip
+
+### Datenmodell
+
+- **Requirement anlegen, Datenmodell vergessen** – jedes REQ/US mit Daten-Auswirkung muss eine Spur im Datenmodell hinterlassen
+- **`data-model.puml` und `business-objects/*.md` auseinanderlaufen lassen** – beide Quellen müssen synchron sein; nur eine zu pflegen erzeugt versteckte Widersprüche
+- **Attribute in Anforderungen beschreiben, aber nicht typisieren** – Typ, Wertebereich und Pflichtfeld-Status gehören ins BO, nicht nur in den Fließtext eines REQ
 
 ## Definition of Done für die Requirements-Phase
 

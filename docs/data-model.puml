@@ -45,6 +45,9 @@ package "Auth" #FFF8E1 {
     .. enum: full | reference-only | anonymized ..
     + external_ref_system : TEXT
     + external_ref_id     : TEXT
+    + ui_theme      : TEXT               {NN} DEFAULT 'system'
+    .. enum: light | dark | system ..
+    .. REQ-135: serverseitige UI-Präferenz pro Person ..
     + created_at    : TIMESTAMPTZ        {NN} DEFAULT NOW()
   }
 
