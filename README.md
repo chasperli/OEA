@@ -24,10 +24,26 @@ Mehr Details: [business-analysis/vision.md](business-analysis/vision.md)
 
 ## Status
 
-**Pre-Alpha** – das Projekt ist in der konzeptionellen Phase. Konzeptpapier ist auf v0.15 reif, Implementierung beginnt.
+**Pre-Alpha** – Requirements Engineering abgeschlossen, Walking Skeleton in Vorbereitung.
 
-- Konzept: vollständig (24 Kapitel + Changelog), siehe [`concept/`](concept/)
-- Requirements: in Aufbau
+<!-- AUTO-GENERATED: stats -->
+| Artefakt | Anzahl |
+|---|---|
+| Stakeholder-Profile | 9 |
+| Use Cases | 21 |
+| Requirements | 142 |
+| User Stories | 136 |
+| ADRs | 21 |
+| Business Objects | 22 |
+
+_Konzept: v0.17 · Letzter Update: 2026-06-29_
+<!-- /AUTO-GENERATED: stats -->
+
+**Nächster Schritt**: Walking Skeleton auf Basis von UC-06 (Katalog-Browser).
+
+- Konzept: vollständig (24 Kapitel + Changelog, v0.17), siehe [`concept/`](concept/)
+- Requirements: abgeschlossen – alle 21 UCs, 142 REQs, 136 USs, 21 ADRs definiert
+- Tech-Stack: entschieden (Java 21 / Vue 3 / PostgreSQL 15 / Tauri)
 - Code: noch nicht begonnen
 - v1.0-Release: TBD
 
@@ -39,43 +55,60 @@ OEA ist **noch nicht produktiv einsetzbar**. Wenn du mitwirken willst: [CONTRIBU
 |---|---|
 | Konzeptpapier | [`concept/README.md`](concept/README.md) |
 | Vision und Stakeholder | [`business-analysis/`](business-analysis/) |
+| Business Objects / Datenmodell | [`business-objects/`](business-objects/) · [`docs/data-model.puml`](docs/data-model.puml) |
 | Anforderungen | [`requirements/`](requirements/) |
 | Architekturentscheidungen | [`adrs/`](adrs/) |
-| Business Objects | [`business-objects/`](business-objects/) |
-| Templates | [`templates/`](templates/) |
+| Wireframes / Screens | [`docs/screens/`](docs/screens/) |
 | Workflow-Beispiel | [`docs/workflow-example.md`](docs/workflow-example.md) |
 | Quick Reference | [`docs/quick-reference.md`](docs/quick-reference.md) |
 | Anti-Patterns | [`docs/anti-patterns.md`](docs/anti-patterns.md) |
+| Templates | [`templates/`](templates/) |
 | Beitragen | [CONTRIBUTING.md](CONTRIBUTING.md) |
-| Verhaltenskodex | [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) |
 | Sicherheit | [SECURITY.md](SECURITY.md) |
-| Maintainer | [MAINTAINERS.md](MAINTAINERS.md) |
 
 ## Wer profitiert von OEA
 
-Sieben Persona-Profile sind ausgearbeitet (siehe [`business-analysis/stakeholders/`](business-analysis/stakeholders/)):
+<!-- AUTO-GENERATED: stakeholders -->
+9 Persona-Profile sind ausgearbeitet (siehe [`business-analysis/stakeholders/`](business-analysis/stakeholders/)):
 
-- **Franz** – Junior Domain Architekt im Konzern, Greenfield
-- **Sabine** – Senior Business Engineer im Globalkonzern
-- **Lukas** – Senior Data Architekt im Mittelstand (Avolution heute)
-- **Kurt** – Lead Enterprise Architekt im KMU (Wiki heute)
-- **Michael** – Solution Architekt im Mittelstand (Sparx heute)
-- **Max** – Operator im regulierten KMU
-- **CIO** – Konzern mit Multi-Tool-Stack
+- **SH-01** Franz – Junior Domain Architekt im Konzern
+- **SH-02** Lukas – Senior Data Architekt im Mittelstand
+- **SH-03** Kurt – Lead Enterprise Architekt im KMU
+- **SH-04** Michael – Solution Architekt im Mittelstand
+- **SH-05** CIO – Konzern mit gemischtem OEA-Stack
+- **SH-06** Max – Operator im regulierten KMU
+- **SH-07** Sabine – Senior Business Engineer im Globalkonzern
+- **SH-08** Anna – Business Analyst im Mittelstand
+- **SH-09** Rigobert – Produkt Owner und Repository-Inhaber
+<!-- /AUTO-GENERATED: stakeholders -->
 
 ## Technologie-Entscheidungen
 
-Stand der Stack-Entscheidungen:
-
-| Bereich | Status | Anforderung |
+<!-- AUTO-GENERATED: adrs -->
+| ADR | Entscheidung | Status |
 |---|---|---|
-| Backend | offen | Typsicher (Python+Pydantic / Rust / Go / TypeScript / Kotlin) |
-| Frontend | offen | TypeScript Pflicht, Framework offen |
-| Persistenz | offen | Graph + Analytics, austauschbar |
-| API | entschieden | OpenAPI 3.1 als Spec-Standard |
-| Lizenz | entschieden | Apache 2.0 |
-
-Architekturentscheidungen werden als ADR dokumentiert: [`adrs/`](adrs/).
+| [ADR-001](adrs/ADR-001-urn-schema.md) | URN-Schema und Stabilitäts-Garantien | accepted |
+| [ADR-002](adrs/ADR-002-continuum-repository.md) | Enterprise Continuum – Ein Repository oder zwei? | accepted |
+| [ADR-003](adrs/ADR-003-product-vs-project.md) | Product vs. Project – Koexistenz oder Trennung? | accepted |
+| [ADR-004](adrs/ADR-004-reifikation-details.md) | Reifikations-Details (Max-Tiefe, Adressierung, UI) | accepted |
+| [ADR-005](adrs/ADR-005-app-vs-tech-default.md) | Application-vs-Technology-Klassifikations-Prinzip (Default) | accepted |
+| [ADR-006](adrs/ADR-006-auth-stack-wahl.md) | Auth-Stack-Wahl (Identity-Provider-Integrationen) | accepted |
+| [ADR-007](adrs/ADR-007-canvas-bibliothek.md) | Canvas-Bibliothek für interaktive Diagramm-Editierung | accepted |
+| [ADR-008](adrs/ADR-008-gui-architektur-dual-track.md) | GUI-Architektur – Client App + Web Portal (Dual-Track-Delivery) | accepted |
+| [ADR-009](adrs/ADR-009-client-app-framework.md) | Client-App-Framework – Electron vs. Tauri | accepted |
+| [ADR-010](adrs/ADR-010-n-connection-data-lineage.md) | Modellierung der DataFlow↔DataObject-Beziehung (n-Connection vs. Property-String) | accepted |
+| [ADR-011](adrs/ADR-011-frontend-framework.md) | Frontend-Framework – Vue 3 + TypeScript | accepted |
+| [ADR-012](adrs/ADR-012-backend-stack.md) | Backend-Stack – Java 21 + Spring Boot 3 + Hibernate | accepted |
+| [ADR-013](adrs/ADR-013-api-stil.md) | API-Stil – REST + OpenAPI 3.x | accepted |
+| [ADR-014](adrs/ADR-014-frontend-komponentenbibliothek.md) | Frontend-Komponentenbibliothek und WYSIWYG-Editor | accepted |
+| [ADR-015](adrs/ADR-015-db-migration.md) | Datenbank-Migrations-Tool – Flyway | accepted |
+| [ADR-016](adrs/ADR-016-persistenz-strategie.md) | Persistenz-Strategie – PostgreSQL 15 + JSONB | accepted |
+| [ADR-017](adrs/ADR-017-architektur-layer-strategie.md) | Architektur-Layer-Strategie – Fully Open in v1.0 | accepted |
+| [ADR-018](adrs/ADR-018-business-rule-engine.md) | Business-Rule-Engine – CEL mit GUI-Abstraktionsschicht | accepted |
+| [ADR-019](adrs/ADR-019-soft-delete-strategie.md) | Soft-Delete-Strategie für Entities und Connections | accepted |
+| [ADR-020](adrs/ADR-020-explorer-navigationsmodell.md) | Explorer-Browser-Navigationsmodell im Native Client | proposed |
+| [ADR-021](adrs/ADR-021-implizite-parent-child-verbindung.md) | Implizite Parent-Child-Verbindung bei Component-Verschachtelung | proposed |
+<!-- /AUTO-GENERATED: adrs -->
 
 ## Mitwirken
 
@@ -113,7 +146,6 @@ OEA baut auf etablierten Standards auf:
 
 ## Kontakt
 
-- **Konzeptionelle Fragen**: GitHub/Gitea Discussions
+- **Konzeptionelle Fragen**: GitHub Discussions
 - **Sicherheits-Meldungen**: siehe [SECURITY.md](SECURITY.md)
-- **Maintainer**: siehe [MAINTAINERS.md](MAINTAINERS.md)
 - **Verhaltenskodex-Verstöße**: `conduct@oea.org` (TBD)
