@@ -1,6 +1,6 @@
 # Walking Skeleton – Definition
 
-**Stand**: 2026-06-26
+**Stand**: 2026-06-29
 **Status**: definiert
 
 ---
@@ -19,9 +19,9 @@ CLAUDE.md schreibt vor: **genau ein End-to-End-Use-Case**.
 
 | Kriterium | UC-05 Canvas | UC-06 Katalog | Warum Katalog gewinnt |
 |---|---|---|---|
-| Frontend-Komplexität | React Flow (Nested Nodes, Layout-Engine, Drag & Drop) | React-Tabelle (sortierbar, paginierbar) | Katalog ist 4× einfacher zu rendern |
+| Frontend-Komplexität | Vue Flow (Nested Nodes, Layout-Engine, Drag & Drop) | Vue-Tabelle (sortierbar, paginierbar) | Katalog ist 4× einfacher zu rendern |
 | Domain-Modell-Komplexität | Solution, EntityDelta, Plateau, Conflict-Detection | ArchitectureEntity + EntityTypeDefinition | Katalog kommt mit dem Kern-Modell aus |
-| Externe Abhängigkeiten | React Flow, ELK.js, D3 | keine zusätzlichen Libraries | weniger Risiko im ersten Sprint |
+| Externe Abhängigkeiten | Vue Flow, ELK.js, D3 | keine zusätzlichen Libraries | weniger Risiko im ersten Sprint |
 | Stakeholder-Value | Architekt kann modellieren | **Jeder** Stakeholder kann Inventar einsehen | universellerer Wert |
 | Realismus für Sprint 1 | ~34 SP (alle USs), davon >50% Canvas-Code | **22 SP** (Minimal-Set, siehe unten) | realistisch in 2 Wochen |
 
@@ -32,7 +32,7 @@ UC-05 (Canvas) kommt **nach** dem Walking Skeleton — es setzt UC-06 voraus (En
 - PostgreSQL-Schema: Migrations, Entity-CRUD, Metamodell-Abfrage
 - OIDC-Auth: Token-Validierung, Rollen-Mapping (ADR-006)
 - REST-API: Endpunkte für EntityType-Import, Entity-CRUD, Catalog-Query
-- Frontend: React-App rendert im Browser; Katalog-Tabelle; Formular zur Entitäts-Anlage
+- Frontend: Vue-App rendert im Browser; Katalog-Tabelle; Formular zur Entitäts-Anlage
 - End-to-End-Datenfluss: Admin tippt Name → API → DB → Tabelle im Browser
 
 ---
@@ -74,7 +74,7 @@ Diese 6 User Stories bilden den Walking Skeleton. Alles andere kommt danach.
    → Migrations laufen durch (Flyway/Liquibase)
 
 2. Admin öffnet Browser: https://oea.local
-   → React-App lädt
+   → Vue-App lädt
 
 3. Admin ruft /setup auf (noch kein Admin vorhanden)
    → US-013: gibt instance-slug "acme-corp" und OIDC-Config ein
@@ -111,7 +111,7 @@ Dieses Szenario beweist alle technischen Layer End-to-End. Die Architektur funkt
 
 | Feature | UC | Begründung |
 |---|---|---|
-| Canvas / Diagramme | UC-05 | React Flow — höchste Frontend-Komplexität; baut auf UC-06 auf |
+| Canvas / Diagramme | UC-05 | Vue Flow — höchste Frontend-Komplexität; baut auf UC-06 auf |
 | Join-Spalten, Filter, Sortierung | UC-06 (advanced) | Sprint 2; Kern-Katalogtabelle reicht für Skeleton |
 | Anlage-Wizard | US-069 / REQ-066 | Sprint 2; einfaches Formular reicht |
 | Dashboard | UC-07 | Sprint 3+; setzt funktionierende Entitäten voraus |
@@ -128,10 +128,10 @@ Dieses Szenario beweist alle technischen Layer End-to-End. Die Architektur funkt
 | Schicht | Entscheidung | ADR |
 |---|---|---|
 | Deployment | Docker Compose; `docker compose up` = lauffähig | REQ-075 |
-| Datenbank | PostgreSQL 15; Flyway/Liquibase Migrations | ADR-001, REQ-075 |
-| API | REST, JSON; `/api/v1/entities`, `/api/v1/metamodel` | ADR-001 |
+| Datenbank | PostgreSQL 15; Flyway-Migrations | ADR-015, REQ-075 |
+| API | REST, JSON; OpenAPI 3.1 (`api/openapi.yaml`) | ADR-013 |
 | Auth | OIDC; JWT; Keycloak oder Entra ID | ADR-006 |
-| Frontend | React + TypeScript; Catalog = HTML-Tabelle für den Skeleton | ADR-008, ADR-009 |
+| Frontend | Vue 3 + TypeScript; Katalog = HTML-Tabelle für den Skeleton | ADR-011 |
 | Entity-IDs | Integer; instance-slug beim Bootstrapping gesetzt | ADR-001 |
 | Metamodell | scope: built-in / imported / organization | ADR-002 |
 | Starter-Paket | oea-starter-togaf-classic als JSON-Import | ADR-005 |

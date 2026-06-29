@@ -36,22 +36,53 @@ package "Auth" #FFF8E1 {
   class persons <<Table>> #FFECB3 {
     + id                  : BIGSERIAL     {PK}
     --
+    + person_type         : TEXT          {NN} DEFAULT 'human'
+    .. enum: human | service-account ..
+    .. service-account: kein ui_language/ui_theme erforderlich ..
     + name                : TEXT          {NN}
     + email               : TEXT          {NN} {UQ}
     + employee_id         : TEXT
+    .. null bei service-account ..
     + active              : BOOLEAN       {NN} DEFAULT true
     + start_date          : DATE
     + end_date            : DATE
     + detail_level        : TEXT          {NN} DEFAULT 'reference-only'
     .. enum: full | reference-only | anonymized ..
+    .. service-account: immer 'reference-only' ..
     + external_ref_system : TEXT
     + external_ref_id     : TEXT
     + ui_language         : TEXT          {NN} DEFAULT 'de'
     .. BCP 47: 'de' | 'en' | 'fr' | 'it' ..
+    .. ignoriert bei person_type=service-account ..
     + ui_theme            : TEXT          {NN} DEFAULT 'system'
     .. enum: light | dark | system ..
     + created_at          : TIMESTAMPTZ   {NN} DEFAULT NOW()
   }
+
+  class machine_credentials <<Table>> #FFECB3 {
+    + client_id           : UUID          {PK}
+    .. stabil; wird als agent_id im Audit-Log verwendet ..
+    --
+    + person_id           : BIGINT        {NN} {FK→persons.id}
+    .. CHECK: persons.person_type = 'service-account' ..
+    + client_secret_hash  : TEXT          {NN}
+    .. argon2id; Klartext nur einmalig bei Anlage/Rotation zurückgegeben ..
+    + active              : BOOLEAN       {NN} DEFAULT true
+    + created_at          : TIMESTAMPTZ   {NN} DEFAULT NOW()
+    + last_used_at        : TIMESTAMPTZ
+    + rotated_at          : TIMESTAMPTZ
+    .. null = noch nie rotiert ..
+  }
+
+  note right of machine_credentials
+    Credentials für Service-Accounts (ADR-026).
+    OAuth2 Client-Credentials-Grant:
+    client_id + client_secret → JWT.
+    client_id = agent_id im Audit-Log.
+    Rotation: neues Secret; altes sofort
+    ungültig (active=false auf altem Eintrag,
+    neuer Eintrag erstellt).
+  end note
 
   class roles <<Table>> #FFECB3 {
     + id               : TEXT             {PK}
@@ -62,12 +93,26 @@ package "Auth" #FFF8E1 {
     + description      : TEXT
     .. Konzernsprache; Übersetzung via i18n_entries(field='description') ..
     + type             : TEXT             {NN}
-    .. enum: functional | process | project | governance | architectural ..
+    .. enum: functional | process | project | governance | architectural | system ..
+    .. system = für interne Rollen (integration-writer, auditor) ..
     + permission_level : TEXT             {NN} DEFAULT 'read'
     .. enum: read | write | admin ..
     + is_standard_role : BOOLEAN          {NN} DEFAULT false
     + is_builtin       : BOOLEAN          {NN} DEFAULT false
+    .. is_builtin=true: nicht löschbar; Teil des Starter-Daten-Scripts ..
   }
+
+  note right of roles
+    Builtin-Rollen (is_builtin=true):
+    'enterprise-architect' (write)
+    'viewer'               (read)
+    'auditor'              (read, audit-schema)
+    'integration-writer'   (write, nur Entities/
+      Connections; kein Admin-Zugriff)
+      → nur für service-account-Persons
+    Rollen-Zuweisung via person_roles
+    (gültig ab valid_from, optional bis valid_to).
+  end note
 
   class person_roles <<Table>> #FFECB3 {
     + person_id       : BIGINT            {PK} {FK→persons.id}
@@ -124,10 +169,11 @@ package "Auth" #FFF8E1 {
 
   persons           "1"  --o{ "0..*" person_roles        : fills
   roles             "1"  --o{ "0..*" person_roles        : assigned via
-  persons           "1"  --o{ "0..*" local_credentials   : owns
+  persons           "1"  --o{ "0..*" local_credentials   : owns (human only)
   local_credentials "1"  --||        passkey_credentials : type=passkey
   local_credentials "1"  --||        totp_credentials    : type=totp
   local_credentials "1"  --||        password_credentials: type=password
+  persons           "1"  --o{ "0..*" machine_credentials : owns (service-account only)
 
 }
 
@@ -403,6 +449,11 @@ package "Repository" #FCE4EC {
     + created_by       : BIGINT           {NN} {FK→persons.id}
     + updated_at       : TIMESTAMPTZ
     + updated_by       : BIGINT           {FK→persons.id}
+    == Externe Integration (ADR-026, optional) ==
+    + external_id      : TEXT
+    .. Stabile Kennung aus Quellsystem (z.B. 'git:org/repo/svc') ..
+    .. UNIQUE WHERE external_id IS NOT NULL ..
+    .. NULL wenn manuell angelegt; nie auto-generiert ..
     == Soft-Delete (ADR-019) ==
     + deleted_at       : TIMESTAMPTZ
     .. null = aktiv; INDEX WHERE deleted_at IS NULL ..
@@ -545,6 +596,12 @@ package "Audit  [Schema: audit]" #EFEBE9 {
     + occurred_at  : TIMESTAMPTZ          {NN} DEFAULT NOW()
     + request_id   : TEXT
     .. HTTP-Korrelations-ID oder Job-Run-ID ..
+    == Externe Integration (ADR-026, optional) ==
+    + agent_id     : TEXT
+    .. Kennung des schreibenden Systems (z.B. 'oea-scanner/1.0') ..
+    .. aus X-Agent-Id-Header oder JWT-Claim 'agent_id' ..
+    + agent_run    : TEXT
+    .. Korrelations-ID eines Laufs (alle Writes desselben Durchlaufs) ..
     + prev_hash    : TEXT
     .. SHA-256 des Vorgänger-Records (Enterprise: Tamper-Chain) ..
     + record_hash  : TEXT
@@ -574,6 +631,9 @@ package "Audit  [Schema: audit]" #EFEBE9 {
     Default 7 Jahre (2555 Tage).
     Konfigurierbar als externe DB via
     oea.datasource.audit.url.
+    agent_id / agent_run: NULL bei
+    manuellen UI/API-Zugriffen; gesetzt
+    wenn externes System schreibt (ADR-026).
   end note
 
   "audit.events" "1" --o{ "0..*" "audit.event_changes" : details
@@ -628,9 +688,38 @@ package "Navigation & Darstellung" #EDE7F6 {
     + sort_order    : INTEGER             {NN} DEFAULT 0
   }
 
+  class viewpoint_shape_assignments <<Table>> #D1C4E9 {
+    + id             : UUID              {PK}
+    --
+    + config_id      : UUID              {NN} {FK→metamodel_configurations.id}
+    + viewpoint_key  : TEXT              {NN}
+    .. Soft-Ref auf Viewpoint-Slug in config.viewpoints[] ..
+    .. UNIQUE(config_id, viewpoint_key, metatype_id) ..
+    + metatype_id    : UUID              {NN} {FK→metatypes.id}
+    + shape_key      : TEXT              {NN}
+    .. Icon/Shape-Schlüssel im Design-System ..
+    + fill_color     : TEXT
+    .. CSS-Farbwert oder Design-Token ..
+    + border_color   : TEXT
+    + icon_key       : TEXT
+    .. optionaler Override; Default aus shape_key ..
+  }
+
+  note right of viewpoint_shape_assignments
+    Welcher MetaTyp bekommt in welchem
+    Viewpoint welches Shape/Icon?
+    Exportierbar als Teil des Metamodell-
+    Pakets (ADR-026: GET /admin/metamodel/export).
+    Ermöglicht: schreibende Systeme können
+    Entitäten korrekt in Diagramme platzieren
+    ohne shape-Wissen hard-coden zu müssen.
+  end note
+
   metatypes       "1"    --o{ "0..*" catalogs        : primary_metatype_id
   tree_nodes      "0..1" --o{ "0..*" tree_nodes      : parent_id
   tree_nodes      "1"    --o{ "0..*" tree_node_items : contains
+  metamodel_configurations "1" --o{ "0..*" viewpoint_shape_assignments : scoped to
+  metatypes       "1"    --o{ "0..*" viewpoint_shape_assignments        : shape for
 
 }
 

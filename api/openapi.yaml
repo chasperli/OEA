@@ -4,14 +4,18 @@ info:
   title: OEA – Open Enterprise Architecture API
   version: 0.1.0-SNAPSHOT
   description: |
-    REST API für OEA. Zwei Schichten:
+    REST API für OEA. Drei Schichten:
     - **Resource API** (`/api/v1/...`): CRUD und Automatisierung (REQ-147)
     - **View API** (`/api/v1/views/...`): aggregierte, screen-optimierte Endpoints (BFF-Muster)
     - **Portal API** (`/api/v1/portal/...`): Read-only, reduzierter Auth-Scope (Web Portal)
 
+    **Externe Integration** (ADR-026, optional): Schreibzugriff durch externe Systeme
+    (Scanner, CI/CD-Pipelines, Import-Werkzeuge) via Upsert-Endpoints und Batch-Write.
+    Aktiviert durch Feature-Flag `oea.integration.enabled=true`.
+    Erfordert Service-Account mit Rolle `integration-writer`.
+
     Versionierung: URL-Pfad (`/api/v1/`). Breaking Changes → neue Major-Version.
-  contact:
-    name: OEA Community
+    Fehlerformat: RFC 9457 Problem Details (`application/problem+json`).
   license:
     name: AGPL-3.0
     url: https://www.gnu.org/licenses/agpl-3.0.html
@@ -20,112 +24,77 @@ servers:
   - url: /api/v1
     description: Aktuelle Version
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Sicherheit
-# ─────────────────────────────────────────────────────────────────────────────
 security:
   - bearerAuth: []
 
+# ═════════════════════════════════════════════════════════════════════════════
+# COMPONENTS
+# ═════════════════════════════════════════════════════════════════════════════
 components:
+
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
 
-  # ───────────────────────────────────────────────────────────────────────────
-  # Gemeinsame Parameter
-  # ───────────────────────────────────────────────────────────────────────────
+  # ── Parameter ──────────────────────────────────────────────────────────────
   parameters:
     PageParam:
       name: page
       in: query
-      schema:
-        type: integer
-        minimum: 0
-        default: 0
-      description: Seitennummer (0-basiert)
-
+      schema: { type: integer, minimum: 0, default: 0 }
     PageSizeParam:
       name: pageSize
       in: query
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 200
-        default: 50
-
+      schema: { type: integer, minimum: 1, maximum: 200, default: 50 }
     SortParam:
       name: sort
       in: query
-      schema:
-        type: string
-        example: name:asc
-      description: "Format: `{field}:{asc|desc}`. Mehrere durch Komma trennen."
-
+      schema: { type: string, example: "name:asc" }
+      description: "`{field}:{asc|desc}`, mehrere kommagetrennt"
     LocaleParam:
       name: locale
       in: path
       required: true
-      schema:
-        type: string
-        enum: [de, en, fr, it]
-      description: BCP 47 Sprachcode
+      schema: { type: string, enum: [de, en, fr, it] }
+    EntityIdParam:
+      name: id
+      in: path
+      required: true
+      schema: { type: integer }
+      description: Entitäts-ID
+    UuidIdParam:
+      name: id
+      in: path
+      required: true
+      schema: { type: string, format: uuid }
 
-  # ───────────────────────────────────────────────────────────────────────────
-  # Gemeinsame Schemas
-  # ───────────────────────────────────────────────────────────────────────────
+  # ── Schemas ────────────────────────────────────────────────────────────────
   schemas:
 
-    # ── Paginierung ──────────────────────────────────────────────────────────
+    # ── Grundtypen ────────────────────────────────────────────────────────────
     PageMeta:
       type: object
       required: [page, pageSize, totalElements, totalPages]
       properties:
-        page:         { type: integer, example: 0 }
-        pageSize:     { type: integer, example: 50 }
-        totalElements:{ type: integer, example: 134 }
-        totalPages:   { type: integer, example: 3 }
+        page:          { type: integer }
+        pageSize:      { type: integer }
+        totalElements: { type: integer }
+        totalPages:    { type: integer }
 
-    # ── Fehler ───────────────────────────────────────────────────────────────
     Problem:
       type: object
       description: RFC 9457 Problem Details
       required: [type, title, status]
       properties:
-        type:     { type: string, format: uri, example: "about:blank" }
-        title:    { type: string, example: "Not Found" }
-        status:   { type: integer, example: 404 }
+        type:     { type: string, format: uri }
+        title:    { type: string }
+        status:   { type: integer }
         detail:   { type: string }
         instance: { type: string, format: uri }
 
-    # ── Property-Wert (typisiert) ────────────────────────────────────────────
-    PropertyValue:
-      type: object
-      description: Typisierter Eigenschaftswert einer Entität
-      required: [propertyDefId, propertyName, dataType]
-      properties:
-        propertyDefId:  { type: string, format: uuid }
-        propertyName:   { type: string, example: "version" }
-        label:          { type: string, description: "Übersetzter Label (ui_language der Session)" }
-        dataType:
-          type: string
-          enum: [string, integer, boolean, enum, reference, date, url, text]
-        valueText:    { type: string, nullable: true }
-        valueInt:     { type: integer, nullable: true }
-        valueBool:    { type: boolean, nullable: true }
-        valueDate:    { type: string, format: date, nullable: true }
-        valueEnum:    { type: string, nullable: true }
-        valueRef:
-          type: object
-          nullable: true
-          description: Referenzierte Entität (bei dataType=reference)
-          properties:
-            id:           { type: integer }
-            name:         { type: string }
-            metatypeAbbr: { type: string, example: "AC" }
-
-    # ── MetaTyp (kompakt) ────────────────────────────────────────────────────
+    # ── MetaTyp ───────────────────────────────────────────────────────────────
     MetatypeSummary:
       type: object
       required: [id, name, abbreviation]
@@ -134,73 +103,173 @@ components:
         name:         { type: string }
         abbreviation: { type: string, example: "AC" }
 
-    # ── Entität (Listenzeile) ────────────────────────────────────────────────
-    EntityListItem:
-      type: object
-      required: [id, name, metatype, createdAt, updatedAt]
-      properties:
-        id:
-          type: integer
-          example: 42
-        name:
-          type: string
-          example: "Auth-Service"
-        description:
-          type: string
-        metatype:
-          $ref: '#/components/schemas/MetatypeSummary'
-        isLogical:
-          type: boolean
-          default: true
-        lifecycle:
-          type: string
-          nullable: true
-          description: Wert der 'lifecycle'-Property (falls definiert)
-        deletedAt:
-          type: string
-          format: date-time
-          nullable: true
-        createdAt:
-          type: string
-          format: date-time
-        updatedAt:
-          type: string
-          format: date-time
-
-    # ── Entität (Detail) ─────────────────────────────────────────────────────
-    EntityDetail:
+    MetatypeDetail:
       allOf:
-        - $ref: '#/components/schemas/EntityListItem'
+        - $ref: '#/components/schemas/MetatypeSummary'
         - type: object
           properties:
-            version:
-              type: integer
-              description: Optimistic-Lock-Version (ADR-016)
-            properties:
+            isConnection:       { type: boolean }
+            architectureLayer:  { type: string, nullable: true }
+            sortOrder:          { type: integer }
+            isBuiltin:          { type: boolean }
+            propertyMappings:
+              type: array
+              items: { $ref: '#/components/schemas/MetatypePropertyMapping' }
+            connectionConstraints:
               type: array
               items:
-                $ref: '#/components/schemas/PropertyValue'
-            relations:
-              type: array
-              items:
-                $ref: '#/components/schemas/RelationSummary'
-            parentEntity:
-              type: object
-              nullable: true
-              properties:
-                id:   { type: integer }
-                name: { type: string }
+                type: object
+                properties:
+                  direction:       { type: string, enum: [source, target] }
+                  allowedMetatype: { $ref: '#/components/schemas/MetatypeSummary' }
 
-    # ── Relation (kompakt) ───────────────────────────────────────────────────
+    MetatypeWrite:
+      type: object
+      required: [name, configId]
+      properties:
+        name:                 { type: string }
+        abbreviation:         { type: string }
+        isConnection:         { type: boolean, default: false }
+        architectureLayerId:  { type: string, nullable: true }
+        sortOrder:            { type: integer, default: 0 }
+        configId:             { type: string, format: uuid }
+
+    # ── Property-Kategorien ───────────────────────────────────────────────────
+    PropertyCategory:
+      type: object
+      required: [id, name, sortOrder]
+      properties:
+        id:          { type: string, format: uuid }
+        name:        { type: string }
+        description: { type: string, nullable: true }
+        sortOrder:   { type: integer }
+
+    PropertyCategoryWrite:
+      type: object
+      required: [name]
+      properties:
+        name:        { type: string }
+        description: { type: string }
+        sortOrder:   { type: integer, default: 0 }
+
+    # ── Property-Definitionen ─────────────────────────────────────────────────
+    PropertyEnumValue:
+      type: object
+      required: [id, value, sortOrder]
+      properties:
+        id:        { type: string, format: uuid }
+        value:     { type: string }
+        sortOrder: { type: integer }
+        label:     { type: string, description: "Übersetzter Label (Session-Locale)" }
+
+    PropertyDefinitionDetail:
+      type: object
+      required: [id, name, dataType]
+      properties:
+        id:             { type: string, format: uuid }
+        name:           { type: string }
+        label:          { type: string, description: "Übersetzter Label (Session-Locale)" }
+        dataType:
+          type: string
+          enum: [string, integer, boolean, enum, reference, date, url, text]
+        category:       { $ref: '#/components/schemas/PropertyCategory', nullable: true }
+        refMetatype:    { $ref: '#/components/schemas/MetatypeSummary', nullable: true }
+        maxLength:      { type: integer, nullable: true }
+        minValue:       { type: number, nullable: true }
+        maxValue:       { type: number, nullable: true }
+        pattern:        { type: string, nullable: true }
+        enumValues:
+          type: array
+          items: { $ref: '#/components/schemas/PropertyEnumValue' }
+
+    PropertyDefinitionWrite:
+      type: object
+      required: [name, dataType]
+      properties:
+        name:           { type: string }
+        dataType:
+          type: string
+          enum: [string, integer, boolean, enum, reference, date, url, text]
+        categoryId:     { type: string, format: uuid, nullable: true }
+        refMetatypeId:  { type: string, format: uuid, nullable: true }
+        maxLength:      { type: integer, nullable: true }
+        minValue:       { type: number, nullable: true }
+        maxValue:       { type: number, nullable: true }
+        pattern:        { type: string, nullable: true }
+
+    # ── Metatyp-Property-Mapping ───────────────────────────────────────────────
+    MetatypePropertyMapping:
+      type: object
+      required: [id, propertyDefinition, necessity, validFrom, sortOrder]
+      properties:
+        id:                 { type: string, format: uuid }
+        propertyDefinition: { $ref: '#/components/schemas/PropertyDefinitionDetail' }
+        necessity:
+          type: string
+          enum: [mandatory, warning, optional]
+        validFrom:          { type: string, format: date }
+        sortOrder:          { type: integer }
+        defaultValue:
+          type: object
+          nullable: true
+          description: Optionaler Vorbelegungswert (typisiert)
+          properties:
+            valueText:  { type: string }
+            valueInt:   { type: integer }
+            valueBool:  { type: boolean }
+            valueDate:  { type: string, format: date }
+            valueEnum:  { type: string }
+
+    MetatypePropertyMappingWrite:
+      type: object
+      required: [propertyDefId, necessity, validFrom]
+      properties:
+        propertyDefId: { type: string, format: uuid }
+        necessity:
+          type: string
+          enum: [mandatory, warning, optional]
+        validFrom:     { type: string, format: date }
+        sortOrder:     { type: integer, default: 0 }
+        defaultValue:
+          type: object
+          nullable: true
+          properties:
+            valueText:  { type: string }
+            valueInt:   { type: integer }
+            valueBool:  { type: boolean }
+            valueDate:  { type: string, format: date }
+            valueEnum:  { type: string }
+
+    # ── Entität ───────────────────────────────────────────────────────────────
+    PropertyValue:
+      type: object
+      required: [propertyDefId, propertyName, dataType]
+      properties:
+        propertyDefId: { type: string, format: uuid }
+        propertyName:  { type: string }
+        label:         { type: string }
+        dataType:
+          type: string
+          enum: [string, integer, boolean, enum, reference, date, url, text]
+        valueText:  { type: string, nullable: true }
+        valueInt:   { type: integer, nullable: true }
+        valueBool:  { type: boolean, nullable: true }
+        valueDate:  { type: string, format: date, nullable: true }
+        valueEnum:  { type: string, nullable: true }
+        valueRef:
+          type: object
+          nullable: true
+          properties:
+            id:           { type: integer }
+            name:         { type: string }
+            metatypeAbbr: { type: string }
+
     RelationSummary:
       type: object
       required: [id, metatype, direction, relatedEntity]
       properties:
-        id:
-          type: integer
-          description: Entity-ID der Verbindungsentität
-        metatype:
-          $ref: '#/components/schemas/MetatypeSummary'
+        id:        { type: integer }
+        metatype:  { $ref: '#/components/schemas/MetatypeSummary' }
         direction:
           type: string
           enum: [outgoing, incoming]
@@ -208,15 +277,45 @@ components:
           type: object
           required: [id, name, metatype]
           properties:
-            id:      { type: integer }
-            name:    { type: string }
-            metatype:
-              $ref: '#/components/schemas/MetatypeSummary'
+            id:       { type: integer }
+            name:     { type: string }
+            metatype: { $ref: '#/components/schemas/MetatypeSummary' }
 
-    # ── Catalog-View Filter-Optionen ─────────────────────────────────────────
+    EntityListItem:
+      type: object
+      required: [id, name, metatype, createdAt, updatedAt]
+      properties:
+        id:          { type: integer }
+        name:        { type: string }
+        description: { type: string }
+        metatype:    { $ref: '#/components/schemas/MetatypeSummary' }
+        isLogical:   { type: boolean }
+        lifecycle:   { type: string, nullable: true }
+        deletedAt:   { type: string, format: date-time, nullable: true }
+        createdAt:   { type: string, format: date-time }
+        updatedAt:   { type: string, format: date-time }
+
+    EntityDetail:
+      allOf:
+        - $ref: '#/components/schemas/EntityListItem'
+        - type: object
+          properties:
+            version:    { type: integer }
+            properties:
+              type: array
+              items: { $ref: '#/components/schemas/PropertyValue' }
+            relations:
+              type: array
+              items: { $ref: '#/components/schemas/RelationSummary' }
+            parentEntity:
+              type: object
+              nullable: true
+              properties:
+                id:   { type: integer }
+                name: { type: string }
+
     CatalogFilterOptions:
       type: object
-      description: Verfügbare Filter-Werte für die Catalog-Ansicht (für Filter-UI)
       properties:
         metatypes:
           type: array
@@ -235,24 +334,712 @@ components:
               label: { type: string }
               count: { type: integer }
 
+    # ── Explorer / Navigationsbaum ────────────────────────────────────────────
+    TreeNodeItem:
+      type: object
+      required: [id, itemType, referenceId, displayLabel, sortOrder]
+      properties:
+        id:           { type: string, format: uuid }
+        itemType:
+          type: string
+          enum: [tree-node, entity, diagram, catalog]
+        referenceId:  { type: string }
+        displayLabel: { type: string }
+        sortOrder:    { type: integer }
+        metatype:     { $ref: '#/components/schemas/MetatypeSummary', nullable: true }
+        isDeleted:    { type: boolean, default: false }
+
+    TreeNode:
+      type: object
+      required: [id, name, sortOrder, items, children]
+      properties:
+        id:        { type: string, format: uuid }
+        name:      { type: string }
+        sortOrder: { type: integer }
+        items:
+          type: array
+          items: { $ref: '#/components/schemas/TreeNodeItem' }
+        children:
+          type: array
+          items: { $ref: '#/components/schemas/TreeNode' }
+          description: Rekursive Kinder-Knoten
+
+    # ── Diagramm ──────────────────────────────────────────────────────────────
+    DiagramShape:
+      type: object
+      required: [id, entityId, entityName, metatype, x, y, width, height]
+      properties:
+        id:         { type: string, format: uuid }
+        entityId:   { type: integer }
+        entityName: { type: string }
+        metatype:   { $ref: '#/components/schemas/MetatypeSummary' }
+        x:          { type: number }
+        y:          { type: number }
+        width:      { type: number }
+        height:     { type: number }
+        styleOverrides:
+          type: object
+          nullable: true
+          additionalProperties: true
+
+    DiagramView:
+      type: object
+      required: [id, name, viewpoint, shapes, connections]
+      properties:
+        id:          { type: string, format: uuid }
+        name:        { type: string }
+        viewpoint:   { type: string, nullable: true }
+        description: { type: string }
+        shapes:
+          type: array
+          items: { $ref: '#/components/schemas/DiagramShape' }
+        connections:
+          type: array
+          description: Verbindungsentitäten zwischen Shapes
+          items:
+            type: object
+            required: [id, sourceShapeId, targetShapeId, metatype]
+            properties:
+              id:            { type: string, format: uuid }
+              sourceShapeId: { type: string, format: uuid }
+              targetShapeId: { type: string, format: uuid }
+              metatype:      { $ref: '#/components/schemas/MetatypeSummary' }
+        updatedAt:   { type: string, format: date-time }
+
+    # ── Data Lineage ──────────────────────────────────────────────────────────
+    LineageNode:
+      type: object
+      required: [id, name, nodeType, metatype]
+      properties:
+        id:       { type: integer }
+        name:     { type: string }
+        nodeType:
+          type: string
+          enum: [source, transform, target]
+        metatype: { $ref: '#/components/schemas/MetatypeSummary' }
+        metrics:
+          type: object
+          nullable: true
+          properties:
+            recordsPerDay: { type: integer }
+            latencyMs:     { type: integer }
+
+    LineageView:
+      type: object
+      required: [id, name, nodes, edges]
+      properties:
+        id:    { type: string, format: uuid }
+        name:  { type: string }
+        nodes:
+          type: array
+          items: { $ref: '#/components/schemas/LineageNode' }
+        edges:
+          type: array
+          items:
+            type: object
+            required: [sourceId, targetId]
+            properties:
+              sourceId: { type: integer }
+              targetId: { type: integer }
+              label:    { type: string, nullable: true }
+
+    # ── Dashboard ─────────────────────────────────────────────────────────────
+    WidgetConfig:
+      type: object
+      required: [id, widgetType, title, position]
+      properties:
+        id:         { type: string, format: uuid }
+        widgetType:
+          type: string
+          enum: [kpi, bar-chart, donut-chart, table, diagram-embed]
+        title:      { type: string }
+        position:
+          type: object
+          properties:
+            col:    { type: integer }
+            row:    { type: integer }
+            width:  { type: integer }
+            height: { type: integer }
+        queryConfig:
+          type: object
+          nullable: true
+          description: Endpoint und Filter-Parameter für Widget-Daten
+          additionalProperties: true
+
+    DashboardConfig:
+      type: object
+      required: [id, name, widgets]
+      properties:
+        id:      { type: string, format: uuid }
+        name:    { type: string }
+        widgets:
+          type: array
+          items: { $ref: '#/components/schemas/WidgetConfig' }
+
+    WidgetData:
+      type: object
+      required: [widgetId, widgetType]
+      properties:
+        widgetId:   { type: string, format: uuid }
+        widgetType: { type: string }
+        data:
+          description: Typ-spezifische Datenpunkte
+          oneOf:
+            - type: object
+              description: KPI
+              properties:
+                value:     { type: string }
+                delta:     { type: string }
+                trendType: { type: string, enum: [up, down, neutral] }
+            - type: array
+              description: Bar- / Donut-Chart
+              items:
+                type: object
+                properties:
+                  label: { type: string }
+                  value: { type: number }
+            - type: array
+              description: Tabelle
+              items:
+                type: object
+                additionalProperties: true
+
+    DashboardData:
+      type: object
+      required: [dashboardId, widgets, generatedAt]
+      properties:
+        dashboardId:  { type: string, format: uuid }
+        widgets:
+          type: array
+          items: { $ref: '#/components/schemas/WidgetData' }
+        generatedAt:  { type: string, format: date-time }
+
+    # ── Plateau-Roadmap ───────────────────────────────────────────────────────
+    RoadmapEntityCard:
+      type: object
+      required: [entityId, name, metatype, plateauId, lifecycleState]
+      properties:
+        entityId:      { type: integer }
+        name:          { type: string }
+        metatype:      { $ref: '#/components/schemas/MetatypeSummary' }
+        plateauId:     { type: string, format: uuid }
+        lifecycleState:
+          type: string
+          enum: [planned, active, retiring, retired]
+        isDeprecated:  { type: boolean, default: false }
+        successorId:   { type: integer, nullable: true }
+
+    PlateauBand:
+      type: object
+      required: [plateau, entities]
+      properties:
+        plateau:
+          type: object
+          required: [id, name, status, validFrom, validTo]
+          properties:
+            id:        { type: string, format: uuid }
+            name:      { type: string }
+            status:    { type: string, enum: [baseline, transition, target, realized] }
+            validFrom: { type: string, format: date, nullable: true }
+            validTo:   { type: string, format: date, nullable: true }
+        entities:
+          type: array
+          items: { $ref: '#/components/schemas/RoadmapEntityCard' }
+
+    RoadmapView:
+      type: object
+      required: [id, name, plateaus]
+      properties:
+        id:      { type: string, format: uuid }
+        name:    { type: string }
+        plateaus:
+          type: array
+          items: { $ref: '#/components/schemas/PlateauBand' }
+
+    # ── Entity-Historie ───────────────────────────────────────────────────────
+    FieldDiff:
+      type: object
+      required: [fieldName, isSystemField]
+      properties:
+        fieldName:    { type: string, description: "Property-Name oder System-Feld (name, lifecycle, …)" }
+        label:        { type: string, description: "Übersetzter Label" }
+        isSystemField: { type: boolean }
+        oldValue:     { type: string, nullable: true }
+        newValue:     { type: string, nullable: true }
+
+    EntityVersionSummary:
+      type: object
+      required: [version, changedAt, changedBy, changes]
+      properties:
+        version:    { type: integer }
+        changedAt:  { type: string, format: date-time }
+        changedBy:
+          type: object
+          properties:
+            id:   { type: integer }
+            name: { type: string }
+        changes:
+          type: array
+          items: { $ref: '#/components/schemas/FieldDiff' }
+
+    EntityHistoryResponse:
+      type: object
+      required: [entityId, entityName, versions, page]
+      properties:
+        entityId:   { type: integer }
+        entityName: { type: string }
+        versions:
+          type: array
+          items: { $ref: '#/components/schemas/EntityVersionSummary' }
+        page: { $ref: '#/components/schemas/PageMeta' }
+
+    RestoreRequest:
+      type: object
+      required: [targetVersion]
+      properties:
+        targetVersion:
+          type: integer
+          description: Versionsnummer auf die wiederhergestellt werden soll
+        reason:
+          type: string
+          description: Begründung (wird im Audit-Log erfasst)
+
+    # ── Externe Integration – Write-Schemas (ADR-026) ─────────────────────────
+    PropertyWriteValue:
+      type: object
+      required: [propertyDefId, value]
+      description: |
+        Flat Write-Schema: `value` immer als String.
+        Das Backend konvertiert gemäss `property_definitions.data_type`.
+      properties:
+        propertyDefId: { type: string, format: uuid }
+        value:
+          type: string
+          description: |
+            Serialisiert als Text unabhängig vom Datentyp:
+            boolean → "true"/"false", integer → "42",
+            date → "2026-06-29", reference → "<entityId>",
+            enum → Enum-Value-String
+
+    EntityWrite:
+      type: object
+      required: [name, metatypeId]
+      properties:
+        name:
+          type: string
+        metatypeId:
+          type: string
+          format: uuid
+        externalId:
+          type: string
+          description: |
+            Stabile Kennung aus dem Quellsystem (z.B. "git:org/repo/svc",
+            "k8s:prod/order-service"). Namespace-Konvention: `{system}:{id}`.
+            Muss für die OEA-Instanz eindeutig sein.
+        description:  { type: string }
+        isLogical:    { type: boolean, default: true }
+        lifecycle:    { type: string, nullable: true }
+        parentId:     { type: integer, nullable: true, description: "Übergeordnete Entität" }
+        properties:
+          type: array
+          items: { $ref: '#/components/schemas/PropertyWriteValue' }
+
+    ConnectionWrite:
+      type: object
+      required: [connectionMetatypeId]
+      description: |
+        Genau eines der Paare (sourceId/targetId) oder
+        (sourceExternalId/targetExternalId) muss angegeben sein.
+      properties:
+        connectionMetatypeId: { type: string, format: uuid }
+        sourceId:         { type: integer }
+        targetId:         { type: integer }
+        sourceExternalId: { type: string, description: "external_id der Quell-Entität" }
+        targetExternalId: { type: string, description: "external_id der Ziel-Entität" }
+        externalId:       { type: string, description: "external_id der Verbindung selbst" }
+        properties:
+          type: array
+          items: { $ref: '#/components/schemas/PropertyWriteValue' }
+
+    BatchWriteRequest:
+      type: object
+      properties:
+        entities:
+          type: array
+          items: { $ref: '#/components/schemas/EntityWrite' }
+          maxItems: 500
+        connections:
+          type: array
+          items: { $ref: '#/components/schemas/ConnectionWrite' }
+          maxItems: 500
+        strategy:
+          type: string
+          enum: [upsert, create-only, skip-existing]
+          default: upsert
+          description: |
+            `upsert`: Create-or-Update per externalId oder id.
+            `create-only`: Fehler wenn Entität bereits existiert.
+            `skip-existing`: Vorhandene überspringen, nur neue anlegen.
+        atomic:
+          type: boolean
+          default: false
+          description: |
+            true → alles oder nichts (eine DB-Transaktion).
+            false → partieller Erfolg möglich; Response enthält Status pro Item.
+
+    BatchWriteItemResult:
+      type: object
+      required: [index, status]
+      properties:
+        index:      { type: integer, description: "0-basierter Index im Request-Array" }
+        itemType:   { type: string, enum: [entity, connection] }
+        status:     { type: string, enum: [created, updated, skipped, error] }
+        id:         { type: integer, nullable: true, description: "Interne ID nach Create/Update" }
+        externalId: { type: string, nullable: true }
+        error:      { type: string, nullable: true, description: "Fehlermeldung bei status=error" }
+
+    BatchWriteResponse:
+      type: object
+      required: [strategy, atomic, summary, items]
+      properties:
+        strategy:  { type: string }
+        atomic:    { type: boolean }
+        summary:
+          type: object
+          properties:
+            created:  { type: integer }
+            updated:  { type: integer }
+            skipped:  { type: integer }
+            errors:   { type: integer }
+        items:
+          type: array
+          items: { $ref: '#/components/schemas/BatchWriteItemResult' }
+
+    ValidationError:
+      type: object
+      required: [field, message]
+      properties:
+        field:    { type: string, description: "Pfad zum fehlerhaften Feld (z.B. properties[2].value)" }
+        message:  { type: string }
+        code:     { type: string, example: "REQUIRED", description: "Maschinenlesbarer Fehler-Code" }
+
+    ValidationResult:
+      type: object
+      required: [valid, errors]
+      properties:
+        valid:  { type: boolean }
+        errors:
+          type: array
+          items: { $ref: '#/components/schemas/ValidationError' }
+        preview:
+          type: object
+          nullable: true
+          description: Nur bei dryRun=true; zeigt was persistiert würde
+          properties:
+            wouldCreate: { type: integer }
+            wouldUpdate: { type: integer }
+            wouldSkip:   { type: integer }
+
+    AllowedConnectionResult:
+      type: object
+      required: [allowed, options]
+      properties:
+        allowed: { type: boolean }
+        options:
+          type: array
+          items:
+            type: object
+            required: [connectionMetatype, direction]
+            properties:
+              connectionMetatype: { $ref: '#/components/schemas/MetatypeSummary' }
+              direction:
+                type: string
+                enum: [source-to-target, target-to-source, bidirectional]
+
+    MetamodelPackage:
+      type: object
+      required: [formatVersion, exportedAt, metatypes, propertyCategories, propertyDefinitions]
+      description: Portables Metamodell-Paket für Import/Export (ADR-026)
+      properties:
+        formatVersion:       { type: string, example: "1.0" }
+        exportedAt:          { type: string, format: date-time }
+        sourceInstanceId:    { type: string, nullable: true }
+        metatypes:
+          type: array
+          items: { $ref: '#/components/schemas/MetatypeDetail' }
+        propertyCategories:
+          type: array
+          items: { $ref: '#/components/schemas/PropertyCategory' }
+        propertyDefinitions:
+          type: array
+          items: { $ref: '#/components/schemas/PropertyDefinitionDetail' }
+        viewpoints:
+          type: array
+          items: { $ref: '#/components/schemas/ViewpointConfig' }
+        shapeAssignments:
+          type: array
+          items: { $ref: '#/components/schemas/ShapeAssignment' }
+        i18nBundles:
+          type: object
+          description: "Locale → I18nBundle"
+          additionalProperties: { $ref: '#/components/schemas/I18nBundle' }
+
+    ShapeAssignment:
+      type: object
+      required: [viewpointKey, metatypeId, shapeKey]
+      properties:
+        viewpointKey:  { type: string, description: "Slug des Viewpoints in config.viewpoints[]" }
+        metatypeId:    { type: string, format: uuid }
+        shapeKey:      { type: string, description: "Icon/Shape-Schlüssel im Design-System" }
+        fillColor:     { type: string, nullable: true }
+        borderColor:   { type: string, nullable: true }
+        iconKey:       { type: string, nullable: true }
+
+    # ── Service-Accounts (ADR-026) ────────────────────────────────────────────
+    ServiceAccount:
+      type: object
+      required: [id, personId, name, active, createdAt]
+      properties:
+        id:          { type: string, format: uuid, description: "client_id; stabil; = agent_id im Audit-Log" }
+        personId:    { type: integer, description: "persons.id (person_type=service-account)" }
+        name:        { type: string }
+        description: { type: string, nullable: true }
+        roles:
+          type: array
+          items: { type: string, example: "integration-writer" }
+        active:      { type: boolean }
+        createdAt:   { type: string, format: date-time }
+        lastUsedAt:  { type: string, format: date-time, nullable: true }
+        rotatedAt:   { type: string, format: date-time, nullable: true }
+
+    ServiceAccountWrite:
+      type: object
+      required: [name]
+      properties:
+        name:        { type: string }
+        description: { type: string }
+        roles:
+          type: array
+          items: { type: string }
+          default: ["integration-writer"]
+
+    ServiceAccountCreated:
+      allOf:
+        - $ref: '#/components/schemas/ServiceAccount'
+        - type: object
+          required: [clientSecret]
+          properties:
+            clientSecret:
+              type: string
+              description: |
+                Klartext-Secret, **einmalig** zurückgegeben.
+                Nach diesem Response nicht mehr abrufbar (nur Hash gespeichert).
+                Sicher verwahren — z.B. als CI/CD-Secret.
+
+    # ── Audit ─────────────────────────────────────────────────────────────────
+    AuditEventChange:
+      type: object
+      required: [propertyName, isSystemField]
+      properties:
+        propertyName:  { type: string }
+        isSystemField: { type: boolean }
+        oldValue:      { type: string, nullable: true }
+        newValue:      { type: string, nullable: true }
+
+    AuditEvent:
+      type: object
+      required: [id, eventType, actorName, source, occurredAt]
+      properties:
+        id:          { type: integer }
+        eventType:   { type: string, example: "entity.property_changed" }
+        entityId:    { type: integer, nullable: true }
+        entityName:  { type: string, nullable: true }
+        actorId:     { type: integer, nullable: true }
+        actorName:   { type: string }
+        actorEmail:  { type: string }
+        source:
+          type: string
+          enum: [UI, API, Job, Import]
+        occurredAt:  { type: string, format: date-time }
+        requestId:   { type: string, nullable: true }
+        changes:
+          type: array
+          items: { $ref: '#/components/schemas/AuditEventChange' }
+
+    # ── Admin – Viewpoints ────────────────────────────────────────────────────
+    ViewpointConfig:
+      type: object
+      required: [id, name]
+      properties:
+        id:               { type: string }
+        name:             { type: string }
+        description:      { type: string }
+        allowedMetatypes:
+          type: array
+          items: { $ref: '#/components/schemas/MetatypeSummary' }
+        allowedRelations:
+          type: array
+          items: { $ref: '#/components/schemas/MetatypeSummary' }
+
+    # ── Admin – Property-Sichtbarkeit ─────────────────────────────────────────
+    PropertyVisibilityEntry:
+      type: object
+      required: [propertyDefId, propertyName, visibilityByRole]
+      properties:
+        propertyDefId:   { type: string, format: uuid }
+        propertyName:    { type: string }
+        visibilityByRole:
+          type: object
+          description: "roleId → Sichtbarkeit"
+          additionalProperties:
+            type: string
+            enum: [always, default, hidden]
+
+    # ── Admin – TRM ───────────────────────────────────────────────────────────
+    TRMEntry:
+      type: object
+      required: [id, name, category, status]
+      properties:
+        id:          { type: string, format: uuid }
+        name:        { type: string }
+        category:    { type: string }
+        status:
+          type: string
+          enum: [approved, tolerated, prohibited, under-evaluation]
+        version:     { type: string, nullable: true }
+        validUntil:  { type: string, format: date, nullable: true }
+        notes:       { type: string, nullable: true }
+
+    TRMEntryWrite:
+      type: object
+      required: [name, category, status]
+      properties:
+        name:       { type: string }
+        category:   { type: string }
+        status:
+          type: string
+          enum: [approved, tolerated, prohibited, under-evaluation]
+        version:    { type: string }
+        validUntil: { type: string, format: date }
+        notes:      { type: string }
+
+    # ── Admin – Konformanz ────────────────────────────────────────────────────
+    ConformanceViolation:
+      type: object
+      required: [entityId, entityName, ruleId, severity, message]
+      properties:
+        entityId:   { type: integer }
+        entityName: { type: string }
+        metatype:   { $ref: '#/components/schemas/MetatypeSummary' }
+        ruleId:     { type: string }
+        severity:
+          type: string
+          enum: [critical, high, medium, info]
+        message:    { type: string }
+        propertyName: { type: string, nullable: true }
+
+    ConformanceResult:
+      type: object
+      required: [checkedAt, totalEntities, violationCount, violations]
+      properties:
+        checkedAt:      { type: string, format: date-time }
+        totalEntities:  { type: integer }
+        violationCount: { type: integer }
+        violations:
+          type: array
+          items: { $ref: '#/components/schemas/ConformanceViolation' }
+        page: { $ref: '#/components/schemas/PageMeta' }
+
+    # ── Admin – Auth-Provider ─────────────────────────────────────────────────
+    AuthProvider:
+      type: object
+      required: [id, name, type, enabled]
+      properties:
+        id:        { type: string, format: uuid }
+        name:      { type: string }
+        type:
+          type: string
+          enum: [oidc, ldap, local]
+        enabled:   { type: boolean }
+        issuerUrl: { type: string, nullable: true }
+        clientId:  { type: string, nullable: true }
+
+    AuthProviderWrite:
+      type: object
+      required: [name, type]
+      properties:
+        name:         { type: string }
+        type:
+          type: string
+          enum: [oidc, ldap, local]
+        enabled:      { type: boolean, default: true }
+        issuerUrl:    { type: string }
+        clientId:     { type: string }
+        clientSecret: { type: string, description: "Write-only; nie in Responses zurückgegeben" }
+        scopes:       { type: string, example: "openid profile email" }
+        claimMappings:
+          type: object
+          additionalProperties: { type: string }
+
+    AuthProviderTestResult:
+      type: object
+      required: [success, steps]
+      properties:
+        success: { type: boolean }
+        steps:
+          type: array
+          items:
+            type: object
+            properties:
+              step:    { type: string }
+              status:  { type: string, enum: [ok, error, skipped] }
+              message: { type: string, nullable: true }
+
+    # ── Admin – System-Einstellungen ──────────────────────────────────────────
+    SystemSettings:
+      type: object
+      properties:
+        instanceName:       { type: string }
+        defaultLocale:      { type: string, enum: [de, en, fr, it] }
+        sessionTimeoutMin:  { type: integer }
+        maxUploadMb:        { type: integer }
+        auditRetentionDays: { type: integer }
+        licenseKey:         { type: string, nullable: true }
+        sseEnabled:         { type: boolean }
+
     # ── I18N ─────────────────────────────────────────────────────────────────
     I18nBundle:
       type: object
-      description: |
-        Alle dynamischen Labels für eine Locale als flache Key-Value-Map.
-        Keys folgen dem Schema: `{entity_type}.{slug_or_uuid}.{field}`
-      additionalProperties:
-        type: string
+      description: "Flache Key-Value-Map: `{entity_type}.{slug_or_uuid}.{field}` → übersetzter Text"
+      additionalProperties: { type: string }
       example:
         "metatype.ac.name": "Application Component"
-        "metatype.ac.description": "Repräsentiert eine Softwareanwendung"
         "property-def.abc123.label": "Version"
         "enum-value.def456.label": "Geplant"
 
+    # ── Import ────────────────────────────────────────────────────────────────
+    ImportResult:
+      type: object
+      required: [status, created, updated, conflicts]
+      properties:
+        status:
+          type: string
+          enum: [completed, completed-with-conflicts, failed]
+        created:   { type: integer }
+        updated:   { type: integer }
+        conflicts: { type: integer }
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              row:     { type: integer }
+              message: { type: string }
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Paths
-# ─────────────────────────────────────────────────────────────────────────────
+
+# ═════════════════════════════════════════════════════════════════════════════
+# PATHS
+# ═════════════════════════════════════════════════════════════════════════════
 paths:
 
   # ╔═════════════════════════════════════════════════════════════════════════╗
@@ -261,56 +1048,41 @@ paths:
   /i18n/{locale}:
     get:
       operationId: getI18nBundle
-      summary: Dynamische Labels für eine Locale laden
+      summary: Dynamische Labels für eine Locale (ADR-025)
       description: |
-        Gibt alle DB-gespeicherten Labels (MetaTypen, Properties, Enum-Werte,
-        Kategorien, Rollen) für die angegebene Locale zurück.
-
-        **ETag-Caching (ADR-025):** Der ETag basiert auf `MAX(updated_at)` aller
-        `i18n_entries` für die Locale. Bei unverändertem Stand → `304 Not Modified`.
-
+        ETag-gecacht (`MAX(updated_at)` über `i18n_entries`).
         `Cache-Control: max-age=300, stale-while-revalidate=3600`
       tags: [I18N]
       parameters:
         - $ref: '#/components/parameters/LocaleParam'
       responses:
         '200':
-          description: Labels erfolgreich geladen
+          description: Labels
           headers:
-            ETag:
-              schema: { type: string }
-            Cache-Control:
-              schema: { type: string }
+            ETag:          { schema: { type: string } }
+            Cache-Control: { schema: { type: string } }
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/I18nBundle'
+              schema: { $ref: '#/components/schemas/I18nBundle' }
         '304':
-          description: Nicht verändert (ETag stimmt überein)
+          description: Nicht verändert
         '404':
           description: Locale nicht unterstützt
           content:
             application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+              schema: { $ref: '#/components/schemas/Problem' }
 
   # ╔═════════════════════════════════════════════════════════════════════════╗
-  # ║  VIEW – CATALOG (Walking Skeleton, UC-06, SCR-020)                     ║
+  # ║  VIEW – CATALOG (Walking Skeleton, UC-06, SCR-020/012)                 ║
   # ╚═════════════════════════════════════════════════════════════════════════╝
   /views/catalog:
     get:
       operationId: getCatalogView
       summary: Katalog-Übersicht (SCR-020)
       description: |
-        Aggregierter Endpoint für den Katalog-Browser (Walking Skeleton, UC-06).
-        Gibt eine paginierte, filterbare Liste von Entitäten zurück — optimiert
-        für die Tabellen-Ansicht in SCR-020.
-
-        **Spaltenfilter**: Alle `filter[*]`-Parameter sind implizit AND-verknüpft.
-        Grosse/Kleinschreibung wird ignoriert (case-insensitive LIKE).
-
-        Soft-gelöschte Entitäten werden standardmässig ausgeblendet (`deleted=false`).
-      tags: [Views]
+        Paginierte, filterbare Entitätenliste. Alle `filter[*]`-Parameter
+        sind implizit AND-verknüpft (case-insensitive).
+      tags: [Views – Catalog]
       parameters:
         - $ref: '#/components/parameters/PageParam'
         - $ref: '#/components/parameters/PageSizeParam'
@@ -318,37 +1090,22 @@ paths:
         - name: filter[name]
           in: query
           schema: { type: string }
-          description: Namens-Filter (Teilstring, case-insensitive)
-          example: "Auth"
         - name: filter[metatypeId]
           in: query
-          schema:
-            type: array
-            items: { type: string, format: uuid }
+          schema: { type: array, items: { type: string, format: uuid } }
           style: form
           explode: false
-          description: Auf diese MetaTypen einschränken (mehrere = OR)
         - name: filter[lifecycle]
           in: query
-          schema:
-            type: array
-            items: { type: string }
+          schema: { type: array, items: { type: string } }
           style: form
           explode: false
-          description: Lifecycle-Werte (mehrere = OR)
         - name: filter[isLogical]
           in: query
           schema: { type: boolean }
         - name: deleted
           in: query
-          schema:
-            type: string
-            enum: [false, true, only]
-            default: "false"
-          description: |
-            `false` = nur aktive (Default),
-            `true` = aktive + gelöschte,
-            `only` = nur gelöschte
+          schema: { type: string, enum: [false, true, only], default: "false" }
       responses:
         '200':
           description: Entitätenliste
@@ -360,59 +1117,1658 @@ paths:
                 properties:
                   items:
                     type: array
-                    items:
-                      $ref: '#/components/schemas/EntityListItem'
-                  page:
-                    $ref: '#/components/schemas/PageMeta'
-                  filterOptions:
-                    $ref: '#/components/schemas/CatalogFilterOptions'
-                    description: Aktuelle Filter-Optionen (für Filter-Dropdowns)
+                    items: { $ref: '#/components/schemas/EntityListItem' }
+                  page:          { $ref: '#/components/schemas/PageMeta' }
+                  filterOptions: { $ref: '#/components/schemas/CatalogFilterOptions' }
         '400':
-          description: Ungültige Filter-Parameter
+          description: Ungültige Parameter
           content:
             application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+              schema: { $ref: '#/components/schemas/Problem' }
         '401':
           description: Nicht authentifiziert
           content:
             application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+              schema: { $ref: '#/components/schemas/Problem' }
 
   /views/catalog/{id}:
     get:
       operationId: getCatalogEntityDetail
       summary: Entität-Detail (SCR-012)
+      tags: [Views – Catalog]
+      parameters:
+        - $ref: '#/components/parameters/EntityIdParam'
+      responses:
+        '200':
+          description: Entität mit Properties und Relationen
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/EntityDetail' }
+        '404':
+          description: Nicht gefunden
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+        '410':
+          description: Soft-gelöscht
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+
+  # ╔═════════════════════════════════════════════════════════════════════════╗
+  # ║  VIEW – EXPLORER (SCR-010/011)                                         ║
+  # ╚═════════════════════════════════════════════════════════════════════════╝
+  /views/explorer:
+    get:
+      operationId: getExplorerView
+      summary: Navigationsbaum (SCR-010/011)
+      description: Vollständiger Baumknoten-Graph für den linken Explorer-Panel.
+      tags: [Views – Navigation]
+      responses:
+        '200':
+          description: Baumstruktur
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/TreeNode' }
+
+  # ╔═════════════════════════════════════════════════════════════════════════╗
+  # ║  VIEW – DIAGRAMS (SCR-021/022)                                         ║
+  # ╚═════════════════════════════════════════════════════════════════════════╝
+  /views/diagrams/{id}:
+    get:
+      operationId: getDiagramView
+      summary: Diagramm-Editor Daten (SCR-021/022)
+      tags: [Views – Editoren]
+      parameters:
+        - $ref: '#/components/parameters/UuidIdParam'
+      responses:
+        '200':
+          description: Diagramm mit Shapes und Verbindungen
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/DiagramView' }
+        '404':
+          description: Nicht gefunden
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+
+  # ╔═════════════════════════════════════════════════════════════════════════╗
+  # ║  VIEW – DATA LINEAGE (SCR-023)                                         ║
+  # ╚═════════════════════════════════════════════════════════════════════════╝
+  /views/lineage/{id}:
+    get:
+      operationId: getLineageView
+      summary: Data-Lineage-Graph (SCR-023)
+      tags: [Views – Editoren]
+      parameters:
+        - $ref: '#/components/parameters/UuidIdParam'
+      responses:
+        '200':
+          description: Lineage-Nodes und Edges
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/LineageView' }
+        '404':
+          description: Nicht gefunden
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+
+  # ╔═════════════════════════════════════════════════════════════════════════╗
+  # ║  VIEW – DASHBOARD (SCR-024)                                            ║
+  # ╚═════════════════════════════════════════════════════════════════════════╝
+  /views/dashboards/{id}:
+    get:
+      operationId: getDashboardConfig
+      summary: Dashboard-Konfiguration (SCR-024)
+      tags: [Views – Editoren]
+      parameters:
+        - $ref: '#/components/parameters/UuidIdParam'
+      responses:
+        '200':
+          description: Dashboard-Konfiguration mit Widget-Layouts
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/DashboardConfig' }
+        '404':
+          description: Nicht gefunden
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+
+  /views/dashboards/{id}/data:
+    get:
+      operationId: getDashboardData
+      summary: Dashboard-Daten (SCR-024)
+      description: Aktuelle Datenpunkte für alle Widgets eines Dashboards.
+      tags: [Views – Editoren]
+      parameters:
+        - $ref: '#/components/parameters/UuidIdParam'
+      responses:
+        '200':
+          description: Widget-Daten
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/DashboardData' }
+        '404':
+          description: Nicht gefunden
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+
+  # ╔═════════════════════════════════════════════════════════════════════════╗
+  # ║  VIEW – ROADMAP (SCR-025)                                              ║
+  # ╚═════════════════════════════════════════════════════════════════════════╝
+  /views/roadmap/{id}:
+    get:
+      operationId: getRoadmapView
+      summary: Plateau-Roadmap (SCR-025)
+      tags: [Views – Editoren]
+      parameters:
+        - $ref: '#/components/parameters/UuidIdParam'
+      responses:
+        '200':
+          description: Roadmap mit Plateaus und Entity-Cards
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/RoadmapView' }
+        '404':
+          description: Nicht gefunden
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+
+  # ╔═════════════════════════════════════════════════════════════════════════╗
+  # ║  ENTITY HISTORY & RESTORE (UC-14/15/16, SCR-026/027)                  ║
+  # ╚═════════════════════════════════════════════════════════════════════════╝
+  /entities/{id}/history:
+    get:
+      operationId: getEntityHistory
+      summary: Änderungshistorie einer Entität (SCR-026)
       description: |
-        Vollständiges Entitäts-Detail inkl. aller typisierten Properties und
-        Relationen — optimiert für das Properties-Panel (SCR-012).
-      tags: [Views]
+        Gibt alle Versionen mit delta-basierten Änderungen zurück.
+        Quelle: `entity_version_headers` + `entity_system_field_history`
+        + `entity_property_value_history` (ADR-022).
+      tags: [Entities]
+      parameters:
+        - $ref: '#/components/parameters/EntityIdParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageSizeParam'
+      responses:
+        '200':
+          description: Versionshistorie
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/EntityHistoryResponse' }
+        '404':
+          description: Entität nicht gefunden
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+
+  /entities/{id}/restore:
+    post:
+      operationId: restoreEntity
+      summary: Entität wiederherstellen (SCR-027, UC-15/16)
+      description: |
+        Stellt eine Entität auf eine frühere Version wieder her.
+        Erfordert Rolle `Architect` oder höher.
+        Soft-gelöschte Entitäten können ebenfalls wiederhergestellt werden.
+      tags: [Entities]
+      parameters:
+        - $ref: '#/components/parameters/EntityIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/RestoreRequest' }
+      responses:
+        '200':
+          description: Entität wiederhergestellt
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/EntityDetail' }
+        '403':
+          description: Unzureichende Rechte
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+        '404':
+          description: Entität oder Zielversion nicht gefunden
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+        '409':
+          description: Optimistic-Lock-Konflikt (version veraltet)
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+
+  # ╔═════════════════════════════════════════════════════════════════════════╗
+  # ║  METAMODELL (SCR-030)                                                  ║
+  # ╚═════════════════════════════════════════════════════════════════════════╝
+  /metamodel/metatypes:
+    get:
+      operationId: listMetatypes
+      summary: Alle MetaTypen auflisten
+      tags: [Metamodell]
+      parameters:
+        - name: configId
+          in: query
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: MetaTypen-Liste
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/MetatypeDetail' }
+    post:
+      operationId: createMetatype
+      summary: Neuen MetaTyp anlegen
+      tags: [Metamodell]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/MetatypeWrite' }
+      responses:
+        '201':
+          description: MetaTyp angelegt
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/MetatypeDetail' }
+        '409':
+          description: Name/Kürzel bereits vergeben
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+
+  /metamodel/metatypes/{id}:
+    get:
+      operationId: getMetatype
+      summary: MetaTyp-Detail
+      tags: [Metamodell]
+      parameters:
+        - $ref: '#/components/parameters/UuidIdParam'
+      responses:
+        '200':
+          description: MetaTyp
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/MetatypeDetail' }
+        '404':
+          description: Nicht gefunden
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+    put:
+      operationId: updateMetatype
+      summary: MetaTyp aktualisieren
+      tags: [Metamodell]
+      parameters:
+        - $ref: '#/components/parameters/UuidIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/MetatypeWrite' }
+      responses:
+        '200':
+          description: Aktualisiert
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/MetatypeDetail' }
+        '404':
+          description: Nicht gefunden
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+    delete:
+      operationId: deleteMetatype
+      summary: MetaTyp löschen
+      description: Nur möglich wenn keine Entitäten dieses Typs existieren.
+      tags: [Metamodell]
+      parameters:
+        - $ref: '#/components/parameters/UuidIdParam'
+      responses:
+        '204':
+          description: Gelöscht
+        '409':
+          description: MetaTyp hat noch Entitäten
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+
+  /metamodel/metatypes/{id}/property-mappings:
+    get:
+      operationId: listPropertyMappings
+      summary: Property-Mappings eines MetaTyps
+      tags: [Metamodell]
+      parameters:
+        - $ref: '#/components/parameters/UuidIdParam'
+      responses:
+        '200':
+          description: Mappings (aktueller Stand, neuester valid_from pro Property)
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/MetatypePropertyMapping' }
+    post:
+      operationId: createPropertyMapping
+      summary: Property-Mapping anlegen (oder Stichtag-Änderung)
+      tags: [Metamodell]
+      parameters:
+        - $ref: '#/components/parameters/UuidIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/MetatypePropertyMappingWrite' }
+      responses:
+        '201':
+          description: Mapping angelegt
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/MetatypePropertyMapping' }
+
+  /metamodel/property-categories:
+    get:
+      operationId: listPropertyCategories
+      summary: Property-Kategorien auflisten
+      tags: [Metamodell]
+      responses:
+        '200':
+          description: Kategorien
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/PropertyCategory' }
+    post:
+      operationId: createPropertyCategory
+      summary: Property-Kategorie anlegen
+      tags: [Metamodell]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PropertyCategoryWrite' }
+      responses:
+        '201':
+          description: Kategorie angelegt
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/PropertyCategory' }
+
+  /metamodel/property-categories/{id}:
+    put:
+      operationId: updatePropertyCategory
+      summary: Property-Kategorie aktualisieren
+      tags: [Metamodell]
+      parameters:
+        - $ref: '#/components/parameters/UuidIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PropertyCategoryWrite' }
+      responses:
+        '200':
+          description: Aktualisiert
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/PropertyCategory' }
+        '404':
+          description: Nicht gefunden
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+    delete:
+      operationId: deletePropertyCategory
+      summary: Property-Kategorie löschen
+      tags: [Metamodell]
+      parameters:
+        - $ref: '#/components/parameters/UuidIdParam'
+      responses:
+        '204':
+          description: Gelöscht
+        '409':
+          description: Kategorie hat noch Property-Definitionen
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+
+  /metamodel/property-definitions:
+    get:
+      operationId: listPropertyDefinitions
+      summary: Property-Definitionen auflisten
+      tags: [Metamodell]
+      parameters:
+        - name: categoryId
+          in: query
+          schema: { type: string, format: uuid }
+        - name: dataType
+          in: query
+          schema: { type: string }
+      responses:
+        '200':
+          description: Property-Definitionen
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/PropertyDefinitionDetail' }
+    post:
+      operationId: createPropertyDefinition
+      summary: Property-Definition anlegen
+      tags: [Metamodell]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PropertyDefinitionWrite' }
+      responses:
+        '201':
+          description: Angelegt
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/PropertyDefinitionDetail' }
+
+  /metamodel/property-definitions/{id}:
+    put:
+      operationId: updatePropertyDefinition
+      summary: Property-Definition aktualisieren
+      tags: [Metamodell]
+      parameters:
+        - $ref: '#/components/parameters/UuidIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PropertyDefinitionWrite' }
+      responses:
+        '200':
+          description: Aktualisiert
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/PropertyDefinitionDetail' }
+        '404':
+          description: Nicht gefunden
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+    delete:
+      operationId: deletePropertyDefinition
+      summary: Property-Definition löschen
+      tags: [Metamodell]
+      parameters:
+        - $ref: '#/components/parameters/UuidIdParam'
+      responses:
+        '204':
+          description: Gelöscht
+        '409':
+          description: Definition hat noch Mappings oder Werte
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+
+  /metamodel/property-definitions/{id}/enum-values:
+    get:
+      operationId: listEnumValues
+      summary: Enum-Werte einer Property-Definition
+      tags: [Metamodell]
+      parameters:
+        - $ref: '#/components/parameters/UuidIdParam'
+      responses:
+        '200':
+          description: Enum-Werte
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/PropertyEnumValue' }
+    post:
+      operationId: createEnumValue
+      summary: Enum-Wert anlegen
+      tags: [Metamodell]
+      parameters:
+        - $ref: '#/components/parameters/UuidIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [value]
+              properties:
+                value:     { type: string }
+                sortOrder: { type: integer, default: 0 }
+      responses:
+        '201':
+          description: Angelegt
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/PropertyEnumValue' }
+
+  # ╔═════════════════════════════════════════════════════════════════════════╗
+  # ║  ADMIN (SCR-031–038)                                                   ║
+  # ╚═════════════════════════════════════════════════════════════════════════╝
+  /admin/viewpoints:
+    get:
+      operationId: listViewpoints
+      summary: Viewpoints auflisten (SCR-031)
+      tags: [Admin]
+      responses:
+        '200':
+          description: Viewpoints
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/ViewpointConfig' }
+
+  /admin/viewpoints/{id}:
+    get:
+      operationId: getViewpoint
+      summary: Viewpoint-Detail (SCR-031)
+      tags: [Admin]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Viewpoint
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ViewpointConfig' }
+        '404':
+          description: Nicht gefunden
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+    put:
+      operationId: updateViewpoint
+      summary: Viewpoint aktualisieren (SCR-031)
+      tags: [Admin]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ViewpointConfig' }
+      responses:
+        '200':
+          description: Aktualisiert
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ViewpointConfig' }
+
+  /admin/property-visibility:
+    get:
+      operationId: getPropertyVisibility
+      summary: Property-Sichtbarkeits-Matrix (SCR-032)
+      tags: [Admin]
+      responses:
+        '200':
+          description: Sichtbarkeits-Matrix
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/PropertyVisibilityEntry' }
+    put:
+      operationId: updatePropertyVisibility
+      summary: Property-Sichtbarkeit aktualisieren (SCR-032)
+      tags: [Admin]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items: { $ref: '#/components/schemas/PropertyVisibilityEntry' }
+      responses:
+        '200':
+          description: Aktualisiert
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/PropertyVisibilityEntry' }
+
+  /admin/trm:
+    get:
+      operationId: listTRMEntries
+      summary: Technology Reference Model (SCR-033)
+      tags: [Admin]
+      parameters:
+        - name: status
+          in: query
+          schema: { type: string, enum: [approved, tolerated, prohibited, under-evaluation] }
+        - name: category
+          in: query
+          schema: { type: string }
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageSizeParam'
+      responses:
+        '200':
+          description: TRM-Einträge
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items: { $ref: '#/components/schemas/TRMEntry' }
+                  page: { $ref: '#/components/schemas/PageMeta' }
+    post:
+      operationId: createTRMEntry
+      summary: TRM-Eintrag anlegen (SCR-033)
+      tags: [Admin]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/TRMEntryWrite' }
+      responses:
+        '201':
+          description: Angelegt
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/TRMEntry' }
+
+  /admin/trm/{id}:
+    put:
+      operationId: updateTRMEntry
+      summary: TRM-Eintrag aktualisieren (SCR-033)
+      tags: [Admin]
+      parameters:
+        - $ref: '#/components/parameters/UuidIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/TRMEntryWrite' }
+      responses:
+        '200':
+          description: Aktualisiert
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/TRMEntry' }
+        '404':
+          description: Nicht gefunden
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+    delete:
+      operationId: deleteTRMEntry
+      summary: TRM-Eintrag löschen (SCR-033)
+      tags: [Admin]
+      parameters:
+        - $ref: '#/components/parameters/UuidIdParam'
+      responses:
+        '204':
+          description: Gelöscht
+
+  /admin/continuum:
+    get:
+      operationId: getContinuumConfig
+      summary: Continuum-Konfiguration (SCR-034)
+      tags: [Admin]
+      responses:
+        '200':
+          description: Continuum-Ebenen-Konfiguration
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  levels:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:          { type: string, format: uuid }
+                        name:        { type: string }
+                        description: { type: string }
+                        sortOrder:   { type: integer }
+    put:
+      operationId: updateContinuumConfig
+      summary: Continuum-Konfiguration aktualisieren (SCR-034)
+      tags: [Admin]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                levels:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:          { type: string, format: uuid }
+                      name:        { type: string }
+                      description: { type: string }
+                      sortOrder:   { type: integer }
+      responses:
+        '200':
+          description: Aktualisiert
+
+  /admin/continuum/import:
+    post:
+      operationId: importContinuumPackage
+      summary: Continuum-Paket importieren (SCR-035)
+      tags: [Admin]
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [file]
+              properties:
+                file:
+                  type: string
+                  format: binary
+                strategy:
+                  type: string
+                  enum: [merge, replace]
+                  default: merge
+      responses:
+        '200':
+          description: Import-Ergebnis
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ImportResult' }
+        '422':
+          description: Datei ungültig
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+
+  /admin/conformance:
+    get:
+      operationId: getConformanceResult
+      summary: Konformanz-Analyse (SCR-036)
+      description: Prüft alle aktiven Entitäten gegen aktuelle Metamodell-Regeln.
+      tags: [Admin]
+      parameters:
+        - name: severity
+          in: query
+          schema: { type: string, enum: [critical, high, medium, info] }
+        - name: metatypeId
+          in: query
+          schema: { type: string, format: uuid }
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageSizeParam'
+      responses:
+        '200':
+          description: Konformanz-Ergebnis
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ConformanceResult' }
+
+  /admin/auth/providers:
+    get:
+      operationId: listAuthProviders
+      summary: Auth-Provider auflisten (SCR-037)
+      tags: [Admin]
+      responses:
+        '200':
+          description: Provider-Liste
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/AuthProvider' }
+    post:
+      operationId: createAuthProvider
+      summary: Auth-Provider anlegen (SCR-037)
+      tags: [Admin]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/AuthProviderWrite' }
+      responses:
+        '201':
+          description: Angelegt
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/AuthProvider' }
+
+  /admin/auth/providers/{id}:
+    get:
+      operationId: getAuthProvider
+      summary: Auth-Provider Detail (SCR-037)
+      tags: [Admin]
+      parameters:
+        - $ref: '#/components/parameters/UuidIdParam'
+      responses:
+        '200':
+          description: Provider
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/AuthProvider' }
+        '404':
+          description: Nicht gefunden
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+    put:
+      operationId: updateAuthProvider
+      summary: Auth-Provider aktualisieren (SCR-037)
+      tags: [Admin]
+      parameters:
+        - $ref: '#/components/parameters/UuidIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/AuthProviderWrite' }
+      responses:
+        '200':
+          description: Aktualisiert
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/AuthProvider' }
+    delete:
+      operationId: deleteAuthProvider
+      summary: Auth-Provider löschen (SCR-037)
+      tags: [Admin]
+      parameters:
+        - $ref: '#/components/parameters/UuidIdParam'
+      responses:
+        '204':
+          description: Gelöscht
+        '409':
+          description: Letzter aktiver Provider kann nicht gelöscht werden
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+
+  /admin/auth/providers/{id}/test:
+    post:
+      operationId: testAuthProvider
+      summary: Auth-Provider-Verbindung testen (SCR-037)
+      tags: [Admin]
+      parameters:
+        - $ref: '#/components/parameters/UuidIdParam'
+      responses:
+        '200':
+          description: Test-Ergebnis
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/AuthProviderTestResult' }
+
+  # ── Service-Accounts (ADR-026, REQ-155) ───────────────────────────────────
+  /admin/service-accounts:
+    get:
+      operationId: listServiceAccounts
+      summary: Service-Accounts auflisten
+      description: Alle Service-Accounts der Instanz (person_type=service-account).
+      tags: [Admin]
+      parameters:
+        - name: active
+          in: query
+          schema: { type: boolean }
+      responses:
+        '200':
+          description: Service-Account-Liste
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/ServiceAccount' }
+    post:
+      operationId: createServiceAccount
+      summary: Service-Account anlegen (REQ-155)
+      description: |
+        Legt einen Service-Account an (`persons.person_type=service-account`)
+        und gibt `clientSecret` einmalig im Klartext zurück.
+        Danach nur noch via Rotation abrufbar.
+      tags: [Admin]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ServiceAccountWrite' }
+      responses:
+        '201':
+          description: Service-Account angelegt; clientSecret einmalig im Response
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ServiceAccountCreated' }
+        '422':
+          description: Ungültige Rolle oder Name bereits vergeben
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+
+  /admin/service-accounts/{id}:
+    get:
+      operationId: getServiceAccount
+      summary: Service-Account-Detail
+      tags: [Admin]
+      parameters:
+        - $ref: '#/components/parameters/UuidIdParam'
+      responses:
+        '200':
+          description: Service-Account (ohne clientSecret)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ServiceAccount' }
+        '404':
+          description: Nicht gefunden
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+    put:
+      operationId: updateServiceAccount
+      summary: Service-Account aktualisieren (Name, Beschreibung, Rollen)
+      tags: [Admin]
+      parameters:
+        - $ref: '#/components/parameters/UuidIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ServiceAccountWrite' }
+      responses:
+        '200':
+          description: Aktualisiert
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ServiceAccount' }
+        '404':
+          description: Nicht gefunden
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+    delete:
+      operationId: deleteServiceAccount
+      summary: Service-Account deaktivieren
+      description: Soft-Deaktivierung (active=false). Credentials ungültig.
+      tags: [Admin]
+      parameters:
+        - $ref: '#/components/parameters/UuidIdParam'
+      responses:
+        '204':
+          description: Deaktiviert
+
+  /admin/service-accounts/{id}/credentials/rotate:
+    post:
+      operationId: rotateServiceAccountCredentials
+      summary: Service-Account-Credentials rotieren (REQ-155)
+      description: |
+        Erzeugt ein neues `clientSecret`. Das alte Secret ist sofort ungültig.
+        Das neue Secret wird einmalig im Klartext zurückgegeben.
+      tags: [Admin]
+      parameters:
+        - $ref: '#/components/parameters/UuidIdParam'
+      responses:
+        '200':
+          description: Neues Secret; altes sofort ungültig
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ServiceAccountCreated' }
+        '404':
+          description: Nicht gefunden
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+
+  /admin/settings:
+    get:
+      operationId: getSystemSettings
+      summary: System-Einstellungen (SCR-038)
+      tags: [Admin]
+      responses:
+        '200':
+          description: Einstellungen
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SystemSettings' }
+    put:
+      operationId: updateSystemSettings
+      summary: System-Einstellungen aktualisieren (SCR-038)
+      tags: [Admin]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/SystemSettings' }
+      responses:
+        '200':
+          description: Aktualisiert
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SystemSettings' }
+
+  # ╔═════════════════════════════════════════════════════════════════════════╗
+  # ║  AUDIT (Schema: audit.*, ADR-024, SCR-026/054)                        ║
+  # ╚═════════════════════════════════════════════════════════════════════════╝
+  /audit/events:
+    get:
+      operationId: listAuditEvents
+      summary: Compliance-Audit-Log (SCR-054)
+      description: |
+        Liest aus `audit.events` + `audit.event_changes` (ADR-024).
+        Erfordert Rolle `Auditor` oder `Admin`.
+      tags: [Audit]
+      parameters:
+        - name: entityId
+          in: query
+          schema: { type: integer }
+        - name: actorId
+          in: query
+          schema: { type: integer }
+        - name: eventType
+          in: query
+          schema: { type: string }
+        - name: source
+          in: query
+          schema: { type: string, enum: [UI, API, Job, Import] }
+        - name: from
+          in: query
+          schema: { type: string, format: date }
+        - name: to
+          in: query
+          schema: { type: string, format: date }
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageSizeParam'
+      responses:
+        '200':
+          description: Audit-Events
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items: { $ref: '#/components/schemas/AuditEvent' }
+                  page: { $ref: '#/components/schemas/PageMeta' }
+        '403':
+          description: Unzureichende Rechte
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+
+  /audit/events/{id}/changes:
+    get:
+      operationId: getAuditEventChanges
+      summary: Änderungsdetail eines Audit-Events (SCR-027)
+      tags: [Audit]
       parameters:
         - name: id
           in: path
           required: true
           schema: { type: integer }
-          description: Entitäts-ID
+      responses:
+        '200':
+          description: Änderungsdetail
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/AuditEvent' }
+        '404':
+          description: Nicht gefunden
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+
+  # ╔═════════════════════════════════════════════════════════════════════════╗
+  # ║  EXTERNE INTEGRATION – SCHREIBEN (ADR-026, optional)                   ║
+  # ╚═════════════════════════════════════════════════════════════════════════╝
+
+  /entities:
+    post:
+      operationId: createEntity
+      summary: Entität anlegen
+      description: |
+        Legt eine neue Entität an. Für idempotentes Create-or-Update
+        (bei bekannter `externalId`) bitte `PUT /entities/by-external-id/{externalId}`
+        verwenden.
+      tags: [Entities – Write]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/EntityWrite' }
+      responses:
+        '201':
+          description: Angelegt
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/EntityDetail' }
+        '409':
+          description: "`externalId` bereits vergeben"
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+        '422':
+          description: Validierungsfehler
+          content:
+            application/problem+json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Problem'
+                  - type: object
+                    properties:
+                      errors:
+                        type: array
+                        items: { $ref: '#/components/schemas/ValidationError' }
+
+  /entities/{id}:
+    put:
+      operationId: replaceEntity
+      summary: Entität ersetzen (vollständiges Update)
+      tags: [Entities – Write]
+      parameters:
+        - $ref: '#/components/parameters/EntityIdParam'
+        - name: version
+          in: query
+          schema: { type: integer }
+          description: Optimistic-Lock-Version; fehlt → kein Konflikt-Check
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/EntityWrite' }
+      responses:
+        '200':
+          description: Aktualisiert
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/EntityDetail' }
+        '404':
+          description: Nicht gefunden
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+        '409':
+          description: Optimistic-Lock-Konflikt
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+        '422':
+          description: Validierungsfehler
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+    patch:
+      operationId: patchEntity
+      summary: Entität partiell aktualisieren
+      description: |
+        Nur die mitgelieferten Felder werden geändert.
+        Fehlende Felder bleiben unverändert.
+        `properties`-Array: nur mitgelieferte Properties werden aktualisiert.
+      tags: [Entities – Write]
+      parameters:
+        - $ref: '#/components/parameters/EntityIdParam'
+        - name: version
+          in: query
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/merge-patch+json:
+            schema: { $ref: '#/components/schemas/EntityWrite' }
+      responses:
+        '200':
+          description: Aktualisiert
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/EntityDetail' }
+        '404':
+          description: Nicht gefunden
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+        '409':
+          description: Optimistic-Lock-Konflikt
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+    delete:
+      operationId: deleteEntity
+      summary: Entität soft-löschen
+      tags: [Entities – Write]
+      parameters:
+        - $ref: '#/components/parameters/EntityIdParam'
+        - name: reason
+          in: query
+          schema: { type: string }
+      responses:
+        '204':
+          description: Soft-gelöscht
+        '404':
+          description: Nicht gefunden
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+
+  /entities/by-external-id/{externalId}:
+    put:
+      operationId: upsertEntityByExternalId
+      summary: Entität anlegen oder aktualisieren (Upsert per externalId)
+      description: |
+        Idempotentes Create-or-Update. Kernendpoint für externe Systeme (ADR-026).
+        Gibt `201 Created` bei Neuanlage, `200 OK` bei Update zurück.
+        Wiederholter Aufruf mit identischen Daten ist sicher.
+      tags: [Entities – Write]
+      parameters:
+        - name: externalId
+          in: path
+          required: true
+          schema: { type: string }
+          description: "Stabile Quell-Kennung (URL-encoded, z.B. `git%3Aorg%2Frepo%2Fsvc`)"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/EntityWrite' }
+      responses:
+        '200':
+          description: Aktualisiert
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/EntityDetail' }
+        '201':
+          description: Neu angelegt
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/EntityDetail' }
+        '422':
+          description: Validierungsfehler
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+
+  /entities/validate:
+    post:
+      operationId: validateEntity
+      summary: Entität validieren ohne Persistierung
+      description: |
+        Führt alle Validierungen durch (MetaTyp-Check, Mandatory-Properties,
+        Pattern-Checks, Connection-Constraints) ohne zu persistieren.
+        Nützlich für externe Systeme vor dem eigentlichen Write.
+      tags: [Entities – Write]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/EntityWrite' }
+      responses:
+        '200':
+          description: Validierungsergebnis
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ValidationResult' }
+
+  /entities/batch:
+    post:
+      operationId: batchWriteEntities
+      summary: Entitäten und Verbindungen im Batch anlegen/aktualisieren
+      description: |
+        Schreibt bis zu 500 Entitäten und 500 Verbindungen in einem Request.
+        Für externe Systeme mit `strategy: upsert` der bevorzugte Endpoint
+        (ADR-026). `?dryRun=true` → Validierung ohne Persistierung.
+      tags: [Entities – Write]
+      parameters:
+        - name: dryRun
+          in: query
+          schema: { type: boolean, default: false }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/BatchWriteRequest' }
+      responses:
+        '200':
+          description: Batch-Ergebnis (auch bei Teilfehlern wenn atomic=false)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/BatchWriteResponse' }
+        '422':
+          description: Gesamter Batch ungültig (z.B. leerer Body, atomic=true mit Fehler)
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+
+  /connections:
+    post:
+      operationId: createConnection
+      summary: Verbindung zwischen zwei Entitäten anlegen
+      description: |
+        Legt eine Verbindungsentität an (metatype.is_connection=true).
+        Validiert gegen `metatype_connection_constraints`.
+        Source/Target können via interne ID oder `externalId` referenziert werden.
+      tags: [Entities – Write]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ConnectionWrite' }
+      responses:
+        '201':
+          description: Verbindung angelegt
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/EntityDetail' }
+        '404':
+          description: Source- oder Target-Entität nicht gefunden
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+        '422':
+          description: Connection-Constraint verletzt
+          content:
+            application/problem+json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Problem'
+                  - type: object
+                    properties:
+                      errors:
+                        type: array
+                        items: { $ref: '#/components/schemas/ValidationError' }
+
+  # ── Metamodell-Discovery (ADR-026) ─────────────────────────────────────────
+  /metamodel/allowed-connections:
+    get:
+      operationId: getAllowedConnections
+      summary: Erlaubte Verbindungen zwischen zwei MetaTypen
+      description: |
+        Beantwortet: "Welche Connection-MetaTypen sind zwischen MetaTyp A und B erlaubt?"
+        Schreibende Systeme nutzen diesen Endpoint um Connection-Writes vorab
+        zu validieren. Quelle: `metatype_connection_constraints`.
+      tags: [Metamodell]
+      parameters:
+        - name: sourceMetatypeId
+          in: query
+          required: true
+          schema: { type: string, format: uuid }
+        - name: targetMetatypeId
+          in: query
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Erlaubte Verbindungs-MetaTypen
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/AllowedConnectionResult' }
+
+  # ── Metamodell-Paket Import/Export (ADR-026) ───────────────────────────────
+  /admin/metamodel/export:
+    get:
+      operationId: exportMetamodelPackage
+      summary: Metamodell-Paket exportieren (ADR-026)
+      description: |
+        Exportiert das vollständige Metamodell als portables JSON-Paket:
+        MetaTypen, Property-Definitionen, Viewpoints, Shape-Assignments, i18n-Labels.
+        Dient als Grundlage für Metamodell-Bibliotheken und den Upsert-Workflow
+        externer Systeme (externalId-Namespace, MetaTyp-IDs).
+      tags: [Admin]
+      parameters:
+        - name: configId
+          in: query
+          schema: { type: string, format: uuid }
+          description: "Specific metamodel config; ohne Parameter → instanzweite Konfiguration"
+        - name: includeI18n
+          in: query
+          schema: { type: boolean, default: true }
+          description: "i18n-Bundles in Paket einschliessen"
+      responses:
+        '200':
+          description: Metamodell-Paket
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/MetamodelPackage' }
+
+  /admin/metamodel/import:
+    post:
+      operationId: importMetamodelPackage
+      summary: Metamodell-Paket importieren (ADR-026)
+      description: |
+        Importiert ein Metamodell-Paket (z.B. ArchiMate 3.2 Basis-Metamodell).
+        `merge`: ergänzt fehlende MetaTypen/Properties, aktualisiert vorhandene.
+        `replace`: ersetzt das Metamodell vollständig (nur wenn keine Entitäten
+        des alten Metamodells existieren).
+      tags: [Admin]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/MetamodelPackage'
+                - type: object
+                  properties:
+                    strategy:
+                      type: string
+                      enum: [merge, replace]
+                      default: merge
+      responses:
+        '200':
+          description: Import-Ergebnis
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ImportResult' }
+        '409':
+          description: "`replace` nicht möglich (bestehende Entitäten des alten Metamodells)"
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+        '422':
+          description: Paket-Format ungültig
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+
+  # ── Shape-Palette je Viewpoint ─────────────────────────────────────────────
+  /admin/viewpoints/{id}/shape-palette:
+    get:
+      operationId: getShapePalette
+      summary: Shape-Palette für einen Viewpoint (ADR-026)
+      description: |
+        Welches Shape/Icon bekommt welcher MetaTyp in diesem Viewpoint?
+        Schreibende Systeme und Diagramm-Editor laden diese Palette um
+        Entitäten korrekt darzustellen ohne Shape-Wissen zu hard-coden.
+      tags: [Admin]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+          description: Viewpoint-Key (Slug)
+      responses:
+        '200':
+          description: Shape-Palette
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/ShapeAssignment' }
+        '404':
+          description: Viewpoint nicht gefunden
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+    put:
+      operationId: updateShapePalette
+      summary: Shape-Palette aktualisieren
+      tags: [Admin]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items: { $ref: '#/components/schemas/ShapeAssignment' }
+      responses:
+        '200':
+          description: Aktualisiert
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/ShapeAssignment' }
+
+  # ╔═════════════════════════════════════════════════════════════════════════╗
+  # ║  PORTAL (Read-only, SCR-050–054)                                       ║
+  # ╚═════════════════════════════════════════════════════════════════════════╝
+  /portal/catalog:
+    get:
+      operationId: getPortalCatalogView
+      summary: Portal-Katalog (SCR-050)
+      description: |
+        Read-only-Version von `/views/catalog`. Reduzierter Auth-Scope (portal-reader).
+        Bestimmte Properties werden gemäss Property-Sichtbarkeits-Konfiguration
+        (SCR-032) ausgeblendet (Visibility `always` / `default` / `hidden`).
+      tags: [Portal]
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageSizeParam'
+        - $ref: '#/components/parameters/SortParam'
+        - name: filter[name]
+          in: query
+          schema: { type: string }
+        - name: filter[metatypeId]
+          in: query
+          schema: { type: array, items: { type: string, format: uuid } }
+          style: form
+          explode: false
+      responses:
+        '200':
+          description: Entitätenliste (reduzierte Properties)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items: { $ref: '#/components/schemas/EntityListItem' }
+                  page:          { $ref: '#/components/schemas/PageMeta' }
+                  filterOptions: { $ref: '#/components/schemas/CatalogFilterOptions' }
+        '401':
+          description: Nicht authentifiziert
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+
+  /portal/catalog/{id}:
+    get:
+      operationId: getPortalEntityDetail
+      summary: Portal-Entity-Detail (SCR-051)
+      description: Read-only. Kein Edit-Button; Properties gemäss Sichtbarkeits-Konfiguration.
+      tags: [Portal]
+      parameters:
+        - $ref: '#/components/parameters/EntityIdParam'
       responses:
         '200':
           description: Entitäts-Detail
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/EntityDetail'
+              schema: { $ref: '#/components/schemas/EntityDetail' }
         '404':
-          description: Entität nicht gefunden
+          description: Nicht gefunden
           content:
             application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
-        '410':
-          description: Entität wurde soft-gelöscht
+              schema: { $ref: '#/components/schemas/Problem' }
+
+  /portal/diagrams/{id}:
+    get:
+      operationId: getPortalDiagramView
+      summary: Portal-Diagramm-Viewer (SCR-052)
+      description: Read-only. Kein Editing; Shapes nicht selektierbar/bewegbar.
+      tags: [Portal]
+      parameters:
+        - $ref: '#/components/parameters/UuidIdParam'
+      responses:
+        '200':
+          description: Diagramm
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/DiagramView' }
+        '404':
+          description: Nicht gefunden
           content:
             application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+
+  /portal/dashboards/{id}/data:
+    get:
+      operationId: getPortalDashboardData
+      summary: Portal-Dashboard-Daten (SCR-053)
+      description: Read-only. Keine Widget-Konfiguration; nur Datenpunkte.
+      tags: [Portal]
+      parameters:
+        - $ref: '#/components/parameters/UuidIdParam'
+      responses:
+        '200':
+          description: Dashboard-Daten
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/DashboardData' }
+        '404':
+          description: Nicht gefunden
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+
+  /portal/audit/events:
+    get:
+      operationId: getPortalAuditEvents
+      summary: Portal-Änderungshistorie (SCR-054)
+      description: |
+        Read-only-Sicht auf Audit-Events. Kein Restore-Button.
+        Gefiltert auf öffentlich sichtbare Event-Typen.
+      tags: [Portal]
+      parameters:
+        - name: entityId
+          in: query
+          schema: { type: integer }
+        - name: from
+          in: query
+          schema: { type: string, format: date }
+        - name: to
+          in: query
+          schema: { type: string, format: date }
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageSizeParam'
+      responses:
+        '200':
+          description: Audit-Events
+          content:
+            application/json:
               schema:
-                $ref: '#/components/schemas/Problem'
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items: { $ref: '#/components/schemas/AuditEvent' }
+                  page: { $ref: '#/components/schemas/PageMeta' }
 
   # ╔═════════════════════════════════════════════════════════════════════════╗
   # ║  SSE – Invalidierungskanal (ADR-025)                                   ║
@@ -420,20 +2776,15 @@ paths:
   /events/stream:
     get:
       operationId: getEventStream
-      summary: Server-Sent Events — Cache-Invalidierung
+      summary: Server-Sent Events — Cache-Invalidierung (ADR-025)
       description: |
-        Persistente SSE-Verbindung. Der Server sendet Events wenn sich
-        i18n-Labels oder andere gecachte Ressourcen ändern.
-
-        Event-Typen:
-        - `i18n_invalidated` — Admin hat Labels geändert (`{"locale": "de"}`)
-        - `metamodel_updated` — Metamodell-Konfiguration geändert
-
-        Deaktivierbar via `oea.sse.enabled=false` (ADR-025).
+        Persistente SSE-Verbindung für Cache-Invalidierung.
+        Events: `i18n_invalidated`, `metamodel_updated`.
+        Deaktivierbar via `oea.sse.enabled=false`.
       tags: [Events]
       responses:
         '200':
-          description: SSE-Stream geöffnet
+          description: SSE-Stream
           content:
             text/event-stream:
               schema:
@@ -443,13 +2794,32 @@ paths:
 
                   data: {"type":"metamodel_updated"}
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Tags
-# ─────────────────────────────────────────────────────────────────────────────
+# ═════════════════════════════════════════════════════════════════════════════
+# TAGS
+# ═════════════════════════════════════════════════════════════════════════════
 tags:
-  - name: Views
-    description: Aggregierte View-Endpoints (BFF-Muster, screen-optimiert)
+  - name: Views – Catalog
+    description: Katalog-Browser und Entity-Detail (SCR-020/012)
+  - name: Views – Navigation
+    description: Explorer / Navigationsbaum (SCR-010/011)
+  - name: Views – Editoren
+    description: Diagramm-, Lineage-, Dashboard-, Roadmap-Editoren (SCR-021–025)
+  - name: Entities
+    description: Entity-Historie und Restore (UC-14/15/16)
+  - name: Entities – Write
+    description: |
+      Schreib-Endpoints für Entitäten und Verbindungen (ADR-026, optional).
+      Erfordert Feature-Flag `oea.integration.enabled=true` und Rolle `integration-writer`.
+      `?dryRun=true` verfügbar auf Batch- und Validate-Endpoints.
+  - name: Metamodell
+    description: MetaTypen, Property-Definitionen und Mappings (SCR-030)
+  - name: Admin
+    description: Administrations-Screens (SCR-031–038)
+  - name: Audit
+    description: Compliance-Audit-Log (ADR-024, SCR-054)
+  - name: Portal
+    description: Web-Portal Read-only-Endpoints (SCR-050–054)
   - name: I18N
-    description: Dynamische Übersetzungs-Labels
+    description: Dynamische Labels mit ETag-Caching (ADR-025)
   - name: Events
     description: Server-Sent Events für Cache-Invalidierung
