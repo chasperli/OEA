@@ -39,12 +39,12 @@ Vollständige Liste aller UI-Screens als Grundlage für Penpot-Mockups und API-D
 |---|---|---|---|---|---|
 | SCR-020 | Katalog-Browser (Walking Skeleton) | CA | UC-06 | must | `mockup` |
 | SCR-021 | Diagramm-Editor / Canvas | CA | UC-05, UC-08, UC-10 | must | `mockup` |
-| SCR-022 | BPMN-Editor | CA | UC-10 | must | `todo` |
+| SCR-022 | BPMN-Editor | CA | UC-10 | must | `mockup` |
 | SCR-023 | Data-Lineage-Editor | CA | UC-08 | should | `todo` |
 | SCR-024 | Dashboard-Editor | CA | UC-07 | should | `todo` |
 | SCR-025 | Plateau-Roadmap | CA | UC-11 | must | `todo` |
-| SCR-026 | Änderungshistorie / Audit-Log | CA | UC-14 | must | `todo` |
-| SCR-027 | Entität wiederherstellen (Diff-Ansicht) | CA | UC-15, UC-16 | should | `todo` |
+| SCR-026 | Änderungshistorie / Audit-Log | CA | UC-14 | must | `mockup` |
+| SCR-027 | Entität wiederherstellen — Modal (Diff + Restore) | CA | UC-15, UC-16 | should | `mockup` |
 
 ---
 
@@ -108,6 +108,8 @@ Empfohlene Reihenfolge (GUI-first → OpenAPI → Code):
 | `scripts/penpot/hauptfenster.js` | SCR-010, SCR-012 (Light + Dark) |
 | `scripts/penpot/katalog-browser.js` | SCR-020 |
 | `scripts/penpot/diagram-editor.js` | SCR-021 |
+| `scripts/penpot/bpmn-editor.js` | SCR-022 |
+| `scripts/penpot/audit-log.js` | SCR-026, SCR-027 |
 | _(geplant)_ `scripts/penpot/setup-wizard.js` | SCR-002, SCR-003 |
 | _(geplant)_ `scripts/penpot/admin.js` | SCR-030–SCR-038 |
 | _(geplant)_ `scripts/penpot/web-portal.js` | SCR-050–SCR-054 |
