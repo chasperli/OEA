@@ -7,8 +7,7 @@ Vollständige Liste aller UI-Screens als Grundlage für Penpot-Mockups und API-D
 - **WP** = Web Portal (Vue 3 SPA, Browser) — Read-only-Publikation
 - **CA+WP** = beide Plattformen
 
-**Status-Werte**: `todo` | `mockup` | `mockup*` | `api-defined` | `implemented`
-> `mockup*` = SVG lokal vorhanden, Penpot-Upload ausstehend (Server-Timeout)
+**Status-Werte**: `todo` | `mockup` | `api-defined` | `implemented`
 
 > **Pflegepflicht**: Wenn ein Screen neu erstellt, überarbeitet oder entfernt wird, muss diese Datei geprüft und der Status sowie die Zuordnung (UC-Bezug, Plattform, Script) aktualisiert werden.
 
@@ -54,14 +53,14 @@ Vollständige Liste aller UI-Screens als Grundlage für Penpot-Mockups und API-D
 | ID | Screen | Plattform | UC-Bezug | Priorität | Status |
 |---|---|---|---|---|---|
 | SCR-030 | Metamodell-Konfiguration | CA | UC-04 | must | `mockup` |
-| SCR-031 | Viewpoint-Verwaltung | CA | UC-12 | must | `mockup*` |
-| SCR-032 | Property-Sichtbarkeit konfigurieren | CA | UC-21 | must | `mockup*` |
-| SCR-033 | TRM-Konfiguration | CA | UC-19 | must | `mockup*` |
-| SCR-034 | Continuum-Bausteine verwalten | CA | UC-17 | must | `mockup*` |
-| SCR-035 | Continuum-Paket importieren | CA | UC-18 | should | `mockup*` |
-| SCR-036 | Conformance-Analyse | CA | UC-20 | should | `mockup*` |
-| SCR-037 | Auth-Konfiguration (Admin) | CA | UC-03 | must | `mockup*` |
-| SCR-038 | System-Einstellungen | CA | UC-02 | must | `mockup*` |
+| SCR-031 | Viewpoint-Verwaltung | CA | UC-12 | must | `mockup` |
+| SCR-032 | Property-Sichtbarkeit konfigurieren | CA | UC-21 | must | `mockup` |
+| SCR-033 | TRM-Konfiguration | CA | UC-19 | must | `mockup` |
+| SCR-034 | Continuum-Bausteine verwalten | CA | UC-17 | must | `mockup` |
+| SCR-035 | Continuum-Paket importieren | CA | UC-18 | should | `mockup` |
+| SCR-036 | Conformance-Analyse | CA | UC-20 | should | `mockup` |
+| SCR-037 | Auth-Konfiguration (Admin) | CA | UC-03 | must | `mockup` |
+| SCR-038 | System-Einstellungen | CA | UC-02 | must | `mockup` |
 
 ---
 
@@ -138,4 +137,4 @@ Empfohlene Reihenfolge (GUI-first → OpenAPI → Code):
 | `scripts/penpot/plateau-roadmap.js` | SCR-025 | ✅ |
 | `scripts/penpot/metamodel-config.js` | SCR-030 | ✅ |
 | `scripts/penpot/web-portal.js` | SCR-050, SCR-051, SCR-052, SCR-053, SCR-054 | ✅ |
-| `scripts/penpot/admin.js` | SCR-031–SCR-038 | ⚠ Upload pending |
+| `scripts/penpot/admin.js` | SCR-031–SCR-038 | ✅ |
