@@ -101,8 +101,6 @@
   <text x="777" y="180" font-size="9" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">e.g. &gt; 3</text>
   <rect x="874" y="167" width="80" height="20" fill="#0B1829" fill-opacity="1" stroke="#334155" stroke-width="1"/>
   <text x="877" y="180" font-size="9" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">e.g. 2025</text>
-  <rect x="942" y="169" width="32" height="16" fill="#334155" fill-opacity="1" stroke="none"/>
-  <text x="958" y="179" font-size="8" fill="#94A3B8" text-anchor="middle" font-family="Inter,system-ui,sans-serif">AND</text>
   <rect x="264" y="190" width="716" height="28" fill="#0C4A6E" fill-opacity="1" stroke="#334155" stroke-width="1"/>
   <rect x="272" y="197" width="14" height="14" fill="#2563EB" fill-opacity="1" stroke="none"/>
   <text x="279" y="205" font-size="7" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">AC</text>

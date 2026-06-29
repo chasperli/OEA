@@ -194,7 +194,7 @@ function screen(pid, row, P, m) {
   });
 
   // ── Inline column filter row (REQ-143) ───────────────────────────────────────
-  // Always AND-combined; one quick-filter input per column.
+  // One quick-filter input per column; filters are implicitly AND-combined.
   const IF_H=26;
   const iffy=hy+COL_H;
   ch.push(r(cx,iffy,cw,IF_H,'CP/IFBg',P.secBg,1,P.border,1));
@@ -202,9 +202,6 @@ function screen(pid, row, P, m) {
     ch.push(r(cx+c.x,iffy+3,c.w,20,`CP/IF${c.key}`,P.inputBg,1,P.border,1));
     ch.push(t(cx+c.x+3,iffy+7,c.w-6,12,`CP/IFT${c.key}`,c.ph,9,400,P.muted,'left'));
   });
-  // AND badge to signal the logic
-  ch.push(r(cx+cw-38,iffy+5,32,16,'CP/IFAnd',P.border));
-  ch.push(t(cx+cw-38,iffy+7,32,12,'CP/IFAndT','AND',8,700,P.muted,'center'));
 
   // Entity rows
   const ROW_H=28;
