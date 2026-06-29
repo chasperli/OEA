@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="800" viewBox="0 0 1280 800">
+  <rect width="1280" height="800" fill="#FFFFFF"/>
+  <rect x="0" y="0" width="1280" height="28" fill="#1E293B" fill-opacity="1" stroke="none"/>
+  <text x="8" y="18" font-size="12" fill="#E2E8F0" text-anchor="start" font-family="Inter,system-ui,sans-serif">File</text>
+  <text x="54" y="18" font-size="12" fill="#E2E8F0" text-anchor="start" font-family="Inter,system-ui,sans-serif">Edit</text>
+  <text x="100" y="18" font-size="12" fill="#E2E8F0" text-anchor="start" font-family="Inter,system-ui,sans-serif">View</text>
+  <text x="148" y="18" font-size="12" fill="#E2E8F0" text-anchor="start" font-family="Inter,system-ui,sans-serif">Model</text>
+  <text x="196" y="18" font-size="12" fill="#E2E8F0" text-anchor="start" font-family="Inter,system-ui,sans-serif">Help</text>
+  <text x="1272" y="17" font-size="11" fill="#94A3B8" text-anchor="end" font-family="Inter,system-ui,sans-serif">OEA 0.1.0-SNAPSHOT</text>
+  <rect x="0" y="28" width="1280" height="36" fill="#FFFFFF" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="8" y="51" font-size="12" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Explorer</text>
+  <rect x="170" y="35" width="82" height="22" fill="#E0F2FE" fill-opacity="1" stroke="#0EA5E9" stroke-width="1"/>
+  <text x="211" y="49" font-size="10" fill="#0EA5E9" text-anchor="middle" font-family="Inter,system-ui,sans-serif">✏  Edit mode</text>
+  <text x="272" y="51" font-size="12" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">OEA Solution  ›  Architecture Governance</text>
+  <rect x="260" y="64" width="4" height="712" fill="#E2E8F0" fill-opacity="1" stroke="none"/>
+  <rect x="0" y="64" width="260" height="712" fill="#FFFFFF" fill-opacity="1" stroke="none"/>
+  <rect x="0" y="64" width="260" height="28" fill="#F1F5F9" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="8" y="83" font-size="12" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Explorer</text>
+  <rect x="210" y="69" width="42" height="18" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="231" y="80" font-size="9" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">+ Folder</text>
+  <rect x="8" y="100" width="244" height="24" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="14" y="117" font-size="11" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Search tree...</text>
+  <rect x="0" y="132" width="260" height="22" fill="#FFFFFF" fill-opacity="1" stroke="none"/>
+  <text x="4" y="145" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">▼</text>
+  <rect x="18" y="139" width="8" height="8" fill="#0F172A" fill-opacity="1" stroke="none"/>
+  <text x="30" y="146" font-size="10" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">OEA Solution</text>
+  <rect x="0" y="154" width="260" height="22" fill="#FFFFFF" fill-opacity="1" stroke="none"/>
+  <text x="18" y="167" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">▼</text>
+  <rect x="32" y="161" width="8" height="8" fill="#7C3AED" fill-opacity="1" stroke="none"/>
+  <text x="44" y="168" font-size="10" fill="#0EA5E9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Architecture Governance</text>
+  <rect x="242" y="157" width="14" height="16" fill="#E0F2FE" fill-opacity="1" stroke="#0EA5E9" stroke-width="1"/>
+  <text x="249" y="169" font-size="10" fill="#0EA5E9" text-anchor="middle" font-family="Inter,system-ui,sans-serif">⋯</text>
+  <rect x="0" y="176" width="260" height="22" fill="#F8FAFC" fill-opacity="1" stroke="none"/>
+  <text x="2" y="189" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">⠿</text>
+  <text x="32" y="189" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">▶</text>
+  <rect x="46" y="183" width="8" height="8" fill="#2563EB" fill-opacity="1" stroke="none"/>
+  <text x="58" y="190" font-size="10" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Components  (14)</text>
+  <rect x="0" y="198" width="260" height="22" fill="#FFFFFF" fill-opacity="1" stroke="none"/>
+  <text x="32" y="211" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">▶</text>
+  <rect x="46" y="205" width="8" height="8" fill="#0891B2" fill-opacity="1" stroke="none"/>
+  <text x="58" y="212" font-size="10" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Diagrams  (6)</text>
+  <rect x="0" y="220" width="260" height="22" fill="#FFFFFF" fill-opacity="1" stroke="none"/>
+  <text x="32" y="233" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif"></text>
+  <text x="51" y="234" font-size="11" fill="#D97706" text-anchor="middle" font-family="Inter,system-ui,sans-serif">⚠</text>
+  <text x="58" y="234" font-size="10" fill="#991B1B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Reporting-Engine [AC]</text>
+  <rect x="0" y="242" width="260" height="22" fill="#E0F2FE" fill-opacity="1" stroke="none"/>
+  <text x="18" y="255" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">▼</text>
+  <rect x="32" y="249" width="8" height="8" fill="#059669" fill-opacity="1" stroke="none"/>
+  <rect x="44" y="244" width="192" height="18" fill="#F8FAFC" fill-opacity="1" stroke="#0EA5E9" stroke-width="1.5"/>
+  <text x="47" y="257" font-size="10" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">ERP-Rollout Programme</text>
+  <rect x="177" y="247" width="1" height="12" fill="#0EA5E9" fill-opacity="1" stroke="none"/>
+  <rect x="238" y="245" width="18" height="16" fill="#DCFCE7" fill-opacity="1" stroke="#166534" stroke-width="1"/>
+  <text x="247" y="256" font-size="9" fill="#166534" text-anchor="middle" font-family="Inter,system-ui,sans-serif">✓</text>
+  <rect x="0" y="264" width="260" height="22" fill="#FFFFFF" fill-opacity="1" stroke="none"/>
+  <text x="32" y="277" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">▶</text>
+  <rect x="46" y="271" width="8" height="8" fill="#059669" fill-opacity="1" stroke="none"/>
+  <text x="58" y="278" font-size="10" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">ERP Sprint Q1</text>
+  <rect x="0" y="286" width="260" height="22" fill="#FFFFFF" fill-opacity="1" stroke="none"/>
+  <text x="32" y="299" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">▶</text>
+  <rect x="46" y="293" width="8" height="8" fill="#059669" fill-opacity="1" stroke="none"/>
+  <text x="58" y="300" font-size="10" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">ERP Sprint Q2</text>
+  <rect x="0" y="308" width="260" height="22" fill="#FFFFFF" fill-opacity="1" stroke="none"/>
+  <text x="18" y="321" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">▶</text>
+  <rect x="32" y="315" width="8" height="8" fill="#DC2626" fill-opacity="1" stroke="none"/>
+  <text x="44" y="322" font-size="10" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Risk &amp; Compliance</text>
+  <rect x="4" y="334" width="252" height="36" fill="#FEF3C7" fill-opacity="1" stroke="#D97706" stroke-width="1"/>
+  <text x="8" y="347" font-size="9" fill="#92400E" text-anchor="start" font-family="Inter,system-ui,sans-serif">⚠  Orphaned item: referenced entity</text>
+  <text x="8" y="359" font-size="9" fill="#92400E" text-anchor="start" font-family="Inter,system-ui,sans-serif">was deleted. Remove or restore it.</text>
+  <rect x="208" y="360" width="44" height="8" fill="#D97706" fill-opacity="0.3" stroke="none"/>
+  <text x="230" y="368" font-size="7" fill="#92400E" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Remove entry</text>
+  <rect x="0" y="740" width="260" height="36" fill="#F1F5F9" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <rect x="4" y="745" width="16" height="16" fill="#0EA5E9" fill-opacity="0.2" stroke="#0EA5E9" stroke-width="1"/>
+  <text x="11" y="755" font-size="9" fill="#0EA5E9" text-anchor="middle" font-family="Inter,system-ui,sans-serif">✏</text>
+  <text x="24" y="754" font-size="9" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Edit mode active. Drag to reorder.</text>
+  <text x="24" y="766" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Read-only for viewers (E5).</text>
+  <rect x="55" y="161" width="196" height="132" fill="#64748B" fill-opacity="0.18" stroke="none"/>
+  <rect x="52" y="158" width="196" height="132" fill="#FFFFFF" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="60" y="172" font-size="10" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Edit Folder Name</text>
+  <text x="242" y="171" font-size="9" fill="#64748B" text-anchor="end" font-family="Inter,system-ui,sans-serif">F2</text>
+  <rect x="52" y="178" width="196" height="20" fill="#F0F9FF" fill-opacity="1" stroke="none"/>
+  <text x="60" y="192" font-size="10" fill="#0EA5E9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Add Content...</text>
+  <rect x="58" y="201" width="184" height="1" fill="#E2E8F0" fill-opacity="1" stroke="none"/>
+  <text x="60" y="220" font-size="10" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Move</text>
+  <rect x="58" y="229" width="184" height="1" fill="#E2E8F0" fill-opacity="1" stroke="none"/>
+  <text x="60" y="248" font-size="10" fill="#991B1B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Delete Folder</text>
+  <text x="60" y="258" font-size="8" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">2 sub-folders, 14 items — content preserved</text>
+  <rect x="264" y="64" width="1016" height="712" fill="#FFFFFF" fill-opacity="1" stroke="none"/>
+  <rect x="264" y="64" width="1016" height="28" fill="#F1F5F9" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="272" y="83" font-size="12" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Architecture Governance  →  Contents  (16)</text>
+  <rect x="272" y="100" width="1000" height="28" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="0.5"/>
+  <rect x="280" y="107" width="120" height="14" fill="#E2E8F0" fill-opacity="0.4" stroke="none"/>
+  <rect x="412" y="107" width="80" height="14" fill="#E2E8F0" fill-opacity="0.3" stroke="none"/>
+  <rect x="272" y="136" width="1000" height="28" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="0.5"/>
+  <rect x="280" y="143" width="120" height="14" fill="#E2E8F0" fill-opacity="0.4" stroke="none"/>
+  <rect x="412" y="143" width="80" height="14" fill="#E2E8F0" fill-opacity="0.3" stroke="none"/>
+  <rect x="272" y="172" width="1000" height="28" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="0.5"/>
+  <rect x="280" y="179" width="120" height="14" fill="#E2E8F0" fill-opacity="0.4" stroke="none"/>
+  <rect x="412" y="179" width="80" height="14" fill="#E2E8F0" fill-opacity="0.3" stroke="none"/>
+  <rect x="272" y="208" width="1000" height="28" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="0.5"/>
+  <rect x="280" y="215" width="120" height="14" fill="#E2E8F0" fill-opacity="0.4" stroke="none"/>
+  <rect x="412" y="215" width="80" height="14" fill="#E2E8F0" fill-opacity="0.3" stroke="none"/>
+  <rect x="272" y="244" width="1000" height="28" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="0.5"/>
+  <rect x="280" y="251" width="120" height="14" fill="#E2E8F0" fill-opacity="0.4" stroke="none"/>
+  <rect x="412" y="251" width="80" height="14" fill="#E2E8F0" fill-opacity="0.3" stroke="none"/>
+  <rect x="264" y="64" width="1016" height="712" fill="#FFFFFF" fill-opacity="0.55" stroke="none"/>
+  <rect x="324" y="204" width="640" height="400" fill="#64748B" fill-opacity="0.2" stroke="none"/>
+  <rect x="320" y="200" width="640" height="400" fill="#FFFFFF" fill-opacity="1" stroke="#0EA5E9" stroke-width="1.5"/>
+  <rect x="320" y="200" width="640" height="36" fill="#E0F2FE" fill-opacity="1" stroke="#0EA5E9" stroke-width="1.5"/>
+  <text x="332" y="222" font-size="12" fill="#0EA5E9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Add Content to «Architecture Governance»</text>
+  <rect x="932" y="208" width="20" height="20" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="942" y="222" font-size="12" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">×</text>
+  <rect x="332" y="244" width="380" height="28" fill="#F8FAFC" fill-opacity="1" stroke="#0EA5E9" stroke-width="1.5"/>
+  <text x="338" y="262" font-size="12" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">catalog</text>
+  <rect x="382" y="251" width="1" height="14" fill="#0EA5E9" fill-opacity="1" stroke="none"/>
+  <rect x="720" y="244" width="110" height="28" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="726" y="261" font-size="11" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Type: All  ▾</text>
+  <rect x="838" y="244" width="110" height="28" fill="#0EA5E9" fill-opacity="1" stroke="none"/>
+  <text x="893" y="261" font-size="11" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Search</text>
+  <rect x="320" y="278" width="640" height="22" fill="#F1F5F9" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="332" y="293" font-size="10" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif"></text>
+  <text x="364" y="293" font-size="10" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Name</text>
+  <text x="590" y="293" font-size="10" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Type</text>
+  <text x="698" y="293" font-size="10" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Path</text>
+  <rect x="320" y="300" width="640" height="34" fill="#E0F2FE" fill-opacity="1" stroke="#E2E8F0" stroke-width="0.5"/>
+  <rect x="334" y="309" width="16" height="16" fill="#0EA5E9" fill-opacity="1" stroke="#0EA5E9" stroke-width="1"/>
+  <text x="342" y="319" font-size="9" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">✓</text>
+  <text x="356" y="321" font-size="11" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Application Landscape 2026</text>
+  <rect x="588" y="310" width="88" height="14" fill="#D97706" fill-opacity="0.12" stroke="#D97706" stroke-width="1"/>
+  <text x="592" y="320" font-size="9" fill="#D97706" text-anchor="start" font-family="Inter,system-ui,sans-serif">Catalog</text>
+  <text x="686" y="320" font-size="10" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">/ Catalogs</text>
+  <rect x="320" y="334" width="640" height="34" fill="#E0F2FE" fill-opacity="1" stroke="#E2E8F0" stroke-width="0.5"/>
+  <rect x="334" y="343" width="16" height="16" fill="#0EA5E9" fill-opacity="1" stroke="#0EA5E9" stroke-width="1"/>
+  <text x="342" y="353" font-size="9" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">✓</text>
+  <text x="356" y="355" font-size="11" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Catalog-Service</text>
+  <rect x="588" y="344" width="88" height="14" fill="#2563EB" fill-opacity="0.12" stroke="#2563EB" stroke-width="1"/>
+  <text x="592" y="354" font-size="9" fill="#2563EB" text-anchor="start" font-family="Inter,system-ui,sans-serif">Entity AC</text>
+  <text x="686" y="354" font-size="10" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">/ Architecture Governance</text>
+  <rect x="320" y="368" width="640" height="34" fill="#FFFFFF" fill-opacity="1" stroke="#E2E8F0" stroke-width="0.5"/>
+  <rect x="334" y="377" width="16" height="16" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="356" y="389" font-size="11" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Technology Radar 2026</text>
+  <rect x="588" y="378" width="88" height="14" fill="#D97706" fill-opacity="0.12" stroke="#D97706" stroke-width="1"/>
+  <text x="592" y="388" font-size="9" fill="#D97706" text-anchor="start" font-family="Inter,system-ui,sans-serif">Catalog</text>
+  <text x="686" y="388" font-size="10" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">/ Catalogs</text>
+  <rect x="320" y="402" width="640" height="34" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="0.5"/>
+  <rect x="334" y="411" width="16" height="16" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="356" y="423" font-size="11" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Auth-Service</text>
+  <rect x="588" y="412" width="88" height="14" fill="#2563EB" fill-opacity="0.12" stroke="#2563EB" stroke-width="1"/>
+  <text x="592" y="422" font-size="9" fill="#2563EB" text-anchor="start" font-family="Inter,system-ui,sans-serif">Entity AC</text>
+  <text x="686" y="422" font-size="10" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">/ Architecture Governance</text>
+  <rect x="320" y="436" width="640" height="34" fill="#FFFFFF" fill-opacity="1" stroke="#E2E8F0" stroke-width="0.5"/>
+  <rect x="334" y="445" width="16" height="16" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="356" y="457" font-size="11" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">BPMN — Architecture Review</text>
+  <rect x="588" y="446" width="88" height="14" fill="#0891B2" fill-opacity="0.12" stroke="#0891B2" stroke-width="1"/>
+  <text x="592" y="456" font-size="9" fill="#0891B2" text-anchor="start" font-family="Inter,system-ui,sans-serif">Diagram</text>
+  <text x="686" y="456" font-size="10" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">/ Architecture Governance</text>
+  <rect x="320" y="552" width="640" height="48" fill="#F1F5F9" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <rect x="332" y="566" width="80" height="20" fill="#E0F2FE" fill-opacity="1" stroke="#0EA5E9" stroke-width="1"/>
+  <text x="372" y="579" font-size="10" fill="#0EA5E9" text-anchor="middle" font-family="Inter,system-ui,sans-serif">2 selected</text>
+  <text x="424" y="579" font-size="10" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Items remain in other folders (BR-06)</text>
+  <rect x="772" y="562" width="84" height="28" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="814" y="580" font-size="11" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Cancel</text>
+  <rect x="864" y="562" width="84" height="28" fill="#0EA5E9" fill-opacity="1" stroke="none"/>
+  <text x="906" y="580" font-size="11" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Add to folder</text>
+  <rect x="0" y="776" width="1280" height="24" fill="#1E293B" fill-opacity="1" stroke="none"/>
+  <text x="8" y="792" font-size="10" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Explorer  ·  Edit mode  ·  OEA Solution  ·  3 folders  ·  14 items  ·  1 orphaned</text>
+  <text x="1272" y="792" font-size="10" fill="#94A3B8" text-anchor="end" font-family="Inter,system-ui,sans-serif">Connected  ·  OEA 0.1.0-SNAPSHOT</text>
+</svg>

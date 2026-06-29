@@ -28,7 +28,7 @@ Vollständige Liste aller UI-Screens als Grundlage für Penpot-Mockups und API-D
 | ID | Screen | Plattform | UC-Bezug | Priorität | Status |
 |---|---|---|---|---|---|
 | SCR-010 | Hauptfenster / App-Shell | CA | UC-06, UC-13 | must | `mockup` |
-| SCR-011 | Explorer / Navigationsbaum | CA | UC-13 | must | `todo` |
+| SCR-011 | Explorer / Navigationsbaum — Edit Mode | CA | UC-13 | must | `mockup` |
 | SCR-012 | Entity-Eigenschaften-Panel | CA | UC-06, UC-04 | must | `mockup` |
 
 ---
@@ -100,7 +100,7 @@ Empfohlene Reihenfolge (GUI-first → OpenAPI → Code):
 8. ~~**SCR-001** Login + Auto-SSO~~ ✅ `mockup`
 9. ~~**SCR-002** Setup-Wizard~~ ✅ `mockup`
 10. ~~**SCR-003** Auth-Methode (2FA / Passkey)~~ ✅ `mockup`
-11. **SCR-011** Explorer / Navigationsbaum
+11. ~~**SCR-011** Explorer / Navigationsbaum~~ ✅ `mockup`
 10. **SCR-002** Setup-Wizard
 11. **SCR-025** Plateau-Roadmap
 12. **SCR-030** Metamodell-Konfiguration
@@ -119,6 +119,7 @@ Empfohlene Reihenfolge (GUI-first → OpenAPI → Code):
 | `scripts/penpot/diagram-editor.js` | SCR-021 |
 | `scripts/penpot/bpmn-editor.js` | SCR-022 |
 | `scripts/penpot/audit-log.js` | SCR-026, SCR-027 |
+| `scripts/penpot/explorer.js` | SCR-011 |
 | _(geplant)_ `scripts/penpot/setup-wizard.js` | SCR-002, SCR-003 |
 | _(geplant)_ `scripts/penpot/admin.js` | SCR-030–SCR-038 |
 | _(geplant)_ `scripts/penpot/web-portal.js` | SCR-050–SCR-054 |
