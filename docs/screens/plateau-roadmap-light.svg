@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="800" viewBox="0 0 1280 800">
+  <rect width="1280" height="800" fill="#FFFFFF"/>
+  <rect x="0" y="0" width="1280" height="28" fill="#1E293B" fill-opacity="1" stroke="none"/>
+  <text x="8" y="18" font-size="12" fill="#E2E8F0" text-anchor="start" font-family="Inter,system-ui,sans-serif">File</text>
+  <text x="54" y="18" font-size="12" fill="#E2E8F0" text-anchor="start" font-family="Inter,system-ui,sans-serif">Edit</text>
+  <text x="100" y="18" font-size="12" fill="#E2E8F0" text-anchor="start" font-family="Inter,system-ui,sans-serif">View</text>
+  <text x="148" y="18" font-size="12" fill="#E2E8F0" text-anchor="start" font-family="Inter,system-ui,sans-serif">Roadmap</text>
+  <text x="220" y="18" font-size="12" fill="#E2E8F0" text-anchor="start" font-family="Inter,system-ui,sans-serif">Help</text>
+  <text x="1272" y="17" font-size="11" fill="#94A3B8" text-anchor="end" font-family="Inter,system-ui,sans-serif">OEA 0.1.0-SNAPSHOT</text>
+  <rect x="0" y="28" width="1280" height="36" fill="#FFFFFF" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="8" y="51" font-size="12" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Roadmaps</text>
+  <text x="70" y="51" font-size="12" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">›</text>
+  <text x="80" y="51" font-size="12" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">OEA Platform Transformation 2025–2026</text>
+  <rect x="320" y="34" width="56" height="22" fill="#E0F2FE" fill-opacity="1" stroke="#0EA5E9" stroke-width="1"/>
+  <text x="348" y="48" font-size="10" fill="#0EA5E9" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Quarter</text>
+  <rect x="380" y="34" width="48" height="22" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="404" y="48" font-size="10" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Year</text>
+  <rect x="1080" y="34" width="88" height="22" fill="#F8FAFC" fill-opacity="1" stroke="#0EA5E9" stroke-width="1"/>
+  <text x="1124" y="48" font-size="10" fill="#0EA5E9" text-anchor="middle" font-family="Inter,system-ui,sans-serif">+ New Plateau</text>
+  <rect x="1176" y="34" width="64" height="22" fill="#0EA5E9" fill-opacity="1" stroke="none"/>
+  <text x="1208" y="48" font-size="10" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Save</text>
+  <rect x="0" y="64" width="220" height="712" fill="#FFFFFF" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <rect x="0" y="64" width="220" height="24" fill="#F1F5F9" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="8" y="80" font-size="11" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Filters &amp; Legend</text>
+  <text x="8" y="101" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Solution</text>
+  <rect x="6" y="104" width="208" height="22" fill="#F8FAFC" fill-opacity="1" stroke="#0EA5E9" stroke-width="1.5"/>
+  <text x="10" y="118" font-size="10" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">OEA Platform Transformation</text>
+  <text x="8" y="139" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Domain</text>
+  <rect x="6" y="142" width="208" height="22" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="10" y="156" font-size="10" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">All domains</text>
+  <rect x="0" y="174" width="220" height="20" fill="#F1F5F9" fill-opacity="1" stroke="none"/>
+  <text x="8" y="187" font-size="10" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Plateau-Legende</text>
+  <rect x="6" y="198" width="208" height="42" fill="#DBEAFE" fill-opacity="1" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="10" y="213" font-size="10" fill="#3B82F6" text-anchor="start" font-family="Inter,system-ui,sans-serif">AS-IS  (current state)</text>
+  <text x="10" y="227" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Q3 2025</text>
+  <rect x="6" y="246" width="208" height="42" fill="#FEF9C3" fill-opacity="1" stroke="#D97706" stroke-width="1.5"/>
+  <text x="10" y="261" font-size="10" fill="#D97706" text-anchor="start" font-family="Inter,system-ui,sans-serif">Transition  (migration)</text>
+  <text x="10" y="275" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Q4 2025 – Q2 2026</text>
+  <rect x="6" y="294" width="208" height="42" fill="#DCFCE7" fill-opacity="1" stroke="#16A34A" stroke-width="1.5"/>
+  <text x="10" y="309" font-size="10" fill="#16A34A" text-anchor="start" font-family="Inter,system-ui,sans-serif">TO-BE  (target state)</text>
+  <text x="10" y="323" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Q3 2026 onward</text>
+  <rect x="0" y="346" width="220" height="20" fill="#F1F5F9" fill-opacity="1" stroke="none"/>
+  <text x="8" y="359" font-size="10" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Card-Symbole</text>
+  <text x="10" y="380" font-size="10" fill="#0EA5E9" text-anchor="start" font-family="Inter,system-ui,sans-serif">⚠ </text>
+  <text x="30" y="379" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Ablösungskandidat</text>
+  <text x="10" y="398" font-size="10" fill="#0EA5E9" text-anchor="start" font-family="Inter,system-ui,sans-serif">→ </text>
+  <text x="30" y="397" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">In Ablösung</text>
+  <text x="10" y="416" font-size="10" fill="#0EA5E9" text-anchor="start" font-family="Inter,system-ui,sans-serif">✓ </text>
+  <text x="30" y="415" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Bestätigt</text>
+  <rect x="220" y="64" width="4" height="712" fill="#E2E8F0" fill-opacity="1" stroke="none"/>
+  <rect x="224" y="64" width="1056" height="712" fill="#F8FAFC" fill-opacity="1" stroke="none"/>
+  <rect x="224" y="64" width="176" height="712" fill="#DBEAFE" fill-opacity="0.3" stroke="#3B82F6" stroke-width="0.8"/>
+  <rect x="400" y="64" width="528" height="712" fill="#FEF9C3" fill-opacity="0.3" stroke="#D97706" stroke-width="0.8"/>
+  <rect x="928" y="64" width="352" height="712" fill="#DCFCE7" fill-opacity="0.3" stroke="#16A34A" stroke-width="0.8"/>
+  <rect x="224" y="64" width="176" height="36" fill="#DBEAFE" fill-opacity="0.5" stroke="none"/>
+  <rect x="224" y="64" width="1" height="36" fill="#E2E8F0" fill-opacity="0.6" stroke="none"/>
+  <text x="312" y="78" font-size="10" fill="#1E40AF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Q3 2025</text>
+  <rect x="224" y="100" width="1" height="676" fill="#E2E8F0" fill-opacity="0.3" stroke="none"/>
+  <rect x="400" y="64" width="176" height="36" fill="#FEF9C3" fill-opacity="0.5" stroke="none"/>
+  <rect x="400" y="64" width="1" height="36" fill="#E2E8F0" fill-opacity="0.6" stroke="none"/>
+  <text x="488" y="78" font-size="10" fill="#92400E" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Q4 2025</text>
+  <rect x="400" y="100" width="1" height="676" fill="#E2E8F0" fill-opacity="0.3" stroke="none"/>
+  <rect x="576" y="64" width="176" height="36" fill="#FEF9C3" fill-opacity="0.5" stroke="none"/>
+  <rect x="576" y="64" width="1" height="36" fill="#E2E8F0" fill-opacity="0.6" stroke="none"/>
+  <text x="664" y="78" font-size="10" fill="#92400E" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Q1 2026</text>
+  <rect x="576" y="100" width="1" height="676" fill="#E2E8F0" fill-opacity="0.3" stroke="none"/>
+  <rect x="752" y="64" width="176" height="36" fill="#FEF9C3" fill-opacity="0.5" stroke="none"/>
+  <rect x="752" y="64" width="1" height="36" fill="#E2E8F0" fill-opacity="0.6" stroke="none"/>
+  <text x="840" y="78" font-size="10" fill="#92400E" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Q2 2026</text>
+  <rect x="752" y="100" width="1" height="676" fill="#E2E8F0" fill-opacity="0.3" stroke="none"/>
+  <rect x="928" y="64" width="176" height="36" fill="#DCFCE7" fill-opacity="0.5" stroke="none"/>
+  <rect x="928" y="64" width="1" height="36" fill="#E2E8F0" fill-opacity="0.6" stroke="none"/>
+  <text x="1016" y="78" font-size="10" fill="#166534" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Q3 2026</text>
+  <rect x="928" y="100" width="1" height="676" fill="#E2E8F0" fill-opacity="0.3" stroke="none"/>
+  <rect x="1104" y="64" width="176" height="36" fill="#DCFCE7" fill-opacity="0.5" stroke="none"/>
+  <rect x="1104" y="64" width="1" height="36" fill="#E2E8F0" fill-opacity="0.6" stroke="none"/>
+  <text x="1192" y="78" font-size="10" fill="#166534" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Q4 2026</text>
+  <rect x="1104" y="100" width="1" height="676" fill="#E2E8F0" fill-opacity="0.3" stroke="none"/>
+  <text x="312" y="95" font-size="11" fill="#1E40AF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">◆ AS-IS</text>
+  <text x="664" y="95" font-size="11" fill="#92400E" text-anchor="middle" font-family="Inter,system-ui,sans-serif">◆ Transition</text>
+  <text x="1104" y="95" font-size="11" fill="#166534" text-anchor="middle" font-family="Inter,system-ui,sans-serif">◆ TO-BE</text>
+  <rect x="224" y="100" width="1056" height="1" fill="#E2E8F0" fill-opacity="0.5" stroke="none"/>
+  <rect x="224" y="100" width="80" height="152" fill="#FFFFFF" fill-opacity="1" stroke="#E2E8F0" stroke-width="0.3"/>
+  <rect x="230" y="112" width="8" height="8" fill="#2563EB" fill-opacity="1" stroke="none"/>
+  <text x="242" y="117" font-size="9" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Application Layer</text>
+  <rect x="310" y="120" width="164" height="22" fill="#FEE2E2" fill-opacity="1" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="313" y="133" font-size="9" fill="#991B1B" text-anchor="start" font-family="Inter,system-ui,sans-serif">⚠</text>
+  <text x="326" y="133" font-size="9" fill="#991B1B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Portal v1 (PHP)</text>
+  <text x="326" y="142" font-size="7" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">current</text>
+  <rect x="486" y="146" width="516" height="22" fill="#FEF9C3" fill-opacity="1" stroke="#D97706" stroke-width="1"/>
+  <text x="990" y="160" font-size="10" fill="#D97706" text-anchor="middle" font-family="Inter,system-ui,sans-serif">→</text>
+  <text x="489" y="159" font-size="9" fill="#92400E" text-anchor="start" font-family="Inter,system-ui,sans-serif">→</text>
+  <text x="502" y="159" font-size="9" fill="#92400E" text-anchor="start" font-family="Inter,system-ui,sans-serif">Migration Project</text>
+  <text x="502" y="168" font-size="7" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">UC-11</text>
+  <rect x="838" y="172" width="516" height="22" fill="#DCFCE7" fill-opacity="1" stroke="#16A34A" stroke-width="1"/>
+  <text x="842" y="185" font-size="9" fill="#166534" text-anchor="start" font-family="Inter,system-ui,sans-serif">Portal v2 (Vue 3)</text>
+  <text x="842" y="194" font-size="7" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">target</text>
+  <rect x="310" y="198" width="1044" height="22" fill="#DBEAFE" fill-opacity="1" stroke="#3B82F6" stroke-width="1"/>
+  <text x="313" y="211" font-size="9" fill="#1E40AF" text-anchor="start" font-family="Inter,system-ui,sans-serif">↔</text>
+  <text x="326" y="211" font-size="9" fill="#1E40AF" text-anchor="start" font-family="Inter,system-ui,sans-serif">ERP Integration</text>
+  <text x="326" y="220" font-size="7" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">keep</text>
+  <rect x="224" y="252" width="1056" height="1" fill="#E2E8F0" fill-opacity="0.5" stroke="none"/>
+  <rect x="224" y="252" width="80" height="152" fill="#FFFFFF" fill-opacity="1" stroke="#E2E8F0" stroke-width="0.3"/>
+  <rect x="230" y="264" width="8" height="8" fill="#0891B2" fill-opacity="1" stroke="none"/>
+  <text x="242" y="269" font-size="9" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Integration Layer</text>
+  <rect x="310" y="272" width="340" height="22" fill="#FEE2E2" fill-opacity="1" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="313" y="285" font-size="9" fill="#991B1B" text-anchor="start" font-family="Inter,system-ui,sans-serif">⚠</text>
+  <text x="326" y="285" font-size="9" fill="#991B1B" text-anchor="start" font-family="Inter,system-ui,sans-serif">REST Monolith</text>
+  <text x="326" y="294" font-size="7" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">deprecated</text>
+  <rect x="486" y="298" width="516" height="22" fill="#FEF9C3" fill-opacity="1" stroke="#D97706" stroke-width="1"/>
+  <text x="490" y="311" font-size="9" fill="#92400E" text-anchor="start" font-family="Inter,system-ui,sans-serif">API Extraction</text>
+  <text x="490" y="320" font-size="7" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">strangler</text>
+  <rect x="662" y="324" width="692" height="22" fill="#DCFCE7" fill-opacity="1" stroke="#16A34A" stroke-width="1"/>
+  <text x="666" y="337" font-size="9" fill="#166534" text-anchor="start" font-family="Inter,system-ui,sans-serif">API Gateway</text>
+  <text x="666" y="346" font-size="7" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Kong OSS</text>
+  <rect x="838" y="350" width="516" height="22" fill="#DCFCE7" fill-opacity="1" stroke="#16A34A" stroke-width="1"/>
+  <text x="842" y="363" font-size="9" fill="#166534" text-anchor="start" font-family="Inter,system-ui,sans-serif">Event Bus (Kafka)</text>
+  <text x="842" y="372" font-size="7" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">new</text>
+  <rect x="224" y="404" width="1056" height="1" fill="#E2E8F0" fill-opacity="0.5" stroke="none"/>
+  <rect x="224" y="404" width="80" height="152" fill="#FFFFFF" fill-opacity="1" stroke="#E2E8F0" stroke-width="0.3"/>
+  <rect x="230" y="416" width="8" height="8" fill="#7C3AED" fill-opacity="1" stroke="none"/>
+  <text x="242" y="421" font-size="9" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Data Layer</text>
+  <rect x="310" y="424" width="516" height="22" fill="#FEE2E2" fill-opacity="1" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="313" y="437" font-size="9" fill="#991B1B" text-anchor="start" font-family="Inter,system-ui,sans-serif">⚠</text>
+  <text x="326" y="437" font-size="9" fill="#991B1B" text-anchor="start" font-family="Inter,system-ui,sans-serif">PostgreSQL (silo)</text>
+  <text x="326" y="446" font-size="7" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">monolith</text>
+  <rect x="662" y="450" width="692" height="22" fill="#DCFCE7" fill-opacity="1" stroke="#16A34A" stroke-width="1"/>
+  <text x="666" y="463" font-size="9" fill="#166534" text-anchor="start" font-family="Inter,system-ui,sans-serif">OEA-Data-Warehouse</text>
+  <text x="666" y="472" font-size="7" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">central</text>
+  <rect x="1014" y="476" width="340" height="22" fill="#DCFCE7" fill-opacity="1" stroke="#16A34A" stroke-width="1"/>
+  <text x="1018" y="489" font-size="9" fill="#166534" text-anchor="start" font-family="Inter,system-ui,sans-serif">Reporting Mart</text>
+  <text x="1018" y="498" font-size="7" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">new</text>
+  <rect x="224" y="556" width="1056" height="1" fill="#E2E8F0" fill-opacity="0.5" stroke="none"/>
+  <rect x="224" y="556" width="80" height="152" fill="#FFFFFF" fill-opacity="1" stroke="#E2E8F0" stroke-width="0.3"/>
+  <rect x="230" y="568" width="8" height="8" fill="#059669" fill-opacity="1" stroke="none"/>
+  <text x="242" y="573" font-size="9" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Infrastructure</text>
+  <rect x="310" y="576" width="516" height="22" fill="#FEE2E2" fill-opacity="1" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="313" y="589" font-size="9" fill="#991B1B" text-anchor="start" font-family="Inter,system-ui,sans-serif">⚠</text>
+  <text x="326" y="589" font-size="9" fill="#991B1B" text-anchor="start" font-family="Inter,system-ui,sans-serif">VM (on-prem)</text>
+  <text x="326" y="598" font-size="7" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Hyper-V</text>
+  <rect x="486" y="602" width="868" height="22" fill="#DCFCE7" fill-opacity="1" stroke="#16A34A" stroke-width="1"/>
+  <text x="490" y="615" font-size="9" fill="#166534" text-anchor="start" font-family="Inter,system-ui,sans-serif">Kubernetes</text>
+  <text x="490" y="624" font-size="7" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">target</text>
+  <rect x="662" y="628" width="692" height="22" fill="#DCFCE7" fill-opacity="1" stroke="#16A34A" stroke-width="1"/>
+  <text x="666" y="641" font-size="9" fill="#166534" text-anchor="start" font-family="Inter,system-ui,sans-serif">CI/CD Pipeline</text>
+  <text x="666" y="650" font-size="7" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">new</text>
+  <rect x="224" y="708" width="1056" height="1" fill="#E2E8F0" fill-opacity="0.5" stroke="none"/>
+  <rect x="404" y="714" width="80" height="20" fill="#F8FAFC" fill-opacity="1" stroke="#D97706" stroke-width="1"/>
+  <text x="444" y="726" font-size="8" fill="#92400E" text-anchor="middle" font-family="Inter,system-ui,sans-serif">+ Add Entity</text>
+  <rect x="488" y="64" width="2" height="712" fill="#DC2626" fill-opacity="0.8" stroke="none"/>
+  <rect x="464" y="64" width="50" height="16" fill="#DC2626" fill-opacity="1" stroke="none"/>
+  <text x="489" y="74" font-size="8" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">▼ Today</text>
+  <rect x="0" y="100" width="220" height="152" fill="#FFFFFF" fill-opacity="1" stroke="#E2E8F0" stroke-width="0.2"/>
+  <rect x="4" y="120" width="8" height="8" fill="#2563EB" fill-opacity="1" stroke="none"/>
+  <text x="16" y="128" font-size="10" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Application Layer</text>
+  <text x="16" y="142" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">UC-11 · click to filter</text>
+  <rect x="0" y="252" width="220" height="152" fill="#FFFFFF" fill-opacity="1" stroke="#E2E8F0" stroke-width="0.2"/>
+  <rect x="4" y="272" width="8" height="8" fill="#0891B2" fill-opacity="1" stroke="none"/>
+  <text x="16" y="280" font-size="10" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Integration Layer</text>
+  <text x="16" y="294" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">UC-11 · click to filter</text>
+  <rect x="0" y="404" width="220" height="152" fill="#FFFFFF" fill-opacity="1" stroke="#E2E8F0" stroke-width="0.2"/>
+  <rect x="4" y="424" width="8" height="8" fill="#7C3AED" fill-opacity="1" stroke="none"/>
+  <text x="16" y="432" font-size="10" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Data Layer</text>
+  <text x="16" y="446" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">UC-11 · click to filter</text>
+  <rect x="0" y="556" width="220" height="152" fill="#FFFFFF" fill-opacity="1" stroke="#E2E8F0" stroke-width="0.2"/>
+  <rect x="4" y="576" width="8" height="8" fill="#059669" fill-opacity="1" stroke="none"/>
+  <text x="16" y="584" font-size="10" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Infrastructure</text>
+  <text x="16" y="598" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">UC-11 · click to filter</text>
+  <rect x="0" y="776" width="1280" height="24" fill="#1E293B" fill-opacity="1" stroke="none"/>
+  <text x="8" y="792" font-size="10" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Plateau Roadmap  ·  OEA Platform Transformation  ·  4 domains  ·  12 entities  ·  3 plateaus  ·  Q3 2025 – Q4 2026</text>
+  <text x="1272" y="792" font-size="10" fill="#94A3B8" text-anchor="end" font-family="Inter,system-ui,sans-serif">Connected  ·  OEA 0.1.0-SNAPSHOT</text>
+</svg>

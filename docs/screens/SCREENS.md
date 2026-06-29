@@ -40,9 +40,9 @@ Vollständige Liste aller UI-Screens als Grundlage für Penpot-Mockups und API-D
 | SCR-020 | Katalog-Browser (Walking Skeleton) | CA | UC-06 | must | `mockup` |
 | SCR-021 | Diagramm-Editor / Canvas (ArchiMate) | CA | UC-05, UC-08 | must | `mockup` |
 | SCR-022 | BPMN-Editor | CA | UC-10 | must | `mockup` |
-| SCR-023 | Data-Lineage-Editor | CA | UC-08 | should | `todo` |
-| SCR-024 | Dashboard-Editor | CA | UC-07 | should | `todo` |
-| SCR-025 | Plateau-Roadmap | CA | UC-11 | must | `todo` |
+| SCR-023 | Data-Lineage-Editor | CA | UC-08 | should | `mockup` |
+| SCR-024 | Dashboard-Editor | CA | UC-07 | should | `mockup` |
+| SCR-025 | Plateau-Roadmap | CA | UC-11 | must | `mockup` |
 | SCR-026 | Änderungshistorie / Audit-Log | CA | UC-14 | must | `mockup` |
 | SCR-027 | Entität wiederherstellen — Modal (Diff + Restore) | CA | UC-15, UC-16 | should | `mockup` |
 
@@ -101,9 +101,12 @@ Empfohlene Reihenfolge (GUI-first → OpenAPI → Code):
 9. ~~**SCR-002** Setup-Wizard~~ ✅ `mockup`
 10. ~~**SCR-003** Auth-Methode (2FA / Passkey)~~ ✅ `mockup`
 11. ~~**SCR-011** Explorer / Navigationsbaum~~ ✅ `mockup`
-10. **SCR-002** Setup-Wizard
-11. **SCR-025** Plateau-Roadmap
-12. **SCR-030** Metamodell-Konfiguration
+12. ~~**SCR-023** Data-Lineage-Editor~~ ✅ `mockup`
+13. ~~**SCR-024** Dashboard-Editor~~ ✅ `mockup`
+14. ~~**SCR-025** Plateau-Roadmap~~ ✅ `mockup`
+15. **SCR-030** Metamodell-Konfiguration
+16. **SCR-050** Portal-Startseite
+17. **SCR-051** Entity-Detailansicht (Web Portal)
 13. **SCR-050** Portal-Startseite
 14. **SCR-051** Entity-Detailansicht (Web Portal)
 
@@ -120,6 +123,9 @@ Empfohlene Reihenfolge (GUI-first → OpenAPI → Code):
 | `scripts/penpot/bpmn-editor.js` | SCR-022 |
 | `scripts/penpot/audit-log.js` | SCR-026, SCR-027 |
 | `scripts/penpot/explorer.js` | SCR-011 |
+| `scripts/penpot/data-lineage.js` | SCR-023 |
+| `scripts/penpot/dashboard-editor.js` | SCR-024 |
+| `scripts/penpot/plateau-roadmap.js` | SCR-025 |
 | _(geplant)_ `scripts/penpot/setup-wizard.js` | SCR-002, SCR-003 |
 | _(geplant)_ `scripts/penpot/admin.js` | SCR-030–SCR-038 |
 | _(geplant)_ `scripts/penpot/web-portal.js` | SCR-050–SCR-054 |

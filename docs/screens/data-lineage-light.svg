@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="800" viewBox="0 0 1280 800">
+  <rect width="1280" height="800" fill="#FFFFFF"/>
+  <rect x="0" y="0" width="1280" height="28" fill="#1E293B" fill-opacity="1" stroke="none"/>
+  <text x="8" y="18" font-size="12" fill="#E2E8F0" text-anchor="start" font-family="Inter,system-ui,sans-serif">File</text>
+  <text x="54" y="18" font-size="12" fill="#E2E8F0" text-anchor="start" font-family="Inter,system-ui,sans-serif">Edit</text>
+  <text x="100" y="18" font-size="12" fill="#E2E8F0" text-anchor="start" font-family="Inter,system-ui,sans-serif">View</text>
+  <text x="148" y="18" font-size="12" fill="#E2E8F0" text-anchor="start" font-family="Inter,system-ui,sans-serif">Lineage</text>
+  <text x="210" y="18" font-size="12" fill="#E2E8F0" text-anchor="start" font-family="Inter,system-ui,sans-serif">Help</text>
+  <text x="1272" y="17" font-size="11" fill="#94A3B8" text-anchor="end" font-family="Inter,system-ui,sans-serif">OEA 0.1.0-SNAPSHOT</text>
+  <rect x="0" y="28" width="1280" height="36" fill="#FFFFFF" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="8" y="51" font-size="12" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Lineage</text>
+  <text x="74" y="51" font-size="12" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">›</text>
+  <text x="80" y="51" font-size="12" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">OEA Analytics Pipeline</text>
+  <rect x="1178" y="35" width="76" height="22" fill="#0EA5E9" fill-opacity="1" stroke="none"/>
+  <text x="1216" y="50" font-size="11" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Save</text>
+  <rect x="260" y="64" width="4" height="520" fill="#E2E8F0" fill-opacity="1" stroke="none"/>
+  <rect x="444" y="64" width="4" height="520" fill="#E2E8F0" fill-opacity="1" stroke="none"/>
+  <rect x="980" y="64" width="4" height="520" fill="#E2E8F0" fill-opacity="1" stroke="none"/>
+  <rect x="0" y="64" width="260" height="520" fill="#FFFFFF" fill-opacity="1" stroke="none"/>
+  <rect x="0" y="64" width="260" height="28" fill="#F1F5F9" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="8" y="83" font-size="12" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Explorer</text>
+  <rect x="8" y="100" width="244" height="24" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="14" y="117" font-size="11" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Search...</text>
+  <rect x="0" y="132" width="260" height="20" fill="#FFFFFF" fill-opacity="1" stroke="none"/>
+  <text x="4" y="144" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">▼</text>
+  <rect x="16" y="139" width="8" height="8" fill="#0F172A" fill-opacity="1" stroke="none"/>
+  <text x="26" y="145" font-size="10" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">OEA Solution</text>
+  <rect x="0" y="154" width="260" height="20" fill="#FFFFFF" fill-opacity="1" stroke="none"/>
+  <text x="14" y="166" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">▼</text>
+  <rect x="26" y="161" width="8" height="8" fill="#059669" fill-opacity="1" stroke="none"/>
+  <text x="36" y="167" font-size="10" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Lineage Graphs  (3)</text>
+  <rect x="0" y="176" width="260" height="20" fill="#E0F2FE" fill-opacity="1" stroke="none"/>
+  <text x="28" y="188" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">▶</text>
+  <rect x="40" y="183" width="8" height="8" fill="#0284C7" fill-opacity="1" stroke="none"/>
+  <text x="50" y="189" font-size="10" fill="#0EA5E9" text-anchor="start" font-family="Inter,system-ui,sans-serif">OEA Analytics Pipeline</text>
+  <rect x="0" y="198" width="260" height="20" fill="#FFFFFF" fill-opacity="1" stroke="none"/>
+  <text x="28" y="210" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">▶</text>
+  <rect x="40" y="205" width="8" height="8" fill="#0284C7" fill-opacity="1" stroke="none"/>
+  <text x="50" y="211" font-size="10" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">ERP Data Sync</text>
+  <rect x="0" y="220" width="260" height="20" fill="#FFFFFF" fill-opacity="1" stroke="none"/>
+  <text x="14" y="232" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">▶</text>
+  <rect x="26" y="227" width="8" height="8" fill="#D97706" fill-opacity="1" stroke="none"/>
+  <text x="36" y="233" font-size="10" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Catalogs  (5)</text>
+  <rect x="264" y="64" width="180" height="520" fill="#F8FAFC" fill-opacity="1" stroke="none"/>
+  <rect x="264" y="64" width="180" height="28" fill="#F1F5F9" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="272" y="82" font-size="11" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Lineage Shapes</text>
+  <rect x="264" y="92" width="180" height="20" fill="#F1F5F9" fill-opacity="1" stroke="none"/>
+  <text x="270" y="105" font-size="10" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Source</text>
+  <rect x="270" y="114" width="168" height="28" fill="#FFFFFF" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <rect x="274" y="118" width="20" height="16" fill="#059669" fill-opacity="0.15" stroke="none"/>
+  <text x="284" y="127" font-size="7" fill="#059669" text-anchor="middle" font-family="Inter,system-ui,sans-serif">DB</text>
+  <text x="298" y="129" font-size="9" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Database / Table</text>
+  <rect x="270" y="144" width="168" height="28" fill="#FFFFFF" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <rect x="274" y="148" width="20" height="16" fill="#0284C7" fill-opacity="0.15" stroke="none"/>
+  <text x="284" y="157" font-size="7" fill="#0284C7" text-anchor="middle" font-family="Inter,system-ui,sans-serif">AP</text>
+  <text x="298" y="159" font-size="9" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">API Endpoint</text>
+  <rect x="270" y="174" width="168" height="28" fill="#FFFFFF" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <rect x="274" y="178" width="20" height="16" fill="#7C3AED" fill-opacity="0.15" stroke="none"/>
+  <text x="284" y="187" font-size="7" fill="#7C3AED" text-anchor="middle" font-family="Inter,system-ui,sans-serif">FL</text>
+  <text x="298" y="189" font-size="9" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">File / Object Store</text>
+  <rect x="264" y="206" width="180" height="20" fill="#F1F5F9" fill-opacity="1" stroke="none"/>
+  <text x="270" y="219" font-size="10" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Transform</text>
+  <rect x="270" y="228" width="168" height="28" fill="#FFFFFF" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <rect x="274" y="232" width="20" height="16" fill="#D97706" fill-opacity="0.15" stroke="none"/>
+  <text x="284" y="241" font-size="7" fill="#D97706" text-anchor="middle" font-family="Inter,system-ui,sans-serif">ET</text>
+  <text x="298" y="243" font-size="9" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">ETL Job</text>
+  <rect x="270" y="258" width="168" height="28" fill="#FFFFFF" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <rect x="274" y="262" width="20" height="16" fill="#EA580C" fill-opacity="0.15" stroke="none"/>
+  <text x="284" y="271" font-size="7" fill="#EA580C" text-anchor="middle" font-family="Inter,system-ui,sans-serif">SK</text>
+  <text x="298" y="273" font-size="9" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Stream Processor</text>
+  <rect x="270" y="288" width="168" height="28" fill="#FFFFFF" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <rect x="274" y="292" width="20" height="16" fill="#D97706" fill-opacity="0.15" stroke="none"/>
+  <text x="284" y="301" font-size="7" fill="#D97706" text-anchor="middle" font-family="Inter,system-ui,sans-serif">ET</text>
+  <text x="298" y="303" font-size="9" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Script / Function</text>
+  <rect x="264" y="320" width="180" height="20" fill="#F1F5F9" fill-opacity="1" stroke="none"/>
+  <text x="270" y="333" font-size="10" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Target</text>
+  <rect x="270" y="342" width="168" height="28" fill="#FFFFFF" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <rect x="274" y="346" width="20" height="16" fill="#0F172A" fill-opacity="0.15" stroke="none"/>
+  <text x="284" y="355" font-size="7" fill="#0F172A" text-anchor="middle" font-family="Inter,system-ui,sans-serif">DW</text>
+  <text x="298" y="357" font-size="9" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Data Warehouse</text>
+  <rect x="270" y="372" width="168" height="28" fill="#FFFFFF" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <rect x="274" y="376" width="20" height="16" fill="#6D28D9" fill-opacity="0.15" stroke="none"/>
+  <text x="284" y="385" font-size="7" fill="#6D28D9" text-anchor="middle" font-family="Inter,system-ui,sans-serif">DM</text>
+  <text x="298" y="387" font-size="9" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Data Mart / View</text>
+  <rect x="270" y="402" width="168" height="28" fill="#FFFFFF" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <rect x="274" y="406" width="20" height="16" fill="#0284C7" fill-opacity="0.15" stroke="none"/>
+  <text x="284" y="415" font-size="7" fill="#0284C7" text-anchor="middle" font-family="Inter,system-ui,sans-serif">AP</text>
+  <text x="298" y="417" font-size="9" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">API Sink</text>
+  <rect x="448" y="64" width="532" height="34" fill="#FFFFFF" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <rect x="452" y="69" width="62" height="24" fill="#E0F2FE" fill-opacity="1" stroke="#0EA5E9" stroke-width="1"/>
+  <text x="483" y="84" font-size="10" fill="#0EA5E9" text-anchor="middle" font-family="Inter,system-ui,sans-serif">▷ Select</text>
+  <rect x="520" y="69" width="62" height="24" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="551" y="84" font-size="10" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">⌒ Connect</text>
+  <rect x="590" y="69" width="62" height="24" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="621" y="84" font-size="10" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">✋ Pan</text>
+  <rect x="654" y="72" width="1" height="18" fill="#E2E8F0" fill-opacity="1" stroke="none"/>
+  <rect x="662" y="69" width="72" height="24" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="698" y="84" font-size="10" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">⤓ Import</text>
+  <rect x="742" y="69" width="76" height="24" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="780" y="84" font-size="10" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">⚙ Auto-layout</text>
+  <rect x="826" y="72" width="1" height="18" fill="#E2E8F0" fill-opacity="1" stroke="none"/>
+  <rect x="834" y="69" width="68" height="24" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="842" y="85" font-size="11" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">−</text>
+  <text x="868" y="85" font-size="11" fill="#0F172A" text-anchor="middle" font-family="Inter,system-ui,sans-serif">80%</text>
+  <text x="894" y="85" font-size="11" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">+</text>
+  <rect x="448" y="98" width="532" height="486" fill="#FAFCFF" fill-opacity="1" stroke="none"/>
+  <rect x="448" y="98" width="1" height="486" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="468" y="98" width="1" height="486" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="488" y="98" width="1" height="486" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="508" y="98" width="1" height="486" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="528" y="98" width="1" height="486" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="548" y="98" width="1" height="486" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="568" y="98" width="1" height="486" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="588" y="98" width="1" height="486" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="608" y="98" width="1" height="486" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="628" y="98" width="1" height="486" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="648" y="98" width="1" height="486" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="668" y="98" width="1" height="486" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="688" y="98" width="1" height="486" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="708" y="98" width="1" height="486" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="728" y="98" width="1" height="486" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="748" y="98" width="1" height="486" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="768" y="98" width="1" height="486" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="788" y="98" width="1" height="486" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="808" y="98" width="1" height="486" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="828" y="98" width="1" height="486" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="848" y="98" width="1" height="486" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="868" y="98" width="1" height="486" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="888" y="98" width="1" height="486" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="908" y="98" width="1" height="486" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="928" y="98" width="1" height="486" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="948" y="98" width="1" height="486" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="968" y="98" width="1" height="486" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="448" y="98" width="532" height="1" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="448" y="118" width="532" height="1" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="448" y="138" width="532" height="1" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="448" y="158" width="532" height="1" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="448" y="178" width="532" height="1" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="448" y="198" width="532" height="1" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="448" y="218" width="532" height="1" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="448" y="238" width="532" height="1" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="448" y="258" width="532" height="1" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="448" y="278" width="532" height="1" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="448" y="298" width="532" height="1" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="448" y="318" width="532" height="1" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="448" y="338" width="532" height="1" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="448" y="358" width="532" height="1" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="448" y="378" width="532" height="1" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="448" y="398" width="532" height="1" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="448" y="418" width="532" height="1" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="448" y="438" width="532" height="1" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="448" y="458" width="532" height="1" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="448" y="478" width="532" height="1" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="448" y="498" width="532" height="1" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="448" y="518" width="532" height="1" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="448" y="538" width="532" height="1" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="448" y="558" width="532" height="1" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="448" y="578" width="532" height="1" fill="#94A3B8" fill-opacity="0.25" stroke="none"/>
+  <rect x="458" y="138" width="130" height="56" fill="#FFFFFF" fill-opacity="1" stroke="#059669" stroke-width="1.5"/>
+  <rect x="458" y="138" width="130" height="20" fill="#059669" fill-opacity="0.14" stroke="none"/>
+  <rect x="462" y="142" width="14" height="12" fill="#059669" fill-opacity="1" stroke="none"/>
+  <text x="469" y="150" font-size="7" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">DB</text>
+  <text x="478" y="150" font-size="8" fill="#059669" text-anchor="start" font-family="Inter,system-ui,sans-serif">Database / Table</text>
+  <text x="523" y="173" font-size="10" fill="#0F172A" text-anchor="middle" font-family="Inter,system-ui,sans-serif">PostgreSQL-Prod</text>
+  <rect x="458" y="238" width="130" height="56" fill="#FFFFFF" fill-opacity="1" stroke="#0284C7" stroke-width="1.5"/>
+  <rect x="458" y="238" width="130" height="20" fill="#0284C7" fill-opacity="0.14" stroke="none"/>
+  <rect x="462" y="242" width="14" height="12" fill="#0284C7" fill-opacity="1" stroke="none"/>
+  <text x="469" y="250" font-size="7" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">AP</text>
+  <text x="478" y="250" font-size="8" fill="#0284C7" text-anchor="start" font-family="Inter,system-ui,sans-serif">API Endpoint</text>
+  <text x="523" y="273" font-size="10" fill="#0F172A" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Catalog-REST-API</text>
+  <rect x="458" y="338" width="130" height="56" fill="#FFFFFF" fill-opacity="1" stroke="#0284C7" stroke-width="1.5"/>
+  <rect x="458" y="338" width="130" height="20" fill="#0284C7" fill-opacity="0.14" stroke="none"/>
+  <rect x="462" y="342" width="14" height="12" fill="#0284C7" fill-opacity="1" stroke="none"/>
+  <text x="469" y="350" font-size="7" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">AP</text>
+  <text x="478" y="350" font-size="8" fill="#0284C7" text-anchor="start" font-family="Inter,system-ui,sans-serif">API Endpoint</text>
+  <text x="523" y="373" font-size="10" fill="#0F172A" text-anchor="middle" font-family="Inter,system-ui,sans-serif">ITSM-Webhook</text>
+  <rect x="645" y="155" width="142" height="62" fill="#E0F2FE" fill-opacity="1" stroke="#0EA5E9" stroke-width="2"/>
+  <rect x="648" y="158" width="136" height="56" fill="#FFFFFF" fill-opacity="1" stroke="#0EA5E9" stroke-width="2"/>
+  <rect x="648" y="158" width="136" height="20" fill="#D97706" fill-opacity="0.14" stroke="none"/>
+  <rect x="652" y="162" width="14" height="12" fill="#D97706" fill-opacity="1" stroke="none"/>
+  <text x="659" y="170" font-size="7" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">ET</text>
+  <text x="668" y="170" font-size="8" fill="#D97706" text-anchor="start" font-family="Inter,system-ui,sans-serif">ETL Job</text>
+  <text x="716" y="193" font-size="10" fill="#0F172A" text-anchor="middle" font-family="Inter,system-ui,sans-serif">ETL-Sync-Service</text>
+  <rect x="648" y="158" width="6" height="6" fill="#FFFFFF" fill-opacity="1" stroke="#0EA5E9" stroke-width="1.5"/>
+  <rect x="778" y="158" width="6" height="6" fill="#FFFFFF" fill-opacity="1" stroke="#0EA5E9" stroke-width="1.5"/>
+  <rect x="648" y="208" width="6" height="6" fill="#FFFFFF" fill-opacity="1" stroke="#0EA5E9" stroke-width="1.5"/>
+  <rect x="778" y="208" width="6" height="6" fill="#FFFFFF" fill-opacity="1" stroke="#0EA5E9" stroke-width="1.5"/>
+  <rect x="648" y="268" width="136" height="56" fill="#FFFFFF" fill-opacity="1" stroke="#EA580C" stroke-width="1.5"/>
+  <rect x="648" y="268" width="136" height="20" fill="#EA580C" fill-opacity="0.14" stroke="none"/>
+  <rect x="652" y="272" width="14" height="12" fill="#EA580C" fill-opacity="1" stroke="none"/>
+  <text x="659" y="280" font-size="7" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">SK</text>
+  <text x="668" y="280" font-size="8" fill="#EA580C" text-anchor="start" font-family="Inter,system-ui,sans-serif">Stream Processor</text>
+  <text x="716" y="303" font-size="10" fill="#0F172A" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Kafka-Processor</text>
+  <rect x="848" y="188" width="118" height="56" fill="#FFFFFF" fill-opacity="1" stroke="#0F172A" stroke-width="1.5"/>
+  <rect x="848" y="188" width="118" height="20" fill="#0F172A" fill-opacity="0.14" stroke="none"/>
+  <rect x="852" y="192" width="14" height="12" fill="#0F172A" fill-opacity="1" stroke="none"/>
+  <text x="859" y="200" font-size="7" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">DW</text>
+  <text x="868" y="200" font-size="8" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Data Warehouse</text>
+  <text x="907" y="223" font-size="10" fill="#0F172A" text-anchor="middle" font-family="Inter,system-ui,sans-serif">OEA-Data-Warehouse</text>
+  <rect x="848" y="308" width="118" height="56" fill="#FFFFFF" fill-opacity="1" stroke="#6D28D9" stroke-width="1.5"/>
+  <rect x="848" y="308" width="118" height="20" fill="#6D28D9" fill-opacity="0.14" stroke="none"/>
+  <rect x="852" y="312" width="14" height="12" fill="#6D28D9" fill-opacity="1" stroke="none"/>
+  <text x="859" y="320" font-size="7" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">DM</text>
+  <text x="868" y="320" font-size="8" fill="#6D28D9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Data Mart</text>
+  <text x="907" y="343" font-size="10" fill="#0F172A" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Reporting-Mart</text>
+  <rect x="588" y="166" width="60" height="2" fill="#64748B" fill-opacity="0.5" stroke="none"/>
+  <text x="646" y="169" font-size="8" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">►</text>
+  <text x="618" y="163" font-size="8" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">reads</text>
+  <rect x="588" y="266" width="60" height="2" fill="#64748B" fill-opacity="0.5" stroke="none"/>
+  <text x="646" y="269" font-size="8" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">►</text>
+  <text x="618" y="263" font-size="8" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">events</text>
+  <rect x="588" y="366" width="60" height="2" fill="#64748B" fill-opacity="0.5" stroke="none"/>
+  <text x="646" y="369" font-size="8" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">►</text>
+  <text x="608" y="363" font-size="8" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">triggers →</text>
+  <rect x="784" y="216" width="64" height="2" fill="#64748B" fill-opacity="0.5" stroke="none"/>
+  <text x="846" y="219" font-size="8" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">►</text>
+  <text x="816" y="213" font-size="8" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">loads</text>
+  <rect x="712" y="296" width="2" height="60" fill="#64748B" fill-opacity="0.5" stroke="none"/>
+  <rect x="712" y="296" width="136" height="2" fill="#64748B" fill-opacity="0.5" stroke="none"/>
+  <text x="849" y="297" font-size="8" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">►</text>
+  <text x="786" y="293" font-size="8" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">streams</text>
+  <rect x="907" y="244" width="2" height="64" fill="#64748B" fill-opacity="0.5" stroke="none"/>
+  <text x="907" y="312" font-size="8" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">▼</text>
+  <text x="946" y="273" font-size="8" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">feeds</text>
+  <text x="538" y="116" font-size="10" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Sources</text>
+  <text x="726" y="116" font-size="10" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Transforms</text>
+  <text x="918" y="116" font-size="10" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Targets</text>
+  <rect x="636" y="98" width="1" height="486" fill="#E2E8F0" fill-opacity="0.4" stroke="none"/>
+  <rect x="838" y="98" width="1" height="486" fill="#E2E8F0" fill-opacity="0.4" stroke="none"/>
+  <rect x="568" y="183" width="64" height="14" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="570" y="193" font-size="8" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">~50k rows/run</text>
+  <rect x="568" y="283" width="64" height="14" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="570" y="293" font-size="8" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">~1.2k events/s</text>
+  <rect x="984" y="64" width="296" height="520" fill="#FFFFFF" fill-opacity="1" stroke="none"/>
+  <rect x="984" y="64" width="296" height="28" fill="#F1F5F9" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <rect x="984" y="64" width="100" height="28" fill="#FFFFFF" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="1034" y="82" font-size="12" fill="#0EA5E9" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Properties</text>
+  <text x="1124" y="82" font-size="12" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Lineage</text>
+  <rect x="984" y="100" width="296" height="20" fill="#F1F5F9" fill-opacity="1" stroke="none"/>
+  <text x="992" y="113" font-size="10" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">General</text>
+  <text x="992" y="131" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">ID:</text>
+  <text x="1036" y="132" font-size="10" fill="#0EA5E9" text-anchor="start" font-family="Inter,system-ui,sans-serif">#LIN-ETL-001</text>
+  <text x="992" y="148" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Name</text>
+  <rect x="992" y="150" width="280" height="22" fill="#F8FAFC" fill-opacity="1" stroke="#0EA5E9" stroke-width="1.5"/>
+  <text x="996" y="165" font-size="11" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">ETL-Sync-Service</text>
+  <text x="992" y="186" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Node Type</text>
+  <rect x="992" y="188" width="280" height="22" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="996" y="203" font-size="11" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">ETL Job</text>
+  <text x="992" y="224" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Source</text>
+  <rect x="992" y="226" width="280" height="22" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="996" y="241" font-size="11" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">PostgreSQL-Prod → 3 tables</text>
+  <text x="992" y="262" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Target</text>
+  <rect x="992" y="264" width="280" height="22" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="996" y="279" font-size="11" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">OEA-Data-Warehouse</text>
+  <rect x="984" y="290" width="296" height="20" fill="#F1F5F9" fill-opacity="1" stroke="none"/>
+  <text x="992" y="303" font-size="10" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Execution</text>
+  <text x="992" y="320" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Schedule</text>
+  <rect x="992" y="322" width="280" height="22" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="996" y="337" font-size="11" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Every 15 min  (cron: */15 * * * *)</text>
+  <text x="992" y="358" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Last Run</text>
+  <rect x="992" y="360" width="280" height="22" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="996" y="375" font-size="11" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">2026-06-29 06:00  ·  ✓ OK</text>
+  <text x="992" y="396" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Rows Processed</text>
+  <rect x="992" y="398" width="280" height="22" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="996" y="413" font-size="11" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">49,284  (last run)</text>
+  <rect x="984" y="424" width="296" height="20" fill="#F1F5F9" fill-opacity="1" stroke="none"/>
+  <text x="992" y="437" font-size="10" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Lineage Metadata</text>
+  <text x="992" y="454" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Owner Team</text>
+  <rect x="992" y="456" width="280" height="22" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="996" y="471" font-size="11" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Data Engineering</text>
+  <text x="992" y="492" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">SLA</text>
+  <rect x="992" y="494" width="280" height="22" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="996" y="509" font-size="11" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">&lt; 30 min lag</text>
+  <rect x="0" y="584" width="1280" height="192" fill="#FFFFFF" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <rect x="0" y="584" width="1280" height="28" fill="#F1F5F9" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <rect x="0" y="584" width="96" height="28" fill="#FFFFFF" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="48" y="602" font-size="12" fill="#0EA5E9" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Lineage Log</text>
+  <text x="8" y="633" font-size="11" fill="#059669" text-anchor="start" font-family="Inter,system-ui,sans-serif">✓  6 nodes  ·  6 flows  ·  0 cycles detected  ·  Last run: 2026-06-29 06:00</text>
+  <text x="8" y="652" font-size="10" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">[INFO]   Pipeline «OEA Analytics Pipeline» loaded  ·  UC-08</text>
+  <text x="8" y="670" font-size="10" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">[INFO]   ETL-Sync-Service: 49,284 rows loaded to OEA-Data-Warehouse in 4m12s</text>
+  <text x="8" y="688" font-size="10" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">[INFO]   Kafka-Processor: 1.2k events/s  ·  lag &lt; 500ms</text>
+  <rect x="0" y="776" width="1280" height="24" fill="#1E293B" fill-opacity="1" stroke="none"/>
+  <text x="8" y="792" font-size="10" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Data Lineage  ·  OEA Analytics Pipeline  ·  6 nodes  ·  6 flows</text>
+  <text x="1272" y="792" font-size="10" fill="#94A3B8" text-anchor="end" font-family="Inter,system-ui,sans-serif">Connected  ·  OEA 0.1.0-SNAPSHOT</text>
+</svg>
