@@ -69,11 +69,11 @@ Vollständige Liste aller UI-Screens als Grundlage für Penpot-Mockups und API-D
 
 | ID | Screen | Plattform | UC-Bezug | Priorität | Status |
 |---|---|---|---|---|---|
-| SCR-050 | Portal-Startseite / Katalog-Übersicht | WP | UC-06 | must | `mockup*` |
-| SCR-051 | Entity-Detailansicht (read-only) | WP | UC-06 | must | `mockup*` |
-| SCR-052 | Diagramm-Viewer (read-only) | WP | UC-05, UC-08 | must | `mockup*` |
-| SCR-053 | Dashboard-Ansicht (read-only) | WP | UC-07 | should | `todo` |
-| SCR-054 | Änderungshistorie (read-only) | WP | UC-14 | should | `todo` |
+| SCR-050 | Portal-Startseite / Katalog-Übersicht | WP | UC-06 | must | `mockup` |
+| SCR-051 | Entity-Detailansicht (read-only) | WP | UC-06 | must | `mockup` |
+| SCR-052 | Diagramm-Viewer (read-only) | WP | UC-05, UC-08 | must | `mockup` |
+| SCR-053 | Dashboard-Ansicht (read-only) | WP | UC-07 | should | `mockup` |
+| SCR-054 | Änderungshistorie (read-only) | WP | UC-14 | should | `mockup` |
 
 ---
 
@@ -117,8 +117,8 @@ Empfohlene Reihenfolge (GUI-first → OpenAPI → Code):
 24. ~~**SCR-036** Conformance-Analyse~~ ⚠ SVG only
 25. ~~**SCR-037** Auth-Konfiguration (Admin)~~ ⚠ SVG only
 26. ~~**SCR-038** System-Einstellungen~~ ⚠ SVG only
-27. **SCR-053** Dashboard-Ansicht (Web Portal)
-28. **SCR-054** Änderungshistorie (Web Portal)
+27. ~~**SCR-053** Dashboard-Ansicht (Web Portal)~~ ✅
+28. ~~**SCR-054** Änderungshistorie (Web Portal)~~ ✅
 
 ---
 
@@ -137,5 +137,5 @@ Empfohlene Reihenfolge (GUI-first → OpenAPI → Code):
 | `scripts/penpot/dashboard-editor.js` | SCR-024 | ✅ |
 | `scripts/penpot/plateau-roadmap.js` | SCR-025 | ✅ |
 | `scripts/penpot/metamodel-config.js` | SCR-030 | ✅ |
-| `scripts/penpot/web-portal.js` | SCR-050, SCR-051, SCR-052 | ⚠ Upload pending |
+| `scripts/penpot/web-portal.js` | SCR-050, SCR-051, SCR-052, SCR-053, SCR-054 | ✅ |
 | `scripts/penpot/admin.js` | SCR-031–SCR-038 | ⚠ Upload pending |

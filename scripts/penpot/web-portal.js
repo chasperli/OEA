@@ -475,6 +475,289 @@ function sDiagramViewer(pid,rowBase,P,m){
   return{frameId,changes:ch};
 }
 
+// ─── SCR-053: Dashboard-Ansicht (read-only) ──────────────────────────────────
+function sDashboardView(pid,rowBase,P,m){
+  const{frameId,change,r,t}=createFrame(pid,0,sy(rowBase),FW,FH,`${m}/SCR053-DashboardView`);
+  const ch=[change];
+
+  // ── TOP BAR ──
+  const TB_H=56;
+  ch.push(r(0,0,FW,TB_H,'TB/Bg',P.topBar));
+  ch.push(r(16,14,28,28,'TB/Logo',P.primary));
+  ch.push(t(16,16,28,24,'TB/LogoT','OEA',10,700,'#FFFFFF','center'));
+  ch.push(t(50,18,80,14,'TB/Brand','Open EA',12,700,P.topText,'left'));
+  ch.push(t(50,32,100,11,'TB/Instance','Internal Portal',9,400,P.topMuted,'left'));
+  [['Catalog',170],['Diagrams',248],['Dashboards',326],['Audit Log',424]].forEach(([l,x])=>
+    ch.push(t(x,20,80,16,`TB/N${l}`,l,12,400,l==='Dashboards'?P.primary:P.topMuted,'center')));
+  ch.push(r(326,51,80,2,'TB/NA',P.primary));
+  ch.push(r(520,12,380,32,'TB/Srch',P.topBar,1,'#334155',1.5));
+  ch.push(t(534,20,360,16,'TB/SrchT','Search entities, diagrams, catalogs...',11,400,'#475569','left'));
+  ch.push(r(FW-56,12,44,32,'TB/SrchBtn',P.primary));
+  ch.push(t(FW-56,20,44,16,'TB/SrchBtnT','⌕',14,700,'#FFFFFF','center'));
+  ch.push(r(FW-112,16,28,28,'TB/AvBg','#475569'));
+  ch.push(t(FW-112,18,28,24,'TB/AvT','LM',9,700,'#FFFFFF','center'));
+  ch.push(t(FW-80,19,60,12,'TB/AvN','L. Mathis',10,500,P.topText,'left'));
+
+  // ── BREADCRUMB ──
+  ch.push(r(0,TB_H,FW,32,'BC/Bg',P.panel,1,P.border,0.5));
+  ch.push(t(16,TB_H+8,500,14,'BC/T','Dashboards  ›  Architecture Overview Q2-2026',11,400,P.muted,'left'));
+  ch.push(r(FW-160,TB_H+5,152,22,'BC/OpenBtn',P.panel,1,P.primary,1));
+  ch.push(t(FW-160,TB_H+9,152,13,'BC/OpenBtnT','✏ Open in App ↗',10,600,P.primary,'center'));
+
+  const CONTENT_Y=TB_H+32;
+  ch.push(r(0,CONTENT_Y,FW,FH-CONTENT_Y-32,'Cnt/Bg',P.bg));
+
+  // ── Dashboard title bar ──
+  ch.push(r(0,CONTENT_Y,FW,40,'DH/Bg',P.panel,1,P.border,0.5));
+  ch.push(t(16,CONTENT_Y+8,500,16,'DH/T','Architecture Overview Q2-2026',14,700,P.text,'left'));
+  ch.push(t(16,CONTENT_Y+26,500,11,'DH/S','Last updated: 2026-06-29 06:00  ·  Auto-refresh: 5 min',9,400,P.muted,'left'));
+  ch.push(r(FW-68,CONTENT_Y+9,60,22,'DH/RefBtn',P.inputBg||P.panel,1,P.border,1));
+  ch.push(t(FW-68,CONTENT_Y+13,60,12,'DH/RefBtnT','⟳ Refresh',9,400,P.muted,'center'));
+
+  const CY=CONTENT_Y+44;
+  const CW=FW, CH=FH-CY-32;
+  ch.push(r(0,CY,CW,CH,'CV/Bg',P.bg));
+
+  // Row 1: KPI cards
+  const kpiW=296, kpiH=86, kpiY=CY+8, kpiGap=8;
+  const kpis=[
+    {val:'47',lbl:'Active Components',    delta:'+3 this month',col:P.kpiGreen||L.kpiGreen},
+    {val:'8', lbl:'Open Risk Items',      delta:'↑ 2 new',      col:P.kpiRed  ||L.kpiRed},
+    {val:'94%',lbl:'Compliance Score',   delta:'→ stable',      col:P.kpiBlue ||L.kpiBlue},
+    {val:'12', lbl:'Pending Reviews',    delta:'−4 resolved',   col:P.kpiAmber||L.kpiAmber},
+  ];
+  const kpiStart=Math.round((FW-kpis.length*(kpiW+kpiGap)+kpiGap)/2);
+  kpis.forEach((k,i)=>{
+    const kx=kpiStart+i*(kpiW+kpiGap);
+    ch.push(r(kx,kpiY,kpiW,kpiH,`KPI/${i}Bg`,P.panel,1,P.border,1));
+    ch.push(r(kx,kpiY,kpiW,3,`KPI/${i}Bar`,k.col));
+    ch.push(t(kx+10,kpiY+8,kpiW-20,11,`KPI/${i}L`,k.lbl,9,500,P.muted,'left'));
+    ch.push(t(kx+10,kpiY+22,80,28,`KPI/${i}V`,k.val,26,700,P.text,'left'));
+    ch.push(r(kx+10,kpiY+kpiH-22,kpiW-20,16,`KPI/${i}DB`,k.col,0.1,k.col,0.3));
+    ch.push(t(kx+14,kpiY+kpiH-20,kpiW-28,12,`KPI/${i}DT`,k.delta,9,500,k.col,'left'));
+  });
+
+  // Row 2: Charts (read-only — no selection handles)
+  const r2y=CY+kpiH+16, r2h=220, cw2=Math.round((FW-36)/2);
+  // Bar chart
+  ch.push(r(12,r2y,cw2,r2h,'BAR/Bg',P.panel,1,P.border,1));
+  ch.push(t(20,r2y+10,cw2-40,13,'BAR/T','Components by Layer',11,700,P.text,'left'));
+  ch.push(t(20,r2y+24,cw2-40,10,'BAR/S','Source: /api/v1/entities?groupBy=layer',9,400,P.muted,'left'));
+  const bars=[{l:'Application',p:42,c:P.primary},{l:'Technology',p:31,c:P.kpiAmber||L.kpiAmber},{l:'Integration',p:15,c:P.kpiGreen||L.kpiGreen},{l:'Business',p:8,c:P.kpiRed||L.kpiRed},{l:'Data',p:4,c:P.muted}];
+  const BA_W=cw2-110, BA_X=88;
+  bars.forEach((b,i)=>{
+    const by2=r2y+44+i*32;
+    ch.push(t(20,by2+4,64,11,`BAR/${i}L`,b.l,9,400,P.muted,'right'));
+    ch.push(r(20+BA_X,by2,BA_W,18,`BAR/${i}BG`,P.panelAlt||P.bg));
+    ch.push(r(20+BA_X,by2,Math.round(BA_W*b.p/100),18,`BAR/${i}B`,b.c,0.75));
+    ch.push(t(20+BA_X+Math.round(BA_W*b.p/100)+4,by2+3,30,11,`BAR/${i}V`,`${b.p}%`,8,500,P.muted,'left'));
+  });
+  // Donut chart
+  const px=cw2+24, py2=r2y;
+  ch.push(r(px,py2,cw2,r2h,'PIE/Bg',P.panel,1,P.border,1));
+  ch.push(t(px+8,py2+10,cw2-40,13,'PIE/T','Entity Status Distribution',11,700,P.text,'left'));
+  ch.push(t(px+8,py2+24,cw2-40,10,'PIE/S','Source: /api/v1/entities?groupBy=status',9,400,P.muted,'left'));
+  const dc=px+100, dr=56;
+  ch.push(r(dc-dr,py2+r2h/2-dr,dr*2,dr*2,'PIE/Ring',P.border,0,P.kpiGreen||L.kpiGreen,8));
+  ch.push(r(dc-dr+8,py2+r2h/2-dr+8,dr*2-16,dr*2-16,'PIE/I2',P.panel,0,P.kpiAmber||L.kpiAmber,8));
+  ch.push(r(dc-dr+18,py2+r2h/2-dr+18,dr*2-36,dr*2-36,'PIE/Core',P.panel));
+  ch.push(t(dc-22,py2+r2h/2-12,44,13,'PIE/V','47',14,700,P.text,'center'));
+  ch.push(t(dc-22,py2+r2h/2+4,44,9,'PIE/S','total',8,400,P.muted,'center'));
+  [[P.kpiGreen||L.kpiGreen,'Active','20','43%'],[P.kpiAmber||L.kpiAmber,'Planned','14','30%'],[P.kpiBlue||L.kpiBlue,'Deprecated','8','17%'],[P.kpiRed||L.kpiRed,'Retired','5','10%']].forEach(([c,l,n,pct],i)=>{
+    const ly=py2+50+i*34;
+    ch.push(r(px+200,ly,10,10,'PIE/D'+i,c));
+    ch.push(t(px+216,ly-1,80,11,'PIE/L'+i,l,9,500,P.text,'left'));
+    ch.push(t(px+298,ly-1,24,11,'PIE/N'+i,n,9,600,P.text,'center'));
+    ch.push(t(px+322,ly-1,28,11,'PIE/P'+i,pct,8,400,P.muted,'left'));
+  });
+
+  // Row 3: Table
+  const ty3=r2y+r2h+12, th=FH-ty3-40;
+  ch.push(r(12,ty3,FW-24,th,'TBL/Bg',P.panel,1,P.border,1));
+  ch.push(t(20,ty3+10,300,13,'TBL/T','Recently Changed Entities',11,700,P.text,'left'));
+  const tCols=[{k:'ts',w:140,l:'Timestamp'},{k:'ent',w:188,l:'Entity'},{k:'mt',w:108,l:'Type'},{k:'prop',w:148,l:'Changed'},{k:'usr',w:96,l:'By'},{k:'src',w:80,l:'Source'}];
+  const tTotalW=tCols.reduce((s,c)=>s+c.w,0);
+  ch.push(r(12,ty3+28,FW-24,20,'TBL/TH',P.secBg||P.panelAlt,1,P.border,0.5));
+  let tcx=20;
+  tCols.forEach(c=>{ch.push(t(tcx,ty3+32,c.w-8,11,`TBL/H${c.k}`,c.l,9,600,P.muted,'left'));tcx+=c.w;});
+  [
+    ['2026-06-29 06:15','ETL-Sync-Service [AC]','App Component','status → active',  'etl-bot','API'],
+    ['2026-06-29 04:31','OEA-Data-Warehouse [DW]','Data Object','added 3 schemas', 'm.mueller','UI'],
+    ['2026-06-28 17:44','Auth-Service [AC]',     'App Component','version 2.4→2.5','l.baum','API'],
+    ['2026-06-28 14:12','Portal-Frontend [AC]',  'App Component','lifecycle active','admin','UI'],
+  ].forEach((row,i)=>{
+    const ry=ty3+48+i*26;
+    ch.push(r(12,ry,FW-24,26,`TBL/R${i}`,i%2===0?P.panel:P.panelAlt,0));
+    let rcx=20;
+    row.forEach((cell,j)=>{
+      ch.push(t(rcx,ry+7,tCols[j].w-8,11,`TBL/R${i}C${j}`,cell,9,400,P.text,'left'));
+      rcx+=tCols[j].w;
+    });
+  });
+  ch.push(t(20,ty3+th-14,300,11,'TBL/Foot','4 of 134 entries  ·  ↗ Full Audit Log',9,400,P.muted,'left'));
+
+  // ── FOOTER ──
+  ch.push(r(0,FH-32,FW,32,'Foot/Bg',P.panel,1,P.border,0.5));
+  ch.push(t(16,FH-22,400,12,'Foot/L','OEA Open Enterprise Architecture  ·  v0.1.0-SNAPSHOT  ·  AGPL-3.0',10,400,P.muted,'left'));
+  ch.push(t(FW-200,FH-22,192,12,'Foot/R','Read-only portal  ·  Last sync 06:00',10,400,P.muted,'right'));
+  return{frameId,changes:ch};
+}
+
+// ─── SCR-054: Änderungshistorie / Audit Log (read-only) ──────────────────────
+function sAuditLogView(pid,rowBase,P,m){
+  const{frameId,change,r,t}=createFrame(pid,0,sy(rowBase),FW,FH,`${m}/SCR054-AuditLogView`);
+  const ch=[change];
+
+  // ── TOP BAR ──
+  const TB_H=56;
+  ch.push(r(0,0,FW,TB_H,'TB/Bg',P.topBar));
+  ch.push(r(16,14,28,28,'TB/Logo',P.primary));
+  ch.push(t(16,16,28,24,'TB/LogoT','OEA',10,700,'#FFFFFF','center'));
+  ch.push(t(50,18,80,14,'TB/Brand','Open EA',12,700,P.topText,'left'));
+  ch.push(t(50,32,100,11,'TB/Instance','Internal Portal',9,400,P.topMuted,'left'));
+  [['Catalog',170],['Diagrams',248],['Dashboards',326],['Audit Log',424]].forEach(([l,x])=>
+    ch.push(t(x,20,74,16,`TB/N${l}`,l,12,400,l==='Audit Log'?P.primary:P.topMuted,'center')));
+  ch.push(r(424,51,74,2,'TB/NA',P.primary));
+  ch.push(r(520,12,380,32,'TB/Srch',P.topBar,1,'#334155',1.5));
+  ch.push(t(534,20,360,16,'TB/SrchT','Search entities, diagrams, catalogs...',11,400,'#475569','left'));
+  ch.push(r(FW-56,12,44,32,'TB/SrchBtn',P.primary));
+  ch.push(t(FW-56,20,44,16,'TB/SrchBtnT','⌕',14,700,'#FFFFFF','center'));
+  ch.push(r(FW-112,16,28,28,'TB/AvBg','#475569'));
+  ch.push(t(FW-112,18,28,24,'TB/AvT','LM',9,700,'#FFFFFF','center'));
+  ch.push(t(FW-80,19,60,12,'TB/AvN','L. Mathis',10,500,P.topText,'left'));
+
+  // ── BREADCRUMB ──
+  ch.push(r(0,TB_H,FW,32,'BC/Bg',P.panel,1,P.border,0.5));
+  ch.push(t(16,TB_H+8,400,14,'BC/T','Audit Log  ·  All Changes',11,400,P.muted,'left'));
+  // Read-only note
+  ch.push(r(FW-280,TB_H+6,272,20,'BC/RO',P.warnBg||P.panelAlt,1,P.warnBorder||P.border,1));
+  ch.push(t(FW-276,TB_H+9,268,11,'BC/ROT','👁  Read-only  ·  Restore requires Architect role in App',9,500,P.warnText||P.muted,'left'));
+
+  const CONTENT_Y=TB_H+32;
+  ch.push(r(0,CONTENT_Y,FW,FH-CONTENT_Y-32,'Cnt/Bg',P.bg));
+
+  // ── Filter sidebar (200px) ──
+  const SB_W=200;
+  ch.push(r(0,CONTENT_Y,SB_W,FH-CONTENT_Y-32,'SB/Bg',P.panel,1,P.border,0.5));
+  ch.push(r(0,CONTENT_Y,SB_W,24,'SB/H',P.secBg||P.panelAlt,1,P.border,0.5));
+  ch.push(t(8,CONTENT_Y+5,SB_W-16,13,'SB/HT','Filter',11,600,P.text,'left'));
+  let sly=CONTENT_Y+28;
+  const sbSec=(k,l)=>{ch.push(r(0,sly,SB_W,18,'SB/S'+k,P.secBg||P.panelAlt));ch.push(t(8,sly+2,SB_W-16,12,'SB/SL'+k,l,9,600,P.muted,'left'));sly+=18;};
+  const sbFld=(k,l,v,hl)=>{
+    ch.push(t(8,sly,SB_W-16,10,'SB/'+k+'L',l,8,500,P.muted,'left'));sly+=11;
+    ch.push(r(6,sly,SB_W-12,20,'SB/'+k+'F',P.inputBg||P.panel,1,hl?P.primary:P.border,hl?1.5:1));
+    ch.push(t(10,sly+4,SB_W-20,11,'SB/'+k+'V',v,9,hl?600:400,hl?P.primary:P.text,'left'));
+    sly+=24;
+  };
+  const sbChip=(k,l,active)=>{
+    ch.push(r(6,sly,SB_W-12,20,'SB/'+k+'Bg',active?P.selBg||P.badge:P.inputBg||P.panel,1,active?P.primary:P.border,1));
+    ch.push(t(10,sly+4,SB_W-20,11,'SB/'+k+'T',l+(active?' ✕':''),9,active?600:400,active?P.primary:P.muted,'left'));
+    sly+=24;
+  };
+  sbSec('D','Zeitraum');
+  sbFld('from','Von','2026-06-01',false);
+  sbFld('to','Bis','2026-06-29',false);
+  sbSec('U','Benutzer');
+  sbFld('usr','Benutzer suchen','',false);
+  sbSec('T','Entity-Typ');
+  sbChip('AC','App Component [AC]',true);
+  sbChip('TC','Tech Component [TC]',false);
+  sbChip('IF','Interface [IF]',false);
+  sbSec('S','Quelle');
+  sbChip('API','API',false);
+  sbChip('UI','UI',false);
+  sbChip('Job','Job / System',false);
+  sly+=4;
+  ch.push(r(6,sly,SB_W-12,24,'SB/Reset',P.inputBg||P.panel,1,P.border,1));
+  ch.push(t(6,sly+6,SB_W-12,11,'SB/ResetT','Filter zurücksetzen',9,400,P.muted,'center'));
+
+  // ── Main table area ──
+  const TX=SB_W+4;
+  const TW=FW-TX;
+  ch.push(r(TX,CONTENT_Y,TW,FH-CONTENT_Y-32,'TT/Bg',P.panel));
+
+  // Stats bar
+  ch.push(r(TX,CONTENT_Y,TW,28,'TT/SB',P.secBg||P.panelAlt,1,P.border,0.5));
+  ch.push(t(TX+8,CONTENT_Y+7,400,13,'TT/SBT','134 Einträge  ·  Filter: App Component [AC]  ·  Jun 2026',10,400,P.muted,'left'));
+  ch.push(r(TW+TX-76,CONTENT_Y+4,68,20,'TT/ExBtn',P.inputBg||P.panel,1,P.border,1));
+  ch.push(t(TW+TX-76,CONTENT_Y+8,68,11,'TT/ExBtnT','⤒ Export CSV',8,400,P.muted,'center'));
+
+  // Column headers + inline filter row
+  const HDR_H=22, IFR_H=24;
+  const cols=[
+    {k:'ts',  w:138,l:'Timestamp'},
+    {k:'usr', w:96, l:'User'},
+    {k:'mt',  w:116,l:'Meta-Type'},
+    {k:'ent', w:156,l:'Entity'},
+    {k:'prop',w:140,l:'Changed Properties'},
+    {k:'rel', w:116,l:'Relations'},
+    {k:'src', w:80, l:'Source'},
+  ];
+  const totalCols=cols.reduce((s,c)=>s+c.w,0); // used for right-pad
+  const HDR_Y=CONTENT_Y+28;
+  ch.push(r(TX,HDR_Y,TW,HDR_H,'TT/HBg',P.secBg||P.panelAlt,1,P.border,1));
+  let hcx=TX+8;
+  cols.forEach(c=>{ch.push(t(hcx,HDR_Y+5,c.w-8,11,`TT/H${c.k}`,c.l,9,600,P.muted,'left'));hcx+=c.w;});
+  // Inline filter row
+  const IFR_Y=HDR_Y+HDR_H;
+  ch.push(r(TX,IFR_Y,TW,IFR_H,'TT/IFR',P.panelAlt||P.bg,1,P.border,0.5));
+  let ifcx=TX+4;
+  cols.forEach((c,i)=>{
+    const hl=i===3; // Entity filter active
+    ch.push(r(ifcx,IFR_Y+3,c.w-6,18,`TT/IF${c.k}`,P.inputBg||P.panel,1,hl?P.primary:P.border,hl?1.5:0.6));
+    if(hl) ch.push(t(ifcx+3,IFR_Y+6,c.w-16,10,`TT/IFV${c.k}`,'Auth-Service',8,500,P.primary,'left'));
+    else   ch.push(t(ifcx+3,IFR_Y+6,c.w-16,10,`TT/IFV${c.k}`,'',8,400,P.muted,'left'));
+    ifcx+=c.w;
+  });
+  // AND badge at right
+  ch.push(r(TX+TW-54,IFR_Y+3,48,18,'TT/AND',P.selBg||P.badge,1,P.primary,1));
+  ch.push(t(TX+TW-54,IFR_Y+6,48,11,'TT/ANDT','AND',9,700,P.primary,'center'));
+
+  // Data rows
+  const ROW_Y=IFR_Y+IFR_H;
+  const entries=[
+    {ts:'2026-06-29 06:15',usr:'etl-bot',    mt:'AC',tc:'#2563EB',ent:'Auth-Service',       prop:'version 2.5.0',rel:'—',     src:'API',  del:false},
+    {ts:'2026-06-29 04:31',usr:'m.mueller',  mt:'AC',tc:'#2563EB',ent:'Auth-Service',       prop:'owner updated',rel:'−1 rel',src:'UI',   del:false},
+    {ts:'2026-06-28 17:44',usr:'l.baum',     mt:'AC',tc:'#2563EB',ent:'Auth-Service',       prop:'lifecycle active',rel:'—',  src:'API',  del:false},
+    {ts:'2026-06-28 14:12',usr:'admin',      mt:'AC',tc:'#2563EB',ent:'Auth-Service',       prop:'criticality high',rel:'—', src:'UI',   del:false},
+    {ts:'2026-06-28 11:03',usr:'system',     mt:'AC',tc:'#2563EB',ent:'Reporting-Engine',   prop:'DELETED (soft)',  rel:'—', src:'Job',  del:true},
+    {ts:'2026-06-27 16:55',usr:'l.baum',     mt:'AC',tc:'#2563EB',ent:'Portal-Frontend',    prop:'version 3.2.1',  rel:'—', src:'API',  del:false},
+    {ts:'2026-06-27 14:20',usr:'m.mueller',  mt:'AC',tc:'#2563EB',ent:'Catalog-Service',    prop:'env: staging→prod',rel:'+1 rel',src:'UI',del:false},
+    {ts:'2026-06-26 10:00',usr:'etl-bot',    mt:'AC',tc:'#2563EB',ent:'ETL-Sync-Service',   prop:'status active',  rel:'—', src:'API',  del:false},
+  ];
+  entries.forEach((e,i)=>{
+    const ry=ROW_Y+i*28;
+    const bg=e.del?P.warnBg||'#FEE2E2':i%2===0?P.panel:P.panelAlt||P.bg;
+    ch.push(r(TX,ry,TW,28,`TR/${i}Bg`,bg,1,P.border,0.3));
+    const vals=[e.ts,e.usr,'',e.ent,e.prop,e.rel,e.src];
+    let rcx=TX+8;
+    cols.forEach((c,j)=>{
+      if(j===2){
+        ch.push(r(rcx,ry+7,c.w-8,14,`TR/${i}MTBg`,e.tc,0.1,e.tc,0.5));
+        ch.push(t(rcx+3,ry+8,c.w-10,10,`TR/${i}MTT`,e.mt,8,500,e.tc,'left'));
+      } else {
+        const tc=e.del&&j===4?P.warnText||'#991B1B':P.text;
+        ch.push(t(rcx,ry+8,c.w-8,11,`TR/${i}C${j}`,vals[j],9,e.del&&j===4?600:400,tc,'left'));
+      }
+      rcx+=c.w;
+    });
+    // No restore button — read-only (grayed with tooltip hint)
+    ch.push(r(TX+TW-52,ry+6,46,16,`TR/${i}ROBtn`,P.panelAlt||P.secBg,1,P.border,0.5));
+    ch.push(t(TX+TW-52,ry+8,46,10,`TR/${i}ROBtnT`,'Restore',7,400,P.subtle||P.muted,'center'));
+  });
+  // Pagination
+  const PAG_Y=ROW_Y+entries.length*28+4;
+  ch.push(t(TX+8,PAG_Y+6,300,12,'TT/PagL','8 of 134 entries  ·  sorted by timestamp desc',9,400,P.muted,'left'));
+  ch.push(r(TW+TX-92,PAG_Y+2,88,20,'TT/PagBtn',P.inputBg||P.panel,1,P.border,1));
+  ch.push(t(TW+TX-92,PAG_Y+6,88,11,'TT/PagBtnT','1  2  3  ›  last',8,400,P.muted,'center'));
+
+  // ── FOOTER ──
+  ch.push(r(0,FH-32,FW,32,'Foot/Bg',P.panel,1,P.border,0.5));
+  ch.push(t(16,FH-22,400,12,'Foot/L','OEA Open Enterprise Architecture  ·  v0.1.0-SNAPSHOT  ·  AGPL-3.0',10,400,P.muted,'left'));
+  ch.push(t(FW-200,FH-22,192,12,'Foot/R','Read-only portal  ·  Last sync 06:00',10,400,P.muted,'right'));
+  return{frameId,changes:ch};
+}
+
 // ─── MAIN ─────────────────────────────────────────────────────────────────────
 async function main(){
   const outDir=path.join(__dirname,'..','..','docs','screens');
@@ -482,9 +765,11 @@ async function main(){
   const pid='00000000-0000-0000-0000-000000000001';
   const modes=[{P:L,m:'Light'},{P:D,m:'Dark'}];
   const screens=[
-    {fn:sPortalHome,  name:'portal-home',   scr:'SCR050', row:0},
-    {fn:sEntityDetail,name:'entity-detail', scr:'SCR051', row:2},
-    {fn:sDiagramViewer,name:'diagram-viewer',scr:'SCR052',row:4},
+    {fn:sPortalHome,   name:'portal-home',    scr:'SCR050', row:0},
+    {fn:sEntityDetail, name:'entity-detail',  scr:'SCR051', row:2},
+    {fn:sDiagramViewer,name:'diagram-viewer', scr:'SCR052', row:4},
+    {fn:sDashboardView,name:'dashboard-view', scr:'SCR053', row:6},
+    {fn:sAuditLogView, name:'audit-log-view', scr:'SCR054', row:8},
   ];
 
   if(hasPenpot){

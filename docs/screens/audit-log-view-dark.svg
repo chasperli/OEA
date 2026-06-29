@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="800" viewBox="0 0 1280 800">
+  <rect width="1280" height="800" fill="#FFFFFF"/>
+  <rect x="0" y="0" width="1280" height="56" fill="#020617" fill-opacity="1" stroke="none"/>
+  <rect x="16" y="14" width="28" height="28" fill="#38BDF8" fill-opacity="1" stroke="none"/>
+  <text x="30" y="26" font-size="10" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">OEA</text>
+  <text x="50" y="30" font-size="12" fill="#F8FAFC" text-anchor="start" font-family="Inter,system-ui,sans-serif">Open EA</text>
+  <text x="50" y="41" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Internal Portal</text>
+  <text x="207" y="32" font-size="12" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Catalog</text>
+  <text x="285" y="32" font-size="12" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Diagrams</text>
+  <text x="363" y="32" font-size="12" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Dashboards</text>
+  <text x="461" y="32" font-size="12" fill="#38BDF8" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Audit Log</text>
+  <rect x="424" y="51" width="74" height="2" fill="#38BDF8" fill-opacity="1" stroke="none"/>
+  <rect x="520" y="12" width="380" height="32" fill="#020617" fill-opacity="1" stroke="#334155" stroke-width="1.5"/>
+  <text x="534" y="31" font-size="11" fill="#475569" text-anchor="start" font-family="Inter,system-ui,sans-serif">Search entities, diagrams, catalogs...</text>
+  <rect x="1224" y="12" width="44" height="32" fill="#38BDF8" fill-opacity="1" stroke="none"/>
+  <text x="1246" y="34" font-size="14" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">⌕</text>
+  <rect x="1168" y="16" width="28" height="28" fill="#475569" fill-opacity="1" stroke="none"/>
+  <text x="1182" y="27" font-size="9" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">LM</text>
+  <text x="1200" y="29" font-size="10" fill="#F8FAFC" text-anchor="start" font-family="Inter,system-ui,sans-serif">L. Mathis</text>
+  <rect x="0" y="56" width="1280" height="32" fill="#1E293B" fill-opacity="1" stroke="#334155" stroke-width="0.5"/>
+  <text x="16" y="75" font-size="11" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Audit Log  ·  All Changes</text>
+  <rect x="1000" y="62" width="272" height="20" fill="#FFF" fill-opacity="1" stroke="#334155" stroke-width="1"/>
+  <text x="1004" y="74" font-size="9" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">👁  Read-only  ·  Restore requires Architect role in App</text>
+  <rect x="0" y="88" width="1280" height="680" fill="#0A1525" fill-opacity="1" stroke="none"/>
+  <rect x="0" y="88" width="200" height="680" fill="#1E293B" fill-opacity="1" stroke="#334155" stroke-width="0.5"/>
+  <rect x="0" y="88" width="200" height="24" fill="#FFF" fill-opacity="1" stroke="#334155" stroke-width="0.5"/>
+  <text x="8" y="104" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Filter</text>
+  <rect x="0" y="116" width="200" height="18" fill="#FFF" fill-opacity="1" stroke="none"/>
+  <text x="8" y="127" font-size="9" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Zeitraum</text>
+  <text x="8" y="142" font-size="8" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Von</text>
+  <rect x="6" y="145" width="188" height="20" fill="#1E293B" fill-opacity="1" stroke="#334155" stroke-width="1"/>
+  <text x="10" y="158" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">2026-06-01</text>
+  <text x="8" y="177" font-size="8" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Bis</text>
+  <rect x="6" y="180" width="188" height="20" fill="#1E293B" fill-opacity="1" stroke="#334155" stroke-width="1"/>
+  <text x="10" y="193" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">2026-06-29</text>
+  <rect x="0" y="204" width="200" height="18" fill="#FFF" fill-opacity="1" stroke="none"/>
+  <text x="8" y="215" font-size="9" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Benutzer</text>
+  <text x="8" y="230" font-size="8" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Benutzer suchen</text>
+  <rect x="6" y="233" width="188" height="20" fill="#1E293B" fill-opacity="1" stroke="#334155" stroke-width="1"/>
+  <text x="10" y="246" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif"></text>
+  <rect x="0" y="257" width="200" height="18" fill="#FFF" fill-opacity="1" stroke="none"/>
+  <text x="8" y="268" font-size="9" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Entity-Typ</text>
+  <rect x="6" y="275" width="188" height="20" fill="#1E3A5F" fill-opacity="1" stroke="#38BDF8" stroke-width="1"/>
+  <text x="10" y="288" font-size="9" fill="#38BDF8" text-anchor="start" font-family="Inter,system-ui,sans-serif">App Component [AC] ✕</text>
+  <rect x="6" y="299" width="188" height="20" fill="#1E293B" fill-opacity="1" stroke="#334155" stroke-width="1"/>
+  <text x="10" y="312" font-size="9" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Tech Component [TC]</text>
+  <rect x="6" y="323" width="188" height="20" fill="#1E293B" fill-opacity="1" stroke="#334155" stroke-width="1"/>
+  <text x="10" y="336" font-size="9" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Interface [IF]</text>
+  <rect x="0" y="347" width="200" height="18" fill="#FFF" fill-opacity="1" stroke="none"/>
+  <text x="8" y="358" font-size="9" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Quelle</text>
+  <rect x="6" y="365" width="188" height="20" fill="#1E293B" fill-opacity="1" stroke="#334155" stroke-width="1"/>
+  <text x="10" y="378" font-size="9" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">API</text>
+  <rect x="6" y="389" width="188" height="20" fill="#1E293B" fill-opacity="1" stroke="#334155" stroke-width="1"/>
+  <text x="10" y="402" font-size="9" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">UI</text>
+  <rect x="6" y="413" width="188" height="20" fill="#1E293B" fill-opacity="1" stroke="#334155" stroke-width="1"/>
+  <text x="10" y="426" font-size="9" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Job / System</text>
+  <rect x="6" y="441" width="188" height="24" fill="#1E293B" fill-opacity="1" stroke="#334155" stroke-width="1"/>
+  <text x="100" y="456" font-size="9" fill="#94A3B8" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Filter zurücksetzen</text>
+  <rect x="204" y="88" width="1076" height="680" fill="#1E293B" fill-opacity="1" stroke="none"/>
+  <rect x="204" y="88" width="1076" height="28" fill="#FFF" fill-opacity="1" stroke="#334155" stroke-width="0.5"/>
+  <text x="212" y="105" font-size="10" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">134 Einträge  ·  Filter: App Component [AC]  ·  Jun 2026</text>
+  <rect x="1204" y="92" width="68" height="20" fill="#1E293B" fill-opacity="1" stroke="#334155" stroke-width="1"/>
+  <text x="1238" y="104" font-size="8" fill="#94A3B8" text-anchor="middle" font-family="Inter,system-ui,sans-serif">⤒ Export CSV</text>
+  <rect x="204" y="116" width="1076" height="22" fill="#FFF" fill-opacity="1" stroke="#334155" stroke-width="1"/>
+  <text x="212" y="130" font-size="9" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Timestamp</text>
+  <text x="350" y="130" font-size="9" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">User</text>
+  <text x="446" y="130" font-size="9" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Meta-Type</text>
+  <text x="562" y="130" font-size="9" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Entity</text>
+  <text x="718" y="130" font-size="9" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Changed Properties</text>
+  <text x="858" y="130" font-size="9" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Relations</text>
+  <text x="974" y="130" font-size="9" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Source</text>
+  <rect x="204" y="138" width="1076" height="24" fill="#0A1525" fill-opacity="1" stroke="#334155" stroke-width="0.5"/>
+  <rect x="208" y="141" width="132" height="18" fill="#1E293B" fill-opacity="1" stroke="#334155" stroke-width="0.6"/>
+  <text x="211" y="152" font-size="8" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif"></text>
+  <rect x="346" y="141" width="90" height="18" fill="#1E293B" fill-opacity="1" stroke="#334155" stroke-width="0.6"/>
+  <text x="349" y="152" font-size="8" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif"></text>
+  <rect x="442" y="141" width="110" height="18" fill="#1E293B" fill-opacity="1" stroke="#334155" stroke-width="0.6"/>
+  <text x="445" y="152" font-size="8" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif"></text>
+  <rect x="558" y="141" width="150" height="18" fill="#1E293B" fill-opacity="1" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="561" y="152" font-size="8" fill="#38BDF8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Auth-Service</text>
+  <rect x="714" y="141" width="134" height="18" fill="#1E293B" fill-opacity="1" stroke="#334155" stroke-width="0.6"/>
+  <text x="717" y="152" font-size="8" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif"></text>
+  <rect x="854" y="141" width="110" height="18" fill="#1E293B" fill-opacity="1" stroke="#334155" stroke-width="0.6"/>
+  <text x="857" y="152" font-size="8" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif"></text>
+  <rect x="970" y="141" width="74" height="18" fill="#1E293B" fill-opacity="1" stroke="#334155" stroke-width="0.6"/>
+  <text x="973" y="152" font-size="8" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif"></text>
+  <rect x="1226" y="141" width="48" height="18" fill="#1E3A5F" fill-opacity="1" stroke="#38BDF8" stroke-width="1"/>
+  <text x="1250" y="153" font-size="9" fill="#38BDF8" text-anchor="middle" font-family="Inter,system-ui,sans-serif">AND</text>
+  <rect x="204" y="162" width="1076" height="28" fill="#1E293B" fill-opacity="1" stroke="#334155" stroke-width="0.3"/>
+  <text x="212" y="179" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">2026-06-29 06:15</text>
+  <text x="350" y="179" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">etl-bot</text>
+  <rect x="446" y="169" width="108" height="14" fill="#2563EB" fill-opacity="0.1" stroke="#2563EB" stroke-width="0.5"/>
+  <text x="449" y="178" font-size="8" fill="#2563EB" text-anchor="start" font-family="Inter,system-ui,sans-serif">AC</text>
+  <text x="562" y="179" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Auth-Service</text>
+  <text x="718" y="179" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">version 2.5.0</text>
+  <text x="858" y="179" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">—</text>
+  <text x="974" y="179" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">API</text>
+  <rect x="1228" y="168" width="46" height="16" fill="#FFF" fill-opacity="1" stroke="#334155" stroke-width="0.5"/>
+  <text x="1251" y="177" font-size="7" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Restore</text>
+  <rect x="204" y="190" width="1076" height="28" fill="#0A1525" fill-opacity="1" stroke="#334155" stroke-width="0.3"/>
+  <text x="212" y="207" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">2026-06-29 04:31</text>
+  <text x="350" y="207" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">m.mueller</text>
+  <rect x="446" y="197" width="108" height="14" fill="#2563EB" fill-opacity="0.1" stroke="#2563EB" stroke-width="0.5"/>
+  <text x="449" y="206" font-size="8" fill="#2563EB" text-anchor="start" font-family="Inter,system-ui,sans-serif">AC</text>
+  <text x="562" y="207" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Auth-Service</text>
+  <text x="718" y="207" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">owner updated</text>
+  <text x="858" y="207" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">−1 rel</text>
+  <text x="974" y="207" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">UI</text>
+  <rect x="1228" y="196" width="46" height="16" fill="#FFF" fill-opacity="1" stroke="#334155" stroke-width="0.5"/>
+  <text x="1251" y="205" font-size="7" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Restore</text>
+  <rect x="204" y="218" width="1076" height="28" fill="#1E293B" fill-opacity="1" stroke="#334155" stroke-width="0.3"/>
+  <text x="212" y="235" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">2026-06-28 17:44</text>
+  <text x="350" y="235" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">l.baum</text>
+  <rect x="446" y="225" width="108" height="14" fill="#2563EB" fill-opacity="0.1" stroke="#2563EB" stroke-width="0.5"/>
+  <text x="449" y="234" font-size="8" fill="#2563EB" text-anchor="start" font-family="Inter,system-ui,sans-serif">AC</text>
+  <text x="562" y="235" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Auth-Service</text>
+  <text x="718" y="235" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">lifecycle active</text>
+  <text x="858" y="235" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">—</text>
+  <text x="974" y="235" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">API</text>
+  <rect x="1228" y="224" width="46" height="16" fill="#FFF" fill-opacity="1" stroke="#334155" stroke-width="0.5"/>
+  <text x="1251" y="233" font-size="7" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Restore</text>
+  <rect x="204" y="246" width="1076" height="28" fill="#0A1525" fill-opacity="1" stroke="#334155" stroke-width="0.3"/>
+  <text x="212" y="263" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">2026-06-28 14:12</text>
+  <text x="350" y="263" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">admin</text>
+  <rect x="446" y="253" width="108" height="14" fill="#2563EB" fill-opacity="0.1" stroke="#2563EB" stroke-width="0.5"/>
+  <text x="449" y="262" font-size="8" fill="#2563EB" text-anchor="start" font-family="Inter,system-ui,sans-serif">AC</text>
+  <text x="562" y="263" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Auth-Service</text>
+  <text x="718" y="263" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">criticality high</text>
+  <text x="858" y="263" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">—</text>
+  <text x="974" y="263" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">UI</text>
+  <rect x="1228" y="252" width="46" height="16" fill="#FFF" fill-opacity="1" stroke="#334155" stroke-width="0.5"/>
+  <text x="1251" y="261" font-size="7" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Restore</text>
+  <rect x="204" y="274" width="1076" height="28" fill="#FEE2E2" fill-opacity="1" stroke="#334155" stroke-width="0.3"/>
+  <text x="212" y="291" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">2026-06-28 11:03</text>
+  <text x="350" y="291" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">system</text>
+  <rect x="446" y="281" width="108" height="14" fill="#2563EB" fill-opacity="0.1" stroke="#2563EB" stroke-width="0.5"/>
+  <text x="449" y="290" font-size="8" fill="#2563EB" text-anchor="start" font-family="Inter,system-ui,sans-serif">AC</text>
+  <text x="562" y="291" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Reporting-Engine</text>
+  <text x="718" y="291" font-size="9" fill="#991B1B" text-anchor="start" font-family="Inter,system-ui,sans-serif">DELETED (soft)</text>
+  <text x="858" y="291" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">—</text>
+  <text x="974" y="291" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Job</text>
+  <rect x="1228" y="280" width="46" height="16" fill="#FFF" fill-opacity="1" stroke="#334155" stroke-width="0.5"/>
+  <text x="1251" y="289" font-size="7" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Restore</text>
+  <rect x="204" y="302" width="1076" height="28" fill="#0A1525" fill-opacity="1" stroke="#334155" stroke-width="0.3"/>
+  <text x="212" y="319" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">2026-06-27 16:55</text>
+  <text x="350" y="319" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">l.baum</text>
+  <rect x="446" y="309" width="108" height="14" fill="#2563EB" fill-opacity="0.1" stroke="#2563EB" stroke-width="0.5"/>
+  <text x="449" y="318" font-size="8" fill="#2563EB" text-anchor="start" font-family="Inter,system-ui,sans-serif">AC</text>
+  <text x="562" y="319" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Portal-Frontend</text>
+  <text x="718" y="319" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">version 3.2.1</text>
+  <text x="858" y="319" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">—</text>
+  <text x="974" y="319" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">API</text>
+  <rect x="1228" y="308" width="46" height="16" fill="#FFF" fill-opacity="1" stroke="#334155" stroke-width="0.5"/>
+  <text x="1251" y="317" font-size="7" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Restore</text>
+  <rect x="204" y="330" width="1076" height="28" fill="#1E293B" fill-opacity="1" stroke="#334155" stroke-width="0.3"/>
+  <text x="212" y="347" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">2026-06-27 14:20</text>
+  <text x="350" y="347" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">m.mueller</text>
+  <rect x="446" y="337" width="108" height="14" fill="#2563EB" fill-opacity="0.1" stroke="#2563EB" stroke-width="0.5"/>
+  <text x="449" y="346" font-size="8" fill="#2563EB" text-anchor="start" font-family="Inter,system-ui,sans-serif">AC</text>
+  <text x="562" y="347" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Catalog-Service</text>
+  <text x="718" y="347" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">env: staging→prod</text>
+  <text x="858" y="347" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">+1 rel</text>
+  <text x="974" y="347" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">UI</text>
+  <rect x="1228" y="336" width="46" height="16" fill="#FFF" fill-opacity="1" stroke="#334155" stroke-width="0.5"/>
+  <text x="1251" y="345" font-size="7" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Restore</text>
+  <rect x="204" y="358" width="1076" height="28" fill="#0A1525" fill-opacity="1" stroke="#334155" stroke-width="0.3"/>
+  <text x="212" y="375" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">2026-06-26 10:00</text>
+  <text x="350" y="375" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">etl-bot</text>
+  <rect x="446" y="365" width="108" height="14" fill="#2563EB" fill-opacity="0.1" stroke="#2563EB" stroke-width="0.5"/>
+  <text x="449" y="374" font-size="8" fill="#2563EB" text-anchor="start" font-family="Inter,system-ui,sans-serif">AC</text>
+  <text x="562" y="375" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">ETL-Sync-Service</text>
+  <text x="718" y="375" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">status active</text>
+  <text x="858" y="375" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">—</text>
+  <text x="974" y="375" font-size="9" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">API</text>
+  <rect x="1228" y="364" width="46" height="16" fill="#FFF" fill-opacity="1" stroke="#334155" stroke-width="0.5"/>
+  <text x="1251" y="373" font-size="7" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Restore</text>
+  <text x="212" y="405" font-size="9" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">8 of 134 entries  ·  sorted by timestamp desc</text>
+  <rect x="1188" y="392" width="88" height="20" fill="#1E293B" fill-opacity="1" stroke="#334155" stroke-width="1"/>
+  <text x="1232" y="404" font-size="8" fill="#94A3B8" text-anchor="middle" font-family="Inter,system-ui,sans-serif">1  2  3  ›  last</text>
+  <rect x="0" y="768" width="1280" height="32" fill="#1E293B" fill-opacity="1" stroke="#334155" stroke-width="0.5"/>
+  <text x="16" y="788" font-size="10" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">OEA Open Enterprise Architecture  ·  v0.1.0-SNAPSHOT  ·  AGPL-3.0</text>
+  <text x="1272" y="788" font-size="10" fill="#94A3B8" text-anchor="end" font-family="Inter,system-ui,sans-serif">Read-only portal  ·  Last sync 06:00</text>
+</svg>
