@@ -457,13 +457,13 @@ Der Exporter (`api/export?cmd=export-shapes`) ist ein separater **Headless-Chrom
 
 ### Standard-Lösung: lokaler SVG-Fallback via `generateLocalSVG()`
 
-**Immer** `uploadAndExport()` aus `scripts/penpot-shared.js` verwenden. Diese Funktion:
+**Immer** `uploadAndExport()` aus `scripts/penpot/shared.js` verwenden. Diese Funktion:
 1. Lädt alle Shapes nach Penpot (vollständig, interaktiv im Browser bedienbar)
 2. Versucht SVG-Export via Penpot-API (`exportFrameSVG`)
 3. Fällt bei 404/Fehler **automatisch** auf lokalen SVG-Generator zurück
 
 ```javascript
-const { createFrame, canvasText, uploadAndExport } = require('./penpot-shared');
+const { createFrame, canvasText, uploadAndExport } = require('./shared');
 
 // Am Ende von main():
 await uploadAndExport('OEA - Dateiname v0.1', allChanges, frames);
@@ -477,7 +477,7 @@ await uploadAndExport('OEA - Dateiname v0.1', allChanges, frames);
 
 ### Frame-Architektur (Pflicht für SVG-Export)
 
-Jeder Screen **muss** als Penpot-Frame (`type: 'frame'`) angelegt werden, damit `generateLocalSVG()` pro Screen eine separate SVG-Datei erzeugen kann. Dazu `createFrame()` aus `penpot-shared.js` nutzen:
+Jeder Screen **muss** als Penpot-Frame (`type: 'frame'`) angelegt werden, damit `generateLocalSVG()` pro Screen eine separate SVG-Datei erzeugen kann. Dazu `createFrame()` aus `shared.js` nutzen:
 
 ```javascript
 const { frameId, change, r, t } = createFrame(pid, x, y, FW, FH, 'Light/ScreenName');
