@@ -17,7 +17,7 @@ Vollständige Liste aller UI-Screens als Grundlage für Penpot-Mockups und API-D
 
 | ID | Screen | Plattform | UC-Bezug | Priorität | Status |
 |---|---|---|---|---|---|
-| SCR-001 | Login | CA+WP | UC-01 | must | `mockup` |
+| SCR-001 | Login | CA+WP | UC-01 | must | `todo` |
 | SCR-002 | Setup-Wizard (Ersteinrichtung) | CA | UC-02 | must | `todo` |
 | SCR-003 | Auth-Methode einrichten (Required Action) | CA | UC-03 | must | `todo` |
 
@@ -38,7 +38,7 @@ Vollständige Liste aller UI-Screens als Grundlage für Penpot-Mockups und API-D
 | ID | Screen | Plattform | UC-Bezug | Priorität | Status |
 |---|---|---|---|---|---|
 | SCR-020 | Katalog-Browser (Walking Skeleton) | CA | UC-06 | must | `mockup` |
-| SCR-021 | Diagramm-Editor / Canvas | CA | UC-05, UC-08, UC-10 | must | `mockup` |
+| SCR-021 | Diagramm-Editor / Canvas (ArchiMate) | CA | UC-05, UC-08 | must | `mockup` |
 | SCR-022 | BPMN-Editor | CA | UC-10 | must | `mockup` |
 | SCR-023 | Data-Lineage-Editor | CA | UC-08 | should | `todo` |
 | SCR-024 | Dashboard-Editor | CA | UC-07 | should | `todo` |
@@ -90,14 +90,20 @@ SCR-023, SCR-024, SCR-027, SCR-035, SCR-036, SCR-053, SCR-054
 
 Empfohlene Reihenfolge (GUI-first → OpenAPI → Code):
 
-1. **SCR-020** Katalog-Browser — Walking Skeleton (UC-06)
-2. **SCR-011** Explorer / Navigationsbaum
-3. **SCR-002** Setup-Wizard
-4. **SCR-021** Diagramm-Editor
-5. **SCR-030** Metamodell-Konfiguration
-6. **SCR-026** Änderungshistorie
-7. **SCR-050** Portal-Startseite
-8. **SCR-051** Entity-Detailansicht (Web Portal)
+1. ~~**SCR-020** Katalog-Browser — Walking Skeleton (UC-06)~~ ✅ `mockup`
+2. ~~**SCR-010** Hauptfenster / App-Shell~~ ✅ `mockup`
+3. ~~**SCR-012** Entity-Eigenschaften-Panel~~ ✅ `mockup`
+4. ~~**SCR-021** Diagramm-Editor (ArchiMate)~~ ✅ `mockup`
+5. ~~**SCR-022** BPMN-Editor~~ ✅ `mockup`
+6. ~~**SCR-026** Änderungshistorie / Audit-Log~~ ✅ `mockup`
+7. ~~**SCR-027** Restore Entity (Modal)~~ ✅ `mockup`
+8. **SCR-001** Login (CA + Web Portal)
+9. **SCR-011** Explorer / Navigationsbaum
+10. **SCR-002** Setup-Wizard
+11. **SCR-025** Plateau-Roadmap
+12. **SCR-030** Metamodell-Konfiguration
+13. **SCR-050** Portal-Startseite
+14. **SCR-051** Entity-Detailansicht (Web Portal)
 
 ---
 
