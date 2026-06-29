@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="800" viewBox="0 0 1280 800">
+  <rect width="1280" height="800" fill="#FFFFFF"/>
+  <rect x="0" y="0" width="1280" height="800" fill="#F0F9FF" fill-opacity="1" stroke="none"/>
+  <text x="640" y="82" font-size="38" fill="#0EA5E9" text-anchor="middle" font-family="Inter,system-ui,sans-serif">OEA</text>
+  <text x="640" y="110" font-size="14" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Open Enterprise Architecture</text>
+  <rect x="400" y="136" width="480" height="4" fill="#E2E8F0" fill-opacity="1" stroke="none"/>
+  <rect x="400" y="136" width="160" height="4" fill="#0EA5E9" fill-opacity="1" stroke="none"/>
+  <text x="480" y="158" font-size="10" fill="#0EA5E9" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Step 1 of 3</text>
+  <rect x="400" y="168" width="480" height="548" fill="#FFFFFF" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="432" y="222" font-size="22" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Set Up Instance</text>
+  <text x="432" y="246" font-size="12" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Step 1 of 3 — Set Up Admin Access</text>
+  <rect x="400" y="262" width="480" height="1" fill="#E2E8F0" fill-opacity="1" stroke="none"/>
+  <rect x="432" y="278" width="416" height="100" fill="#E0F2FE" fill-opacity="1" stroke="#0EA5E9" stroke-width="2"/>
+  <rect x="452" y="300" width="16" height="16" fill="#0EA5E9" fill-opacity="1" stroke="none"/>
+  <text x="480" y="311" font-size="15" fill="#0EA5E9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Local</text>
+  <text x="480" y="332" font-size="12" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Setup token appears in container log on first startup. Set admin password manually.</text>
+  <rect x="432" y="392" width="416" height="80" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <rect x="452" y="412" width="16" height="16" fill="#E2E8F0" fill-opacity="1" stroke="none"/>
+  <text x="480" y="423" font-size="15" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Via OIDC</text>
+  <text x="480" y="444" font-size="12" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">External identity provider via OIDC</text>
+  <rect x="432" y="488" width="416" height="60" fill="#E0F2FE" fill-opacity="1" stroke="#7DD3FC" stroke-width="1"/>
+  <rect x="448" y="503" width="20" height="20" fill="#0EA5E9" fill-opacity="1" stroke="none"/>
+  <text x="458" y="517" font-size="13" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">i</text>
+  <text x="476" y="511" font-size="12" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Setup token is single-use. Visibility configurable by operator (REQ-136).</text>
+  <rect x="432" y="568" width="416" height="48" fill="#0EA5E9" fill-opacity="1" stroke="none"/>
+  <text x="640" y="595" font-size="15" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Continue  →</text>
+  <text x="640" y="647" font-size="13" fill="#0EA5E9" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Already configured?  →  Sign in</text>
+</svg>

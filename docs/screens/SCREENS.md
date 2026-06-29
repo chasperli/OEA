@@ -17,9 +17,9 @@ Vollständige Liste aller UI-Screens als Grundlage für Penpot-Mockups und API-D
 
 | ID | Screen | Plattform | UC-Bezug | Priorität | Status |
 |---|---|---|---|---|---|
-| SCR-001 | Login | CA+WP | UC-01 | must | `todo` |
-| SCR-002 | Setup-Wizard (Ersteinrichtung) | CA | UC-02 | must | `todo` |
-| SCR-003 | Auth-Methode einrichten (Required Action) | CA | UC-03 | must | `todo` |
+| SCR-001 | Login + Auto-SSO | CA+WP | UC-01 | must | `mockup` |
+| SCR-002 | Setup-Wizard (Ersteinrichtung) | CA | UC-02 | must | `mockup` |
+| SCR-003 | Auth-Methode einrichten (2FA / Passkey) | CA | UC-03 | must | `mockup` |
 
 ---
 
@@ -97,8 +97,10 @@ Empfohlene Reihenfolge (GUI-first → OpenAPI → Code):
 5. ~~**SCR-022** BPMN-Editor~~ ✅ `mockup`
 6. ~~**SCR-026** Änderungshistorie / Audit-Log~~ ✅ `mockup`
 7. ~~**SCR-027** Restore Entity (Modal)~~ ✅ `mockup`
-8. **SCR-001** Login (CA + Web Portal)
-9. **SCR-011** Explorer / Navigationsbaum
+8. ~~**SCR-001** Login + Auto-SSO~~ ✅ `mockup`
+9. ~~**SCR-002** Setup-Wizard~~ ✅ `mockup`
+10. ~~**SCR-003** Auth-Methode (2FA / Passkey)~~ ✅ `mockup`
+11. **SCR-011** Explorer / Navigationsbaum
 10. **SCR-002** Setup-Wizard
 11. **SCR-025** Plateau-Roadmap
 12. **SCR-030** Metamodell-Konfiguration
@@ -111,6 +113,7 @@ Empfohlene Reihenfolge (GUI-first → OpenAPI → Code):
 
 | Script | Screens |
 |---|---|
+| `scripts/penpot/login.js` | SCR-001 (login, autosso), SCR-002 (setup-bootstrap), SCR-003 (2fa, passkey) |
 | `scripts/penpot/hauptfenster.js` | SCR-010, SCR-012 (Light + Dark) |
 | `scripts/penpot/katalog-browser.js` | SCR-020 |
 | `scripts/penpot/diagram-editor.js` | SCR-021 |
