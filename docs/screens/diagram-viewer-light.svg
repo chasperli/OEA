@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="800" viewBox="0 0 1280 800">
+  <rect width="1280" height="800" fill="#FFFFFF"/>
+  <rect x="0" y="0" width="1280" height="56" fill="#0F172A" fill-opacity="1" stroke="none"/>
+  <rect x="16" y="14" width="28" height="28" fill="#0EA5E9" fill-opacity="1" stroke="none"/>
+  <text x="30" y="26" font-size="10" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">OEA</text>
+  <text x="50" y="30" font-size="12" fill="#F8FAFC" text-anchor="start" font-family="Inter,system-ui,sans-serif">Open EA</text>
+  <text x="50" y="41" font-size="9" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Internal Portal</text>
+  <text x="207" y="32" font-size="12" fill="#94A3B8" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Catalog</text>
+  <text x="285" y="32" font-size="12" fill="#0EA5E9" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Diagrams</text>
+  <text x="363" y="32" font-size="12" fill="#94A3B8" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Dashboards</text>
+  <text x="461" y="32" font-size="12" fill="#94A3B8" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Audit Log</text>
+  <rect x="248" y="51" width="74" height="2" fill="#0EA5E9" fill-opacity="1" stroke="none"/>
+  <rect x="520" y="12" width="380" height="32" fill="#0F172A" fill-opacity="1" stroke="#334155" stroke-width="1.5"/>
+  <text x="534" y="31" font-size="11" fill="#475569" text-anchor="start" font-family="Inter,system-ui,sans-serif">Search entities, diagrams, catalogs...</text>
+  <rect x="1224" y="12" width="44" height="32" fill="#0EA5E9" fill-opacity="1" stroke="none"/>
+  <text x="1246" y="34" font-size="14" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">⌕</text>
+  <rect x="1168" y="16" width="28" height="28" fill="#475569" fill-opacity="1" stroke="none"/>
+  <text x="1182" y="27" font-size="9" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">LM</text>
+  <rect x="0" y="56" width="1280" height="40" fill="#FFFFFF" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="12" y="76" font-size="12" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Solution Context Overview  ·  ArchiMate 3.1</text>
+  <text x="12" y="87" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Last modified: 2026-06-28  ·  by L. Mathis</text>
+  <rect x="1064" y="66" width="28" height="20" fill="#FFF" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="1078" y="79" font-size="9" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">−</text>
+  <rect x="1084" y="66" width="38" height="20" fill="#FFF" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="1103" y="79" font-size="9" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">75%</text>
+  <rect x="1126" y="66" width="28" height="20" fill="#FFF" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="1140" y="79" font-size="9" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">＋</text>
+  <rect x="1154" y="66" width="1" height="20" fill="#E2E8F0" fill-opacity="1" stroke="none"/>
+  <rect x="1164" y="66" width="28" height="20" fill="#FFF" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="1178" y="79" font-size="9" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Fit</text>
+  <rect x="1198" y="66" width="28" height="20" fill="#FFF" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="1212" y="79" font-size="9" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Full ⛶</text>
+  <rect x="1208" y="64" width="64" height="24" fill="#0EA5E9" fill-opacity="1" stroke="none"/>
+  <text x="1240" y="79" font-size="9" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Open in App ↗</text>
+  <rect x="0" y="96" width="1280" height="28" fill="#FEF9C3" fill-opacity="1" stroke="#D97706" stroke-width="0.5"/>
+  <text x="640" y="113" font-size="10" fill="#92400E" text-anchor="middle" font-family="Inter,system-ui,sans-serif">👁  Read-only view  ·  Login with an Architect role to edit this diagram</text>
+  <rect x="0" y="124" width="1016" height="576" fill="#F8FAFC" fill-opacity="1" stroke="none"/>
+  <rect x="0" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="20" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="40" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="60" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="80" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="100" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="120" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="140" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="160" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="180" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="200" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="220" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="240" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="260" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="280" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="300" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="320" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="340" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="360" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="380" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="400" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="420" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="440" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="460" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="480" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="500" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="520" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="540" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="560" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="580" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="600" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="620" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="640" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="660" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="680" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="700" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="720" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="740" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="760" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="780" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="800" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="820" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="840" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="860" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="880" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="900" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="920" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="940" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="960" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="980" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="1000" y="124" width="1" height="576" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="0" y="124" width="1016" height="1" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="0" y="144" width="1016" height="1" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="0" y="164" width="1016" height="1" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="0" y="184" width="1016" height="1" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="0" y="204" width="1016" height="1" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="0" y="224" width="1016" height="1" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="0" y="244" width="1016" height="1" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="0" y="264" width="1016" height="1" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="0" y="284" width="1016" height="1" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="0" y="304" width="1016" height="1" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="0" y="324" width="1016" height="1" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="0" y="344" width="1016" height="1" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="0" y="364" width="1016" height="1" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="0" y="384" width="1016" height="1" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="0" y="404" width="1016" height="1" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="0" y="424" width="1016" height="1" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="0" y="444" width="1016" height="1" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="0" y="464" width="1016" height="1" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="0" y="484" width="1016" height="1" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="0" y="504" width="1016" height="1" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="0" y="524" width="1016" height="1" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="0" y="544" width="1016" height="1" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="0" y="564" width="1016" height="1" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="0" y="584" width="1016" height="1" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="0" y="604" width="1016" height="1" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="0" y="624" width="1016" height="1" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="0" y="644" width="1016" height="1" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="0" y="664" width="1016" height="1" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="0" y="684" width="1016" height="1" fill="#CBD5E1" fill-opacity="0.2" stroke="none"/>
+  <rect x="328" y="164" width="180" height="50" fill="#FFFFFF" fill-opacity="1" stroke="#D97706" stroke-width="1"/>
+  <rect x="328" y="164" width="180" height="12" fill="#D97706" fill-opacity="0.12" stroke="none"/>
+  <rect x="330" y="165" width="22" height="10" fill="#D97706" fill-opacity="1" stroke="none"/>
+  <text x="341" y="172" font-size="6" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">ACT</text>
+  <text x="418" y="190" font-size="10" fill="#0F172A" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Enterprise Architect</text>
+  <text x="418" y="204" font-size="8" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">(user)</text>
+  <rect x="568" y="164" width="180" height="50" fill="#FFFFFF" fill-opacity="1" stroke="#D97706" stroke-width="1"/>
+  <rect x="568" y="164" width="180" height="12" fill="#D97706" fill-opacity="0.12" stroke="none"/>
+  <rect x="570" y="165" width="22" height="10" fill="#D97706" fill-opacity="1" stroke="none"/>
+  <text x="581" y="172" font-size="6" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">ACT</text>
+  <text x="658" y="190" font-size="10" fill="#0F172A" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Stakeholder</text>
+  <text x="658" y="204" font-size="8" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">(consumer)</text>
+  <rect x="236" y="262" width="160" height="54" fill="#DBEAFE" fill-opacity="1" stroke="#0EA5E9" stroke-width="2"/>
+  <rect x="238" y="264" width="156" height="50" fill="#FFFFFF" fill-opacity="1" stroke="#0EA5E9" stroke-width="2"/>
+  <rect x="238" y="264" width="156" height="12" fill="#2563EB" fill-opacity="0.12" stroke="none"/>
+  <rect x="240" y="265" width="22" height="10" fill="#2563EB" fill-opacity="1" stroke="none"/>
+  <text x="251" y="272" font-size="6" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">AC</text>
+  <text x="316" y="290" font-size="10" fill="#0EA5E9" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Auth-Service</text>
+  <text x="316" y="304" font-size="8" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">v2.5.0</text>
+  <rect x="408" y="264" width="156" height="50" fill="#FFFFFF" fill-opacity="1" stroke="#2563EB" stroke-width="1"/>
+  <rect x="408" y="264" width="156" height="12" fill="#2563EB" fill-opacity="0.12" stroke="none"/>
+  <rect x="410" y="265" width="22" height="10" fill="#2563EB" fill-opacity="1" stroke="none"/>
+  <text x="421" y="272" font-size="6" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">AC</text>
+  <text x="486" y="290" font-size="10" fill="#0F172A" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Portal-Frontend</text>
+  <text x="486" y="304" font-size="8" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">v3.2.1</text>
+  <rect x="588" y="264" width="156" height="50" fill="#FFFFFF" fill-opacity="1" stroke="#2563EB" stroke-width="1"/>
+  <rect x="588" y="264" width="156" height="12" fill="#2563EB" fill-opacity="0.12" stroke="none"/>
+  <rect x="590" y="265" width="22" height="10" fill="#2563EB" fill-opacity="1" stroke="none"/>
+  <text x="601" y="272" font-size="6" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">AC</text>
+  <text x="666" y="290" font-size="10" fill="#0F172A" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Catalog-Service</text>
+  <text x="666" y="304" font-size="8" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">v1.8.4</text>
+  <rect x="758" y="264" width="156" height="50" fill="#FFFFFF" fill-opacity="1" stroke="#2563EB" stroke-width="1"/>
+  <rect x="758" y="264" width="156" height="12" fill="#2563EB" fill-opacity="0.12" stroke="none"/>
+  <rect x="760" y="265" width="22" height="10" fill="#2563EB" fill-opacity="1" stroke="none"/>
+  <text x="771" y="272" font-size="6" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">AC</text>
+  <text x="836" y="290" font-size="10" fill="#0F172A" text-anchor="middle" font-family="Inter,system-ui,sans-serif">ETL-Sync-Service</text>
+  <text x="836" y="304" font-size="8" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">v2.0.0</text>
+  <rect x="268" y="374" width="140" height="44" fill="#FFFFFF" fill-opacity="1" stroke="#0891B2" stroke-width="1"/>
+  <rect x="268" y="374" width="140" height="12" fill="#0891B2" fill-opacity="0.12" stroke="none"/>
+  <rect x="270" y="375" width="22" height="10" fill="#0891B2" fill-opacity="1" stroke="none"/>
+  <text x="281" y="382" font-size="6" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">TC</text>
+  <text x="338" y="400" font-size="10" fill="#0F172A" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Kubernetes</text>
+  <text x="338" y="414" font-size="8" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Cluster</text>
+  <rect x="428" y="374" width="140" height="44" fill="#FFFFFF" fill-opacity="1" stroke="#0891B2" stroke-width="1"/>
+  <rect x="428" y="374" width="140" height="12" fill="#0891B2" fill-opacity="0.12" stroke="none"/>
+  <rect x="430" y="375" width="22" height="10" fill="#0891B2" fill-opacity="1" stroke="none"/>
+  <text x="441" y="382" font-size="6" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">TC</text>
+  <text x="498" y="400" font-size="10" fill="#0F172A" text-anchor="middle" font-family="Inter,system-ui,sans-serif">PostgreSQL</text>
+  <text x="498" y="414" font-size="8" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">v15.4</text>
+  <rect x="598" y="374" width="140" height="44" fill="#FFFFFF" fill-opacity="1" stroke="#0891B2" stroke-width="1"/>
+  <rect x="598" y="374" width="140" height="12" fill="#0891B2" fill-opacity="0.12" stroke="none"/>
+  <rect x="600" y="375" width="22" height="10" fill="#0891B2" fill-opacity="1" stroke="none"/>
+  <text x="611" y="382" font-size="6" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">TC</text>
+  <text x="668" y="400" font-size="10" fill="#0F172A" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Kafka</text>
+  <text x="668" y="414" font-size="8" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Broker</text>
+  <rect x="318" y="214" width="90" height="50" fill="#64748B" fill-opacity="0.6" stroke="none"/>
+  <text x="363" y="207" font-size="7" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">uses</text>
+  <rect x="658" y="214" width="10" height="50" fill="#64748B" fill-opacity="0.6" stroke="none"/>
+  <text x="663" y="207" font-size="7" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">views</text>
+  <rect x="308" y="264" width="100" height="50" fill="#64748B" fill-opacity="0.6" stroke="none"/>
+  <text x="358" y="257" font-size="7" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">auth</text>
+  <rect x="488" y="264" width="100" height="50" fill="#64748B" fill-opacity="0.6" stroke="none"/>
+  <text x="538" y="257" font-size="7" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">calls</text>
+  <rect x="668" y="264" width="90" height="50" fill="#64748B" fill-opacity="0.6" stroke="none"/>
+  <text x="713" y="257" font-size="7" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">syncs</text>
+  <rect x="318" y="314" width="20" height="60" fill="#64748B" fill-opacity="0.6" stroke="none"/>
+  <rect x="488" y="314" width="10" height="60" fill="#64748B" fill-opacity="0.6" stroke="none"/>
+  <text x="493" y="307" font-size="7" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">stores</text>
+  <rect x="668" y="314" width="2" height="60" fill="#64748B" fill-opacity="0.6" stroke="none"/>
+  <text x="668" y="307" font-size="7" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">streams</text>
+  <rect x="12" y="640" width="200" height="52" fill="#FFFFFF" fill-opacity="0.9" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="20" y="653" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Legend</text>
+  <rect x="20" y="658" width="8" height="8" fill="#D97706" fill-opacity="1" stroke="none"/>
+  <text x="32" y="665" font-size="7" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">ACT — Actor</text>
+  <rect x="20" y="670" width="8" height="8" fill="#2563EB" fill-opacity="1" stroke="none"/>
+  <text x="32" y="677" font-size="7" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">AC — Application Component</text>
+  <rect x="20" y="682" width="8" height="8" fill="#0891B2" fill-opacity="1" stroke="none"/>
+  <text x="32" y="689" font-size="7" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">TC — Technology Component</text>
+  <rect x="1020" y="124" width="260" height="576" fill="#FFFFFF" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <rect x="1020" y="124" width="260" height="24" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="0.5"/>
+  <text x="1028" y="139" font-size="10" fill="#0EA5E9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Selected: Auth-Service [AC]</text>
+  <text x="1028" y="160" font-size="8" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Name</text>
+  <text x="1120" y="160" font-size="8" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Auth-Service</text>
+  <text x="1028" y="178" font-size="8" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">ID</text>
+  <text x="1120" y="178" font-size="8" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">#AC-002</text>
+  <text x="1028" y="196" font-size="8" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Type</text>
+  <text x="1120" y="196" font-size="8" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Application Component</text>
+  <text x="1028" y="214" font-size="8" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Status</text>
+  <text x="1120" y="214" font-size="8" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">active  ·  v2.5.0</text>
+  <text x="1028" y="232" font-size="8" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Owner</text>
+  <text x="1120" y="232" font-size="8" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Platform Team</text>
+  <rect x="1020" y="246" width="260" height="1" fill="#E2E8F0" fill-opacity="1" stroke="none"/>
+  <text x="1028" y="263" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Relations (6)</text>
+  <text x="1030" y="278" font-size="8" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">serves Portal-Frontend</text>
+  <text x="1030" y="292" font-size="8" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">realizes OEA REST API</text>
+  <text x="1030" y="306" font-size="8" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">← uses PostgreSQL</text>
+  <rect x="1020" y="316" width="260" height="1" fill="#E2E8F0" fill-opacity="1" stroke="none"/>
+  <text x="1028" y="333" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Appears in</text>
+  <text x="1030" y="348" font-size="8" fill="#0284C7" text-anchor="start" font-family="Inter,system-ui,sans-serif">↗  Solution Context Overview</text>
+  <text x="1030" y="362" font-size="8" fill="#0284C7" text-anchor="start" font-family="Inter,system-ui,sans-serif">↗  Auth Data Flow</text>
+  <rect x="1028" y="374" width="236" height="24" fill="#0EA5E9" fill-opacity="1" stroke="none"/>
+  <text x="1146" y="389" font-size="9" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">View Entity Detail →</text>
+  <rect x="0" y="700" width="1280" height="68" fill="#FFFFFF" fill-opacity="1" stroke="#E2E8F0" stroke-width="0.5"/>
+  <text x="12" y="718" font-size="10" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Other Diagrams in this Solution</text>
+  <rect x="12" y="728" width="248" height="36" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="20" y="744" font-size="10" fill="#0284C7" text-anchor="start" font-family="Inter,system-ui,sans-serif">Application Layer Landscape</text>
+  <text x="20" y="754" font-size="8" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">ArchiMate  ·  modified Jun 28</text>
+  <rect x="272" y="728" width="248" height="36" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="280" y="744" font-size="10" fill="#0284C7" text-anchor="start" font-family="Inter,system-ui,sans-serif">Auth Data Flow</text>
+  <text x="280" y="754" font-size="8" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">ArchiMate  ·  modified Jun 28</text>
+  <rect x="532" y="728" width="248" height="36" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="540" y="744" font-size="10" fill="#0284C7" text-anchor="start" font-family="Inter,system-ui,sans-serif">ERP Integration Context</text>
+  <text x="540" y="754" font-size="8" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">ArchiMate  ·  modified Jun 28</text>
+  <rect x="0" y="768" width="1280" height="32" fill="#FFFFFF" fill-opacity="1" stroke="#E2E8F0" stroke-width="0.5"/>
+  <text x="16" y="788" font-size="10" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">OEA Open Enterprise Architecture  ·  v0.1.0-SNAPSHOT  ·  AGPL-3.0</text>
+  <text x="1272" y="788" font-size="10" fill="#64748B" text-anchor="end" font-family="Inter,system-ui,sans-serif">Read-only portal  ·  Last sync 06:00</text>
+</svg>

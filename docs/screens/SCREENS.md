@@ -52,7 +52,7 @@ Vollständige Liste aller UI-Screens als Grundlage für Penpot-Mockups und API-D
 
 | ID | Screen | Plattform | UC-Bezug | Priorität | Status |
 |---|---|---|---|---|---|
-| SCR-030 | Metamodell-Konfiguration | CA | UC-04 | must | `todo` |
+| SCR-030 | Metamodell-Konfiguration | CA | UC-04 | must | `mockup` |
 | SCR-031 | Viewpoint-Verwaltung | CA | UC-12 | must | `todo` |
 | SCR-032 | Property-Sichtbarkeit konfigurieren | CA | UC-21 | must | `todo` |
 | SCR-033 | TRM-Konfiguration | CA | UC-19 | must | `todo` |
@@ -68,9 +68,9 @@ Vollständige Liste aller UI-Screens als Grundlage für Penpot-Mockups und API-D
 
 | ID | Screen | Plattform | UC-Bezug | Priorität | Status |
 |---|---|---|---|---|---|
-| SCR-050 | Portal-Startseite / Katalog-Übersicht | WP | UC-06 | must | `todo` |
-| SCR-051 | Entity-Detailansicht (read-only) | WP | UC-06 | must | `todo` |
-| SCR-052 | Diagramm-Viewer (read-only) | WP | UC-05, UC-08 | must | `todo` |
+| SCR-050 | Portal-Startseite / Katalog-Übersicht | WP | UC-06 | must | `mockup` |
+| SCR-051 | Entity-Detailansicht (read-only) | WP | UC-06 | must | `mockup` |
+| SCR-052 | Diagramm-Viewer (read-only) | WP | UC-05, UC-08 | must | `mockup` |
 | SCR-053 | Dashboard-Ansicht (read-only) | WP | UC-07 | should | `todo` |
 | SCR-054 | Änderungshistorie (read-only) | WP | UC-14 | should | `todo` |
 
@@ -104,9 +104,12 @@ Empfohlene Reihenfolge (GUI-first → OpenAPI → Code):
 12. ~~**SCR-023** Data-Lineage-Editor~~ ✅ `mockup`
 13. ~~**SCR-024** Dashboard-Editor~~ ✅ `mockup`
 14. ~~**SCR-025** Plateau-Roadmap~~ ✅ `mockup`
-15. **SCR-030** Metamodell-Konfiguration
-16. **SCR-050** Portal-Startseite
-17. **SCR-051** Entity-Detailansicht (Web Portal)
+15. ~~**SCR-030** Metamodell-Konfiguration~~ ✅ `mockup`
+16. ~~**SCR-050** Portal-Startseite~~ ✅ `mockup`
+17. ~~**SCR-051** Entity-Detailansicht (Web Portal)~~ ✅ `mockup`
+18. ~~**SCR-052** Diagramm-Viewer (read-only)~~ ✅ `mockup`
+19. **SCR-031** Viewpoint-Verwaltung
+20. **SCR-053** Dashboard-Ansicht (Web Portal read-only)
 13. **SCR-050** Portal-Startseite
 14. **SCR-051** Entity-Detailansicht (Web Portal)
 
@@ -126,6 +129,8 @@ Empfohlene Reihenfolge (GUI-first → OpenAPI → Code):
 | `scripts/penpot/data-lineage.js` | SCR-023 |
 | `scripts/penpot/dashboard-editor.js` | SCR-024 |
 | `scripts/penpot/plateau-roadmap.js` | SCR-025 |
+| `scripts/penpot/metamodel-config.js` | SCR-030 |
+| `scripts/penpot/web-portal.js` | SCR-050, SCR-051, SCR-052 |
 | _(geplant)_ `scripts/penpot/setup-wizard.js` | SCR-002, SCR-003 |
 | _(geplant)_ `scripts/penpot/admin.js` | SCR-030–SCR-038 |
 | _(geplant)_ `scripts/penpot/web-portal.js` | SCR-050–SCR-054 |
