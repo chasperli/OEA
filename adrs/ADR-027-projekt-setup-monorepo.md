@@ -57,12 +57,16 @@ Paketstruktur ersetzt Modul-Grenzen:
 
 ```
 backend/src/main/java/io/oea/
-├── api/          ← REST-Controller, DTOs, OpenAPI-Annotationen
-├── core/         ← Domain-Services, Entities, Repositories
+├── api/          ← REST-Controller, Request/Response DTOs, OpenAPI (ADR-028)
+├── app/          ← Application Services: stabile Interfaces + Commands/Queries (ADR-028)
+├── core/         ← Domain Model, Repositories, Domain-Services
 ├── audit/        ← Audit-Schema-Handling (ADR-024)
 ├── integration/  ← Externer Schreibzugriff / Service-Accounts (ADR-026)
 └── config/       ← Spring-Konfiguration, Security, Flyway
 ```
+
+Die Kommunikationsregeln zwischen den drei Schichten (`api → app → core`)
+sind in ADR-028 beschrieben.
 
 **Warum nicht Multi-Modul?** Maven-Multi-Module-Projekte (mehrere `pom.xml`-Dateien
 in einer Eltern-Kind-Hierarchie) bringen erst ab mehreren Teams oder wiederverwendbaren
@@ -78,9 +82,11 @@ API-Clients sinnvoll wird, kann das Modul ohne Breaking Changes herausgelöst we
 Alle Java-Klassen verwenden `io.oea` als Basis-Package:
 
 ```java
-io.oea.api.controller.EntityController
-io.oea.core.service.EntityService
-io.oea.core.domain.Entity
+io.oea.api.v1.controller.EntityController
+io.oea.app.entity.EntityAppService
+io.oea.app.entity.command.UpsertEntityCommand
+io.oea.core.domain.entity.Entity
+io.oea.core.repository.EntityRepository
 io.oea.audit.service.AuditEventWriter
 io.oea.integration.service.BatchWriteService
 ```
@@ -189,3 +195,4 @@ Vite und Vue 3 unterstützen alle drei. npm wird gewählt weil:
 - ADR-015: Flyway Migrations
 - ADR-023: Multi-DB (docker-compose.mysql.yml)
 - ADR-026: Externe Integration (backend/integration/)
+- ADR-028: Backend-Schichtenarchitektur api/app/core (Kommunikationsregeln)
