@@ -133,48 +133,126 @@ package "Metamodell" #E8F5E9 {
     .. enum: gui-and-import | import-only ..
     + last_modified_at : TIMESTAMPTZ    {NN} DEFAULT NOW()
     + last_modified_by : BIGINT         {NN} {FK→persons.id}
-    == JSONB-Konfiguration ==
+    == JSONB-Restkonfiguration ==
     + config           : JSONB          {NN} DEFAULT '{}'
-    .. entityTypeDefinitions[]           ..
-    .. stereotypes[]                     ..
-    .. constraintRules[]                 ..
     .. viewpoints[]                      ..
     .. architectureLayers[]              ..
-    .. mandatoryConnectionConstraints[]  ..
+    .. constraintRules[]                 ..
+    .. stereotypes[]                     ..
     .. documentCollectionDefinitions[]   ..
   }
 
   note right of metamodel_configurations
-    config-JSONB enthält die vollständige
-    Schemakonfiguration der Instanz:
-    – EntityTypeDefinition (id, name, isConnection,
-      allowedSourceTypes, allowedTargetTypes,
-      allowsConnectionAsSource, propertyDefs[],
-      creationSteps[], architectureLayerId)
-    – PropertyDefinition (name, displayLabel, dataType,
-      validationMode, category, visibilityMode,
-      allowedRoles[], scopingConnectionType)
-    – ConstraintRule (CEL-Ausdrücke, ruleMode,
-      severity, structured/expression)
-    – ArchitectureLayerDefinition (id, name, sortOrder)
-    Kein separates ORM-Mapping nötig – vollständig
-    als atomares JSONB-Dokument gelesen/geschrieben.
-    ──────────────────────────────────────────────
-    Soft-Referenz Person → Actor (Built-in):
-    Der built-in EntityType "Actor" enthält eine
-    vordefinierte PropertyDefinition:
-      name: personId
-      dataType: { kind: int }
-      validationMode: optional
-      category: "System"
-      description: "Verknüpfung zur persons.id
-        (Tool-Benutzer); kein DB-FK – Soft-Referenz"
-    Damit kann ein Actor-Entity auf einen
-    konkreten Person-Datensatz verweisen, ohne
-    das IAM-Schema zu koppeln.
+    MetaTypen (entityTypeDefinitions) und
+    PropertyDefinitionen sind seit ADR-022
+    in eigenen Tabellen (metatypes,
+    property_definitions) gespeichert.
+    Das config-JSONB enthält nur noch
+    Konfigurationsaspekte ohne eigene
+    Identität: Viewpoints, Layer-Definitionen,
+    Constraint-Regeln, Stereotypen.
   end note
 
+  class metatypes <<Table>> #C8E6C9 {
+    + id              : UUID            {PK} DEFAULT gen_random_uuid()
+    --
+    + config_id       : UUID            {NN} {FK→metamodel_configurations.id}
+    + name            : TEXT            {NN}
+    + abbreviation    : TEXT
+    .. z.B. 'AC', 'TC', 'IF'; max. 10 Zeichen ..
+    + is_connection   : BOOLEAN         {NN} DEFAULT false
+    .. true = Verbindungstyp (hat source/target) ..
+    + allowed_source_type_ids : UUID[]
+    .. nur relevant wenn is_connection=true ..
+    + allowed_target_type_ids : UUID[]
+    .. nur relevant wenn is_connection=true ..
+    + architecture_layer_id : TEXT
+    .. Soft-Ref in config.architectureLayers ..
+    + sort_order      : INTEGER         {NN} DEFAULT 0
+    + is_builtin      : BOOLEAN         {NN} DEFAULT false
+    + created_at      : TIMESTAMPTZ     {NN} DEFAULT NOW()
+    + created_by      : BIGINT          {FK→persons.id}
+  }
+
   metamodel_configurations "0..1" --o{ "0..*" metamodel_configurations : parent_id (scope=solution)
+  metamodel_configurations "1"    --o{ "0..*" metatypes               : defines
+
+}
+
+' ╔══════════════════════════════════════════════════════╗
+' ║  METAMODELL – PROPERTIES (ADR-022)                  ║
+' ╚══════════════════════════════════════════════════════╝
+package "Metamodell – Properties" #E0F2F1 {
+
+  class property_categories <<Table>> #B2DFDB {
+    + id          : UUID                {PK} DEFAULT gen_random_uuid()
+    --
+    + name        : TEXT                {NN} {UQ}
+    .. z.B. 'Allgemein', 'Technisch', 'Governance' ..
+    + sort_order  : INTEGER             {NN} DEFAULT 0
+    + description : TEXT
+  }
+
+  class property_definitions <<Table>> #B2DFDB {
+    + id              : UUID            {PK} DEFAULT gen_random_uuid()
+    --
+    + name            : TEXT            {NN}
+    + data_type       : TEXT            {NN}
+    .. enum: string | integer | boolean | enum | reference | date | url | text ..
+    + category_id     : UUID            {FK→property_categories.id}
+    .. null = unkategorisiert ..
+    + enum_values     : TEXT[]
+    .. nur bei data_type='enum'; geordnete Liste gültiger Werte ..
+    + ref_metatype_id : UUID            {FK→metatypes.id}
+    .. nur bei data_type='reference'; Ziel-MetaTyp ..
+    + constraints     : JSONB           DEFAULT '{}'
+    .. max_length, min, max, pattern, required_format ..
+    + i18n_labels     : JSONB           DEFAULT '{}'
+    .. {de: "Version", en: "Version", fr: "Version"} ..
+    + created_at      : TIMESTAMPTZ     {NN} DEFAULT NOW()
+    + created_by      : BIGINT          {FK→persons.id}
+  }
+
+  note right of property_definitions
+    Eine property_definition ist MetaTyp-unabhängig.
+    Dieselbe Definition (z.B. "version") kann in
+    mehreren MetaTypen mit unterschiedlicher
+    Necessity gemappt werden (ADR-022).
+  end note
+
+  class metatype_property_mappings <<Table>> #B2DFDB {
+    + id              : UUID            {PK} DEFAULT gen_random_uuid()
+    --
+    + metatype_id     : UUID            {NN} {FK→metatypes.id}
+    + property_def_id : UUID            {NN} {FK→property_definitions.id}
+    + necessity       : TEXT            {NN}
+    .. enum: mandatory | warning | optional ..
+    + valid_from      : DATE            {NN}
+    .. Stichtag; kein valid_to – «latest wins»-Abfrage ..
+    .. UNIQUE(metatype_id, property_def_id, valid_from) ..
+    + default_value   : JSONB
+    .. optional; Vorbelegung beim Anlegen einer Entität ..
+    + sort_order      : INTEGER         {NN} DEFAULT 0
+    .. Anzeigereihenfolge innerhalb des MetaTyps ..
+    + created_at      : TIMESTAMPTZ     {NN} DEFAULT NOW()
+    + created_by      : BIGINT          {FK→persons.id}
+  }
+
+  note right of metatype_property_mappings
+    Temporales Muster (valid_from only):
+    Aktuelle Necessity =
+      SELECT necessity ... WHERE valid_from <= TODAY
+      ORDER BY valid_from DESC LIMIT 1
+    Historische Konformanzprüfung (UC-20):
+      ... WHERE valid_from <= :check_date
+    Stichtag-Änderung = neue Zeile einfügen,
+    bestehende Zeilen werden nie geändert.
+  end note
+
+  property_categories   "0..1" --o{ "0..*" property_definitions         : groups
+  property_definitions  "0..1" --o{ "0..*" property_definitions         : ref_metatype_id
+  metatypes             "1"    --o{ "0..*" metatype_property_mappings   : mapped in
+  property_definitions  "1"    --o{ "0..*" metatype_property_mappings   : used by
 
 }
 
@@ -244,8 +322,8 @@ package "Repository" #FCE4EC {
     + id               : SERIAL        {PK}
     .. fortlaufender INTEGER ≥ 1; instanzweit eindeutig ..
     --
-    + entity_type_id   : TEXT          {NN}
-    .. logischer FK → MetamodelConfig EntityTypeDefinition.id ..
+    + metatype_id      : UUID          {NN} {FK→metatypes.id}
+    .. ersetzt entity_type_id TEXT (ADR-022) ..
     + name             : TEXT          {NN}
     + description      : TEXT          {NN} DEFAULT ''
     .. General-Feld; max. 2000 Zeichen ..
@@ -254,28 +332,75 @@ package "Repository" #FCE4EC {
     + version          : INTEGER       {NN} DEFAULT 1
     .. Optimistic-Lock-Zähler (ADR-016) ..
     + source_entity_id : INTEGER       {FK→entities.id}
-    .. nur gesetzt wenn EntityTypeDefinition.isConnection=true ..
+    .. nur gesetzt wenn metatype.is_connection=true ..
     + target_entity_id : INTEGER       {FK→entities.id}
-    .. nur gesetzt wenn EntityTypeDefinition.isConnection=true ..
+    .. nur gesetzt wenn metatype.is_connection=true ..
     + parent_entity_id : INTEGER       {FK→entities.id}
-    .. nullable; nur bei Elements (isConnection=false); REQ-141/REQ-142; ADR-021 ..
+    .. nullable; nur bei Elements; REQ-141/REQ-142; ADR-021 ..
     + is_structural_grouper : BOOLEAN  {NN} DEFAULT false
-    .. true = reine Navigationshilfe (kein ArchiMate-Element); keine implizite Verbindung ..
     + auto_created     : BOOLEAN       {NN} DEFAULT false
-    .. true = implizite Composition-Verbindung aus parent_entity_id; löschbar beim Herauslösen ..
-    + properties       : JSONB         {NN} DEFAULT '{}'
-    .. Custom-Properties des EntityType (nicht-General) ..
     + created_at       : TIMESTAMPTZ   {NN} DEFAULT NOW()
     + created_by       : BIGINT        {NN} {FK→persons.id}
     + updated_at       : TIMESTAMPTZ
     + updated_by       : BIGINT        {FK→persons.id}
     == Soft-Delete (ADR-019) ==
     + deleted_at       : TIMESTAMPTZ
-    .. null = aktiv; gesetzt = gelöscht ..
+    .. null = aktiv; INDEX ON entities(deleted_at) WHERE deleted_at IS NULL ..
     + deleted_by       : BIGINT        {FK→persons.id}
     + deletion_reason  : TEXT
-    .. INDEX ON entities(deleted_at) WHERE deleted_at IS NULL ..
   }
+
+  note right of entities
+    properties JSONB entfällt (ADR-022).
+    Benutzerdefinierte Properties stehen
+    in entity_property_values.
+  end note
+
+  class entity_property_values <<Table>> #F8BBD9 {
+    + id              : UUID           {PK} DEFAULT gen_random_uuid()
+    --
+    + entity_id       : INTEGER        {NN} {FK→entities.id}
+    + property_def_id : UUID           {NN} {FK→property_definitions.id}
+    .. UNIQUE(entity_id, property_def_id) ..
+    == Typed value columns ==
+    + value_text      : TEXT
+    + value_int       : INT8
+    + value_bool      : BOOLEAN
+    + value_date      : DATE
+    + value_ref       : INTEGER        {FK→entities.id}
+    .. nur bei data_type='reference' ..
+    + value_enum      : TEXT
+    .. muss in property_definitions.enum_values enthalten sein ..
+  }
+
+  class entity_property_value_history <<Table>> #F8BBD9 {
+    + id              : BIGSERIAL      {PK}
+    --
+    + entity_id       : INTEGER        {NN} {FK→entities.id}
+    + property_def_id : UUID           {NN} {FK→property_definitions.id}
+    + entity_version  : INTEGER        {NN}
+    .. Wert von entities.version zum Zeitpunkt der Änderung ..
+    == Wert VOR der Änderung (Delta-Basis) ==
+    + value_text      : TEXT
+    + value_int       : INT8
+    + value_bool      : BOOLEAN
+    + value_date      : DATE
+    + value_ref       : INTEGER        {FK→entities.id}
+    + value_enum      : TEXT
+    + changed_at      : TIMESTAMPTZ    {NN} DEFAULT NOW()
+    + changed_by      : BIGINT         {NN} {FK→persons.id}
+  }
+
+  note right of entity_property_value_history
+    Delta-Versionierung (ADR-022):
+    Nur geänderte Properties erzeugen
+    einen Eintrag. Unveränderte Properties
+    werden nicht gespeichert.
+    Restore (UC-15/16): Rückwärts-Anwendung
+    aller Delta-Zeilen bis Zielversion.
+    Reconstruct(v): alle Zeilen mit
+    entity_version > v in Gegenrichtung.
+  end note
 
   class entity_versions <<Table>> #F8BBD9 {
     + id          : BIGSERIAL          {PK}
@@ -283,13 +408,22 @@ package "Repository" #FCE4EC {
     + entity_id   : INTEGER            {NN} {FK→entities.id}
     + version     : INTEGER            {NN}
     .. UNIQUE(entity_id, version) ..
+    == System-Felder Snapshot ==
     + name        : TEXT               {NN}
     + description : TEXT               {NN}
     + is_logical  : BOOLEAN            {NN}
-    + properties  : JSONB              {NN}
+    + metatype_id : UUID               {NN}
+    .. Snapshot des MetaTyps (kann sich ändern) ..
     + changed_by  : BIGINT             {NN} {FK→persons.id}
     + changed_at  : TIMESTAMPTZ        {NN} DEFAULT NOW()
   }
+
+  note right of entity_versions
+    Enthält nur Snapshots der System-Felder.
+    Property-Werte stehen delta-basiert in
+    entity_property_value_history (ADR-022).
+    properties JSONB entfällt.
+  end note
 
   class entity_plateau_states <<Table>> #F8BBD9 {
     + entity_id       : INTEGER        {PK} {FK→entities.id}
@@ -311,13 +445,18 @@ package "Repository" #FCE4EC {
     + payload     : JSONB              {NN} DEFAULT '{}'
   }
 
-  entities         "1" --o{ "0..*" entity_versions       : snapshots
-  entities         "0..1" --o{ "0..*" entities           : source_entity_id
-  entities         "0..1" --o{ "0..*" entities           : target_entity_id
-  entities         "0..1" --o{ "0..*" entities           : parent_entity_id
-  entities         "1" --o{ "0..*" entity_plateau_states : state per plateau
-  plateaus         "1" --o{ "0..*" entity_plateau_states : defines states
-  entities         "0..1" --o{ "0..*" entity_deltas      : changed by
+  entities                   "1"    --o{ "0..*" entity_property_values        : has values
+  entities                   "1"    --o{ "0..*" entity_property_value_history  : change log
+  entities                   "1"    --o{ "0..*" entity_versions                : snapshots
+  entities                   "0..1" --o{ "0..*" entities                       : source_entity_id
+  entities                   "0..1" --o{ "0..*" entities                       : target_entity_id
+  entities                   "0..1" --o{ "0..*" entities                       : parent_entity_id
+  entities                   "1"    --o{ "0..*" entity_plateau_states          : state per plateau
+  plateaus                   "1"    --o{ "0..*" entity_plateau_states          : defines states
+  entities                   "0..1" --o{ "0..*" entity_deltas                  : changed by
+  property_definitions       "1"    --o{ "0..*" entity_property_values         : typed by
+  property_definitions       "1"    --o{ "0..*" entity_property_value_history  : typed by
+  metatypes                  "1"    --o{ "0..*" entities                       : metatype_id
 
 }
 
@@ -331,8 +470,8 @@ package "Navigation & Darstellung" #EDE7F6 {
     --
     + name                : TEXT       {NN} {UQ}
     + description         : TEXT
-    + primary_entity_type : TEXT       {NN}
-    .. logischer FK → MetamodelConfig EntityTypeDefinition.id ..
+    + primary_metatype_id : UUID       {NN} {FK→metatypes.id}
+    .. ersetzt primary_entity_type TEXT (ADR-022) ..
     + default_join_mode   : TEXT       {NN} DEFAULT 'aggregate'
     .. enum: rows | aggregate ..
     + scope               : TEXT       {NN} DEFAULT 'instance'
@@ -375,6 +514,7 @@ package "Navigation & Darstellung" #EDE7F6 {
     + sort_order    : INTEGER          {NN} DEFAULT 0
   }
 
+  metatypes       "1"    --o{ "0..*" catalogs         : primary_metatype_id
   tree_nodes      "0..1" --o{ "0..*" tree_nodes       : parent_id
   tree_nodes      "1"    --o{ "0..*" tree_node_items  : contains
 
@@ -383,13 +523,17 @@ package "Navigation & Darstellung" #EDE7F6 {
 ' ─────────────────────────────────────────────────────
 ' Cross-Package-Beziehungen
 ' ─────────────────────────────────────────────────────
-persons "1" --o{ "0..*" entities               : created_by / updated_by
-persons "1" --o{ "0..*" solutions              : owner_id / created_by
-persons "1" --o{ "0..*" plateaus               : created_by
-persons "1" --o{ "0..*" metamodel_configurations : last_modified_by
-persons "1" --o{ "0..*" catalogs               : created_by / last_modified_by
-persons "1" --o{ "0..*" tree_nodes             : created_by
-persons "1" --o{ "0..*" entity_versions        : changed_by
-persons "1" --o{ "0..*" audit_events           : actor_id
+persons "1" --o{ "0..*" entities                          : created_by / updated_by
+persons "1" --o{ "0..*" entity_property_value_history     : changed_by
+persons "1" --o{ "0..*" metatype_property_mappings        : created_by
+persons "1" --o{ "0..*" property_definitions              : created_by
+persons "1" --o{ "0..*" metatypes                         : created_by
+persons "1" --o{ "0..*" solutions                         : owner_id / created_by
+persons "1" --o{ "0..*" plateaus                          : created_by
+persons "1" --o{ "0..*" metamodel_configurations          : last_modified_by
+persons "1" --o{ "0..*" catalogs                          : created_by / last_modified_by
+persons "1" --o{ "0..*" tree_nodes                        : created_by
+persons "1" --o{ "0..*" entity_versions                   : changed_by
+persons "1" --o{ "0..*" audit_events                      : actor_id
 
 @enduml

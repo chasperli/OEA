@@ -34,7 +34,7 @@ Mehr Details: [business-analysis/vision.md](business-analysis/vision.md)
 | Use Cases | 21 |
 | Requirements | 147 |
 | User Stories | 136 |
-| ADRs | 21 |
+| ADRs | 22 |
 | Business Objects | 22 |
 
 _Konzept: v0.17 · Letzter Update: 2026-06-29_
@@ -109,6 +109,7 @@ OEA ist **noch nicht produktiv einsetzbar**. Wenn du mitwirken willst: [CONTRIBU
 | [ADR-019](adrs/ADR-019-soft-delete-strategie.md) | Soft-Delete-Strategie für Entities und Connections | accepted |
 | [ADR-020](adrs/ADR-020-explorer-navigationsmodell.md) | Explorer-Browser-Navigationsmodell im Native Client | proposed |
 | [ADR-021](adrs/ADR-021-implizite-parent-child-verbindung.md) | Implizite Parent-Child-Verbindung bei Component-Verschachtelung | proposed |
+| [ADR-022](adrs/ADR-022-strukturiertes-property-modell.md) | Strukturiertes Property-Modell mit Kategorie, temporalem Mapping und Delta-Versionierung | accepted |
 <!-- /AUTO-GENERATED: adrs -->
 
 ## Mitwirken
