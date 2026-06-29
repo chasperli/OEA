@@ -133,7 +133,11 @@ Das Konzeptpapier ist das Fundament. Änderungen brauchen Sorgfalt:
 
 ## Lizenz für Beiträge
 
-Mit dem Einreichen eines Pull Requests stimmst du zu, dass dein Beitrag unter der Apache-2.0-Lizenz steht (siehe [LICENSE](LICENSE)). Keine separate Contributor License Agreement (CLA) erforderlich.
+OEA ist dual-lizenziert: **AGPL-3.0** (Community Edition) und eine proprietäre **Enterprise-Lizenz**.
+
+Mit dem Einreichen eines Pull Requests akzeptierst du das **Contributor License Agreement** (siehe [LICENSES/CLA.md](LICENSES/CLA.md)). Es räumt dem Lizenzgeber das Recht ein, deinen Beitrag unter beiden Lizenzen zu verwenden — du behältst dabei dein Urheberrecht.
+
+Bitte lies [LICENSES/CLA.md](LICENSES/CLA.md) vor deinem ersten Beitrag.
 
 ## Erste Schritte
 

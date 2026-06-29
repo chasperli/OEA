@@ -6,7 +6,7 @@ Diese Datei codifiziert die Arbeitsweise in diesem Repository. Sie wird von Clau
 
 **Projekt**: OEA – Open Enterprise Architecture (Open-Source-Werkzeug für EA-Disziplin)
 **Sprache**: Deutsch ist Arbeitssprache für Dokumentation, Code-Kommentare in Englisch
-**Lizenz**: Apache 2.0 (siehe `LICENSE`)
+**Lizenz**: AGPL-3.0 (Community) / Proprietär (Enterprise) – siehe `LICENSE`, `LICENSES/LICENSE-ENTERPRISE.md`, `LICENSES/CLA.md`
 **Phase**: Requirements Engineering (nach Abschluss der Konzept-Phase v0.15)
 **Vision**: siehe `business-analysis/vision.md`
 

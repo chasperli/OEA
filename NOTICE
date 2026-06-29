@@ -1,14 +1,21 @@
 OEA – Open Enterprise Architecture
-Copyright 2026 The OEA Contributors
+Copyright 2026 Lukas Mathis
 
-This product includes software developed by The OEA Contributors.
+This software is dual-licensed:
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+  Community Edition:
+    GNU Affero General Public License v3.0 or later (AGPL-3.0-or-later)
+    See LICENSE for the full license text.
+    https://www.gnu.org/licenses/agpl-3.0.html
 
-    http://www.apache.org/licenses/LICENSE-2.0
+  Enterprise Edition:
+    A separate commercial license is available for organizations that
+    cannot comply with the AGPL-3.0 terms (e.g., no obligation to release
+    modifications, proprietary integrations, SLA/support).
+    See LICENSES/LICENSE-ENTERPRISE.md for details and contact information.
 
 Third-party components included or used by this project are listed in
 the documentation. Each component is governed by its own license, which
 must be respected when using or distributing this software.
+
+For contributor terms, see LICENSES/CLA.md.

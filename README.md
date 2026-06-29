@@ -2,7 +2,8 @@
 
 **Open Enterprise Architecture** – Open-Source-Werkzeug für versionierte EA-Disziplin
 
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
+[![License: AGPL-3.0](https://img.shields.io/badge/license-AGPL--3.0-blue.svg)](LICENSE)
+[![Enterprise License](https://img.shields.io/badge/enterprise-license%20available-green.svg)](LICENSES/LICENSE-ENTERPRISE.md)
 [![Status](https://img.shields.io/badge/status-pre--alpha-orange.svg)](#status)
 [![Conventional Commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://www.conventionalcommits.org/)
 
@@ -131,7 +132,15 @@ Drei realistische Fragen vor einem Test:
 
 ## Lizenz
 
-Apache License 2.0 – siehe [LICENSE](LICENSE) und [NOTICE](NOTICE).
+OEA ist dual-lizenziert:
+
+| Edition | Lizenz | Nutzung |
+|---|---|---|
+| Community | [AGPL-3.0](LICENSE) | kostenlos, Quellcode-Offenlegungspflicht |
+| Enterprise | [proprietär](LICENSES/LICENSE-ENTERPRISE.md) | kostenpflichtig, keine Offenlegungspflicht |
+
+Für Beiträge gilt das [Contributor License Agreement (CLA)](LICENSES/CLA.md).
+Copyright 2026 Lukas Mathis – siehe [NOTICE](NOTICE).
 
 ## Quellenverzeichnis
 
