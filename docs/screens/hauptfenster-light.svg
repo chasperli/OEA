@@ -109,38 +109,47 @@
   <text x="1040" y="82" font-size="12" fill="#0EA5E9" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Eigenschaften</text>
   <text x="1146" y="82" font-size="12" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Beziehungen</text>
   <rect x="984" y="100" width="296" height="20" fill="#F1F5F9" fill-opacity="1" stroke="none"/>
-  <text x="992" y="114" font-size="11" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Allgemein</text>
-  <text x="992" y="132" font-size="10" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Name</text>
-  <rect x="992" y="134" width="280" height="26" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
-  <text x="998" y="152" font-size="12" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Katalog-Service</text>
-  <text x="992" y="176" font-size="10" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Typ</text>
-  <rect x="992" y="178" width="280" height="26" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
-  <rect x="998" y="185" width="16" height="12" fill="#2563EB" fill-opacity="1" stroke="none"/>
-  <text x="1006" y="193" font-size="7" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">AC</text>
-  <text x="1018" y="196" font-size="12" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Application Component</text>
-  <text x="992" y="220" font-size="10" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Schicht</text>
-  <rect x="992" y="222" width="280" height="26" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
-  <text x="998" y="240" font-size="12" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Anwendungsschicht</text>
-  <text x="992" y="264" font-size="10" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Solution</text>
-  <rect x="992" y="266" width="280" height="26" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
-  <text x="998" y="284" font-size="12" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Cloud-Migration 2027</text>
-  <rect x="984" y="298" width="296" height="20" fill="#F1F5F9" fill-opacity="1" stroke="none"/>
-  <text x="992" y="312" font-size="11" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Beschreibung</text>
-  <rect x="992" y="318" width="280" height="64" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
-  <text x="996" y="333" font-size="11" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Zentrale Anwendungskomponente des OEA-Katalogs.</text>
-  <rect x="992" y="386" width="280" height="24" fill="#F8FAFC" fill-opacity="1" stroke="#0EA5E9" stroke-width="1"/>
-  <text x="998" y="402" font-size="11" fill="#0EA5E9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Betriebshandbuch  -&gt; Arbeitsfenster</text>
-  <rect x="992" y="414" width="280" height="24" fill="#F8FAFC" fill-opacity="1" stroke="#0EA5E9" stroke-width="1"/>
-  <text x="998" y="430" font-size="11" fill="#0EA5E9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Architekturdokumentation  -&gt; Arbeitsfenster</text>
-  <rect x="984" y="446" width="296" height="20" fill="#F1F5F9" fill-opacity="1" stroke="none"/>
-  <text x="992" y="460" font-size="11" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Klassifizierung</text>
-  <text x="992" y="478" font-size="10" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Plateau</text>
-  <rect x="992" y="480" width="280" height="26" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
-  <text x="998" y="498" font-size="12" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">IST (aktuell)</text>
-  <text x="1266" y="496" font-size="10" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">▾</text>
-  <text x="992" y="522" font-size="10" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Aspekt</text>
-  <rect x="992" y="524" width="280" height="26" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
-  <text x="998" y="542" font-size="12" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Passive Structure</text>
+  <text x="992" y="113" font-size="10" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Allgemein</text>
+  <text x="992" y="131" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">ID</text>
+  <text x="1016" y="132" font-size="10" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">#2847</text>
+  <text x="1272" y="130" font-size="8" fill="#64748B" text-anchor="end" font-family="Inter,system-ui,sans-serif">(System)</text>
+  <text x="992" y="148" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Name</text>
+  <rect x="992" y="150" width="280" height="22" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="996" y="165" font-size="11" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Katalog-Service</text>
+  <text x="992" y="186" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Typ</text>
+  <rect x="992" y="188" width="280" height="22" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <rect x="996" y="193" width="16" height="12" fill="#2563EB" fill-opacity="1" stroke="none"/>
+  <text x="1004" y="201" font-size="7" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">AC</text>
+  <text x="1015" y="203" font-size="11" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Application Component</text>
+  <rect x="992" y="216" width="16" height="16" fill="#0EA5E9" fill-opacity="1" stroke="#0EA5E9" stroke-width="1"/>
+  <text x="1000" y="226" font-size="9" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">✓</text>
+  <text x="1014" y="227" font-size="10" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Logisch  (logisch / konzeptionell)</text>
+  <text x="992" y="246" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Elternelement</text>
+  <rect x="992" y="248" width="280" height="22" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="996" y="263" font-size="11" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">—</text>
+  <rect x="984" y="278" width="296" height="20" fill="#F1F5F9" fill-opacity="1" stroke="none"/>
+  <text x="992" y="291" font-size="10" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Beschreibung</text>
+  <rect x="992" y="298" width="280" height="50" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="996" y="313" font-size="11" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Zentrale Anwendungskomponente des OEA-Katalogs.</text>
+  <rect x="992" y="352" width="280" height="22" fill="#F8FAFC" fill-opacity="1" stroke="#0EA5E9" stroke-width="1"/>
+  <text x="996" y="366" font-size="10" fill="#0EA5E9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Betriebshandbuch  -&gt; Arbeitsfenster</text>
+  <rect x="992" y="378" width="280" height="22" fill="#F8FAFC" fill-opacity="1" stroke="#0EA5E9" stroke-width="1"/>
+  <text x="996" y="392" font-size="10" fill="#0EA5E9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Architekturdokumentation  -&gt; Arbeitsfenster</text>
+  <rect x="984" y="406" width="296" height="20" fill="#F1F5F9" fill-opacity="1" stroke="none"/>
+  <text x="992" y="419" font-size="10" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Klassifizierung</text>
+  <text x="992" y="436" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Schicht</text>
+  <rect x="992" y="438" width="280" height="22" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="996" y="453" font-size="11" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Anwendungsschicht</text>
+  <text x="992" y="474" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Solution</text>
+  <rect x="992" y="476" width="280" height="22" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="996" y="491" font-size="11" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Cloud-Migration 2027</text>
+  <text x="992" y="512" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Plateau</text>
+  <rect x="992" y="514" width="280" height="22" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="996" y="529" font-size="11" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">IST (aktuell)</text>
+  <text x="1265" y="527" font-size="9" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">▾</text>
+  <text x="992" y="550" font-size="9" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Aspekt</text>
+  <rect x="992" y="552" width="280" height="22" fill="#F8FAFC" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="996" y="567" font-size="11" fill="#0F172A" text-anchor="start" font-family="Inter,system-ui,sans-serif">Passive Structure</text>
   <rect x="0" y="584" width="1280" height="192" fill="#FFFFFF" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
   <rect x="0" y="584" width="1280" height="28" fill="#F1F5F9" fill-opacity="1" stroke="#E2E8F0" stroke-width="1"/>
   <text x="8" y="602" font-size="12" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Log</text>

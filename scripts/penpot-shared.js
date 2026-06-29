@@ -156,7 +156,8 @@ function generateLocalSVG(frameChange, childChanges, outPath) {
     const { obj, type: ct } = c;
     if (!obj || ct !== 'add-obj') return '';
     const { x=0, y=0, width=0, height=0 } = obj;
-    const lx = x - fx, ly = y - fy;
+    // Shapes use frame-local coords (0,0 = frame top-left) — no offset needed.
+    const lx = x, ly = y;
 
     if (obj.type === 'rect') {
       const fill  = obj.fills?.[0]?.fillColor ?? '#CCCCCC';

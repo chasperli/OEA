@@ -27,11 +27,11 @@ const L = {
   selBg:'#E0F2FE', secBg:'#F1F5F9', statusText:'#94A3B8',
 };
 const D = {
-  bg:'#0F172A', panel:'#1E293B', panelAlt:'#0F172A',
+  bg:'#0F172A', panel:'#1E293B', panelAlt:'#172030',
   menuBg:'#020617', menuText:'#CBD5E1',
   primary:'#38BDF8', text:'#F1F5F9', muted:'#94A3B8',
-  border:'#334155', inputBg:'#0F172A',
-  selBg:'#0C4A6E', secBg:'#0F172A', statusText:'#64748B',
+  border:'#334155', inputBg:'#0B1829',
+  selBg:'#0C4A6E', secBg:'#162030', statusText:'#64748B',
 };
 
 // ArchiMate type badge colors
@@ -155,48 +155,63 @@ function screen(pid, row, P, m) {
   let py=MAIN_Y+36;
   const sec=(k,l)=>{
     ch.push(r(RIGHT_X,py,RIGHT_W,20,`RP/${k}Bg`,P.secBg));
-    ch.push(t(pxb,py+3,pw,14,`RP/${k}Lbl`,l,11,600,P.muted,'left'));
+    ch.push(t(pxb,py+3,pw,13,`RP/${k}Lbl`,l,10,600,P.muted,'left'));
     py+=20;
   };
-  const fld=(k,l,v)=>{
-    ch.push(t(pxb,py+2,pw,12,`RP/${k}L`,l,10,500,P.muted,'left')); py+=14;
-    ch.push(r(pxb,py,pw,26,`RP/${k}F`,P.inputBg,1,P.border,1));
-    ch.push(t(pxb+6,py+6,pw-12,14,`RP/${k}V`,v,12,400,P.text,'left')); py+=30;
+  // compact field: 9px label + 22px input = 38px total
+  const cfld=(k,l,v)=>{
+    ch.push(t(pxb,py+1,pw,11,`RP/${k}L`,l,9,500,P.muted,'left')); py+=12;
+    ch.push(r(pxb,py,pw,22,`RP/${k}F`,P.inputBg,1,P.border,1));
+    ch.push(t(pxb+4,py+4,pw-8,13,`RP/${k}V`,v,11,400,P.text,'left')); py+=26;
   };
 
+  // ── Allgemein — General-Kategorie aus entity.md (systemdefiniert, gesperrt) ──
   sec('SA','Allgemein');
-  fld('Name','Name','Katalog-Service');
+  // id — systemvergeben, nicht editierbar
+  ch.push(t(pxb,py+2,20,11,'RP/IDL','ID',9,600,P.muted,'left'));
+  ch.push(t(pxb+24,py+2,pw-60,11,'RP/IDV','#2847',10,400,P.muted,'left'));
+  ch.push(t(pxb+pw-32,py+2,32,10,'RP/IDRo','(System)',8,400,P.muted,'right'));
+  py+=18;
+  // name — editierbar
+  cfld('Name','Name','Katalog-Service');
+  // entityTypeId — Typ mit ArchiMate-Badge, nicht editierbar nach Anlage
+  ch.push(t(pxb,py+1,pw,11,'RP/TypL','Typ',9,500,P.muted,'left')); py+=12;
+  ch.push(r(pxb,py,pw,22,'RP/TypF',P.inputBg,1,P.border,1));
+  ch.push(r(pxb+4,py+5,16,12,'RP/TIBg',C.AC));
+  ch.push(t(pxb+4,py+6,16,10,'RP/TIT','AC',7,700,'#FFFFFF','center'));
+  ch.push(t(pxb+23,py+4,pw-30,13,'RP/TypV','Application Component',11,400,P.text,'left')); py+=26;
+  // isLogical — boolean toggle, editierbar
+  ch.push(r(pxb,py+2,16,16,'RP/LogBox',P.primary,1,P.primary,1));
+  ch.push(t(pxb+1,py+3,14,12,'RP/LogChk','✓',9,700,'#FFFFFF','center'));
+  ch.push(t(pxb+22,py+3,pw-22,12,'RP/LogLbl','Logisch  (logisch / konzeptionell)',10,400,P.text,'left'));
+  py+=22;
+  // parentEntityId — optionaler FK auf ArchitectureEntity (REQ-141, ADR-021)
+  cfld('Par','Elternelement','—');
 
-  // Typ-Feld mit ArchiMate-Badge
-  ch.push(t(pxb,py+2,pw,12,'RP/TypL','Typ',10,500,P.muted,'left')); py+=14;
-  ch.push(r(pxb,py,pw,26,'RP/TypF',P.inputBg,1,P.border,1));
-  ch.push(r(pxb+6,py+7,16,12,'RP/TIBg',C.AC));
-  ch.push(t(pxb+6,py+8,16,10,'RP/TIT','AC',7,700,'#FFFFFF','center'));
-  ch.push(t(pxb+26,py+6,pw-32,14,'RP/TypV','Application Component',12,400,P.text,'left')); py+=30;
-
-  fld('Sch','Schicht','Anwendungsschicht');
-  fld('Sol','Solution','Cloud-Migration 2027');
-  py+=2;
-
+  py+=4;
+  // ── Beschreibung — description aus General, eigene Sektion wegen DocCollection ──
   sec('SB','Beschreibung');
-  ch.push(r(pxb,py,pw,64,'RP/DescF',P.inputBg,1,P.border,1));
-  ch.push(t(pxb+4,py+4,pw-8,56,'RP/DescV','Zentrale Anwendungskomponente des OEA-Katalogs.',11,400,P.muted,'left'));
-  py+=68;
-
-  // DocumentationCollection Buttons (oeffnen im Arbeitsfenster)
-  ch.push(r(pxb,py,pw,24,'RP/DB1',P.inputBg,1,P.primary,1));
-  ch.push(t(pxb+6,py+5,pw-12,14,'RP/DB1T','Betriebshandbuch  -> Arbeitsfenster',11,400,P.primary,'left'));
+  ch.push(r(pxb,py,pw,50,'RP/DescF',P.inputBg,1,P.border,1));
+  ch.push(t(pxb+4,py+4,pw-8,44,'RP/DescV','Zentrale Anwendungskomponente des OEA-Katalogs.',11,400,P.muted,'left'));
+  py+=54;
+  // DocumentationCollection — oeffnen im Arbeitsfenster
+  ch.push(r(pxb,py,pw,22,'RP/DB1',P.inputBg,1,P.primary,1));
+  ch.push(t(pxb+4,py+4,pw-8,13,'RP/DB1T','Betriebshandbuch  -> Arbeitsfenster',10,400,P.primary,'left'));
+  py+=26;
+  ch.push(r(pxb,py,pw,22,'RP/DB2',P.inputBg,1,P.primary,1));
+  ch.push(t(pxb+4,py+4,pw-8,13,'RP/DB2T','Architekturdokumentation  -> Arbeitsfenster',10,400,P.primary,'left'));
   py+=28;
-  ch.push(r(pxb,py,pw,24,'RP/DB2',P.inputBg,1,P.primary,1));
-  ch.push(t(pxb+6,py+5,pw-12,14,'RP/DB2T','Architekturdokumentation  -> Arbeitsfenster',11,400,P.primary,'left'));
-  py+=32;
 
+  // ── Klassifizierung — Custom-Properties aus EntityTypeDefinition ──
   sec('SC','Klassifizierung');
-  ch.push(t(pxb,py+2,pw,12,'RP/PlL','Plateau',10,500,P.muted,'left')); py+=14;
-  ch.push(r(pxb,py,pw,26,'RP/PlF',P.inputBg,1,P.border,1));
-  ch.push(t(pxb+6,py+6,pw-20,14,'RP/PlV','IST (aktuell)',12,400,P.text,'left'));
-  ch.push(t(pxb+pw-12,py+6,12,14,'RP/PlArr','▾',10,400,P.muted,'center')); py+=30;
-  fld('Asp','Aspekt','Passive Structure');
+  cfld('Sch','Schicht','Anwendungsschicht');
+  cfld('Sol','Solution','Cloud-Migration 2027');
+  // Plateau — Dropdown
+  ch.push(t(pxb,py+1,pw,11,'RP/PlL','Plateau',9,500,P.muted,'left')); py+=12;
+  ch.push(r(pxb,py,pw,22,'RP/PlF',P.inputBg,1,P.border,1));
+  ch.push(t(pxb+4,py+4,pw-16,13,'RP/PlV','IST (aktuell)',11,400,P.text,'left'));
+  ch.push(t(pxb+pw-12,py+4,10,13,'RP/PlArr','▾',9,400,P.muted,'center')); py+=26;
+  cfld('Asp','Aspekt','Passive Structure');
 
   // ── BOTTOM PANEL — Letzte Aenderungen (Default-Tab) ──
   ch.push(r(0,BOTTOM_Y,FW,BOTTOM_H,'Bot/Bg',P.panel,1,P.border,1));
