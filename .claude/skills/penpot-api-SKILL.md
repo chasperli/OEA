@@ -443,7 +443,60 @@ Dieser Konvention folgen Figma, Sketch und Penpot gleichermassen: Alles innerhal
 
 ---
 
+## SVG-Export — Architekturgrenze und Standard-Lösung
+
+### Warum `api/export` mit API-Access-Token nicht funktioniert
+
+Der Penpot-Maintainer hat es explizit bestätigt (GitHub Discussion #462):
+
+> *"Right now you can't download SVG from backend, because backend only know about structured data."*
+
+Der Exporter (`api/export?cmd=export-shapes`) ist ein separater **Headless-Chrome-Prozess** (Puppeteer). Er braucht intern ein `token`-Feld in `render-params`, damit Chrome beim Penpot-Backend authentifiziert Dateidaten abrufen kann. Dieses Token wird aus dem **Browser-Session-Cookie** erzeugt — nicht aus dem API-Access-Token. Resultat: `token nil` → 400 Validation Error.
+
+**Keine offiziell unterstützte Lösung** für programmatischen SVG-Export mit Access-Token existiert. `penpot-export` (offizielles Tool) exportiert nur Design-Tokens (CSS/SCSS/JSON), keine Frames/Artboards. Die Plugin-API kann SVGs erzeugen, läuft aber nur im Browser.
+
+### Standard-Lösung: lokaler SVG-Fallback via `generateLocalSVG()`
+
+**Immer** `uploadAndExport()` aus `scripts/penpot-shared.js` verwenden. Diese Funktion:
+1. Lädt alle Shapes nach Penpot (vollständig, interaktiv im Browser bedienbar)
+2. Versucht SVG-Export via Penpot-API (`exportFrameSVG`)
+3. Fällt bei 404/Fehler **automatisch** auf lokalen SVG-Generator zurück
+
+```javascript
+const { createFrame, canvasText, uploadAndExport } = require('./penpot-shared');
+
+// Am Ende von main():
+await uploadAndExport('OEA - Dateiname v0.1', allChanges, frames);
+// → Penpot-Upload immer erfolgreich
+// → docs/screens/<svgName>.svg  (lokal generiert falls API-Export fehlschlägt)
+```
+
+`generateLocalSVG()` erzeugt valides SVG aus den Shape-Daten, die im Script bereits vorhanden sind — kein zweiter API-Call nötig. Die SVGs landen in `docs/screens/` und werden in git versioniert.
+
+**Nie** versuchen, `api/export` direkt mit dem Access-Token aufzurufen — das ist dokumentiert nicht supportet und wird immer mit `token nil` fehlschlagen.
+
+### Frame-Architektur (Pflicht für SVG-Export)
+
+Jeder Screen **muss** als Penpot-Frame (`type: 'frame'`) angelegt werden, damit `generateLocalSVG()` pro Screen eine separate SVG-Datei erzeugen kann. Dazu `createFrame()` aus `penpot-shared.js` nutzen:
+
+```javascript
+const { frameId, change, r, t } = createFrame(pid, x, y, FW, FH, 'Light/ScreenName');
+const ch = [change]; // Frame-Change zuerst, dann Shape-Changes
+ch.push(r(0, 0, FW, MENU_H, 'MenuBg', palette.menuBg));
+// ... weitere Shapes mit lokalen Koordinaten (relativ zum Frame)
+
+// Am Ende screen() zurückgeben:
+return { frameId, changes: ch };
+
+// In main() registrieren:
+frames.push({ id: frameId, svgName: 'screenname-light', children: changes.slice(1) });
+```
+
+---
+
 ## Resources
 
 - [Penpot Technical Guide](https://help.penpot.app/technical-guide/)
 - [Penpot Data Model](https://help.penpot.app/technical-guide/developer/data-model/)
+- [Penpot Exporter Architecture](https://help.penpot.app/technical-guide/developer/architecture/exporter/)
+- [GitHub Discussion #462 — Backend SVG Export Limitation](https://github.com/penpot/penpot/discussions/462)
