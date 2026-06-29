@@ -5,10 +5,12 @@
  * Jeder Screen = eigenstaendiger Penpot-Frame -> SVG in docs/screens/
  * Run: NODE_TLS_REJECT_UNAUTHORIZED=0 node scripts/create-penpot-mockups-hauptfenster.js
  */
-const { createFrame, canvasText, uploadAndExport } = require('./penpot-shared');
+const fs   = require('fs');
+const path = require('path');
+const { createFrame, canvasText, generateLocalSVG, rpc } = require('./penpot-shared');
 
 const FW=1280, FH=800, GAP=100;
-const sy = row => row*(FH+GAP);
+const sy = row => row * (FH + GAP);
 
 // ── Layout ────────────────────────────────────────────────────────────────────
 const MENU_H=28, TOOL_H=36, MAIN_Y=64, MAIN_H=520;
@@ -38,6 +40,7 @@ const D = {
 const C = { AC:'#2563EB', AS:'#0284C7', BP:'#D97706', BR:'#B45309', FBB:'#7C3AED', SBB:'#059669', KAT:'#DC2626', DIA:'#0891B2' };
 
 // ── Screen builder ────────────────────────────────────────────────────────────
+// row=0 → Light at y=0, row=1 → Dark at y=sy(1)=900 on the same page.
 function screen(pid, row, P, m) {
   const { frameId, change, r, t } = createFrame(pid, 0, sy(row), FW, FH, `${m}/Hauptfenster`);
   const ch = [change];
@@ -255,21 +258,56 @@ function screen(pid, row, P, m) {
 
 // ── Main ──────────────────────────────────────────────────────────────────────
 async function main() {
-  const pid='PAGE';
-  const modes=[{row:0,P:L,m:'Light'},{row:1,P:D,m:'Dark'}];
-  const allChanges=[], frames=[];
+  const PID = process.env.PENPOT_PROJECT_ID;
+  const API = process.env.PENPOT_API_URL;
 
-  for(const {row,m} of modes)
-    allChanges.push(canvasText(pid,-180,sy(row)+FH/2-10,170,20,`Lbl${m}`,`${m} Mode`,13,600,'#64748B','right'));
+  console.log('Verbinde ...');
+  const profile = await rpc('get-profile', {});
+  console.log(`OK ${profile.email}`);
 
-  for(const {row,P,m} of modes){
-    const {frameId,changes}=screen(pid,row,P,m);
-    allChanges.push(...changes);
-    allChanges.push(canvasText(pid,0,sy(row)+FH+12,FW,16,`Ann${m}`,`${m} / Hauptfenster — Solution-Browser (REQ-138/139/140/141/142 | ADR-020/021)`,11,400,'#94A3B8','center'));
-    frames.push({id:frameId,svgName:`hauptfenster-${m.toLowerCase()}`,children:changes.slice(1)});
+  // Alle alten Hauptfenster-Files loeschen
+  const projectFiles = await rpc('get-project-files', { project_id: PID });
+  const old = projectFiles.filter(f => f.name && f.name.includes('Hauptfenster'));
+  for (const f of old) {
+    await rpc('delete-file', { id: f.id });
+    console.log(`Geloescht: ${f.name} (${f.id})`);
   }
 
-  await uploadAndExport('OEA - Hauptfenster Wireframes v0.2',allChanges,frames);
+  // Neue Datei erstellen
+  const f = await rpc('create-file', { name: 'OEA - Hauptfenster Wireframes v0.2', project_id: PID });
+  const fileId = f.id;
+  const pageId = f.data.pages[0];
+  console.log(`Neue Datei: ${fileId}`);
+
+  const modes = [{row:0, P:L, m:'Light'}, {row:1, P:D, m:'Dark'}];
+  const allChanges = [];
+  const frameConfigs = [];
+  const ANN = 'Hauptfenster — Solution-Browser (REQ-138/139/140/141/142 | ADR-020/021)';
+
+  for (const {row, m} of modes)
+    allChanges.push(canvasText(pageId, -180, sy(row)+FH/2-10, 170, 20, `Lbl${m}`, `${m} Mode`, 13, 600, '#64748B', 'right'));
+
+  for (const {row, P, m} of modes) {
+    const {frameId, changes} = screen(pageId, row, P, m);
+    allChanges.push(...changes);
+    allChanges.push(canvasText(pageId, 0, sy(row)+FH+12, FW, 16, `Ann${m}`, `${m} / ${ANN}`, 11, 400, '#94A3B8', 'center'));
+    frameConfigs.push({changes, svgName: `hauptfenster-${m.toLowerCase()}`});
+  }
+
+  console.log(`${allChanges.length} Changes hochladen ...`);
+  await rpc('update-file', { id: fileId, 'session-id': fileId, revn: 0, vern: 0, changes: allChanges });
+  console.log('Upload OK');
+
+  const outDir = path.join(__dirname, '..', 'docs', 'screens');
+  console.log('\nSVG-Export ...');
+  for (const {changes, svgName} of frameConfigs) {
+    const outPath = path.join(outDir, `${svgName}.svg`);
+    generateLocalSVG(changes[0], changes.slice(1), outPath);
+    console.log(`  ${svgName}.svg  (lokal generiert)`);
+  }
+
+  console.log(`\nPenpot : ${API}dashboard/projects/${PID}`);
+  console.log(`SVGs   : docs/screens/`);
 }
 
 main().catch(e=>{console.error('Fehler:',e.message);process.exit(1);});

@@ -20,7 +20,7 @@ async function rpc(command, body = {}) {
   });
   const text = await res.text();
   if (!res.ok) throw new Error(`${command} (${res.status}): ${text.slice(0, 500)}`);
-  return JSON.parse(text);
+  return text ? JSON.parse(text) : {};
 }
 
 // ── Geometry ──────────────────────────────────────────────────────────────────
@@ -98,12 +98,13 @@ function createFrame(pid, x, y, w, h, name) {
       ...geo(x, y, w, h),
       fills: [{ fillColor: '#FFFFFF', fillOpacity: 1 }],
       strokes: [], shapes: [],
-      // clip children to frame bounds
       'clip-content': true,
     },
   };
-  const r = (lx, ly, lw, lh, n, fill, fo, sc, sw) => R(pid, frameId, lx, ly, lw, lh, `${name}/${n}`, fill, fo, sc, sw);
-  const t = (lx, ly, lw, lh, n, text, size, weight, color, align) => T(pid, frameId, lx, ly, lw, lh, `${name}/${n}`, text, size, weight, color, align);
+  // Penpot frame children must use absolute canvas coordinates.
+  // Builders accept local (frame-relative) coords and add the frame offset.
+  const r = (lx, ly, lw, lh, n, fill, fo, sc, sw) => R(pid, frameId, x+lx, y+ly, lw, lh, `${name}/${n}`, fill, fo, sc, sw);
+  const t = (lx, ly, lw, lh, n, text, size, weight, color, align) => T(pid, frameId, x+lx, y+ly, lw, lh, `${name}/${n}`, text, size, weight, color, align);
   return { frameId, change, r, t };
 }
 
@@ -155,9 +156,9 @@ function generateLocalSVG(frameChange, childChanges, outPath) {
   const shapeSVG = childChanges.map(c => {
     const { obj, type: ct } = c;
     if (!obj || ct !== 'add-obj') return '';
+    // Shapes store absolute canvas coords; subtract frame origin to get local SVG coords.
     const { x=0, y=0, width=0, height=0 } = obj;
-    // Shapes use frame-local coords (0,0 = frame top-left) — no offset needed.
-    const lx = x, ly = y;
+    const lx = x - fx, ly = y - fy;
 
     if (obj.type === 'rect') {
       const fill  = obj.fills?.[0]?.fillColor ?? '#CCCCCC';
