@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 /**
- * OEA Hauptfenster Wireframes v0.2 — Native Client
- * Explorer: Solution-zentrisch (REQ-138/139/140/141/142, ADR-020/021)
- * Jeder Screen = eigenstaendiger Penpot-Frame -> SVG in docs/screens/
- * Run: NODE_TLS_REJECT_UNAUTHORIZED=0 node scripts/create-penpot-mockups-hauptfenster.js
+ * OEA Main Window Wireframes v0.3 — Native Client
+ * Explorer: solution-centric (REQ-138/139/140/141/142, ADR-020/021)
+ * Each screen = standalone Penpot frame → SVG in docs/screens/
+ * Run: NODE_TLS_REJECT_UNAUTHORIZED=0 node scripts/penpot/hauptfenster.js
  */
 const fs   = require('fs');
 const path = require('path');
@@ -40,15 +40,14 @@ const D = {
 const C = { AC:'#2563EB', AS:'#0284C7', BP:'#D97706', BR:'#B45309', FBB:'#7C3AED', SBB:'#059669', KAT:'#DC2626', DIA:'#0891B2' };
 
 // ── Screen builder ────────────────────────────────────────────────────────────
-// row=0 → Light at y=0, row=1 → Dark at y=sy(1)=900 on the same page.
 function screen(pid, row, P, m) {
-  const { frameId, change, r, t } = createFrame(pid, 0, sy(row), FW, FH, `${m}/Hauptfenster`);
+  const { frameId, change, r, t } = createFrame(pid, 0, sy(row), FW, FH, `${m}/MainWindow`);
   const ch = [change];
 
   // ── MENU BAR ──
   ch.push(r(0,0,FW,MENU_H,'MenuBg',P.menuBg));
-  [['Datei',8],['Bearbeiten',54],['Ansicht',126],['Modell',190],['Werkzeuge',246],['Hilfe',322]].forEach(([l,x]) =>
-    ch.push(t(x,6,66,16,`M/${l}`,l,12,400,P.menuText,'left')));
+  [['File',8],['Edit',54],['View',100],['Model',148],['Tools',200],['Help',248]].forEach(([l,x]) =>
+    ch.push(t(x,6,50,16,`M/${l}`,l,12,400,P.menuText,'left')));
   ch.push(t(FW-112,6,104,16,'MV','OEA 0.1.0-SNAPSHOT',11,400,P.statusText,'right'));
 
   // ── TOOLBAR ──
@@ -63,51 +62,43 @@ function screen(pid, row, P, m) {
   ch.push(r(214,iy,20,20,'TiVa',P.border));
   ch.push(t(FW-208,MENU_H+11,62,14,'PlLbl','Plateau:',12,500,P.muted,'right'));
   ch.push(r(FW-140,MENU_H+6,132,24,'PlDd',P.inputBg,1,P.border,1));
-  ch.push(t(FW-135,MENU_H+12,98,14,'PlVal','IST (aktuell)',12,500,P.text,'left'));
+  ch.push(t(FW-135,MENU_H+12,98,14,'PlVal','AS-IS (current)',12,500,P.text,'left'));
   ch.push(t(FW-24,MENU_H+12,16,14,'PlArr','▾',11,400,P.muted,'center'));
 
   // ── PANEL DIVIDERS ──
   ch.push(r(LEFT_W,MAIN_Y,DIV_W,MAIN_H,'DivLC',P.border));
   ch.push(r(RIGHT_X-DIV_W,MAIN_Y,DIV_W,MAIN_H,'DivCR',P.border));
 
-  // ── LEFT PANEL — Browser (Solution-zentrisch, REQ-138) ──
+  // ── LEFT PANEL — Explorer (solution-centric, REQ-138) ──
   ch.push(r(0,MAIN_Y,LEFT_W,MAIN_H,'LP/Bg',P.panel));
-  ch.push(r(0,MAIN_Y,LEFT_W,28,'LP/TBg',P.secBg,1,P.border,1));
-  ch.push(r(0,MAIN_Y,84,28,'LP/TA',P.panel,1,P.border,1));
-  ch.push(t(0,MAIN_Y+6,84,16,'LP/TAT','Browser',12,600,P.primary,'center'));
-  ch.push(t(84,MAIN_Y+6,92,16,'LP/TBT','Diagramme',12,400,P.muted,'center'));
+  // Simple header — no Diagrams tab (Diagrams is a group in the tree)
+  ch.push(r(0,MAIN_Y,LEFT_W,28,'LP/HBg',P.secBg,1,P.border,1));
+  ch.push(t(8,MAIN_Y+7,LEFT_W-16,14,'LP/HTitle','Explorer',12,600,P.text,'left'));
 
-  // Suchfeld
+  // Search
   ch.push(r(8,MAIN_Y+36,LEFT_W-16,26,'LP/Srch',P.inputBg,1,P.border,1));
-  ch.push(t(14,MAIN_Y+42,LEFT_W-28,14,'LP/SrchT','Suchen ...',12,400,P.muted,'left'));
+  ch.push(t(14,MAIN_Y+42,LEFT_W-28,14,'LP/SrchT','Search ...',12,400,P.muted,'left'));
 
-  // Solution-Tree: REQ-138/139/140/141/142
-  // cat=true -> category/solution header; indent = nesting level
-  // abbr = type badge text; sel = selected state
+  // Solution tree: REQ-138/139/140/141/142
   const tree = [
-    { cat:true,  indent:0, label:'Aktueller Stand  (IST)',     color:P.primary,  open:true,  special:true  },
-      // REQ-139: 6 Grundkategorien auto-generiert pro Solution
-      { cat:false, indent:1, abbr:'AC', label:'Komponenten  (14)',  color:C.AC  },
-      { cat:false, indent:1, abbr:'→',  label:'Verbindungen  (38)', color:C.AS  },
-      { cat:false, indent:1, abbr:'KT', label:'Kataloge  (5)',      color:C.KAT },
+    { cat:true,  indent:0, label:'Current State  (AS-IS)',       color:P.primary,  open:true,  special:true  },
+      { cat:false, indent:1, abbr:'AC', label:'Components  (14)',  color:C.AC  },
+      { cat:false, indent:1, abbr:'→',  label:'Connections  (38)', color:C.AS  },
+      { cat:false, indent:1, abbr:'KT', label:'Catalogs  (5)',     color:C.KAT },
       { cat:false, indent:1, abbr:'FB', label:'Functional BBs  (9)',color:C.FBB },
-      { cat:false, indent:1, abbr:'SB', label:'Solution BBs  (12)',color:C.SBB  },
-      { cat:false, indent:1, abbr:'DI', label:'Diagramme  (6)',     color:C.DIA },
-    // Plateau-gebundene Solution
-    { cat:true,  indent:0, label:'Cloud-Migration 2027',        color:'#7C3AED', open:true               },
-      { cat:true,  indent:1, label:'IST -> SOLL',               color:'#6D28D9', open:true               },
-        // REQ-139: Grundstruktur auch innerhalb der Solution
-        { cat:false, indent:2, abbr:'AC', label:'Komponenten  (6)',  color:C.AC                          },
-          // REQ-141: hierarchische Verschachtelung; REQ-142: implizite Composition
-          { cat:false, indent:3, abbr:'AC', label:'Katalog-Service', color:C.AC,  sel:true               },
+      { cat:false, indent:1, abbr:'SB', label:'Solution BBs  (12)',color:C.SBB },
+      { cat:false, indent:1, abbr:'DI', label:'Diagrams  (6)',     color:C.DIA },
+    { cat:true,  indent:0, label:'Cloud-Migration 2027',          color:'#7C3AED', open:true               },
+      { cat:true,  indent:1, label:'AS-IS → TO-BE',               color:'#6D28D9', open:true               },
+        { cat:false, indent:2, abbr:'AC', label:'Components  (6)',  color:C.AC                          },
+          { cat:false, indent:3, abbr:'AC', label:'Catalog-Service', color:C.AC,  sel:true               },
           { cat:false, indent:3, abbr:'AC', label:'Portal-Frontend', color:C.AC                          },
-        { cat:false, indent:2, abbr:'→',  label:'Verbindungen  (8)', color:C.AS                          },
-        { cat:false, indent:2, abbr:'KT', label:'Kataloge  (2)',      color:C.KAT                        },
-        { cat:false, indent:2, abbr:'FB', label:'Functional BBs  (3)',color:C.FBB                        },
-        { cat:false, indent:2, abbr:'SB', label:'Solution BBs  (4)', color:C.SBB                         },
-        { cat:false, indent:2, abbr:'DI', label:'Diagramme  (2)',     color:C.DIA                        },
-    // REQ-140: Projekt-Modus Solution (kein Plateau) — nur im Aktueller Stand sichtbar
-    { cat:true,  indent:0, label:'ERP-Einfuehrung  (Projekt-Modus)', color:'#94A3B8', open:false, dim:true },
+        { cat:false, indent:2, abbr:'→',  label:'Connections  (8)', color:C.AS                          },
+        { cat:false, indent:2, abbr:'KT', label:'Catalogs  (2)',    color:C.KAT                         },
+        { cat:false, indent:2, abbr:'FB', label:'Functional BBs  (3)',color:C.FBB                       },
+        { cat:false, indent:2, abbr:'SB', label:'Solution BBs  (4)',color:C.SBB                         },
+        { cat:false, indent:2, abbr:'DI', label:'Diagrams  (2)',    color:C.DIA                         },
+    { cat:true,  indent:0, label:'ERP-Rollout  (Project Mode)',    color:'#94A3B8', open:false, dim:true },
   ];
 
   let ty=MAIN_Y+70;
@@ -117,7 +108,7 @@ function screen(pid, row, P, m) {
     const rowH=item.cat?22:20;
     if(item.cat){
       if(item.indent===0) ch.push(r(0,ty,LEFT_W,rowH,`${n}/Bg`,P.secBg));
-      ch.push(t(4+ix,ty+3,12,14,`${n}/Arr`,item.open?'▼':'▶',9,700,item.dim?P.muted:P.muted,'center'));
+      ch.push(t(4+ix,ty+3,12,14,`${n}/Arr`,item.open?'▼':'▶',9,700,P.muted,'center'));
       ch.push(r(16+ix,ty+7,8,8,`${n}/Dot`,item.color));
       const lc=item.special?P.primary:item.dim?P.muted:P.text;
       ch.push(t(28+ix,ty+3,LEFT_W-36-ix,14,`${n}/Lbl`,item.label,11,600,lc,'left'));
@@ -132,28 +123,28 @@ function screen(pid, row, P, m) {
     }
   });
 
-  // ADR-021: Hinweis am unteren Rand des Panels
+  // ADR-021 hint
   ch.push(r(0,MAIN_Y+MAIN_H-28,LEFT_W,28,'LP/HintBg',P.secBg,1,P.border,1));
-  ch.push(t(6,MAIN_Y+MAIN_H-22,LEFT_W-12,16,'LP/HintT','[Ordner] = Strukturhilfe, keine implizite Verbindung',9,400,P.muted,'left'));
+  ch.push(t(6,MAIN_Y+MAIN_H-22,LEFT_W-12,16,'LP/HintT','[Folder] = structural aid, no implicit connection',9,400,P.muted,'left'));
 
-  // ── CENTER PANEL — Arbeitsfenster (initial leer) ──
+  // ── CENTER PANEL — Workspace ──
   ch.push(r(CENTER_X,MAIN_Y,CENTER_W,MAIN_H,'CP/Bg',P.panelAlt));
   ch.push(r(CENTER_X,MAIN_Y,CENTER_W,28,'CP/TBg',P.secBg,1,P.border,1));
-  ch.push(t(CENTER_X+10,MAIN_Y+6,340,16,'CP/TH','Arbeitsfenster  —  kein Objekt geoffnet',12,400,P.muted,'left'));
+  ch.push(t(CENTER_X+10,MAIN_Y+6,340,16,'CP/TH','Workspace  —  no object open',12,400,P.muted,'left'));
   ch.push(r(CENTER_X+CENTER_W-76,MAIN_Y+4,68,20,'CP/NBtn',P.primary));
-  ch.push(t(CENTER_X+CENTER_W-76,MAIN_Y+8,68,12,'CP/NBtnT','+ Neu',12,600,'#FFFFFF','center'));
+  ch.push(t(CENTER_X+CENTER_W-76,MAIN_Y+8,68,12,'CP/NBtnT','+ New',12,600,'#FFFFFF','center'));
   const emX=CENTER_X+CENTER_W/2, emY=MAIN_Y+MAIN_H/2;
   ch.push(r(emX-36,emY-52,72,56,'CP/EIcon',P.border));
-  ch.push(t(CENTER_X,emY+12,CENTER_W,22,'CP/ET1','Kein Objekt geoffnet',16,600,P.muted,'center'));
-  ch.push(t(CENTER_X,emY+36,CENTER_W,16,'CP/ET2','Doppelklick im Browser oder + Neu',12,400,P.muted,'center'));
+  ch.push(t(CENTER_X,emY+12,CENTER_W,22,'CP/ET1','No object open',16,600,P.muted,'center'));
+  ch.push(t(CENTER_X,emY+36,CENTER_W,16,'CP/ET2','Double-click in explorer or + New',12,400,P.muted,'center'));
 
-  // ── RIGHT PANEL — Eigenschaften ──
+  // ── RIGHT PANEL — Properties ──
   const pw=RIGHT_W-16, pxb=RIGHT_X+8;
   ch.push(r(RIGHT_X,MAIN_Y,RIGHT_W,MAIN_H,'RP/Bg',P.panel));
   ch.push(r(RIGHT_X,MAIN_Y,RIGHT_W,28,'RP/TBg',P.secBg,1,P.border,1));
   ch.push(r(RIGHT_X,MAIN_Y,112,28,'RP/TA',P.panel,1,P.border,1));
-  ch.push(t(RIGHT_X,MAIN_Y+6,112,16,'RP/TAT','Eigenschaften',12,600,P.primary,'center'));
-  ch.push(t(RIGHT_X+112,MAIN_Y+6,100,16,'RP/TBT','Beziehungen',12,400,P.muted,'center'));
+  ch.push(t(RIGHT_X,MAIN_Y+6,112,16,'RP/TAT','Properties',12,600,P.primary,'center'));
+  ch.push(t(RIGHT_X+112,MAIN_Y+6,100,16,'RP/TBT','Relations',12,400,P.muted,'center'));
 
   let py=MAIN_Y+36;
   const sec=(k,l)=>{
@@ -161,80 +152,76 @@ function screen(pid, row, P, m) {
     ch.push(t(pxb,py+3,pw,13,`RP/${k}Lbl`,l,10,600,P.muted,'left'));
     py+=20;
   };
-  // compact field: 9px label + 22px input = 38px total
   const cfld=(k,l,v)=>{
     ch.push(t(pxb,py+1,pw,11,`RP/${k}L`,l,9,500,P.muted,'left')); py+=12;
     ch.push(r(pxb,py,pw,22,`RP/${k}F`,P.inputBg,1,P.border,1));
     ch.push(t(pxb+4,py+4,pw-8,13,`RP/${k}V`,v,11,400,P.text,'left')); py+=26;
   };
 
-  // ── Allgemein — General-Kategorie aus entity.md (systemdefiniert, gesperrt) ──
-  sec('SA','Allgemein');
-  // id — systemvergeben, nicht editierbar
+  // General
+  sec('SA','General');
   ch.push(t(pxb,py+2,20,11,'RP/IDL','ID',9,600,P.muted,'left'));
   ch.push(t(pxb+24,py+2,pw-60,11,'RP/IDV','#2847',10,400,P.muted,'left'));
-  ch.push(t(pxb+pw-32,py+2,32,10,'RP/IDRo','(System)',8,400,P.muted,'right'));
+  ch.push(t(pxb+pw-32,py+2,32,10,'RP/IDRo','(system)',8,400,P.muted,'right'));
   py+=18;
-  // name — editierbar
-  cfld('Name','Name','Katalog-Service');
-  // entityTypeId — Typ mit ArchiMate-Badge, nicht editierbar nach Anlage
-  ch.push(t(pxb,py+1,pw,11,'RP/TypL','Typ',9,500,P.muted,'left')); py+=12;
+  cfld('Name','Name','Catalog-Service');
+  // Type with badge
+  ch.push(t(pxb,py+1,pw,11,'RP/TypL','Type',9,500,P.muted,'left')); py+=12;
   ch.push(r(pxb,py,pw,22,'RP/TypF',P.inputBg,1,P.border,1));
   ch.push(r(pxb+4,py+5,16,12,'RP/TIBg',C.AC));
   ch.push(t(pxb+4,py+6,16,10,'RP/TIT','AC',7,700,'#FFFFFF','center'));
   ch.push(t(pxb+23,py+4,pw-30,13,'RP/TypV','Application Component',11,400,P.text,'left')); py+=26;
-  // isLogical — boolean toggle, editierbar
+  // isLogical
   ch.push(r(pxb,py+2,16,16,'RP/LogBox',P.primary,1,P.primary,1));
   ch.push(t(pxb+1,py+3,14,12,'RP/LogChk','✓',9,700,'#FFFFFF','center'));
-  ch.push(t(pxb+22,py+3,pw-22,12,'RP/LogLbl','Logisch  (logisch / konzeptionell)',10,400,P.text,'left'));
+  ch.push(t(pxb+22,py+3,pw-22,12,'RP/LogLbl','Logical  (logical / conceptual)',10,400,P.text,'left'));
   py+=22;
-  // parentEntityId — optionaler FK auf ArchitectureEntity (REQ-141, ADR-021)
-  cfld('Par','Elternelement','—');
+  cfld('Par','Parent','—');
 
   py+=4;
-  // ── Beschreibung — description aus General, eigene Sektion wegen DocCollection ──
-  sec('SB','Beschreibung');
+  // Description
+  sec('SB','Description');
   ch.push(r(pxb,py,pw,50,'RP/DescF',P.inputBg,1,P.border,1));
-  ch.push(t(pxb+4,py+4,pw-8,44,'RP/DescV','Zentrale Anwendungskomponente des OEA-Katalogs.',11,400,P.muted,'left'));
+  ch.push(t(pxb+4,py+4,pw-8,44,'RP/DescV','Core application component of the OEA catalog.',11,400,P.muted,'left'));
   py+=54;
-  // DocumentationCollection — oeffnen im Arbeitsfenster
+
+  // Linked documents
   ch.push(r(pxb,py,pw,22,'RP/DB1',P.inputBg,1,P.primary,1));
-  ch.push(t(pxb+4,py+4,pw-8,13,'RP/DB1T','Betriebshandbuch  -> Arbeitsfenster',10,400,P.primary,'left'));
+  ch.push(t(pxb+4,py+4,pw-8,13,'RP/DB1T','Operations Manual  → Workspace',10,400,P.primary,'left'));
   py+=26;
   ch.push(r(pxb,py,pw,22,'RP/DB2',P.inputBg,1,P.primary,1));
-  ch.push(t(pxb+4,py+4,pw-8,13,'RP/DB2T','Architekturdokumentation  -> Arbeitsfenster',10,400,P.primary,'left'));
+  ch.push(t(pxb+4,py+4,pw-8,13,'RP/DB2T','Architecture Documentation  → Workspace',10,400,P.primary,'left'));
   py+=28;
 
-  // ── Klassifizierung — Custom-Properties aus EntityTypeDefinition ──
-  sec('SC','Klassifizierung');
-  cfld('Sch','Schicht','Anwendungsschicht');
+  // Classification
+  sec('SC','Classification');
+  cfld('Sch','Layer','Application Layer');
   cfld('Sol','Solution','Cloud-Migration 2027');
-  // Plateau — Dropdown
   ch.push(t(pxb,py+1,pw,11,'RP/PlL','Plateau',9,500,P.muted,'left')); py+=12;
   ch.push(r(pxb,py,pw,22,'RP/PlF',P.inputBg,1,P.border,1));
-  ch.push(t(pxb+4,py+4,pw-16,13,'RP/PlV','IST (aktuell)',11,400,P.text,'left'));
+  ch.push(t(pxb+4,py+4,pw-16,13,'RP/PlV','AS-IS (current)',11,400,P.text,'left'));
   ch.push(t(pxb+pw-12,py+4,10,13,'RP/PlArr','▾',9,400,P.muted,'center')); py+=26;
-  cfld('Asp','Aspekt','Passive Structure');
+  cfld('Asp','Aspect','Passive Structure');
 
-  // ── BOTTOM PANEL — Letzte Aenderungen (Default-Tab) ──
+  // ── BOTTOM PANEL — Recent Changes ──
   ch.push(r(0,BOTTOM_Y,FW,BOTTOM_H,'Bot/Bg',P.panel,1,P.border,1));
   ch.push(r(0,BOTTOM_Y,FW,28,'Bot/TBg',P.secBg,1,P.border,1));
   ch.push(t(8,BOTTOM_Y+6,44,16,'Bot/TLog','Log',12,400,P.muted,'left'));
-  ch.push(r(44,BOTTOM_Y,152,28,'Bot/TA',P.panel,1,P.border,1));
-  ch.push(t(44,BOTTOM_Y+6,152,16,'Bot/TAT','Letzte Aenderungen',12,600,P.primary,'center'));
-  ch.push(t(204,BOTTOM_Y+6,80,16,'Bot/TVal','Validation',12,400,P.muted,'left'));
+  ch.push(r(44,BOTTOM_Y,168,28,'Bot/TA',P.panel,1,P.border,1));
+  ch.push(t(44,BOTTOM_Y+6,168,16,'Bot/TAT','Recent Changes',12,600,P.primary,'center'));
+  ch.push(t(220,BOTTOM_Y+6,80,16,'Bot/TVal','Validation',12,400,P.muted,'left'));
 
   const hY=BOTTOM_Y+36;
   ch.push(r(0,hY,FW,20,'Bot/HBg',P.secBg));
-  [[8,'Zeit',118],[134,'Objekt / Typ',240],[382,'Aenderung',540],[930,'Solution',180],[1118,'Benutzer',100]].forEach(([x,l,w])=>
-    ch.push(t(x,hY+3,w,14,`Bot/H/${l}`,l,11,600,P.muted,'left')));
+  [[8,'Time',118],[134,'Object / Type',240],[382,'Change',540],[930,'Solution',180],[1118,'User',100]].forEach(([x,l,w])=>
+    ch.push(t(x,hY+3,w,14,`Bot/H/${l.replace(' ','_')}`,l,11,600,P.muted,'left')));
 
   const rows=[
-    {z:'Heute 14:32', o:'Katalog-Service [AC]', a:"Attribut 'version' geaendert",   s:'Cloud-Migration', u:'Lukas'},
-    {z:'Heute 11:15', o:'Portal-Frontend [AC]', a:'Komposition unter Katalog-Service',s:'Cloud-Migration', u:'Lukas'},
-    {z:'Heute 09:04', o:'Katalog-API [AS]',     a:'Beschreibung aktualisiert',        s:'Aktueller Stand', u:'Lukas'},
-    {z:'Gestern',     o:'Auth-Service [AS]',     a:'Erstellt',                         s:'Cloud-Migration', u:'Lukas'},
-    {z:'Gestern',     o:'ERP-Einfuehrung',       a:'Solution angelegt (Projekt-Modus)',s:'Aktueller Stand', u:'Lukas'},
+    {z:'Today 14:32', o:'Catalog-Service [AC]',  a:"Attribute 'version' changed",      s:'Cloud-Migration', u:'Lukas'},
+    {z:'Today 11:15', o:'Portal-Frontend [AC]',  a:'Composition under Catalog-Service', s:'Cloud-Migration', u:'Lukas'},
+    {z:'Today 09:04', o:'Catalog-API [AS]',       a:'Description updated',              s:'Current State',   u:'Lukas'},
+    {z:'Yesterday',   o:'Auth-Service [AS]',      a:'Created',                          s:'Cloud-Migration', u:'Lukas'},
+    {z:'Yesterday',   o:'ERP-Rollout',            a:'Solution created (Project Mode)',   s:'Current State',   u:'Lukas'},
   ];
   let bry=hY+20;
   rows.forEach((row,i)=>{
@@ -249,9 +236,9 @@ function screen(pid, row, P, m) {
 
   // ── STATUS BAR ──
   ch.push(r(0,STATUS_Y,FW,STATUS_H,'St/Bg',P.menuBg));
-  ch.push(t(8,STATUS_Y+5,120,14,'St/L','Bereit',12,400,P.statusText,'left'));
-  ch.push(t(FW/2-80,STATUS_Y+5,160,14,'St/C','21 Objekte  |  4 Diagramme  |  2 Solutions',12,400,P.statusText,'center'));
-  ch.push(t(FW-168,STATUS_Y+5,160,14,'St/R','IST-Plateau  |  Lukas',12,400,P.statusText,'right'));
+  ch.push(t(8,STATUS_Y+5,120,14,'St/L','Ready',12,400,P.statusText,'left'));
+  ch.push(t(FW/2-100,STATUS_Y+5,200,14,'St/C','21 Objects  |  4 Diagrams  |  2 Solutions',12,400,P.statusText,'center'));
+  ch.push(t(FW-168,STATUS_Y+5,160,14,'St/R','AS-IS Plateau  |  Lukas',12,400,P.statusText,'right'));
 
   return { frameId, changes: ch };
 }
@@ -260,54 +247,51 @@ function screen(pid, row, P, m) {
 async function main() {
   const PID = process.env.PENPOT_PROJECT_ID;
   const API = process.env.PENPOT_API_URL;
+  const hasPenpot = !!(API && process.env.PENPOT_ACCESS_TOKEN && PID);
 
-  console.log('Verbinde ...');
-  const profile = await rpc('get-profile', {});
-  console.log(`OK ${profile.email}`);
+  if (hasPenpot) {
+    try {
+      const profile = await rpc('get-profile', {});
+      console.log(`Penpot: ${profile.email}`);
 
-  // Alle alten Hauptfenster-Files loeschen
-  const projectFiles = await rpc('get-project-files', { project_id: PID });
-  const old = projectFiles.filter(f => f.name && f.name.includes('Hauptfenster'));
-  for (const f of old) {
-    await rpc('delete-file', { id: f.id });
-    console.log(`Geloescht: ${f.name} (${f.id})`);
+      const projectFiles = await rpc('get-project-files', { project_id: PID });
+      for (const f of projectFiles.filter(f => f.name && f.name.includes('Main Window'))) {
+        await rpc('delete-file', { id: f.id });
+        console.log(`  Deleted: ${f.name}`);
+      }
+
+      const f = await rpc('create-file', { name: 'OEA - Main Window Wireframes v0.3', project_id: PID });
+      const fileId = f.id, pageId = f.data.pages[0];
+
+      const modes = [{row:0, P:L, m:'Light'}, {row:1, P:D, m:'Dark'}];
+      const allChanges = [];
+      for (const {row, m} of modes)
+        allChanges.push(canvasText(pageId, -180, sy(row)+FH/2-10, 170, 20, `Lbl${m}`, `${m} Mode`, 13, 600, '#64748B', 'right'));
+      for (const {row, P, m} of modes) {
+        const {changes} = screen(pageId, row, P, m);
+        allChanges.push(...changes);
+      }
+      await rpc('update-file', { id: fileId, 'session-id': fileId, revn: 0, vern: 0, changes: allChanges });
+      console.log(`Penpot: ${allChanges.length} shapes uploaded`);
+      console.log(`URL: ${API}dashboard/projects/${PID}`);
+    } catch(e) {
+      console.warn(`Penpot upload failed: ${e.message}`);
+    }
+  } else {
+    console.log('(Penpot upload skipped — ENV vars not set)');
   }
 
-  // Neue Datei erstellen
-  const f = await rpc('create-file', { name: 'OEA - Hauptfenster Wireframes v0.2', project_id: PID });
-  const fileId = f.id;
-  const pageId = f.data.pages[0];
-  console.log(`Neue Datei: ${fileId}`);
-
+  const outDir = path.join(__dirname, '..', '..', 'docs', 'screens');
+  const pid = '00000000-0000-0000-0000-000000000001';
   const modes = [{row:0, P:L, m:'Light'}, {row:1, P:D, m:'Dark'}];
-  const allChanges = [];
-  const frameConfigs = [];
-  const ANN = 'Hauptfenster — Solution-Browser (REQ-138/139/140/141/142 | ADR-020/021)';
-
-  for (const {row, m} of modes)
-    allChanges.push(canvasText(pageId, -180, sy(row)+FH/2-10, 170, 20, `Lbl${m}`, `${m} Mode`, 13, 600, '#64748B', 'right'));
-
+  console.log('\nSVG export ...');
   for (const {row, P, m} of modes) {
-    const {frameId, changes} = screen(pageId, row, P, m);
-    allChanges.push(...changes);
-    allChanges.push(canvasText(pageId, 0, sy(row)+FH+12, FW, 16, `Ann${m}`, `${m} / ${ANN}`, 11, 400, '#94A3B8', 'center'));
-    frameConfigs.push({changes, svgName: `hauptfenster-${m.toLowerCase()}`});
-  }
-
-  console.log(`${allChanges.length} Changes hochladen ...`);
-  await rpc('update-file', { id: fileId, 'session-id': fileId, revn: 0, vern: 0, changes: allChanges });
-  console.log('Upload OK');
-
-  const outDir = path.join(__dirname, '..', 'docs', 'screens');
-  console.log('\nSVG-Export ...');
-  for (const {changes, svgName} of frameConfigs) {
-    const outPath = path.join(outDir, `${svgName}.svg`);
+    const {changes} = screen(pid, row, P, m);
+    const outPath = path.join(outDir, `hauptfenster-${m.toLowerCase()}.svg`);
     generateLocalSVG(changes[0], changes.slice(1), outPath);
-    console.log(`  ${svgName}.svg  (lokal generiert)`);
+    console.log(`  hauptfenster-${m.toLowerCase()}.svg`);
   }
-
-  console.log(`\nPenpot : ${API}dashboard/projects/${PID}`);
-  console.log(`SVGs   : docs/screens/`);
+  console.log(`\nSVGs: docs/screens/`);
 }
 
-main().catch(e=>{console.error('Fehler:',e.message);process.exit(1);});
+main().catch(e => { console.error('Error:', e.message); process.exit(1); });

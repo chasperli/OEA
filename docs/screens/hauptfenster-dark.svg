@@ -2,12 +2,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="800" viewBox="0 0 1280 800">
   <rect width="1280" height="800" fill="#FFFFFF"/>
   <rect x="0" y="0" width="1280" height="28" fill="#020617" fill-opacity="1" stroke="none"/>
-  <text x="8" y="18" font-size="12" fill="#CBD5E1" text-anchor="start" font-family="Inter,system-ui,sans-serif">Datei</text>
-  <text x="54" y="18" font-size="12" fill="#CBD5E1" text-anchor="start" font-family="Inter,system-ui,sans-serif">Bearbeiten</text>
-  <text x="126" y="18" font-size="12" fill="#CBD5E1" text-anchor="start" font-family="Inter,system-ui,sans-serif">Ansicht</text>
-  <text x="190" y="18" font-size="12" fill="#CBD5E1" text-anchor="start" font-family="Inter,system-ui,sans-serif">Modell</text>
-  <text x="246" y="18" font-size="12" fill="#CBD5E1" text-anchor="start" font-family="Inter,system-ui,sans-serif">Werkzeuge</text>
-  <text x="322" y="18" font-size="12" fill="#CBD5E1" text-anchor="start" font-family="Inter,system-ui,sans-serif">Hilfe</text>
+  <text x="8" y="18" font-size="12" fill="#CBD5E1" text-anchor="start" font-family="Inter,system-ui,sans-serif">File</text>
+  <text x="54" y="18" font-size="12" fill="#CBD5E1" text-anchor="start" font-family="Inter,system-ui,sans-serif">Edit</text>
+  <text x="100" y="18" font-size="12" fill="#CBD5E1" text-anchor="start" font-family="Inter,system-ui,sans-serif">View</text>
+  <text x="148" y="18" font-size="12" fill="#CBD5E1" text-anchor="start" font-family="Inter,system-ui,sans-serif">Model</text>
+  <text x="200" y="18" font-size="12" fill="#CBD5E1" text-anchor="start" font-family="Inter,system-ui,sans-serif">Tools</text>
+  <text x="248" y="18" font-size="12" fill="#CBD5E1" text-anchor="start" font-family="Inter,system-ui,sans-serif">Help</text>
   <text x="1272" y="17" font-size="11" fill="#64748B" text-anchor="end" font-family="Inter,system-ui,sans-serif">OEA 0.1.0-SNAPSHOT</text>
   <rect x="0" y="28" width="1280" height="36" fill="#1E293B" fill-opacity="1" stroke="#334155" stroke-width="1"/>
   <rect x="8" y="36" width="20" height="20" fill="#334155" fill-opacity="1" stroke="none"/>
@@ -24,30 +24,28 @@
   <rect x="214" y="36" width="20" height="20" fill="#334155" fill-opacity="1" stroke="none"/>
   <text x="1134" y="51" font-size="12" fill="#94A3B8" text-anchor="end" font-family="Inter,system-ui,sans-serif">Plateau:</text>
   <rect x="1140" y="34" width="132" height="24" fill="#0B1829" fill-opacity="1" stroke="#334155" stroke-width="1"/>
-  <text x="1145" y="52" font-size="12" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">IST (aktuell)</text>
+  <text x="1145" y="52" font-size="12" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">AS-IS (current)</text>
   <text x="1264" y="51" font-size="11" fill="#94A3B8" text-anchor="middle" font-family="Inter,system-ui,sans-serif">▾</text>
   <rect x="260" y="64" width="4" height="520" fill="#334155" fill-opacity="1" stroke="none"/>
   <rect x="980" y="64" width="4" height="520" fill="#334155" fill-opacity="1" stroke="none"/>
   <rect x="0" y="64" width="260" height="520" fill="#1E293B" fill-opacity="1" stroke="none"/>
   <rect x="0" y="64" width="260" height="28" fill="#162030" fill-opacity="1" stroke="#334155" stroke-width="1"/>
-  <rect x="0" y="64" width="84" height="28" fill="#1E293B" fill-opacity="1" stroke="#334155" stroke-width="1"/>
-  <text x="42" y="82" font-size="12" fill="#38BDF8" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Browser</text>
-  <text x="130" y="82" font-size="12" fill="#94A3B8" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Diagramme</text>
+  <text x="8" y="83" font-size="12" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Explorer</text>
   <rect x="8" y="100" width="244" height="26" fill="#0B1829" fill-opacity="1" stroke="#334155" stroke-width="1"/>
-  <text x="14" y="118" font-size="12" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Suchen ...</text>
+  <text x="14" y="118" font-size="12" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Search ...</text>
   <rect x="0" y="134" width="260" height="22" fill="#162030" fill-opacity="1" stroke="none"/>
   <text x="10" y="146" font-size="9" fill="#94A3B8" text-anchor="middle" font-family="Inter,system-ui,sans-serif">▼</text>
   <rect x="16" y="141" width="8" height="8" fill="#38BDF8" fill-opacity="1" stroke="none"/>
-  <text x="28" y="148" font-size="11" fill="#38BDF8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Aktueller Stand  (IST)</text>
+  <text x="28" y="148" font-size="11" fill="#38BDF8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Current State  (AS-IS)</text>
   <rect x="30" y="159" width="14" height="12" fill="#2563EB" fill-opacity="1" stroke="none"/>
   <text x="37" y="167" font-size="7" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">AC</text>
-  <text x="48" y="169" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Komponenten  (14)</text>
+  <text x="48" y="169" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Components  (14)</text>
   <rect x="30" y="179" width="14" height="12" fill="#0284C7" fill-opacity="1" stroke="none"/>
   <text x="37" y="187" font-size="7" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">→</text>
-  <text x="48" y="189" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Verbindungen  (38)</text>
+  <text x="48" y="189" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Connections  (38)</text>
   <rect x="30" y="199" width="14" height="12" fill="#DC2626" fill-opacity="1" stroke="none"/>
   <text x="37" y="207" font-size="7" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">KT</text>
-  <text x="48" y="209" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Kataloge  (5)</text>
+  <text x="48" y="209" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Catalogs  (5)</text>
   <rect x="30" y="219" width="14" height="12" fill="#7C3AED" fill-opacity="1" stroke="none"/>
   <text x="37" y="227" font-size="7" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">FB</text>
   <text x="48" y="229" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Functional BBs  (9)</text>
@@ -56,30 +54,30 @@
   <text x="48" y="249" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Solution BBs  (12)</text>
   <rect x="30" y="259" width="14" height="12" fill="#0891B2" fill-opacity="1" stroke="none"/>
   <text x="37" y="267" font-size="7" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">DI</text>
-  <text x="48" y="269" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Diagramme  (6)</text>
+  <text x="48" y="269" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Diagrams  (6)</text>
   <rect x="0" y="276" width="260" height="22" fill="#162030" fill-opacity="1" stroke="none"/>
   <text x="10" y="288" font-size="9" fill="#94A3B8" text-anchor="middle" font-family="Inter,system-ui,sans-serif">▼</text>
   <rect x="16" y="283" width="8" height="8" fill="#7C3AED" fill-opacity="1" stroke="none"/>
   <text x="28" y="290" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Cloud-Migration 2027</text>
   <text x="24" y="310" font-size="9" fill="#94A3B8" text-anchor="middle" font-family="Inter,system-ui,sans-serif">▼</text>
   <rect x="30" y="305" width="8" height="8" fill="#6D28D9" fill-opacity="1" stroke="none"/>
-  <text x="42" y="312" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">IST -&gt; SOLL</text>
+  <text x="42" y="312" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">AS-IS → TO-BE</text>
   <rect x="44" y="323" width="14" height="12" fill="#2563EB" fill-opacity="1" stroke="none"/>
   <text x="51" y="331" font-size="7" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">AC</text>
-  <text x="62" y="333" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Komponenten  (6)</text>
+  <text x="62" y="333" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Components  (6)</text>
   <rect x="0" y="340" width="260" height="20" fill="#0C4A6E" fill-opacity="1" stroke="none"/>
   <rect x="58" y="343" width="14" height="12" fill="#2563EB" fill-opacity="1" stroke="none"/>
   <text x="65" y="351" font-size="7" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">AC</text>
-  <text x="76" y="353" font-size="11" fill="#38BDF8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Katalog-Service</text>
+  <text x="76" y="353" font-size="11" fill="#38BDF8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Catalog-Service</text>
   <rect x="58" y="363" width="14" height="12" fill="#2563EB" fill-opacity="1" stroke="none"/>
   <text x="65" y="371" font-size="7" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">AC</text>
   <text x="76" y="373" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Portal-Frontend</text>
   <rect x="44" y="383" width="14" height="12" fill="#0284C7" fill-opacity="1" stroke="none"/>
   <text x="51" y="391" font-size="7" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">→</text>
-  <text x="62" y="393" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Verbindungen  (8)</text>
+  <text x="62" y="393" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Connections  (8)</text>
   <rect x="44" y="403" width="14" height="12" fill="#DC2626" fill-opacity="1" stroke="none"/>
   <text x="51" y="411" font-size="7" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">KT</text>
-  <text x="62" y="413" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Kataloge  (2)</text>
+  <text x="62" y="413" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Catalogs  (2)</text>
   <rect x="44" y="423" width="14" height="12" fill="#7C3AED" fill-opacity="1" stroke="none"/>
   <text x="51" y="431" font-size="7" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">FB</text>
   <text x="62" y="433" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Functional BBs  (3)</text>
@@ -88,110 +86,110 @@
   <text x="62" y="453" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Solution BBs  (4)</text>
   <rect x="44" y="463" width="14" height="12" fill="#0891B2" fill-opacity="1" stroke="none"/>
   <text x="51" y="471" font-size="7" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">DI</text>
-  <text x="62" y="473" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Diagramme  (2)</text>
+  <text x="62" y="473" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Diagrams  (2)</text>
   <rect x="0" y="480" width="260" height="22" fill="#162030" fill-opacity="1" stroke="none"/>
   <text x="10" y="492" font-size="9" fill="#94A3B8" text-anchor="middle" font-family="Inter,system-ui,sans-serif">▶</text>
   <rect x="16" y="487" width="8" height="8" fill="#94A3B8" fill-opacity="1" stroke="none"/>
-  <text x="28" y="494" font-size="11" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">ERP-Einfuehrung  (Projekt-Modus)</text>
+  <text x="28" y="494" font-size="11" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">ERP-Rollout  (Project Mode)</text>
   <rect x="0" y="556" width="260" height="28" fill="#162030" fill-opacity="1" stroke="#334155" stroke-width="1"/>
-  <text x="6" y="571" font-size="9" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">[Ordner] = Strukturhilfe, keine implizite Verbindung</text>
+  <text x="6" y="571" font-size="9" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">[Folder] = structural aid, no implicit connection</text>
   <rect x="264" y="64" width="716" height="520" fill="#172030" fill-opacity="1" stroke="none"/>
   <rect x="264" y="64" width="716" height="28" fill="#162030" fill-opacity="1" stroke="#334155" stroke-width="1"/>
-  <text x="274" y="82" font-size="12" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Arbeitsfenster  —  kein Objekt geoffnet</text>
+  <text x="274" y="82" font-size="12" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Workspace  —  no object open</text>
   <rect x="904" y="68" width="68" height="20" fill="#38BDF8" fill-opacity="1" stroke="none"/>
-  <text x="938" y="84" font-size="12" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">+ Neu</text>
+  <text x="938" y="84" font-size="12" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">+ New</text>
   <rect x="586" y="272" width="72" height="56" fill="#334155" fill-opacity="1" stroke="none"/>
-  <text x="622" y="352" font-size="16" fill="#94A3B8" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Kein Objekt geoffnet</text>
-  <text x="622" y="372" font-size="12" fill="#94A3B8" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Doppelklick im Browser oder + Neu</text>
+  <text x="622" y="352" font-size="16" fill="#94A3B8" text-anchor="middle" font-family="Inter,system-ui,sans-serif">No object open</text>
+  <text x="622" y="372" font-size="12" fill="#94A3B8" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Double-click in explorer or + New</text>
   <rect x="984" y="64" width="296" height="520" fill="#1E293B" fill-opacity="1" stroke="none"/>
   <rect x="984" y="64" width="296" height="28" fill="#162030" fill-opacity="1" stroke="#334155" stroke-width="1"/>
   <rect x="984" y="64" width="112" height="28" fill="#1E293B" fill-opacity="1" stroke="#334155" stroke-width="1"/>
-  <text x="1040" y="82" font-size="12" fill="#38BDF8" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Eigenschaften</text>
-  <text x="1146" y="82" font-size="12" fill="#94A3B8" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Beziehungen</text>
+  <text x="1040" y="82" font-size="12" fill="#38BDF8" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Properties</text>
+  <text x="1146" y="82" font-size="12" fill="#94A3B8" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Relations</text>
   <rect x="984" y="100" width="296" height="20" fill="#162030" fill-opacity="1" stroke="none"/>
-  <text x="992" y="113" font-size="10" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Allgemein</text>
+  <text x="992" y="113" font-size="10" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">General</text>
   <text x="992" y="131" font-size="9" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">ID</text>
   <text x="1016" y="132" font-size="10" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">#2847</text>
-  <text x="1272" y="130" font-size="8" fill="#94A3B8" text-anchor="end" font-family="Inter,system-ui,sans-serif">(System)</text>
+  <text x="1272" y="130" font-size="8" fill="#94A3B8" text-anchor="end" font-family="Inter,system-ui,sans-serif">(system)</text>
   <text x="992" y="148" font-size="9" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Name</text>
   <rect x="992" y="150" width="280" height="22" fill="#0B1829" fill-opacity="1" stroke="#334155" stroke-width="1"/>
-  <text x="996" y="165" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Katalog-Service</text>
-  <text x="992" y="186" font-size="9" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Typ</text>
+  <text x="996" y="165" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Catalog-Service</text>
+  <text x="992" y="186" font-size="9" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Type</text>
   <rect x="992" y="188" width="280" height="22" fill="#0B1829" fill-opacity="1" stroke="#334155" stroke-width="1"/>
   <rect x="996" y="193" width="16" height="12" fill="#2563EB" fill-opacity="1" stroke="none"/>
   <text x="1004" y="201" font-size="7" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">AC</text>
   <text x="1015" y="203" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Application Component</text>
   <rect x="992" y="216" width="16" height="16" fill="#38BDF8" fill-opacity="1" stroke="#38BDF8" stroke-width="1"/>
   <text x="1000" y="226" font-size="9" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">✓</text>
-  <text x="1014" y="227" font-size="10" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Logisch  (logisch / konzeptionell)</text>
-  <text x="992" y="246" font-size="9" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Elternelement</text>
+  <text x="1014" y="227" font-size="10" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Logical  (logical / conceptual)</text>
+  <text x="992" y="246" font-size="9" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Parent</text>
   <rect x="992" y="248" width="280" height="22" fill="#0B1829" fill-opacity="1" stroke="#334155" stroke-width="1"/>
   <text x="996" y="263" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">—</text>
   <rect x="984" y="278" width="296" height="20" fill="#162030" fill-opacity="1" stroke="none"/>
-  <text x="992" y="291" font-size="10" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Beschreibung</text>
+  <text x="992" y="291" font-size="10" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Description</text>
   <rect x="992" y="298" width="280" height="50" fill="#0B1829" fill-opacity="1" stroke="#334155" stroke-width="1"/>
-  <text x="996" y="313" font-size="11" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Zentrale Anwendungskomponente des OEA-Katalogs.</text>
+  <text x="996" y="313" font-size="11" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Core application component of the OEA catalog.</text>
   <rect x="992" y="352" width="280" height="22" fill="#0B1829" fill-opacity="1" stroke="#38BDF8" stroke-width="1"/>
-  <text x="996" y="366" font-size="10" fill="#38BDF8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Betriebshandbuch  -&gt; Arbeitsfenster</text>
+  <text x="996" y="366" font-size="10" fill="#38BDF8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Operations Manual  → Workspace</text>
   <rect x="992" y="378" width="280" height="22" fill="#0B1829" fill-opacity="1" stroke="#38BDF8" stroke-width="1"/>
-  <text x="996" y="392" font-size="10" fill="#38BDF8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Architekturdokumentation  -&gt; Arbeitsfenster</text>
+  <text x="996" y="392" font-size="10" fill="#38BDF8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Architecture Documentation  → Workspace</text>
   <rect x="984" y="406" width="296" height="20" fill="#162030" fill-opacity="1" stroke="none"/>
-  <text x="992" y="419" font-size="10" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Klassifizierung</text>
-  <text x="992" y="436" font-size="9" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Schicht</text>
+  <text x="992" y="419" font-size="10" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Classification</text>
+  <text x="992" y="436" font-size="9" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Layer</text>
   <rect x="992" y="438" width="280" height="22" fill="#0B1829" fill-opacity="1" stroke="#334155" stroke-width="1"/>
-  <text x="996" y="453" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Anwendungsschicht</text>
+  <text x="996" y="453" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Application Layer</text>
   <text x="992" y="474" font-size="9" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Solution</text>
   <rect x="992" y="476" width="280" height="22" fill="#0B1829" fill-opacity="1" stroke="#334155" stroke-width="1"/>
   <text x="996" y="491" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Cloud-Migration 2027</text>
   <text x="992" y="512" font-size="9" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Plateau</text>
   <rect x="992" y="514" width="280" height="22" fill="#0B1829" fill-opacity="1" stroke="#334155" stroke-width="1"/>
-  <text x="996" y="529" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">IST (aktuell)</text>
+  <text x="996" y="529" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">AS-IS (current)</text>
   <text x="1265" y="527" font-size="9" fill="#94A3B8" text-anchor="middle" font-family="Inter,system-ui,sans-serif">▾</text>
-  <text x="992" y="550" font-size="9" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Aspekt</text>
+  <text x="992" y="550" font-size="9" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Aspect</text>
   <rect x="992" y="552" width="280" height="22" fill="#0B1829" fill-opacity="1" stroke="#334155" stroke-width="1"/>
   <text x="996" y="567" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Passive Structure</text>
   <rect x="0" y="584" width="1280" height="192" fill="#1E293B" fill-opacity="1" stroke="#334155" stroke-width="1"/>
   <rect x="0" y="584" width="1280" height="28" fill="#162030" fill-opacity="1" stroke="#334155" stroke-width="1"/>
   <text x="8" y="602" font-size="12" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Log</text>
-  <rect x="44" y="584" width="152" height="28" fill="#1E293B" fill-opacity="1" stroke="#334155" stroke-width="1"/>
-  <text x="120" y="602" font-size="12" fill="#38BDF8" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Letzte Aenderungen</text>
-  <text x="204" y="602" font-size="12" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Validation</text>
+  <rect x="44" y="584" width="168" height="28" fill="#1E293B" fill-opacity="1" stroke="#334155" stroke-width="1"/>
+  <text x="128" y="602" font-size="12" fill="#38BDF8" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Recent Changes</text>
+  <text x="220" y="602" font-size="12" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Validation</text>
   <rect x="0" y="620" width="1280" height="20" fill="#162030" fill-opacity="1" stroke="none"/>
-  <text x="8" y="634" font-size="11" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Zeit</text>
-  <text x="134" y="634" font-size="11" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Objekt / Typ</text>
-  <text x="382" y="634" font-size="11" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Aenderung</text>
+  <text x="8" y="634" font-size="11" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Time</text>
+  <text x="134" y="634" font-size="11" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Object / Type</text>
+  <text x="382" y="634" font-size="11" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Change</text>
   <text x="930" y="634" font-size="11" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Solution</text>
-  <text x="1118" y="634" font-size="11" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Benutzer</text>
+  <text x="1118" y="634" font-size="11" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">User</text>
   <rect x="0" y="640" width="1280" height="24" fill="#172030" fill-opacity="1" stroke="none"/>
-  <text x="8" y="656" font-size="11" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Heute 14:32</text>
-  <text x="134" y="657" font-size="12" fill="#38BDF8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Katalog-Service [AC]</text>
-  <text x="382" y="656" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Attribut 'version' geaendert</text>
+  <text x="8" y="656" font-size="11" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Today 14:32</text>
+  <text x="134" y="657" font-size="12" fill="#38BDF8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Catalog-Service [AC]</text>
+  <text x="382" y="656" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Attribute 'version' changed</text>
   <text x="930" y="656" font-size="11" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Cloud-Migration</text>
   <text x="1118" y="656" font-size="11" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Lukas</text>
-  <text x="8" y="680" font-size="11" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Heute 11:15</text>
+  <text x="8" y="680" font-size="11" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Today 11:15</text>
   <text x="134" y="681" font-size="12" fill="#38BDF8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Portal-Frontend [AC]</text>
-  <text x="382" y="680" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Komposition unter Katalog-Service</text>
+  <text x="382" y="680" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Composition under Catalog-Service</text>
   <text x="930" y="680" font-size="11" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Cloud-Migration</text>
   <text x="1118" y="680" font-size="11" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Lukas</text>
   <rect x="0" y="688" width="1280" height="24" fill="#172030" fill-opacity="1" stroke="none"/>
-  <text x="8" y="704" font-size="11" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Heute 09:04</text>
-  <text x="134" y="705" font-size="12" fill="#38BDF8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Katalog-API [AS]</text>
-  <text x="382" y="704" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Beschreibung aktualisiert</text>
-  <text x="930" y="704" font-size="11" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Aktueller Stand</text>
+  <text x="8" y="704" font-size="11" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Today 09:04</text>
+  <text x="134" y="705" font-size="12" fill="#38BDF8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Catalog-API [AS]</text>
+  <text x="382" y="704" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Description updated</text>
+  <text x="930" y="704" font-size="11" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Current State</text>
   <text x="1118" y="704" font-size="11" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Lukas</text>
-  <text x="8" y="728" font-size="11" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Gestern</text>
+  <text x="8" y="728" font-size="11" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Yesterday</text>
   <text x="134" y="729" font-size="12" fill="#38BDF8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Auth-Service [AS]</text>
-  <text x="382" y="728" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Erstellt</text>
+  <text x="382" y="728" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Created</text>
   <text x="930" y="728" font-size="11" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Cloud-Migration</text>
   <text x="1118" y="728" font-size="11" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Lukas</text>
   <rect x="0" y="736" width="1280" height="24" fill="#172030" fill-opacity="1" stroke="none"/>
-  <text x="8" y="752" font-size="11" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Gestern</text>
-  <text x="134" y="753" font-size="12" fill="#38BDF8" text-anchor="start" font-family="Inter,system-ui,sans-serif">ERP-Einfuehrung</text>
-  <text x="382" y="752" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Solution angelegt (Projekt-Modus)</text>
-  <text x="930" y="752" font-size="11" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Aktueller Stand</text>
+  <text x="8" y="752" font-size="11" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Yesterday</text>
+  <text x="134" y="753" font-size="12" fill="#38BDF8" text-anchor="start" font-family="Inter,system-ui,sans-serif">ERP-Rollout</text>
+  <text x="382" y="752" font-size="11" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Solution created (Project Mode)</text>
+  <text x="930" y="752" font-size="11" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Current State</text>
   <text x="1118" y="752" font-size="11" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Lukas</text>
   <rect x="0" y="776" width="1280" height="24" fill="#020617" fill-opacity="1" stroke="none"/>
-  <text x="8" y="793" font-size="12" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Bereit</text>
-  <text x="640" y="793" font-size="12" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">21 Objekte  |  4 Diagramme  |  2 Solutions</text>
-  <text x="1272" y="793" font-size="12" fill="#64748B" text-anchor="end" font-family="Inter,system-ui,sans-serif">IST-Plateau  |  Lukas</text>
+  <text x="8" y="793" font-size="12" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Ready</text>
+  <text x="640" y="793" font-size="12" fill="#64748B" text-anchor="middle" font-family="Inter,system-ui,sans-serif">21 Objects  |  4 Diagrams  |  2 Solutions</text>
+  <text x="1272" y="793" font-size="12" fill="#64748B" text-anchor="end" font-family="Inter,system-ui,sans-serif">AS-IS Plateau  |  Lukas</text>
 </svg>

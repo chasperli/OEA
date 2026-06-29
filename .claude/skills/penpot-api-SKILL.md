@@ -494,6 +494,23 @@ frames.push({ id: frameId, svgName: 'screenname-light', children: changes.slice(
 
 ---
 
+## UI Language
+
+**All OEA screens must be implemented in English.**
+
+This applies to all UI strings in Penpot scripts:
+- Menu items, toolbar labels, button text
+- Panel headers, section titles, field labels
+- Placeholder texts, status messages, log entries
+- Column headers, status bar content
+
+Example data (entity names, catalog names, solution names defined by users) can be in any language — but UI chrome is always English.
+
+Wrong: `'Eigenschaften'`, `'Suchen...'`, `'Bereit'`
+Correct: `'Properties'`, `'Search...'`, `'Ready'`
+
+---
+
 ## Resources
 
 - [Penpot Technical Guide](https://help.penpot.app/technical-guide/)
