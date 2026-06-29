@@ -7,7 +7,8 @@ Vollständige Liste aller UI-Screens als Grundlage für Penpot-Mockups und API-D
 - **WP** = Web Portal (Vue 3 SPA, Browser) — Read-only-Publikation
 - **CA+WP** = beide Plattformen
 
-**Status-Werte**: `todo` | `mockup` | `api-defined` | `implemented`
+**Status-Werte**: `todo` | `mockup` | `mockup*` | `api-defined` | `implemented`
+> `mockup*` = SVG lokal vorhanden, Penpot-Upload ausstehend (Server-Timeout)
 
 > **Pflegepflicht**: Wenn ein Screen neu erstellt, überarbeitet oder entfernt wird, muss diese Datei geprüft und der Status sowie die Zuordnung (UC-Bezug, Plattform, Script) aktualisiert werden.
 
@@ -53,14 +54,14 @@ Vollständige Liste aller UI-Screens als Grundlage für Penpot-Mockups und API-D
 | ID | Screen | Plattform | UC-Bezug | Priorität | Status |
 |---|---|---|---|---|---|
 | SCR-030 | Metamodell-Konfiguration | CA | UC-04 | must | `mockup` |
-| SCR-031 | Viewpoint-Verwaltung | CA | UC-12 | must | `todo` |
-| SCR-032 | Property-Sichtbarkeit konfigurieren | CA | UC-21 | must | `todo` |
-| SCR-033 | TRM-Konfiguration | CA | UC-19 | must | `todo` |
-| SCR-034 | Continuum-Bausteine verwalten | CA | UC-17 | must | `todo` |
-| SCR-035 | Continuum-Paket importieren | CA | UC-18 | should | `todo` |
-| SCR-036 | Conformance-Analyse | CA | UC-20 | should | `todo` |
-| SCR-037 | Auth-Konfiguration (Admin) | CA | UC-03 | must | `todo` |
-| SCR-038 | System-Einstellungen | CA | UC-02 | must | `todo` |
+| SCR-031 | Viewpoint-Verwaltung | CA | UC-12 | must | `mockup*` |
+| SCR-032 | Property-Sichtbarkeit konfigurieren | CA | UC-21 | must | `mockup*` |
+| SCR-033 | TRM-Konfiguration | CA | UC-19 | must | `mockup*` |
+| SCR-034 | Continuum-Bausteine verwalten | CA | UC-17 | must | `mockup*` |
+| SCR-035 | Continuum-Paket importieren | CA | UC-18 | should | `mockup*` |
+| SCR-036 | Conformance-Analyse | CA | UC-20 | should | `mockup*` |
+| SCR-037 | Auth-Konfiguration (Admin) | CA | UC-03 | must | `mockup*` |
+| SCR-038 | System-Einstellungen | CA | UC-02 | must | `mockup*` |
 
 ---
 
@@ -68,9 +69,9 @@ Vollständige Liste aller UI-Screens als Grundlage für Penpot-Mockups und API-D
 
 | ID | Screen | Plattform | UC-Bezug | Priorität | Status |
 |---|---|---|---|---|---|
-| SCR-050 | Portal-Startseite / Katalog-Übersicht | WP | UC-06 | must | `mockup` |
-| SCR-051 | Entity-Detailansicht (read-only) | WP | UC-06 | must | `mockup` |
-| SCR-052 | Diagramm-Viewer (read-only) | WP | UC-05, UC-08 | must | `mockup` |
+| SCR-050 | Portal-Startseite / Katalog-Übersicht | WP | UC-06 | must | `mockup*` |
+| SCR-051 | Entity-Detailansicht (read-only) | WP | UC-06 | must | `mockup*` |
+| SCR-052 | Diagramm-Viewer (read-only) | WP | UC-05, UC-08 | must | `mockup*` |
 | SCR-053 | Dashboard-Ansicht (read-only) | WP | UC-07 | should | `todo` |
 | SCR-054 | Änderungshistorie (read-only) | WP | UC-14 | should | `todo` |
 
@@ -90,47 +91,51 @@ SCR-023, SCR-024, SCR-027, SCR-035, SCR-036, SCR-053, SCR-054
 
 Empfohlene Reihenfolge (GUI-first → OpenAPI → Code):
 
-1. ~~**SCR-020** Katalog-Browser — Walking Skeleton (UC-06)~~ ✅ `mockup`
-2. ~~**SCR-010** Hauptfenster / App-Shell~~ ✅ `mockup`
-3. ~~**SCR-012** Entity-Eigenschaften-Panel~~ ✅ `mockup`
-4. ~~**SCR-021** Diagramm-Editor (ArchiMate)~~ ✅ `mockup`
-5. ~~**SCR-022** BPMN-Editor~~ ✅ `mockup`
-6. ~~**SCR-026** Änderungshistorie / Audit-Log~~ ✅ `mockup`
-7. ~~**SCR-027** Restore Entity (Modal)~~ ✅ `mockup`
-8. ~~**SCR-001** Login + Auto-SSO~~ ✅ `mockup`
-9. ~~**SCR-002** Setup-Wizard~~ ✅ `mockup`
-10. ~~**SCR-003** Auth-Methode (2FA / Passkey)~~ ✅ `mockup`
-11. ~~**SCR-011** Explorer / Navigationsbaum~~ ✅ `mockup`
-12. ~~**SCR-023** Data-Lineage-Editor~~ ✅ `mockup`
-13. ~~**SCR-024** Dashboard-Editor~~ ✅ `mockup`
-14. ~~**SCR-025** Plateau-Roadmap~~ ✅ `mockup`
-15. ~~**SCR-030** Metamodell-Konfiguration~~ ✅ `mockup`
-16. ~~**SCR-050** Portal-Startseite~~ ✅ `mockup`
-17. ~~**SCR-051** Entity-Detailansicht (Web Portal)~~ ✅ `mockup`
-18. ~~**SCR-052** Diagramm-Viewer (read-only)~~ ✅ `mockup`
-19. **SCR-031** Viewpoint-Verwaltung
-20. **SCR-053** Dashboard-Ansicht (Web Portal read-only)
-13. **SCR-050** Portal-Startseite
-14. **SCR-051** Entity-Detailansicht (Web Portal)
+1. ~~**SCR-020** Katalog-Browser — Walking Skeleton (UC-06)~~ ✅
+2. ~~**SCR-010** Hauptfenster / App-Shell~~ ✅
+3. ~~**SCR-012** Entity-Eigenschaften-Panel~~ ✅
+4. ~~**SCR-021** Diagramm-Editor (ArchiMate)~~ ✅
+5. ~~**SCR-022** BPMN-Editor~~ ✅
+6. ~~**SCR-026** Änderungshistorie / Audit-Log~~ ✅
+7. ~~**SCR-027** Restore Entity (Modal)~~ ✅
+8. ~~**SCR-001** Login + Auto-SSO~~ ✅
+9. ~~**SCR-002** Setup-Wizard~~ ✅
+10. ~~**SCR-003** Auth-Methode (2FA / Passkey)~~ ✅
+11. ~~**SCR-011** Explorer / Navigationsbaum~~ ✅
+12. ~~**SCR-023** Data-Lineage-Editor~~ ✅
+13. ~~**SCR-024** Dashboard-Editor~~ ✅
+14. ~~**SCR-025** Plateau-Roadmap~~ ✅
+15. ~~**SCR-030** Metamodell-Konfiguration~~ ✅
+16. ~~**SCR-050** Portal-Startseite~~ ⚠ SVG only
+17. ~~**SCR-051** Entity-Detailansicht (Web Portal)~~ ⚠ SVG only
+18. ~~**SCR-052** Diagramm-Viewer (read-only)~~ ⚠ SVG only
+19. ~~**SCR-031** Viewpoint-Verwaltung~~ ⚠ SVG only
+20. ~~**SCR-032** Property-Sichtbarkeit~~ ⚠ SVG only
+21. ~~**SCR-033** TRM-Konfiguration~~ ⚠ SVG only
+22. ~~**SCR-034** Continuum-Bausteine~~ ⚠ SVG only
+23. ~~**SCR-035** Continuum-Paket importieren~~ ⚠ SVG only
+24. ~~**SCR-036** Conformance-Analyse~~ ⚠ SVG only
+25. ~~**SCR-037** Auth-Konfiguration (Admin)~~ ⚠ SVG only
+26. ~~**SCR-038** System-Einstellungen~~ ⚠ SVG only
+27. **SCR-053** Dashboard-Ansicht (Web Portal)
+28. **SCR-054** Änderungshistorie (Web Portal)
 
 ---
 
 ## Zugehörige Penpot-Scripts
 
-| Script | Screens |
-|---|---|
-| `scripts/penpot/login.js` | SCR-001 (login, autosso), SCR-002 (setup-bootstrap), SCR-003 (2fa, passkey) |
-| `scripts/penpot/hauptfenster.js` | SCR-010, SCR-012 (Light + Dark) |
-| `scripts/penpot/katalog-browser.js` | SCR-020 |
-| `scripts/penpot/diagram-editor.js` | SCR-021 |
-| `scripts/penpot/bpmn-editor.js` | SCR-022 |
-| `scripts/penpot/audit-log.js` | SCR-026, SCR-027 |
-| `scripts/penpot/explorer.js` | SCR-011 |
-| `scripts/penpot/data-lineage.js` | SCR-023 |
-| `scripts/penpot/dashboard-editor.js` | SCR-024 |
-| `scripts/penpot/plateau-roadmap.js` | SCR-025 |
-| `scripts/penpot/metamodel-config.js` | SCR-030 |
-| `scripts/penpot/web-portal.js` | SCR-050, SCR-051, SCR-052 |
-| _(geplant)_ `scripts/penpot/setup-wizard.js` | SCR-002, SCR-003 |
-| _(geplant)_ `scripts/penpot/admin.js` | SCR-030–SCR-038 |
-| _(geplant)_ `scripts/penpot/web-portal.js` | SCR-050–SCR-054 |
+| Script | Screens | Penpot |
+|---|---|---|
+| `scripts/penpot/login.js` | SCR-001, SCR-002, SCR-003 | ✅ |
+| `scripts/penpot/hauptfenster.js` | SCR-010, SCR-012 | ✅ |
+| `scripts/penpot/katalog-browser.js` | SCR-020 | ✅ |
+| `scripts/penpot/diagram-editor.js` | SCR-021 | ✅ |
+| `scripts/penpot/bpmn-editor.js` | SCR-022 | ✅ |
+| `scripts/penpot/audit-log.js` | SCR-026, SCR-027 | ✅ |
+| `scripts/penpot/explorer.js` | SCR-011 | ✅ |
+| `scripts/penpot/data-lineage.js` | SCR-023 | ✅ |
+| `scripts/penpot/dashboard-editor.js` | SCR-024 | ✅ |
+| `scripts/penpot/plateau-roadmap.js` | SCR-025 | ✅ |
+| `scripts/penpot/metamodel-config.js` | SCR-030 | ✅ |
+| `scripts/penpot/web-portal.js` | SCR-050, SCR-051, SCR-052 | ⚠ Upload pending |
+| `scripts/penpot/admin.js` | SCR-031–SCR-038 | ⚠ Upload pending |

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="800" viewBox="0 0 1280 800">
+  <rect width="1280" height="800" fill="#FFFFFF"/>
+  <rect x="0" y="0" width="1280" height="28" fill="#020617" fill-opacity="1" stroke="none"/>
+  <text x="8" y="18" font-size="12" fill="#CBD5E1" text-anchor="start" font-family="Inter,system-ui,sans-serif">File</text>
+  <text x="54" y="18" font-size="12" fill="#CBD5E1" text-anchor="start" font-family="Inter,system-ui,sans-serif">Edit</text>
+  <text x="100" y="18" font-size="12" fill="#CBD5E1" text-anchor="start" font-family="Inter,system-ui,sans-serif">Admin</text>
+  <text x="152" y="18" font-size="12" fill="#CBD5E1" text-anchor="start" font-family="Inter,system-ui,sans-serif">Help</text>
+  <text x="1272" y="17" font-size="11" fill="#64748B" text-anchor="end" font-family="Inter,system-ui,sans-serif">OEA 0.1.0-SNAPSHOT</text>
+  <rect x="0" y="28" width="1280" height="36" fill="#1E293B" fill-opacity="1" stroke="#334155" stroke-width="1"/>
+  <text x="8" y="51" font-size="12" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Administration</text>
+  <text x="90" y="51" font-size="12" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">›</text>
+  <text x="100" y="51" font-size="12" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Continuum-Bausteine verwalten</text>
+  <rect x="990" y="34" width="86" height="22" fill="#0B1829" fill-opacity="1" stroke="#334155" stroke-width="1"/>
+  <text x="1033" y="48" font-size="10" fill="#94A3B8" text-anchor="middle" font-family="Inter,system-ui,sans-serif">+ Baustein</text>
+  <rect x="1140" y="34" width="58" height="22" fill="#0B1829" fill-opacity="1" stroke="#334155" stroke-width="1"/>
+  <text x="1169" y="48" font-size="10" fill="#94A3B8" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Import</text>
+  <rect x="1220" y="34" width="44" height="22" fill="#38BDF8" fill-opacity="1" stroke="#38BDF8" stroke-width="1"/>
+  <text x="1242" y="48" font-size="10" fill="#FFFFFF" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Save</text>
+  <rect x="0" y="776" width="1280" height="24" fill="#020617" fill-opacity="1" stroke="none"/>
+  <text x="8" y="792" font-size="10" fill="#64748B" text-anchor="start" font-family="Inter,system-ui,sans-serif">Enterprise Continuum  ·  4 Ebenen  ·  23 Bausteine</text>
+  <text x="1272" y="792" font-size="10" fill="#64748B" text-anchor="end" font-family="Inter,system-ui,sans-serif">Connected  ·  OEA 0.1.0-SNAPSHOT</text>
+  <rect x="0" y="64" width="1280" height="178" fill="#1E293B" fill-opacity="1" stroke="#7C3AED" stroke-width="0.5"/>
+  <rect x="0" y="64" width="180" height="178" fill="#7C3AED" fill-opacity="0.06" stroke="none"/>
+  <text x="8" y="82" font-size="10" fill="#7C3AED" text-anchor="start" font-family="Inter,system-ui,sans-serif">Foundation Architecture</text>
+  <text x="8" y="94" font-size="8" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Generische Konzepte (TOGAF, ArchiMate)</text>
+  <rect x="0" y="241" width="1280" height="1" fill="#7C3AED" fill-opacity="0.3" stroke="none"/>
+  <rect x="188" y="76" width="172" height="150" fill="#1E293B" fill-opacity="1" stroke="#7C3AED" stroke-width="0.8"/>
+  <rect x="188" y="76" width="172" height="6" fill="#7C3AED" fill-opacity="1" stroke="none"/>
+  <text x="194" y="98" font-size="10" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Business Object</text>
+  <text x="194" y="109" font-size="7" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Foundation level</text>
+  <rect x="368" y="76" width="172" height="150" fill="#1E293B" fill-opacity="1" stroke="#7C3AED" stroke-width="0.8"/>
+  <rect x="368" y="76" width="172" height="6" fill="#7C3AED" fill-opacity="1" stroke="none"/>
+  <text x="374" y="98" font-size="10" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Actor</text>
+  <text x="374" y="109" font-size="7" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Foundation level</text>
+  <rect x="548" y="76" width="172" height="150" fill="#1E293B" fill-opacity="1" stroke="#7C3AED" stroke-width="0.8"/>
+  <rect x="548" y="76" width="172" height="6" fill="#7C3AED" fill-opacity="1" stroke="none"/>
+  <text x="554" y="98" font-size="10" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Interface</text>
+  <text x="554" y="109" font-size="7" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Foundation level</text>
+  <rect x="728" y="76" width="172" height="150" fill="#1E293B" fill-opacity="1" stroke="#7C3AED" stroke-width="0.8"/>
+  <rect x="728" y="76" width="172" height="6" fill="#7C3AED" fill-opacity="1" stroke="none"/>
+  <text x="734" y="98" font-size="10" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Role</text>
+  <text x="734" y="109" font-size="7" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Foundation level</text>
+  <rect x="908" y="76" width="172" height="150" fill="#1E293B" fill-opacity="1" stroke="#7C3AED" stroke-width="0.8"/>
+  <rect x="908" y="76" width="172" height="6" fill="#7C3AED" fill-opacity="1" stroke="none"/>
+  <text x="914" y="98" font-size="10" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Capability</text>
+  <text x="914" y="109" font-size="7" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Foundation level</text>
+  <rect x="0" y="242" width="1280" height="178" fill="#1E293B" fill-opacity="1" stroke="#0284C7" stroke-width="0.5"/>
+  <rect x="0" y="242" width="180" height="178" fill="#0284C7" fill-opacity="0.06" stroke="none"/>
+  <text x="8" y="260" font-size="10" fill="#0284C7" text-anchor="start" font-family="Inter,system-ui,sans-serif">Common Systems Architecture</text>
+  <text x="8" y="272" font-size="8" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Wiederverwendbare Bausteine (branchenübergreifend)</text>
+  <rect x="0" y="419" width="1280" height="1" fill="#0284C7" fill-opacity="0.3" stroke="none"/>
+  <rect x="188" y="254" width="172" height="150" fill="#1E293B" fill-opacity="1" stroke="#0284C7" stroke-width="0.8"/>
+  <rect x="188" y="254" width="172" height="6" fill="#0284C7" fill-opacity="1" stroke="none"/>
+  <text x="194" y="276" font-size="10" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Application Component</text>
+  <text x="194" y="287" font-size="7" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Common level</text>
+  <rect x="368" y="254" width="172" height="150" fill="#1E293B" fill-opacity="1" stroke="#0284C7" stroke-width="0.8"/>
+  <rect x="368" y="254" width="172" height="6" fill="#0284C7" fill-opacity="1" stroke="none"/>
+  <text x="374" y="276" font-size="10" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Technology Component</text>
+  <text x="374" y="287" font-size="7" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Common level</text>
+  <rect x="548" y="254" width="172" height="150" fill="#1E293B" fill-opacity="1" stroke="#0284C7" stroke-width="0.8"/>
+  <rect x="548" y="254" width="172" height="6" fill="#0284C7" fill-opacity="1" stroke="none"/>
+  <text x="554" y="276" font-size="10" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Data Object</text>
+  <text x="554" y="287" font-size="7" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Common level</text>
+  <rect x="0" y="420" width="1280" height="178" fill="#1E293B" fill-opacity="1" stroke="#059669" stroke-width="0.5"/>
+  <rect x="0" y="420" width="180" height="178" fill="#059669" fill-opacity="0.06" stroke="none"/>
+  <text x="8" y="438" font-size="10" fill="#059669" text-anchor="start" font-family="Inter,system-ui,sans-serif">Industry Architecture</text>
+  <text x="8" y="450" font-size="8" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Branchenspezifische Referenzarchitektur</text>
+  <rect x="0" y="597" width="1280" height="1" fill="#059669" fill-opacity="0.3" stroke="none"/>
+  <rect x="188" y="432" width="172" height="150" fill="#1E293B" fill-opacity="1" stroke="#059669" stroke-width="0.8"/>
+  <rect x="188" y="432" width="172" height="6" fill="#059669" fill-opacity="1" stroke="none"/>
+  <text x="194" y="454" font-size="10" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">ERP-Modul</text>
+  <text x="194" y="465" font-size="7" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Industry level</text>
+  <rect x="368" y="432" width="172" height="150" fill="#1E293B" fill-opacity="1" stroke="#059669" stroke-width="0.8"/>
+  <rect x="368" y="432" width="172" height="6" fill="#059669" fill-opacity="1" stroke="none"/>
+  <text x="374" y="454" font-size="10" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">CRM-Integration</text>
+  <text x="374" y="465" font-size="7" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Industry level</text>
+  <rect x="548" y="432" width="172" height="150" fill="#1E293B" fill-opacity="1" stroke="#059669" stroke-width="0.8"/>
+  <rect x="548" y="432" width="172" height="6" fill="#059669" fill-opacity="1" stroke="none"/>
+  <text x="554" y="454" font-size="10" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Compliance-Framework</text>
+  <text x="554" y="465" font-size="7" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Industry level</text>
+  <rect x="0" y="598" width="1280" height="178" fill="#0C4A6E" fill-opacity="1" stroke="#D97706" stroke-width="1"/>
+  <rect x="0" y="598" width="180" height="178" fill="#D97706" fill-opacity="0.12" stroke="none"/>
+  <text x="8" y="616" font-size="10" fill="#D97706" text-anchor="start" font-family="Inter,system-ui,sans-serif">Organisation Architecture</text>
+  <text x="8" y="628" font-size="8" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">OEA-spezifische Bausteine</text>
+  <rect x="0" y="775" width="1280" height="1" fill="#D97706" fill-opacity="0.3" stroke="none"/>
+  <rect x="188" y="610" width="172" height="150" fill="#1E293B" fill-opacity="1" stroke="#D97706" stroke-width="1.5"/>
+  <rect x="188" y="610" width="172" height="6" fill="#D97706" fill-opacity="1" stroke="none"/>
+  <text x="194" y="632" font-size="10" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Auth-Service</text>
+  <text x="194" y="643" font-size="7" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Organisation level</text>
+  <rect x="348" y="614" width="8" height="8" fill="#38BDF8" fill-opacity="1" stroke="#38BDF8" stroke-width="1"/>
+  <rect x="368" y="610" width="172" height="150" fill="#1E293B" fill-opacity="1" stroke="#D97706" stroke-width="1.5"/>
+  <rect x="368" y="610" width="172" height="6" fill="#D97706" fill-opacity="1" stroke="none"/>
+  <text x="374" y="632" font-size="10" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">OEA-Data-Warehouse</text>
+  <text x="374" y="643" font-size="7" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Organisation level</text>
+  <rect x="548" y="610" width="172" height="150" fill="#1E293B" fill-opacity="1" stroke="#D97706" stroke-width="1.5"/>
+  <rect x="548" y="610" width="172" height="6" fill="#D97706" fill-opacity="1" stroke="none"/>
+  <text x="554" y="632" font-size="10" fill="#F1F5F9" text-anchor="start" font-family="Inter,system-ui,sans-serif">Reporting-Mart</text>
+  <text x="554" y="643" font-size="7" fill="#94A3B8" text-anchor="start" font-family="Inter,system-ui,sans-serif">Organisation level</text>
+  <rect x="1228" y="606" width="44" height="20" fill="#D97706" fill-opacity="0.15" stroke="#D97706" stroke-width="1"/>
+  <text x="1250" y="618" font-size="8" fill="#D97706" text-anchor="middle" font-family="Inter,system-ui,sans-serif">+ Add</text>
+</svg>
