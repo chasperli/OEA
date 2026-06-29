@@ -187,6 +187,19 @@ Workflow siehe `.claude/agents/README.md` und `docs/workflow-example.md`.
 - IMMER betroffene Konzept-Kapitel verlinken
 - NIEMALS ADR-Nummer wiederverwenden (auch nicht bei Rejected)
 
+### Bei Screen-Änderungen (Penpot-Mockups)
+
+`docs/screens/SCREENS.md` ist das verbindliche Screen-Inventar. Bei jedem der folgenden Ereignisse MUSS es geprüft und aktualisiert werden:
+
+| Ereignis | Was tun |
+|---|---|
+| Neuer Screen erstellt (`scripts/penpot/*.js`) | Eintrag in SCREENS.md anlegen: ID, Name, Plattform, UC-Bezug, Priorität; Status auf `mockup` setzen |
+| Screen überarbeitet | Status in SCREENS.md prüfen und ggf. anpassen |
+| Neues Penpot-Script angelegt | Eintrag in der Tabelle „Zugehörige Penpot-Scripts" ergänzen |
+| Screen fällt weg oder wird zusammengelegt | Eintrag entfernen oder als `superseded` kommentieren |
+
+**Faustregel:** Jeder SVG in `docs/screens/` hat einen korrespondierenden Eintrag in `SCREENS.md`.
+
 ### Bei Datenmodell-Änderungen
 
 Das Datenmodell besteht aus zwei synchron zu haltenden Quellen:

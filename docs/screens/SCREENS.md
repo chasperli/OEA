@@ -9,6 +9,8 @@ Vollständige Liste aller UI-Screens als Grundlage für Penpot-Mockups und API-D
 
 **Status-Werte**: `todo` | `mockup` | `api-defined` | `implemented`
 
+> **Pflegepflicht**: Wenn ein Screen neu erstellt, überarbeitet oder entfernt wird, muss diese Datei geprüft und der Status sowie die Zuordnung (UC-Bezug, Plattform, Script) aktualisiert werden.
+
 ---
 
 ## Auth & Setup
