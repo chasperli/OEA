@@ -37,8 +37,8 @@ Vollständige Liste aller UI-Screens als Grundlage für Penpot-Mockups und API-D
 
 | ID | Screen | Plattform | UC-Bezug | Priorität | Status |
 |---|---|---|---|---|---|
-| SCR-020 | Katalog-Browser (Walking Skeleton) | CA | UC-06 | must | `todo` |
-| SCR-021 | Diagramm-Editor / Canvas | CA | UC-05, UC-08, UC-10 | must | `todo` |
+| SCR-020 | Katalog-Browser (Walking Skeleton) | CA | UC-06 | must | `mockup` |
+| SCR-021 | Diagramm-Editor / Canvas | CA | UC-05, UC-08, UC-10 | must | `mockup` |
 | SCR-022 | BPMN-Editor | CA | UC-10 | must | `todo` |
 | SCR-023 | Data-Lineage-Editor | CA | UC-08 | should | `todo` |
 | SCR-024 | Dashboard-Editor | CA | UC-07 | should | `todo` |
@@ -106,7 +106,8 @@ Empfohlene Reihenfolge (GUI-first → OpenAPI → Code):
 | Script | Screens |
 |---|---|
 | `scripts/penpot/hauptfenster.js` | SCR-010, SCR-012 (Light + Dark) |
-| _(geplant)_ `scripts/penpot/katalog-browser.js` | SCR-020 |
+| `scripts/penpot/katalog-browser.js` | SCR-020 |
+| `scripts/penpot/diagram-editor.js` | SCR-021 |
 | _(geplant)_ `scripts/penpot/setup-wizard.js` | SCR-002, SCR-003 |
 | _(geplant)_ `scripts/penpot/admin.js` | SCR-030–SCR-038 |
 | _(geplant)_ `scripts/penpot/web-portal.js` | SCR-050–SCR-054 |
