@@ -1,0 +1,455 @@
+openapi: 3.1.0
+
+info:
+  title: OEA – Open Enterprise Architecture API
+  version: 0.1.0-SNAPSHOT
+  description: |
+    REST API für OEA. Zwei Schichten:
+    - **Resource API** (`/api/v1/...`): CRUD und Automatisierung (REQ-147)
+    - **View API** (`/api/v1/views/...`): aggregierte, screen-optimierte Endpoints (BFF-Muster)
+    - **Portal API** (`/api/v1/portal/...`): Read-only, reduzierter Auth-Scope (Web Portal)
+
+    Versionierung: URL-Pfad (`/api/v1/`). Breaking Changes → neue Major-Version.
+  contact:
+    name: OEA Community
+  license:
+    name: AGPL-3.0
+    url: https://www.gnu.org/licenses/agpl-3.0.html
+
+servers:
+  - url: /api/v1
+    description: Aktuelle Version
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Sicherheit
+# ─────────────────────────────────────────────────────────────────────────────
+security:
+  - bearerAuth: []
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # Gemeinsame Parameter
+  # ───────────────────────────────────────────────────────────────────────────
+  parameters:
+    PageParam:
+      name: page
+      in: query
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+      description: Seitennummer (0-basiert)
+
+    PageSizeParam:
+      name: pageSize
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 200
+        default: 50
+
+    SortParam:
+      name: sort
+      in: query
+      schema:
+        type: string
+        example: name:asc
+      description: "Format: `{field}:{asc|desc}`. Mehrere durch Komma trennen."
+
+    LocaleParam:
+      name: locale
+      in: path
+      required: true
+      schema:
+        type: string
+        enum: [de, en, fr, it]
+      description: BCP 47 Sprachcode
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # Gemeinsame Schemas
+  # ───────────────────────────────────────────────────────────────────────────
+  schemas:
+
+    # ── Paginierung ──────────────────────────────────────────────────────────
+    PageMeta:
+      type: object
+      required: [page, pageSize, totalElements, totalPages]
+      properties:
+        page:         { type: integer, example: 0 }
+        pageSize:     { type: integer, example: 50 }
+        totalElements:{ type: integer, example: 134 }
+        totalPages:   { type: integer, example: 3 }
+
+    # ── Fehler ───────────────────────────────────────────────────────────────
+    Problem:
+      type: object
+      description: RFC 9457 Problem Details
+      required: [type, title, status]
+      properties:
+        type:     { type: string, format: uri, example: "about:blank" }
+        title:    { type: string, example: "Not Found" }
+        status:   { type: integer, example: 404 }
+        detail:   { type: string }
+        instance: { type: string, format: uri }
+
+    # ── Property-Wert (typisiert) ────────────────────────────────────────────
+    PropertyValue:
+      type: object
+      description: Typisierter Eigenschaftswert einer Entität
+      required: [propertyDefId, propertyName, dataType]
+      properties:
+        propertyDefId:  { type: string, format: uuid }
+        propertyName:   { type: string, example: "version" }
+        label:          { type: string, description: "Übersetzter Label (ui_language der Session)" }
+        dataType:
+          type: string
+          enum: [string, integer, boolean, enum, reference, date, url, text]
+        valueText:    { type: string, nullable: true }
+        valueInt:     { type: integer, nullable: true }
+        valueBool:    { type: boolean, nullable: true }
+        valueDate:    { type: string, format: date, nullable: true }
+        valueEnum:    { type: string, nullable: true }
+        valueRef:
+          type: object
+          nullable: true
+          description: Referenzierte Entität (bei dataType=reference)
+          properties:
+            id:           { type: integer }
+            name:         { type: string }
+            metatypeAbbr: { type: string, example: "AC" }
+
+    # ── MetaTyp (kompakt) ────────────────────────────────────────────────────
+    MetatypeSummary:
+      type: object
+      required: [id, name, abbreviation]
+      properties:
+        id:           { type: string, format: uuid }
+        name:         { type: string }
+        abbreviation: { type: string, example: "AC" }
+
+    # ── Entität (Listenzeile) ────────────────────────────────────────────────
+    EntityListItem:
+      type: object
+      required: [id, name, metatype, createdAt, updatedAt]
+      properties:
+        id:
+          type: integer
+          example: 42
+        name:
+          type: string
+          example: "Auth-Service"
+        description:
+          type: string
+        metatype:
+          $ref: '#/components/schemas/MetatypeSummary'
+        isLogical:
+          type: boolean
+          default: true
+        lifecycle:
+          type: string
+          nullable: true
+          description: Wert der 'lifecycle'-Property (falls definiert)
+        deletedAt:
+          type: string
+          format: date-time
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    # ── Entität (Detail) ─────────────────────────────────────────────────────
+    EntityDetail:
+      allOf:
+        - $ref: '#/components/schemas/EntityListItem'
+        - type: object
+          properties:
+            version:
+              type: integer
+              description: Optimistic-Lock-Version (ADR-016)
+            properties:
+              type: array
+              items:
+                $ref: '#/components/schemas/PropertyValue'
+            relations:
+              type: array
+              items:
+                $ref: '#/components/schemas/RelationSummary'
+            parentEntity:
+              type: object
+              nullable: true
+              properties:
+                id:   { type: integer }
+                name: { type: string }
+
+    # ── Relation (kompakt) ───────────────────────────────────────────────────
+    RelationSummary:
+      type: object
+      required: [id, metatype, direction, relatedEntity]
+      properties:
+        id:
+          type: integer
+          description: Entity-ID der Verbindungsentität
+        metatype:
+          $ref: '#/components/schemas/MetatypeSummary'
+        direction:
+          type: string
+          enum: [outgoing, incoming]
+        relatedEntity:
+          type: object
+          required: [id, name, metatype]
+          properties:
+            id:      { type: integer }
+            name:    { type: string }
+            metatype:
+              $ref: '#/components/schemas/MetatypeSummary'
+
+    # ── Catalog-View Filter-Optionen ─────────────────────────────────────────
+    CatalogFilterOptions:
+      type: object
+      description: Verfügbare Filter-Werte für die Catalog-Ansicht (für Filter-UI)
+      properties:
+        metatypes:
+          type: array
+          items:
+            allOf:
+              - $ref: '#/components/schemas/MetatypeSummary'
+              - type: object
+                properties:
+                  count: { type: integer }
+        lifecycleValues:
+          type: array
+          items:
+            type: object
+            properties:
+              value: { type: string }
+              label: { type: string }
+              count: { type: integer }
+
+    # ── I18N ─────────────────────────────────────────────────────────────────
+    I18nBundle:
+      type: object
+      description: |
+        Alle dynamischen Labels für eine Locale als flache Key-Value-Map.
+        Keys folgen dem Schema: `{entity_type}.{slug_or_uuid}.{field}`
+      additionalProperties:
+        type: string
+      example:
+        "metatype.ac.name": "Application Component"
+        "metatype.ac.description": "Repräsentiert eine Softwareanwendung"
+        "property-def.abc123.label": "Version"
+        "enum-value.def456.label": "Geplant"
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Paths
+# ─────────────────────────────────────────────────────────────────────────────
+paths:
+
+  # ╔═════════════════════════════════════════════════════════════════════════╗
+  # ║  I18N                                                                  ║
+  # ╚═════════════════════════════════════════════════════════════════════════╝
+  /i18n/{locale}:
+    get:
+      operationId: getI18nBundle
+      summary: Dynamische Labels für eine Locale laden
+      description: |
+        Gibt alle DB-gespeicherten Labels (MetaTypen, Properties, Enum-Werte,
+        Kategorien, Rollen) für die angegebene Locale zurück.
+
+        **ETag-Caching (ADR-025):** Der ETag basiert auf `MAX(updated_at)` aller
+        `i18n_entries` für die Locale. Bei unverändertem Stand → `304 Not Modified`.
+
+        `Cache-Control: max-age=300, stale-while-revalidate=3600`
+      tags: [I18N]
+      parameters:
+        - $ref: '#/components/parameters/LocaleParam'
+      responses:
+        '200':
+          description: Labels erfolgreich geladen
+          headers:
+            ETag:
+              schema: { type: string }
+            Cache-Control:
+              schema: { type: string }
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/I18nBundle'
+        '304':
+          description: Nicht verändert (ETag stimmt überein)
+        '404':
+          description: Locale nicht unterstützt
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+
+  # ╔═════════════════════════════════════════════════════════════════════════╗
+  # ║  VIEW – CATALOG (Walking Skeleton, UC-06, SCR-020)                     ║
+  # ╚═════════════════════════════════════════════════════════════════════════╝
+  /views/catalog:
+    get:
+      operationId: getCatalogView
+      summary: Katalog-Übersicht (SCR-020)
+      description: |
+        Aggregierter Endpoint für den Katalog-Browser (Walking Skeleton, UC-06).
+        Gibt eine paginierte, filterbare Liste von Entitäten zurück — optimiert
+        für die Tabellen-Ansicht in SCR-020.
+
+        **Spaltenfilter**: Alle `filter[*]`-Parameter sind implizit AND-verknüpft.
+        Grosse/Kleinschreibung wird ignoriert (case-insensitive LIKE).
+
+        Soft-gelöschte Entitäten werden standardmässig ausgeblendet (`deleted=false`).
+      tags: [Views]
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageSizeParam'
+        - $ref: '#/components/parameters/SortParam'
+        - name: filter[name]
+          in: query
+          schema: { type: string }
+          description: Namens-Filter (Teilstring, case-insensitive)
+          example: "Auth"
+        - name: filter[metatypeId]
+          in: query
+          schema:
+            type: array
+            items: { type: string, format: uuid }
+          style: form
+          explode: false
+          description: Auf diese MetaTypen einschränken (mehrere = OR)
+        - name: filter[lifecycle]
+          in: query
+          schema:
+            type: array
+            items: { type: string }
+          style: form
+          explode: false
+          description: Lifecycle-Werte (mehrere = OR)
+        - name: filter[isLogical]
+          in: query
+          schema: { type: boolean }
+        - name: deleted
+          in: query
+          schema:
+            type: string
+            enum: [false, true, only]
+            default: "false"
+          description: |
+            `false` = nur aktive (Default),
+            `true` = aktive + gelöschte,
+            `only` = nur gelöschte
+      responses:
+        '200':
+          description: Entitätenliste
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [items, page, filterOptions]
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/EntityListItem'
+                  page:
+                    $ref: '#/components/schemas/PageMeta'
+                  filterOptions:
+                    $ref: '#/components/schemas/CatalogFilterOptions'
+                    description: Aktuelle Filter-Optionen (für Filter-Dropdowns)
+        '400':
+          description: Ungültige Filter-Parameter
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Nicht authentifiziert
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+
+  /views/catalog/{id}:
+    get:
+      operationId: getCatalogEntityDetail
+      summary: Entität-Detail (SCR-012)
+      description: |
+        Vollständiges Entitäts-Detail inkl. aller typisierten Properties und
+        Relationen — optimiert für das Properties-Panel (SCR-012).
+      tags: [Views]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+          description: Entitäts-ID
+      responses:
+        '200':
+          description: Entitäts-Detail
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityDetail'
+        '404':
+          description: Entität nicht gefunden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '410':
+          description: Entität wurde soft-gelöscht
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+
+  # ╔═════════════════════════════════════════════════════════════════════════╗
+  # ║  SSE – Invalidierungskanal (ADR-025)                                   ║
+  # ╚═════════════════════════════════════════════════════════════════════════╝
+  /events/stream:
+    get:
+      operationId: getEventStream
+      summary: Server-Sent Events — Cache-Invalidierung
+      description: |
+        Persistente SSE-Verbindung. Der Server sendet Events wenn sich
+        i18n-Labels oder andere gecachte Ressourcen ändern.
+
+        Event-Typen:
+        - `i18n_invalidated` — Admin hat Labels geändert (`{"locale": "de"}`)
+        - `metamodel_updated` — Metamodell-Konfiguration geändert
+
+        Deaktivierbar via `oea.sse.enabled=false` (ADR-025).
+      tags: [Events]
+      responses:
+        '200':
+          description: SSE-Stream geöffnet
+          content:
+            text/event-stream:
+              schema:
+                type: string
+                example: |
+                  data: {"type":"i18n_invalidated","locale":"de"}
+
+                  data: {"type":"metamodel_updated"}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Tags
+# ─────────────────────────────────────────────────────────────────────────────
+tags:
+  - name: Views
+    description: Aggregierte View-Endpoints (BFF-Muster, screen-optimiert)
+  - name: I18N
+    description: Dynamische Übersetzungs-Labels
+  - name: Events
+    description: Server-Sent Events für Cache-Invalidierung

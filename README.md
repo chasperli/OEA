@@ -34,7 +34,7 @@ Mehr Details: [business-analysis/vision.md](business-analysis/vision.md)
 | Use Cases | 21 |
 | Requirements | 147 |
 | User Stories | 136 |
-| ADRs | 24 |
+| ADRs | 25 |
 | Business Objects | 22 |
 
 _Konzept: v0.17 · Letzter Update: 2026-06-29_
@@ -112,6 +112,7 @@ OEA ist **noch nicht produktiv einsetzbar**. Wenn du mitwirken willst: [CONTRIBU
 | [ADR-022](adrs/ADR-022-strukturiertes-property-modell.md) | Strukturiertes Property-Modell mit Kategorie, temporalem Mapping und Delta-Versionierung | accepted |
 | [ADR-023](adrs/ADR-023-multi-db-strategie.md) | Multi-DB-Strategie — Datenbankabstraktion via JPA/Hibernate | accepted |
 | [ADR-024](adrs/ADR-024-audit-separation.md) | Audit-Datenhaltung — separates Schema, konfigurierbar als externe Datenbank | accepted |
+| [ADR-025](adrs/ADR-025-i18n-strategie.md) | I18N-Strategie — Zweischichtig mit ETag-Caching und SSE-Invalidierung | accepted |
 <!-- /AUTO-GENERATED: adrs -->
 
 ## Mitwirken
