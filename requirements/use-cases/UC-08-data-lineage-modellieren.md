@@ -34,6 +34,40 @@ references:
 
 # UC-08: Datenflusskarte (Data Lineage) modellieren und analysieren
 
+## Diagramm
+
+```plantuml
+@startuml UC-08-DataLineage
+left to right direction
+skinparam actorStyle awesome
+
+actor "Lukas\n(Data Architekt)" as Lukas
+actor "Kurt\n(Lead EA)" as Kurt
+actor "Sabine\n(Business Engineer)" as Sabine
+
+rectangle "OEA – Data Lineage" {
+  usecase "Datenobjekt modellieren\n(data-object Entity)" as UC_DO
+  usecase "Datenfluss modellieren\n(data-flow Connection)" as UC_DF
+  usecase "Lineage-Graph traversieren\n(upstream / downstream)" as UC_Lineage
+  usecase "Impact-Analyse\ndurchführen" as UC_Impact
+  usecase "DSGVO Art. 30\nKatalog ableiten" as UC_GDPR
+  usecase "Lineage-Viewpoint\nanzeigen" as UC_View
+}
+
+Lukas --> UC_DO
+Lukas --> UC_DF
+Lukas --> UC_Lineage
+Lukas --> UC_Impact
+Lukas --> UC_GDPR
+Kurt --> UC_Lineage
+Sabine --> UC_View
+
+UC_DF ..> UC_DO : <<include>>
+UC_Lineage ..> UC_View : <<include>>
+UC_GDPR ..> UC_Lineage : <<include>>
+@enduml
+```
+
 ## Goal in Context
 
 In jedem Unternehmen fliessen Daten zwischen Systemen: Kundenstammdaten aus dem ERP in das CRM, Transaktionsdaten aus Kassensystemen in das Data Warehouse, Personalstammdaten aus dem HR-System in die Abrechnung. Diese Flüsse sind selten vollständig dokumentiert, veralten schnell nach Schemaänderungen und sind für Fachabteilungen, Datenschutzbeauftragte und Auditoren kaum nachvollziehbar.

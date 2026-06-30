@@ -28,6 +28,43 @@ references:
 
 # UC-04: Metamodell gemeinsam konfigurieren
 
+## Diagramm
+
+```plantuml
+@startuml UC-04-Metamodell
+left to right direction
+skinparam actorStyle awesome
+
+actor "Kurt\n(Lead EA)" as Kurt
+actor "Lukas\n(Data Architekt)" as Lukas
+actor "Michael\n(Solution Architekt)" as Michael
+actor "Sabine\n(Business Engineer)" as Sabine
+
+rectangle "OEA – Metamodell konfigurieren" {
+  usecase "EntityType anlegen\n(GUI)" as UC_ET
+  usecase "EntityType bearbeiten" as UC_Edit
+  usecase "Stereotype hinzufügen" as UC_Stereo
+  usecase "Constraint-Regel\ndefinieren" as UC_Rule
+  usecase "Metamodell importieren\n(YAML / JSON)" as UC_Import
+  usecase "Audit-Log schreiben" as UC_Audit
+}
+
+Kurt --> UC_ET
+Kurt --> UC_Edit
+Kurt --> UC_Stereo
+Kurt --> UC_Rule
+Kurt --> UC_Import
+Lukas --> UC_ET
+Lukas --> UC_Edit
+Michael --> UC_ET
+Sabine --> UC_Import
+
+UC_ET ..> UC_Audit : <<include>>
+UC_Edit ..> UC_Audit : <<include>>
+UC_Import ..> UC_Audit : <<include>>
+@enduml
+```
+
 ## Goal in Context
 
 Bevor Architekten Entitäten im Repository erfassen können, muss das Architekturteam festlegen, welche Typen von Entitäten und Relationen in ihrer Organisation überhaupt modellierbar sind. OEA liefert ein TOGAF-basiertes Kern-Metamodell (§6), das jedoch organisations-spezifisch erweitert werden muss: Branchen-Besonderheiten, proprietäre Plattform-Typen oder interne Governance-Anforderungen erfordern Custom EntityTypes, Stereotypen und Constraint-Regeln. Dieser Use Case ermöglicht dem Architekturteam, diese Konfiguration gemeinsam, iterativ und ohne Code-Deployment vorzunehmen – entweder über das GUI oder per Datei-Import.

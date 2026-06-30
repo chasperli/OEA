@@ -32,6 +32,37 @@ references:
 
 # UC-12: Viewpoint anlegen und verwalten
 
+## Diagramm
+
+```plantuml
+@startuml UC-12-Viewpoint
+left to right direction
+skinparam actorStyle awesome
+
+actor "Kurt\n(Lead EA)" as Kurt
+actor "Michael\n(Solution Architekt)" as Michael
+
+rectangle "OEA – Viewpoint verwalten" {
+  usecase "User-defined Viewpoint\nanlegen" as UC_Create
+  usecase "Viewpoint bearbeiten\n(EntityTypes / Notation)" as UC_Edit
+  usecase "Viewpoint exportieren\n(JSON)" as UC_Export
+  usecase "Viewpoint importieren\n(JSON)" as UC_Import
+  usecase "Viewpoint löschen" as UC_Delete
+  usecase "System-Viewpoints\neinsehen (read-only)" as UC_System
+}
+
+Kurt --> UC_Create
+Kurt --> UC_Edit
+Kurt --> UC_Export
+Kurt --> UC_Import
+Kurt --> UC_Delete
+Kurt --> UC_System
+Michael --> UC_System
+
+UC_Create ..> UC_Edit : <<extend>>
+@enduml
+```
+
 ## Goal in Context
 
 OEA liefert eine Reihe system-definierter Viewpoints (ArchiMate 3, UML, BPMN 2.0). Jede Organisation hat jedoch spezifische Sichtweisen, die sich nicht in Standard-Viewpoints abbilden lassen — etwa eine „Cloud Security View", eine „Domänen-Übersicht" oder ein kundenspezifisches BPMN-Layout. Der Lead Enterprise Architekt muss solche user-defined Viewpoints anlegen, konfigurieren und bei Bedarf exportieren oder importieren können, ohne das Metamodell zu duplizieren.

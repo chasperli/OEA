@@ -33,6 +33,35 @@ references:
 
 # UC-11: Architektur-Plateau definieren und produktiv setzen
 
+## Diagramm
+
+```plantuml
+@startuml UC-11-Plateau
+left to right direction
+skinparam actorStyle awesome
+
+actor "Kurt\n(Lead EA)" as Kurt
+actor "CIO" as CIO
+
+rectangle "OEA – Plateau definieren & Go-Live" {
+  usecase "Initiales Baseline\nanlegen" as UC_Baseline
+  usecase "Target-Plateau\nanlegen" as UC_Target
+  usecase "Go-Live-Übergang\ndurchführen" as UC_GoLive
+  usecase "Warnungen prüfen\n(CEL-Rules, Solution-Status)" as UC_Check
+  usecase "Plateau-Dashboard\neinsehen" as UC_Dashboard
+}
+
+Kurt --> UC_Baseline
+Kurt --> UC_Target
+Kurt --> UC_GoLive
+CIO --> UC_Dashboard
+
+UC_Baseline ..> UC_Target : <<extend>>
+UC_GoLive ..> UC_Check : <<include>>
+UC_GoLive ..> UC_Dashboard : <<extend>>
+@enduml
+```
+
 ## Goal in Context
 
 Organisationen, die im **Plateau-Modus** arbeiten, steuern die Weiterentwicklung ihrer Unternehmensarchitektur über klar definierte Zustände: ein Baseline-Plateau beschreibt die aktuelle Realität, Target-Plateaus beschreiben geplante Zielzustände. Der Lead Enterprise Architekt muss diese Zustände anlegen, pflegen und — wenn ein Zielzustand tatsächlich umgesetzt wurde — als neue produktive Realität festschreiben (Go-Live).

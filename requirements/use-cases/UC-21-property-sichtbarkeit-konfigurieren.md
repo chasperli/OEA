@@ -30,6 +30,36 @@ references:
 
 # UC-21: Property-Sichtbarkeit konfigurieren
 
+## Diagramm
+
+```plantuml
+@startuml UC-21-PropertyVisibility
+left to right direction
+skinparam actorStyle awesome
+
+actor "Kurt\n(Lead EA)" as Kurt
+actor "Michael\n(Domain Architekt)" as Michael
+actor "Anna\n(Business Analyst)" as Anna
+
+rectangle "OEA – Property-Sichtbarkeit konfigurieren" {
+  usecase "Rollen-Sichtbarkeit\nkonfigurieren\n(role-based)" as UC_Role
+  usecase "Connection-Scope\nkonfigurieren\n(domain-scoped)" as UC_Scope
+  usecase "Property-Sichtbarkeit\ntesten" as UC_Test
+  usecase "Sensible Properties\neinsehen (berechtigt)" as UC_Read
+  usecase "Eingeschränkte Properties\nsehen (leer dargestellt)" as UC_Masked
+}
+
+Kurt --> UC_Role
+Kurt --> UC_Scope
+Kurt --> UC_Test
+Michael --> UC_Read
+Anna --> UC_Masked
+
+UC_Role ..> UC_Test : <<extend>>
+UC_Scope ..> UC_Test : <<extend>>
+@enduml
+```
+
 ## Goal in Context
 
 Nicht alle Properties einer Entität dürfen für alle Nutzer sichtbar sein. Investitionskosten, Vertragskonditionen oder interne Bewertungen sind sensible Felder, die nur bestimmten Rollen zugänglich sein sollen. Zusätzlich soll ein Domänen-Architekt sensible Felder nur für Entitäten sehen, die seiner Domäne zugeordnet sind — die Domänen-Zugehörigkeit wird über Connections im Graphen sichergestellt. Die Konfiguration der Sichtbarkeit erfolgt im Metamodell pro `PropertyDefinition`, sodass kein Code-Eingriff nötig ist.

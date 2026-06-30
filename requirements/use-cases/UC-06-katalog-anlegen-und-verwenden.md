@@ -34,6 +34,45 @@ references:
 
 # UC-06: Architektur-Katalog anlegen, konfigurieren und verwenden
 
+## Diagramm
+
+```plantuml
+@startuml UC-06-Katalog
+left to right direction
+skinparam actorStyle awesome
+
+actor "Kurt\n(Katalog-Manager)" as Kurt
+actor "Sabine\n(Katalog-Manager)" as Sabine
+actor "Franz / Lukas /\nMichael / CIO / Max\n(Besucher)" as Visitors
+
+rectangle "OEA – Architektur-Katalog" {
+  usecase "Katalog anlegen" as UC_Create
+  usecase "Spalten konfigurieren" as UC_Cols
+  usecase "Join-Definition\nkonfigurieren" as UC_Join
+  usecase "Saved View speichern" as UC_SavedView
+  usecase "Katalog öffnen &\nabfragen" as UC_Query
+  usecase "Filter setzen &\nspeichern" as UC_Filter
+  usecase "Join-Modus wechseln\n(Laufzeit)" as UC_JoinRT
+}
+
+Kurt --> UC_Create
+Kurt --> UC_Cols
+Kurt --> UC_Join
+Kurt --> UC_SavedView
+Kurt --> UC_Query
+Sabine --> UC_Create
+Sabine --> UC_Cols
+Visitors --> UC_Query
+Visitors --> UC_Filter
+Visitors --> UC_JoinRT
+
+UC_Create ..> UC_Cols : <<include>>
+UC_Create ..> UC_Join : <<include>>
+UC_Query ..> UC_Filter : <<extend>>
+UC_Query ..> UC_JoinRT : <<extend>>
+@enduml
+```
+
 ## Goal in Context
 
 Das Architecture-Repository enthält im laufenden Betrieb hunderte Entitäten unterschiedlicher Typen mit ihren Attributen und Verbindungen. Ohne strukturierte Sichten sind diese Daten schwer konsumierbar: für Compliance-Audits, Reporting an die Geschäftsleitung, die Vorbereitung von Architecture Reviews oder die tägliche Wartung der Landschaft.

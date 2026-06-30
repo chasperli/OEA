@@ -30,6 +30,41 @@ references:
 
 # UC-10: Geschäftsprozesse nach BPMN 2.0 modellieren
 
+## Diagramm
+
+```plantuml
+@startuml UC-10-BPMN
+left to right direction
+skinparam actorStyle awesome
+
+actor "Anna\n(Business Analyst)" as Anna
+actor "Michael\n(Solution Architekt)" as Michael
+actor "Sabine\n(Business Engineer)" as Sabine
+
+rectangle "OEA – Geschäftsprozesse modellieren (BPMN 2.0)" {
+  usecase "Prozessdiagramm anlegen\n(BPMN-Viewpoint)" as UC_Create
+  usecase "Pool & Lanes\nkonfigurieren" as UC_Pool
+  usecase "Tasks platzieren\n& Personen zuordnen" as UC_Tasks
+  usecase "SequenceFlow &\nGateways verbinden" as UC_Flow
+  usecase "Task mit Applikation\nverknüpfen" as UC_App
+  usecase "Prozess speichern\n(Repository)" as UC_Save
+}
+
+Anna --> UC_Create
+Anna --> UC_Pool
+Anna --> UC_Tasks
+Anna --> UC_Flow
+Michael --> UC_App
+Sabine --> UC_Create
+
+UC_Create ..> UC_Pool : <<include>>
+UC_Pool ..> UC_Tasks : <<include>>
+UC_Tasks ..> UC_Flow : <<include>>
+UC_Tasks ..> UC_App : <<extend>>
+UC_Create ..> UC_Save : <<include>>
+@enduml
+```
+
 ## Ziel
 
 Die Business Analyst-Persona kann Geschäftsprozesse direkt im OEA-Tool in BPMN 2.0 modellieren. Sie ordnet dabei Lanes Rollen und Organisationseinheiten zu sowie Tasks konkreten Personen — ohne ein separates Prozess-Tool zu benötigen. Prozessmodelle sind Bestandteil des gemeinsamen EA-Repositorys und damit mit Applikationen, Fähigkeiten und Architektur-Domains verknüpfbar.

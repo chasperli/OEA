@@ -30,6 +30,35 @@ references:
 
 # UC-13: Navigationsbaum verwalten
 
+## Diagramm
+
+```plantuml
+@startuml UC-13-Navigationsbaum
+left to right direction
+skinparam actorStyle awesome
+
+actor "Kurt\n(Lead EA)" as Kurt
+actor "Michael\n(Solution Architekt)" as Michael
+
+rectangle "OEA – Navigationsbaum verwalten" {
+  usecase "Ordner anlegen" as UC_Folder
+  usecase "Item hinzufügen\n(Entität / Diagramm / Katalog)" as UC_Item
+  usecase "Ordner umbenennen\n& verschieben" as UC_Rename
+  usecase "Ordner löschen\n(Soft-Reference-Prinzip)" as UC_Delete
+  usecase "Repository-Inhalt\nbrowsen" as UC_Browse
+}
+
+Kurt --> UC_Folder
+Kurt --> UC_Item
+Kurt --> UC_Rename
+Kurt --> UC_Delete
+Kurt --> UC_Browse
+Michael --> UC_Browse
+
+UC_Folder ..> UC_Item : <<extend>>
+@enduml
+```
+
 ## Goal in Context
 
 Ein wachsendes EA-Repository — mit Hunderten von Entitäten, Diagrammen und Katalogen — braucht eine fachlich sinnvolle Struktur, die unabhängig von der internen Datenhaltung ist. Der Lead Enterprise Architekt organisiert Repository-Inhalte im Navigationsbaum so, dass alle Nutzerinnen und Nutzer den Inhalt schnell finden und in einer vertrauten Logik durchsuchen können.

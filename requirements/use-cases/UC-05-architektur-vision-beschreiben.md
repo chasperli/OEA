@@ -29,6 +29,36 @@ references:
 
 # UC-05: Architektur-Vision einer Änderungsinitiative beschreiben
 
+## Diagramm
+
+```plantuml
+@startuml UC-05-Solution
+left to right direction
+skinparam actorStyle awesome
+
+actor "Michael\n(Solution Architekt)" as Michael
+actor "Kurt\n(Lead EA)" as Kurt
+
+rectangle "OEA – Architektur-Vision beschreiben" {
+  usecase "Solution anlegen" as UC_Create
+  usecase "Ausgangsbasis anzeigen\n(IT-Landschaft)" as UC_Base
+  usecase "Entity-Delta erfassen\n(new / modified / retiring)" as UC_Delta
+  usecase "Diff-Ansicht anzeigen\n(Ist → Ziel)" as UC_Diff
+  usecase "Konfliktwarnung\n(parallele Solutions)" as UC_Conflict
+}
+
+Michael --> UC_Create
+Michael --> UC_Base
+Michael --> UC_Delta
+Michael --> UC_Diff
+Kurt --> UC_Diff
+
+UC_Create ..> UC_Base : <<include>>
+UC_Delta ..> UC_Diff : <<include>>
+UC_Delta ..> UC_Conflict : <<extend>>
+@enduml
+```
+
 ## Goal in Context
 
 Wenn ein Unternehmen eine bestehende Lösung erweitern oder verändern will – ein neues Modul einführen, eine Schnittstelle ablösen, eine Plattform migrieren –, muss der Solution Architekt frühzeitig klären: Was ist der genaue Scope dieser Initiative? Welche Systemteile sind betroffen, welche nicht? Welcher Zielzustand soll erreicht werden?

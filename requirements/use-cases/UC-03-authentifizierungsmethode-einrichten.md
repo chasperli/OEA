@@ -25,6 +25,37 @@ references:
 
 # UC-03: Authentifizierungsmethode einrichten (Required Action beim ersten Login)
 
+## Diagramm
+
+```plantuml
+@startuml UC-03-AuthMethode
+left to right direction
+skinparam actorStyle awesome
+
+actor "Kurt\n(Lead EA)" as Kurt
+actor "Max\n(Operator)" as Max
+
+rectangle "OEA – Authentifizierungsmethode einrichten" {
+  usecase "TOTP einrichten\n(Required Action)" as UC_TOTP
+  usecase "Passkey einrichten\n(Required Action)" as UC_Passkey
+  usecase "Weitere Methode\nhinzufügen (eingeloggt)" as UC_Extra
+  usecase "2FA-Erzwingung\nkonfigurieren" as UC_2FA
+  usecase "Credential persistieren\n& Required Action löschen" as UC_Cred
+  usecase "Audit-Log schreiben" as UC_Audit
+}
+
+Kurt --> UC_TOTP
+Kurt --> UC_Passkey
+Kurt --> UC_Extra
+Max --> UC_2FA
+
+UC_TOTP ..> UC_Cred : <<include>>
+UC_Passkey ..> UC_Cred : <<include>>
+UC_Extra ..> UC_Cred : <<include>>
+UC_Cred ..> UC_Audit : <<include>>
+@enduml
+```
+
 ## Goal in Context
 
 Instanzen ohne externen Identity-Provider nutzen lokale Authentifizierung (Username/Passwort, optional mit 2. Faktor). Der Administrator legt eine Person an und setzt ein initiales Passwort. Beim ersten Login erkennt das System, welche „Required Actions" noch ausstehen: Ist 2FA instanzweit erzwungen (REQ-020) und noch kein zweiter Faktor eingerichtet, wird die Person direkt zur Einrichtungsseite weitergeleitet – sie erhält keinen Zugriff auf die Applikation, bis die Required Action abgeschlossen ist. Ist 2FA nicht erzwungen, entfällt UC-03 vollständig; der Login (UC-01 A5) gewährt direkt Zugriff.

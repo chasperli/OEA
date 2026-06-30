@@ -28,6 +28,35 @@ references:
 
 # UC-14: Änderungshistorie einer Entität einsehen
 
+## Diagramm
+
+```plantuml
+@startuml UC-14-History
+left to right direction
+skinparam actorStyle awesome
+
+actor "Kurt\n(Lead EA)" as Kurt
+actor "Lukas\n(Data Architekt)" as Lukas
+actor "Michael\n(Solution Architekt)" as Michael
+
+rectangle "OEA – Änderungshistorie einsehen" {
+  usecase "Versionshistorie\nanzeigen (Zeitlinie)" as UC_History
+  usecase "Diff zweier Versionen\nanzeigen" as UC_Diff
+  usecase "Version für Wieder-\nherstellung auswählen" as UC_Select
+}
+
+Kurt --> UC_History
+Kurt --> UC_Diff
+Kurt --> UC_Select
+Lukas --> UC_History
+Lukas --> UC_Diff
+Michael --> UC_History
+
+UC_History ..> UC_Diff : <<extend>>
+UC_History ..> UC_Select : <<extend>>
+@enduml
+```
+
 ## Goal in Context
 
 Ein Architecture Repository ist nur dann vertrauenswürdig, wenn nachvollziehbar ist, wer was wann geändert hat. Der Lead Enterprise Architekt und berechtigte Nutzer müssen die vollständige Änderungshistorie einer Entität einsehen können — als Zeitlinie mit Diff-Ansicht, ohne separates Audit-Tool.

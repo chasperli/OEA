@@ -34,10 +34,10 @@ Mehr Details: [business-analysis/vision.md](business-analysis/vision.md)
 | Use Cases | 21 |
 | Requirements | 155 |
 | User Stories | 142 |
-| ADRs | 28 |
+| ADRs | 29 |
 | Business Objects | 22 |
 
-_Konzept: v0.17 · Letzter Update: 2026-06-29_
+_Konzept: v0.17 · Letzter Update: 2026-06-30_
 <!-- /AUTO-GENERATED: stats -->
 
 **Nächster Schritt**: Walking Skeleton auf Basis von UC-06 (Katalog-Browser).
@@ -116,6 +116,7 @@ OEA ist **noch nicht produktiv einsetzbar**. Wenn du mitwirken willst: [CONTRIBU
 | [ADR-026](adrs/ADR-026-externe-system-integration.md) | Externe System-Integration — Schreibzugriff via API (optional) | accepted |
 | [ADR-027](adrs/ADR-027-projekt-setup-monorepo.md) | Projekt-Setup — Mono-Repo, Maven-Struktur, Package-Naming, Docker Compose | accepted |
 | [ADR-028](adrs/ADR-028-backend-schichtenarchitektur.md) | Backend-Schichtenarchitektur — API / Application / Core | accepted |
+| [ADR-029](adrs/ADR-029-cucumber-test-framework.md) | Testframework für BDD-Systemtests — Cucumber JVM | accepted |
 <!-- /AUTO-GENERATED: adrs -->
 
 ## Mitwirken

@@ -27,6 +27,39 @@ references:
 
 # UC-16: Entität teilweise wiederherstellen
 
+## Diagramm
+
+```plantuml
+@startuml UC-16-PartialRestore
+left to right direction
+skinparam actorStyle awesome
+
+actor "Kurt\n(Lead EA)" as Kurt
+
+usecase "Änderungshistorie\neinsehen (UC-14)" as UC_History
+
+rectangle "OEA – Entität teilweise wiederherstellen" {
+  usecase "Zielversion bestimmen" as UC_Version
+  usecase "Kern-Properties\nselektieren (Schritt 1)" as UC_Step1
+  usecase "Custom Properties\nselektieren (Schritt 2)" as UC_Step2
+  usecase "Verbindungen\nselektieren (Schritt 3)" as UC_Step3
+  usecase "Teilwiederherstellung\nbestätigen" as UC_Confirm
+  usecase "Partiellen Versions-\nsnapshot anlegen" as UC_Snapshot
+}
+
+Kurt --> UC_History
+Kurt --> UC_Version
+Kurt --> UC_Confirm
+
+UC_History ..> UC_Version : <<extend>>
+UC_Version ..> UC_Step1 : <<include>>
+UC_Step1 ..> UC_Step2 : <<include>>
+UC_Step2 ..> UC_Step3 : <<include>>
+UC_Step3 ..> UC_Confirm : <<include>>
+UC_Confirm ..> UC_Snapshot : <<include>>
+@enduml
+```
+
 ## Goal in Context
 
 Nicht immer soll eine Entität vollständig auf einen früheren Stand zurückgesetzt werden (UC-15). Oft ist nur ein Teil fehlerhaft: ein falscher Name, eine gelöschte Custom-Property, oder eine veränderte Verbindungsbeschreibung — während andere Änderungen korrekt und gewollt sind. UC-16 ermöglicht eine **selektive Wiederherstellung** über einen dreistufigen Wizard: Kurt wählt auf jeder Stufe genau aus, welche Felder und Verbindungen zurückgesetzt werden sollen.

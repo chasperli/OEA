@@ -21,6 +21,36 @@ references:
 
 # UC-09: Entität strukturiert dokumentieren
 
+## Diagramm
+
+```plantuml
+@startuml UC-09-Dokumentation
+left to right direction
+skinparam actorStyle awesome
+
+actor "Michael\n(Solution Architekt)" as Michael
+actor "Kurt\n(Lead EA)" as Kurt
+actor "CIO" as CIO
+
+rectangle "OEA – Entität strukturiert dokumentieren" {
+  usecase "Dokumentationskapitel\nbearbeiten (WYSIWYG)" as UC_Edit
+  usecase "Diagramm einbetten\n(Mermaid / PlantUML)" as UC_Diag
+  usecase "ADR verlinken" as UC_ADR
+  usecase "Weitere Collection\nbearbeiten\n(Third-Party / Lizenz)" as UC_Coll
+  usecase "Dokumentation\nlesen" as UC_Read
+}
+
+Michael --> UC_Edit
+Michael --> UC_Coll
+Kurt --> UC_Read
+CIO --> UC_Read
+
+UC_Edit ..> UC_Diag : <<extend>>
+UC_Edit ..> UC_ADR : <<extend>>
+UC_Edit ..> UC_Coll : <<extend>>
+@enduml
+```
+
 ## Kurzbeschreibung
 
 Der Solution Architekt dokumentiert eine Entität (z.B. ein System, eine Applikation, einen Drittanbieter) direkt in OEA über eine betreiberdefinierte Kapitelsammlung — verknüpft mit dem EA-Modell, ohne separates Dokumentations-Tool. Typische Anwendungsfälle sind Arc42-Architekturdokumentation, Third-Party-Management oder ein Lizenzregister.

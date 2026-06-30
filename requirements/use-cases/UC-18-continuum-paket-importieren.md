@@ -32,6 +32,35 @@ references:
 
 # UC-18: Continuum-Paket importieren
 
+## Diagramm
+
+```plantuml
+@startuml UC-18-ContinuumImport
+left to right direction
+skinparam actorStyle awesome
+
+actor "Kurt\n(Lead EA)" as Kurt
+actor "Max\n(Operator)" as Max
+
+rectangle "OEA – Continuum-Paket importieren" {
+  usecase "Paket hochladen\n(JSON / YAML)" as UC_Upload
+  usecase "Paket validieren\n& Vorschau anzeigen" as UC_Preview
+  usecase "Import bestätigen" as UC_Confirm
+  usecase "Built-in-Paket\naktivieren (z.B. TOGAF TRM)" as UC_Builtin
+  usecase "Audit-Log schreiben" as UC_Audit
+}
+
+Kurt --> UC_Upload
+Kurt --> UC_Builtin
+Max --> UC_Upload
+
+UC_Upload ..> UC_Preview : <<include>>
+UC_Preview ..> UC_Confirm : <<include>>
+UC_Confirm ..> UC_Audit : <<include>>
+UC_Builtin ..> UC_Preview : <<include>>
+@enduml
+```
+
 ## Goal in Context
 
 OEA-Instanzen müssen nicht bei null anfangen: das TOGAF Technical Reference Model, TM Forum Frameworx, branchenübliche Cloud-Design-Patterns (Azure, AWS) oder interne Unternehmensstandards können als vorgefertigte Continuum-Pakete importiert werden. Diese importierten Bausteine sind unveränderlich (`scope=imported`) und bilden die stabile Grundlage, auf der organisationsspezifische Erweiterungen aufbauen.

@@ -22,6 +22,35 @@ references:
 
 # UC-02: System-Admin-Bootstrapping
 
+## Diagramm
+
+```plantuml
+@startuml UC-02-Bootstrapping
+left to right direction
+skinparam actorStyle awesome
+
+actor "Max\n(Operator)" as Max
+
+rectangle "OEA – System-Admin-Bootstrapping" {
+  usecase "Lokales Bootstrapping\n(Setup-Token / Passwort)" as UC_Local
+  usecase "Remote-Bootstrapping\n(IdP-Claim-Mapping)" as UC_Remote
+  usecase "Kombiniertes\nBootstrapping" as UC_Combined
+  usecase "System-Admin-Account\nanlegen" as UC_Account
+  usecase "Audit-Log schreiben" as UC_Audit
+}
+
+Max --> UC_Local
+Max --> UC_Remote
+Max --> UC_Combined
+
+UC_Combined ..> UC_Local : <<include>>
+UC_Combined ..> UC_Remote : <<include>>
+UC_Local ..> UC_Account : <<include>>
+UC_Remote ..> UC_Account : <<include>>
+UC_Account ..> UC_Audit : <<include>>
+@enduml
+```
+
 ## Goal in Context
 
 Eine frisch installierte OEA-Instanz enthält weder Personen noch Rollen noch eine IdP-Konfiguration. UC-01 (Login) setzt voraus, dass bereits eine [Person](../../business-objects/person.md) mit aktiver [Role](../../business-objects/role.md) existiert – das ist bei der Erstinstallation per Definition nicht der Fall (Henne-Ei-Problem). Max muss daher einen ersten privilegierten Zugang erhalten, bevor er die Instanz für den eigentlichen Betrieb (IdP-Anbindung, erste Personen/Rollen) konfigurieren kann.

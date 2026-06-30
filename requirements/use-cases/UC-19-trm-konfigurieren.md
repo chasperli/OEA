@@ -29,6 +29,34 @@ references:
 
 # UC-19: Technical Reference Model konfigurieren
 
+## Diagramm
+
+```plantuml
+@startuml UC-19-TRM
+left to right direction
+skinparam actorStyle awesome
+
+actor "Kurt\n(Lead EA)" as Kurt
+
+rectangle "OEA – Technical Reference Model konfigurieren" {
+  usecase "TRM-Kategorie anlegen\n(hierarchisch)" as UC_Cat
+  usecase "TRM-Kategorie\nbearbeiten" as UC_Edit
+  usecase "SBB einer Kategorie\nzuordnen" as UC_Assign
+  usecase "SBB-Governance-Status\nsetzen\n(preferred / acceptable /\ndeprecated / prohibited)" as UC_Status
+  usecase "TRM-Übersicht\nanzeigen" as UC_View
+}
+
+Kurt --> UC_Cat
+Kurt --> UC_Edit
+Kurt --> UC_Assign
+Kurt --> UC_Status
+Kurt --> UC_View
+
+UC_Cat ..> UC_Edit : <<extend>>
+UC_Assign ..> UC_Status : <<include>>
+@enduml
+```
+
 ## Goal in Context
 
 Das Technical Reference Model (TRM) ist die Technologie-Taxonomie einer Organisation: eine hierarchische Klassifikation aller Technology-Service-Kategorien mit klaren Standards dafür, welche Produkte bevorzugt, akzeptiert, auslaufend oder verboten sind. Ein gepflegtes TRM ermöglicht Technology-Governance: Architekten sehen auf einen Blick, welche Produkte für eine neue Entität zulässig sind, und Abweichungen vom Standard werden automatisch sichtbar.

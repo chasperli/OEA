@@ -26,6 +26,45 @@ references:
 
 # UC-01: Login
 
+## Diagramm
+
+```plantuml
+@startuml UC-01-Login
+left to right direction
+skinparam actorStyle awesome
+
+actor "Kurt\n(Lead EA)" as Kurt
+actor "Max\n(Operator)" as Max
+actor "Identity Provider" as IdP <<external>>
+
+rectangle "OEA – Login" {
+  usecase "OIDC-Login (SSO)" as UC_OIDC
+  usecase "Passkey-Login" as UC_Passkey
+  usecase "TOTP + Passwort" as UC_TOTP
+  usecase "Passwort-Login\n(Minimal)" as UC_PW
+  usecase "API-Key-Authentifizierung" as UC_API
+  usecase "Session erstellen &\nBerechtigungen laden" as UC_Session
+  usecase "Audit-Log\nschreiben" as UC_Audit
+}
+
+Kurt --> UC_OIDC
+Kurt --> UC_Passkey
+Kurt --> UC_TOTP
+Kurt --> UC_PW
+Kurt --> UC_API
+Max --> UC_OIDC
+
+IdP <.. UC_OIDC : <<redirect>>
+
+UC_OIDC ..> UC_Session : <<include>>
+UC_Passkey ..> UC_Session : <<include>>
+UC_TOTP ..> UC_Session : <<include>>
+UC_PW ..> UC_Session : <<include>>
+UC_API ..> UC_Session : <<include>>
+UC_Session ..> UC_Audit : <<include>>
+@enduml
+```
+
 ## Goal in Context
 
 Kurt verwaltet das Architektur-Repository über Git/Markdown, nutzt aber auch UI- und API-Funktionen (siehe SH-03: CLI bevorzugt, UI nur für Diagramme). Bevor er irgendeine Aktion im Repository durchführen kann, muss das System wissen, wer er ist und welche Rolle er ausfüllt – nur so lassen sich seine Berechtigungen (z.B. Schema-Änderungen, Plateau-Freigaben) korrekt zuordnen. Login ist die Voraussetzung für jeden weiteren Use Case, der über öffentlich-lesbare Inhalte hinausgeht.

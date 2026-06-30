@@ -26,6 +26,33 @@ references:
 
 # UC-15: Entitätsstand wiederherstellen
 
+## Diagramm
+
+```plantuml
+@startuml UC-15-Restore
+left to right direction
+skinparam actorStyle awesome
+
+actor "Kurt\n(Lead EA)" as Kurt
+
+usecase "Änderungshistorie\neinsehen (UC-14)" as UC_History
+
+rectangle "OEA – Entitätsstand wiederherstellen" {
+  usecase "Zielversion auswählen\n(vollständige Wiederherstellung)" as UC_Select
+  usecase "Wiederherstellung\nbestätigen" as UC_Confirm
+  usecase "Neuen Versions-\nsnapshot anlegen" as UC_Snapshot
+}
+
+Kurt --> UC_History
+Kurt --> UC_Select
+Kurt --> UC_Confirm
+
+UC_History ..> UC_Select : <<extend>>
+UC_Select ..> UC_Confirm : <<include>>
+UC_Confirm ..> UC_Snapshot : <<include>>
+@enduml
+```
+
 ## Goal in Context
 
 Fehlerhafte Änderungen passieren: ein Feld wurde falsch befüllt, eine Property irrtümlich gelöscht, ein falscher Name gesetzt. Der Lead Enterprise Architekt muss eine Entität auf einen früheren, bekannt-guten Zustand zurücksetzen können — ohne Datenverlust und ohne die Auditierbarkeit zu brechen.

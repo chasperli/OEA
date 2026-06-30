@@ -32,6 +32,38 @@ references:
 
 # UC-17: Wiederverwendbare Architektur-Bausteine verwalten
 
+## Diagramm
+
+```plantuml
+@startuml UC-17-Continuum
+left to right direction
+skinparam actorStyle awesome
+
+actor "Kurt\n(Lead EA)" as Kurt
+actor "Michael\n(Solution Architekt)" as Michael
+
+rectangle "OEA – Continuum-Bausteine verwalten" {
+  usecase "Architecture Building Block\n(ABB) anlegen" as UC_ABB
+  usecase "Solution Building Block\n(SBB) anlegen & zuordnen" as UC_SBB
+  usecase "Architecture Pattern\nanlegen" as UC_Pattern
+  usecase "Reference Architecture\nkomponieren" as UC_RefArch
+  usecase "SBB-Governance-Status\nsetzen\n(deprecated / prohibited)" as UC_Status
+  usecase "Continuum-Bibliothek\nbrowsen" as UC_Browse
+}
+
+Kurt --> UC_ABB
+Kurt --> UC_SBB
+Kurt --> UC_Pattern
+Kurt --> UC_RefArch
+Kurt --> UC_Status
+Michael --> UC_Browse
+
+UC_SBB ..> UC_ABB : <<include>>
+UC_RefArch ..> UC_ABB : <<include>>
+UC_SBB ..> UC_Status : <<extend>>
+@enduml
+```
+
 ## Goal in Context
 
 Das TOGAF Enterprise Continuum trennt wiederverwendbare Blueprints von konkreten Organisations-Instanzen. Kurt als Lead Enterprise Architekt muss diese Blueprints aktiv aufbauen und pflegen: Architecture Building Blocks (ABBs) spezifizieren, was eine Komponente leisten muss; Solution Building Blocks (SBBs) dokumentieren, welche Produkte diese Anforderungen erfüllen; Architecture Patterns halten erprobte Strukturlösungen fest; Reference Architectures kombinieren Bausteine zu vollständigen Blueprints. Dieser UC deckt die gesamte Lebenszyklusverwaltung der Continuum-Bibliothek ab.

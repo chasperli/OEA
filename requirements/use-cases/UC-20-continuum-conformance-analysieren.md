@@ -34,6 +34,36 @@ references:
 
 # UC-20: Architektur-Conformance zum Continuum analysieren
 
+## Diagramm
+
+```plantuml
+@startuml UC-20-Conformance
+left to right direction
+skinparam actorStyle awesome
+
+actor "Kurt\n(Lead EA)" as Kurt
+actor "CIO" as CIO
+actor "Sabine\n(Business Engineer)" as Sabine
+
+rectangle "OEA – Architektur-Conformance analysieren" {
+  usecase "Conformance-Report\ngenerieren" as UC_Report
+  usecase "TRM-Abweichungen\nanzeigen\n(prohibited / deprecated)" as UC_TRM
+  usecase "ABB-Gap-Analyse\n(keine konformen Instanzen)" as UC_Gap
+  usecase "Technology-Diversity\nProblem erkennen" as UC_Diversity
+  usecase "Management-Summary\nanzeigen" as UC_Summary
+}
+
+Kurt --> UC_Report
+CIO --> UC_Summary
+Sabine --> UC_Report
+
+UC_Report ..> UC_TRM : <<include>>
+UC_Report ..> UC_Gap : <<include>>
+UC_Report ..> UC_Diversity : <<include>>
+UC_Report ..> UC_Summary : <<extend>>
+@enduml
+```
+
 ## Goal in Context
 
 Ein gepflegtes Enterprise Continuum hat nur dann Wert, wenn die tatsächliche Architektur regelmässig damit abgeglichen wird. Abweichungen müssen sichtbar sein: Welche Entitäten nutzen verbotene Produkte? Welche ABBs haben keine konformen Instanzen (Gap)? Welche TRM-Kategorien sind mit zu vielen verschiedenen Produkten besetzt (Technology Diversity Problem)?

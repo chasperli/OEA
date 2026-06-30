@@ -33,6 +33,42 @@ references:
 
 # UC-07: Dashboard anlegen, konfigurieren und im Web Portal verwenden
 
+## Diagramm
+
+```plantuml
+@startuml UC-07-Dashboard
+left to right direction
+skinparam actorStyle awesome
+
+actor "Kurt\n(Dashboard-Manager)" as Kurt
+actor "Sabine\n(Dashboard-Manager)" as Sabine
+actor "CIO" as CIO
+actor "Franz / Lukas /\nMichael / Max\n(Betrachter)" as Viewers
+
+rectangle "OEA – Dashboard" {
+  usecase "Dashboard anlegen" as UC_Create
+  usecase "Widget konfigurieren\n(KPI, Chart, Tabelle)" as UC_Widget
+  usecase "DataSource zuordnen\n(Katalog /\nPropertyAggregation)" as UC_DS
+  usecase "Dashboard\nveröffentlichen" as UC_Publish
+  usecase "Dashboard anzeigen\n(Web Portal)" as UC_View
+  usecase "Drilldown / Filter\n(interaktiv)" as UC_Drill
+}
+
+Kurt --> UC_Create
+Kurt --> UC_Widget
+Kurt --> UC_DS
+Kurt --> UC_Publish
+Sabine --> UC_Create
+CIO --> UC_View
+Viewers --> UC_View
+
+UC_Create ..> UC_Widget : <<include>>
+UC_Widget ..> UC_DS : <<include>>
+UC_Create ..> UC_Publish : <<include>>
+UC_View ..> UC_Drill : <<extend>>
+@enduml
+```
+
 ## Goal in Context
 
 Entscheidungsträger auf C-Level (CIO, Bereichsleitungen) benötigen verdichtete, aktuelle Kennzahlen aus dem Architektur-Repository – ohne Rohdaten in Katalogen zu lesen oder EA-Werkzeugkenntnisse zu besitzen. Gleichzeitig wollen Enterprise Architekten Investitionskosten-Prognosen, Domänenverteilungen und Portfolio-Metriken auf einen Blick sehen, ohne jedes Mal manuell Abfragen zusammenzustellen.
