@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(python3 *)",
-      "Bash(find / -maxdepth 6 -iname \"*claude-dev*\")",
-      "Bash(find / -maxdepth 8 -path \"*projects/-run-host*\")"
-    ]
-  }
-}
