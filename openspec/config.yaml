@@ -1,0 +1,65 @@
+schema: oea
+
+context: |
+  Language: German
+  All artifacts must be written in German.
+  Keep OpenSpec structural headings and SHALL/MUST keywords in English.
+
+  Projekt: OEA – Open Enterprise Architecture (Open-Source-EA-Werkzeug, AGPL-3.0).
+  Verbindliche Arbeitsweise: AGENTS.md im Repository-Root.
+
+  Quelle der Wahrheit (NICHT in OpenSpec duplizieren, nur referenzieren):
+  - Use Cases:        requirements/use-cases/UC-NN-*.md
+  - Requirements:     requirements/req/REQ-NNN-*.md
+  - User Stories:     requirements/user-stories/US-NNN-*.md (inkl. Akzeptanzkriterien)
+  - Tests/Features:   requirements/tests/
+  - Business Objects: business-objects/*.md + docs/data-model.puml
+  - ADRs:             adrs/ADR-NNN-*.md
+  - Sprint-Plan:      docs/sprint-plan.md, Walking Skeleton: docs/walking-skeleton.md
+  - Screens:          docs/screens/SCREENS.md
+  OpenSpec-Specs beschreiben das umgesetzte Systemverhalten je Capability und
+  wachsen Change für Change. Bestehende Dokumente sind Quellmaterial, keine
+  Vorlage für eine Massenkonvertierung.
+
+  Tech-Stack (accepted ADRs):
+  - Backend: Java 21, Spring Boot 3, Hibernate/Spring Data JPA (ADR-012, ADR-023)
+  - Schichten: api/app/core-Trennung (ADR-028), ein Maven-Modul backend/ (ADR-027)
+  - DB: PostgreSQL 15 + JSONB als Referenz, Multi-DB via JPA (ADR-016, ADR-023)
+  - Migrationen: Flyway (ADR-015)
+  - API: REST + OpenAPI 3.x, Vertrag in api/openapi.yaml (ADR-013)
+  - Frontend: Vue 3 + TypeScript (ADR-011), PrimeVue + WYSIWYG-Editor (ADR-014)
+  - Client: Electron + Web-Portal, Dual-Track-GUI (ADR-008, ADR-009)
+  - Auth: OIDC-basierte IdP-Integration (ADR-006)
+  - Soft-Delete (ADR-019), Audit in separatem Schema (ADR-024), I18N (ADR-025)
+  - Tests: Cucumber/Gherkin über JUnit Platform (ADR-029)
+  - Deployment: docker compose up (Monorepo, ADR-027)
+
+  Konventionen:
+  - Dokumentation Deutsch, Code-Identifier und Code-Kommentare Englisch
+  - Commits: Conventional Commits; Branches feature/<kurz>, docs/<kurz>, adr/<NNN-kurz>
+  - Quality Gate: python3 scripts/validate_links.py muss grün sein
+
+rules:
+  proposal:
+    - Jeder Change MUSS im Abschnitt Traceability mindestens eine User Story oder ein REQ referenzieren (relative Links)
+    - Sprint und Milestone aus docs/sprint-plan.md angeben, falls zugeordnet
+    - Change-Name im Format <us-id>-<kurzname>, z. B. us-001-oidc-login
+    - Weicht der Change von einer accepted ADR ab, ist zuerst eine neue ADR nötig – nicht im Proposal entscheiden
+  specs:
+    - Capability-Pfade nach fachlicher Domäne, z. B. identity/login, metamodel/entity-types, catalog/query
+    - Szenarien aus den Akzeptanzkriterien der referenzierten User Stories ableiten, nicht neu erfinden
+    - Jedes Requirement nennt in einer Zeile 'Trace:' die zugehörigen US-/REQ-IDs
+  design:
+    - Betroffene ADRs verlinken; Entscheidungen innerhalb des ADR-Rahmens treffen
+    - Datenmodell-Auswirkungen benennen (docs/data-model.puml, business-objects/)
+    - API-Änderungen als Delta zu api/openapi.yaml beschreiben
+  tasks:
+    - Cucumber-Szenarien (ADR-029) gehören in die jeweilige Task-Gruppe, nicht in eine Sammelgruppe am Ende
+    - Flyway-Migrationen als eigene Tasks mit Versionsnummer
+    - Letzte Gruppe 'Abschluss' enthält Doku-Sync (US-Status, traceability.md, SCREENS.md, data-model.puml) und Link-Validierung
+
+operations:
+  archive:
+    guidance:
+      - Vor dem Archivieren Status der referenzierten User Stories auf realized setzen und Implementation-Hash vermerken (AGENTS.md)
+      - requirements/traceability.md um Verweis auf die erzeugte/geänderte Capability ergänzen

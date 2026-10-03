@@ -53,6 +53,6 @@ Concerns werden später in Use Cases übersetzt.
 
 ## Slash-Commands
 
-In `.claude/commands/` sollten verfügbar sein:
+In `.opencode/commands/` sollten verfügbar sein:
 - `/new-stakeholder` – legt neues Stakeholder-Profil an
 - `/list-stakeholders` – zeigt alle Stakeholder mit Use-Case-Bezug

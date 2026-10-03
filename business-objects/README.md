@@ -16,7 +16,7 @@ business-objects/
 
 ## Verantwortlich
 
-Der Business Engineer (siehe `.claude/agents/business-engineer.md`) modelliert hier. Arbeitet **vor** dem Use-Case-Engineering nach dem Domain-Model-first-Ansatz.
+Der Business Engineer (siehe `.opencode/agents/business-engineer.md`) modelliert hier. Arbeitet **vor** dem Use-Case-Engineering nach dem Domain-Model-first-Ansatz.
 
 ## Vorgehen
 

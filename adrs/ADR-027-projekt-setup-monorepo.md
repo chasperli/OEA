@@ -42,7 +42,7 @@ oea/
 ├── docs/                 ← Datenmodell, Walking Skeleton, Screens
 ├── scripts/              ← Hilfsskripte
 ├── docker-compose.yml    ← Lokale Entwicklungsumgebung
-└── CLAUDE.md
+└── AGENTS.md
 ```
 
 **Begründung**: Backend-API und Frontend sind tight-coupled (OpenAPI-Vertrag).

@@ -19,14 +19,14 @@ Bevor du beiträgst, lies bitte:
 
 - [README.md](README.md) – Projekt-Übersicht
 - [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) – Verhaltenskodex
-- [CLAUDE.md](CLAUDE.md) – Arbeitsweise und Konventionen
+- [AGENTS.md](AGENTS.md) – Arbeitsweise und Konventionen
 - Relevante Kapitel aus `concept/` je nach Beitrag
 
 ## Arbeitsweise
 
 OEA wird als **dokumentations-zentriertes Projekt** entwickelt. Konzept-Papier, Use Cases, Requirements und ADRs entstehen vor dem Code und werden mit dem Code gemeinsam gepflegt.
 
-Wir arbeiten mit einem **agent-getriebenen Workflow** (siehe `.claude/agents/` und `docs/workflow-example.md`). Auch wenn du keinen KI-Assistenten nutzt, sind die Rollenverteilungen relevant:
+Wir arbeiten mit einem **agent-getriebenen Workflow** (siehe `.opencode/agents/` und `docs/workflow-example.md`). Auch wenn du keinen KI-Assistenten nutzt, sind die Rollenverteilungen relevant:
 
 - **Solution Architect**: Klärt Anforderungen, definiert Specs
 - **Business Engineer**: Modelliert die fachliche Domäne

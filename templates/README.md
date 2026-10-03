@@ -65,9 +65,9 @@ requirements/
 └── traceability.md             ← Trace-Matrix Use Case × Konzept × ADR
 ```
 
-## Slash-Commands für Claude Code
+## Slash-Commands für OpenCode
 
-Vorschlag für deine `.claude/commands/`:
+Vorschlag für deine `.opencode/commands/`:
 
 ### `/new-stakeholder`
 

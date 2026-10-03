@@ -14,8 +14,8 @@ Bevor du startest, vergewissere dich:
 
 - [ ] Vision in `business-analysis/vision.md` ist formuliert
 - [ ] Mindestens Franz (SH-01) als Stakeholder vorhanden
-- [ ] CLAUDE.md ist im Repo
-- [ ] Sieben Agent-Dateien sind in `.claude/agents/`
+- [ ] AGENTS.md ist im Repo
+- [ ] Sieben Agent-Dateien sind in `.opencode/agents/`
 - [ ] Templates sind in `templates/`
 
 Wenn nicht: das vorher fixen, sonst arbeiten die Agents im luftleeren Raum.
@@ -24,9 +24,9 @@ Wenn nicht: das vorher fixen, sonst arbeiten die Agents im luftleeren Raum.
 
 ## Phase 1 – Initial-Klärung mit Solution Architect
 
-**Du** (im Claude Code Chat):
+**Du** (im OpenCode Chat):
 
-> Ich möchte mit dem Walking Skeleton starten. Als erstes Feature soll Franz (SH-01) eine Application Component erfassen können. Bitte agiere als Solution Architect (`.claude/agents/solution-architect.md`) und klär mit mir das Vorgehen.
+> Ich möchte mit dem Walking Skeleton starten. Als erstes Feature soll Franz (SH-01) eine Application Component erfassen können. Bitte agiere als Solution Architect (`.opencode/agents/solution-architect.md`) und klär mit mir das Vorgehen.
 
 **Solution Architect** liest Konzept und Persona, antwortet etwa:
 

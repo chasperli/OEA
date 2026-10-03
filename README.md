@@ -37,7 +37,7 @@ Mehr Details: [business-analysis/vision.md](business-analysis/vision.md)
 | ADRs | 29 |
 | Business Objects | 22 |
 
-_Konzept: v0.17 · Letzter Update: 2026-06-30_
+_Konzept: v0.17 · Letzter Update: 2026-10-03_
 <!-- /AUTO-GENERATED: stats -->
 
 **Nächster Schritt**: Walking Skeleton auf Basis von UC-06 (Katalog-Browser).

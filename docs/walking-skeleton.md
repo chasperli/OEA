@@ -9,7 +9,7 @@
 
 Ein Walking Skeleton ist der dünnstmögliche End-to-End-Schnitt durch alle technischen Schichten, der echten Wert für mindestens einen Stakeholder liefert. Er beweist, dass die Architektur funktioniert — nicht als Hello-World, sondern als minimale, nutzbare Version des eigentlichen Produkts.
 
-CLAUDE.md schreibt vor: **genau ein End-to-End-Use-Case**.
+AGENTS.md schreibt vor: **genau ein End-to-End-Use-Case**.
 
 ---
 

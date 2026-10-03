@@ -27,7 +27,7 @@ Siehe [§23 Offene Punkte](../concept/90-backlog/23-offene-punkte.md) – aktuel
 
 ## Slash-Command
 
-In `.claude/commands/`:
+In `.opencode/commands/`:
 - `/new-adr` – legt neue ADR an, mit nächster freier Nummer
 
 ## Übersicht aller ADRs

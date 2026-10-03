@@ -30,7 +30,7 @@ PO → Solution Architect → Business Engineer → (PO entscheidet)
 
 **Explizite Rolle**:
 ```
-Bitte agiere als <agent-name> (.claude/agents/<agent-name>.md) und ...
+Bitte agiere als <agent-name> (.opencode/agents/<agent-name>.md) und ...
 ```
 
 **Über Slash-Command**:
@@ -42,7 +42,7 @@ Bitte agiere als <agent-name> (.claude/agents/<agent-name>.md) und ...
 /trace-check
 ```
 
-**Direkter Sub-Agent-Call** (wenn Claude Code das nativ unterstützt):
+**Direkter Sub-Agent-Call** (wenn OpenCode das nativ unterstützt):
 ```
 @solution-architect klär doch ...
 @business-engineer modelliere ...
@@ -128,7 +128,7 @@ Nummern werden niemals wiederverwendet.
 python3 scripts/validate_links.py
 
 # Trace-Check
-# (via Slash-Command in Claude Code)
+# (via Slash-Command in OpenCode)
 /trace-check
 ```
 

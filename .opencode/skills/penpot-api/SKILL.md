@@ -20,27 +20,17 @@ Enables programmatic design creation and manipulation in self-hosted Penpot inst
 
 ## Prerequisites
 
-**Environment Variables** are configured in the Claude Code user settings (outside the project):
+**Environment Variables** must be set in the environment OpenCode is started from (outside the project, never committed):
 
+```bash
+export PENPOT_ACCESS_TOKEN="..."
+export PENPOT_API_URL="<url>"
+export PENPOT_PROJECT_ID="<uuid>"
 ```
-~/distrobox/claude-dev/.claude/settings.json
-```
-
-```json
-{
-  "env": {
-    "PENPOT_ACCESS_TOKEN": "...",
-    "PENPOT_API_URL": "<url — einzige Quelle: settings.json>",
-    "PENPOT_PROJECT_ID": "<uuid — einzige Quelle: settings.json>"
-  }
-}
-```
-
-Variables are available automatically in every Claude Code session — no `export` or shell setup needed.
 
 **How to Generate Access Token:**
 1. In Penpot: Your Account → Access Tokens → "Generate new token"
-2. Enter descriptive name (e.g., "claude-code-automation")
+2. Enter descriptive name (e.g., "opencode-automation")
 3. Choose expiration (recommended: 90 days for regular use)
 4. Copy the token immediately (shown only once)
 5. Treat like password – don't commit to git, don't add to project files

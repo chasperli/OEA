@@ -1,12 +1,12 @@
-# VIBE.md – Anleitung für Mistral Vibe
+# AGENTS.md – Anleitung für KI-Agenten (OpenCode)
 
-Diese Datei codifiziert die Arbeitsweise in diesem Repository mit Mistral Vibe. Sie dokumentiert Konventionen, Skills und Integrationen.
+Diese Datei codifiziert die Arbeitsweise in diesem Repository. Sie wird von OpenCode beim Start automatisch eingelesen und ist verbindlich.
 
 ## Projekt-Kontext
 
 **Projekt**: OEA – Open Enterprise Architecture (Open-Source-Werkzeug für EA-Disziplin)
-**Sprache**: Deutsch für Dokumentation, Englisch für Code-Kommentare
-**Lizenz**: AGPL-3.0 (Community) / Proprietär (Enterprise)
+**Sprache**: Deutsch ist Arbeitssprache für Dokumentation, Code-Kommentare in Englisch
+**Lizenz**: AGPL-3.0 (Community) / Proprietär (Enterprise) – siehe `LICENSE`, `LICENSES/LICENSE-ENTERPRISE.md`, `LICENSES/CLA.md`
 **Phase**: Requirements Engineering (nach Abschluss der Konzept-Phase v0.15)
 **Vision**: siehe `business-analysis/vision.md`
 
@@ -15,128 +15,58 @@ Diese Datei codifiziert die Arbeitsweise in diesem Repository mit Mistral Vibe. 
 ```
 oea/
 ├── concept/              ← Konzeptpapier (v0.15+), 24 Kapitel + Changelog
-├── business-analysis/    ← Vision, Stakeholder-Profile, Concerns
+├── business-analysis/    ← Vision, 7 Stakeholder-Profile, Concerns
 ├── business-objects/     ← Domain Model: Business Objects, Capabilities, Business Rules
 ├── requirements/
 │   ├── use-cases/        ← zielorientierte UC
-│   ├── req/              ← atomare Requirements
+│   ├── req/              ← atomare Requirements (alle Typen)
 │   ├── user-stories/     ← granulare Backlog-Items
-│   └── nfr/              ← Legacy-NFRs
+│   └── nfr/              ← Legacy-NFRs (kann zu req/ migriert werden)
 ├── adrs/                 ← Architectural Decision Records
+├── openspec/             ← Umsetzungs-Specs und Changes (OpenSpec, siehe openspec/README.md)
 ├── templates/            ← Vorlagen für Stakeholder, BO, UC, REQ, US, NFR
 ├── docs/                 ← Workflow, Quick Reference, Anti-Patterns
 ├── scripts/              ← Hilfsskripte (Validierung, Generation)
-├── .vibe/
-│   ├── skills/           ← Mistral Vibe Skills (siehe unten)
-│   └── config/           ← Vibe-spezifische Konfiguration
+├── .opencode/commands/   ← Slash-Commands
+├── .opencode/skills/     ← Skills (OpenSpec, Penpot API)
 ├── .github/              ← Issue-Templates, PR-Template, CI-Workflows
 ├── install-concept.sh    ← Setup-Skript für Konzept-Verteilung
-└── VIBE.md               ← diese Datei
+└── AGENTS.md             ← diese Datei
 ```
 
-## Mistral Vibe Skills
+Code (`backend/`, `frontend/`, `api/`) kommt später, wenn Walking Skeleton startet (siehe Konzept §21).
 
-Skills sind spezialisierte Module, die Arbeitsabläufe kapseln. Sie leben in `.vibe/skills/`.
+## Aktuelle Phase: Requirements Engineering
 
-### Verfügbare Skills
+**Reihenfolge des Vorgehens** (Domain-Model-first):
+1. Vision in `business-analysis/vision.md` ausformulieren (✓ erledigt)
+2. 7 Stakeholder-Profile in `business-analysis/stakeholders/` anlegen (✓ erledigt)
+3. Erste Business Objects mit Business Engineer modellieren (`business-objects/`)
+4. Use Cases in `requirements/use-cases/` ableiten (zielorientiert, nicht CRUD)
+5. Requirements mit Requirements Engineer aus UCs ableiten (`requirements/req/`, alle 7 Typen)
+6. Priorisierung nach MoSCoW
+7. User Stories für MUST-Use-Cases zerlegen
+8. ADRs für blockierende Entscheidungen (Gruppe A: ADR-001 bis ADR-005)
+9. Tech-Stack-Entscheidungen (ADR-006 Backend, ADR-007 Frontend)
+10. Walking-Skeleton-Definition (genau ein End-to-End-Use-Case)
 
-1. **`oea-requirements`** – Requirements Engineering
-   - Use-Case-Erstellung mit Template-Validierung
-   - Requirements-Tracing und Konsistenzprüfung
-   - Automatische Verknüpfung mit Business Objects
+**Nicht ohne Stakeholder mit Use Cases starten** – das führt zu generischer Funktionalität.
+**Nicht ohne Business Objects in Use Cases starten** – sonst entstehen referenz-lose Szenarien.
 
-2. **`oea-architecture`** – Architektur-Unterstützung
-   - ADR-Erstellung mit Vorlagen
-   - Konzept-Dokumentation
-   - Entscheidungsunterstützung
+## Sprach- und Stil-Konventionen
 
-3. **`oea-validation`** – Qualitätssicherung
-   - Link-Validierung
-   - Markdown-Linting
-   - Traceability-Checks
+### Dokumentation
 
-4. **`oea-penpot`** – Penpot-Integration (siehe unten)
-   - Screen-Erstellung und -Verwaltung
-   - Mockup-Generierung
-   - Design-System-Synchronisation
+- **Deutsch** als Hauptsprache
+- **Du-Form vermeiden** in Dokumentation (sachlich, neutral); in Slash-Command-Output ist Du-Form OK
+- **Markdown** als Format, mit Frontmatter wo sinnvoll
+- **Diagramme**: Notation noch offen (siehe §21.2.1 im Konzept). Bis dahin: deskriptiv beschreiben, bei Bedarf Mermaid inline
 
-### Skill-Nutzung
+### Code-Kommentare
 
-Skills werden durch direkte Anweisungen aktiviert:
-- "Erstelle einen neuen Use Case für X" → aktiviert `oea-requirements`
-- "Erstelle eine neue ADR für Y" → aktiviert `oea-architecture`
-- "Validiere alle Links" → aktiviert `oea-validation`
-
-## Penpot-Integration
-
-### Konzept
-
-Penpot ist ein Open-Source-Design-Tool für UI-Mockups. Die Integration erfolgt über:
-
-1. **Penpot API**: REST-API für Screen-Erstellung und -Verwaltung
-2. **Penpot CLI**: Command-Line-Tool für Batch-Operationen
-3. **Penpot Scripts**: JavaScript/TypeScript für automatisierte Mockup-Generierung
-
-### Implementierung
-
-#### 1. Penpot API
-
-Die Penpot API wird für folgende Operationen genutzt:
-- Screen-Erstellung
-- Screen-Aktualisierung
-- Screen-Löschung
-- Design-System-Synchronisation
-
-#### 2. Penpot CLI
-
-Das Penpot CLI wird für Batch-Operationen genutzt:
-- Export aller Screens
-- Import von Screens
-- Batch-Aktualisierung
-
-#### 3. Penpot Scripts
-
-Penpot Scripts werden für automatisierte Mockup-Generierung genutzt:
-- Generierung von Screens aus Use Cases
-- Synchronisation mit `docs/screens/SCREENS.md`
-- Automatische Aktualisierung von Design-Systemen
-
-### Beispiel: Screen-Erstellung
-
-1. Use Case wird erstellt
-2. `oea-penpot` Skill wird aktiviert
-3. Skill erstellt einen neuen Screen in Penpot
-4. Screen wird in `docs/screens/SCREENS.md` eingetragen
-5. Mockup wird generiert und in `docs/screens/` gespeichert
-
-### Beispiel: Screen-Aktualisierung
-
-1. Use Case wird aktualisiert
-2. `oea-penpot` Skill wird aktiviert
-3. Skill aktualisiert den entsprechenden Screen in Penpot
-4. `docs/screens/SCREENS.md` wird aktualisiert
-5. Mockup wird neu generiert
-
-## Arbeitsweise mit Mistral Vibe
-
-### Direkte Anweisungen
-
-Statt Slash-Commands werden direkte Anweisungen verwendet:
-- "Erstelle einen neuen Use Case für X" → Use-Case-Erstellung
-- "Erstelle eine neue ADR für Y" → ADR-Erstellung
-- "Validiere alle Links" → Link-Validierung
-
-### Kontextbewusstsein
-
-Mistral Vibe behält den Projektkontext im Auge und verknüpft automatisch mit bestehenden Artefakten.
-
-### Konsistenzprüfung
-
-Mistral Vibe prüft automatisch Verknüpfungen und Konsistenz bei Änderungen.
-
-### Sprachmix
-
-Mistral Vibe unterstützt sowohl Deutsch für Dokumentation als auch Englisch für Code.
+- **Englisch** (international, OSS-tauglich)
+- Code-Identifier englisch (Variablen, Funktionen, Klassen)
+- Domain-Begriffe können deutsch bleiben, wenn fachlich etabliert (z.B. "Bebauungsplan")
 
 ## Git-Konventionen
 
@@ -167,38 +97,6 @@ Jeder PR braucht:
 - Link zu verwandtem Use Case, NFR oder ADR
 - Bestandene CI (siehe Quality Gates)
 
-## Git-Zugriff in Distrobox
-
-Da diese Umgebung eine Distrobox ist und git nicht direkt verfügbar ist, muss der Zugriff über einen Symlink konfiguriert werden.
-
-### Einrichtung (einmalig pro Host)
-
-Führe folgende Schritte aus, um git verfügbar zu machen:
-
-```bash
-# Symlink in .distrobox/bin erstellen (falls nicht vorhanden)
-mkdir -p ~/.distrobox/bin
-ln -sf /run/host/var/lib/flatpak/runtime/org.freedesktop.Sdk/x86_64/25.08/*/files/libexec/git-core/git ~/.distrobox/bin/git
-```
-
-### Nutzung
-
-Füge den Pfad zu deiner PATH-Umgebungsvariable hinzu oder rufe git direkt auf:
-
-```bash
-# Option 1: PATH erweitern (empfohlen für Sessions)
-export PATH="$HOME/.distrobox/bin:$PATH"
-git --version  # sollte git version 2.xx.x anzeigen
-
-# Option 2: Direktaufruf (absoluter Pfad für lukas)
-$HOME/.distrobox/bin/git status
-```
-
-*Hinweis:* Die Flatpak-Runtime-Version kann sich ändern. Falls der Symlink nicht mehr funktioniert, suche die aktuelle git-Binärdatei mit:
-```bash
-find /run/host/var/lib/flatpak/runtime/org.freedesktop.Sdk -name "git" -type f 2>/dev/null | head -1
-```
-
 ## Quality Gates (CI)
 
 Vor jedem Merge auf `main`:
@@ -228,7 +126,60 @@ Vor jedem Merge auf `main`:
 - Status pro Datei verfolgen (siehe Templates)
 - Bei Statusübergang `accepted → realized` ist Implementation-Hash zu vermerken
 
-## Wichtige Prinzipien für die Arbeit mit Mistral Vibe
+## Slash-Commands (in `.opencode/commands/`)
+
+Verfügbare Befehle (siehe einzelne Dateien für Details):
+
+- `/new-stakeholder` – legt Stakeholder-Profil aus Template an
+- `/new-business-object` – legt Business Object aus Template an (vor Use Cases)
+- `/new-usecase` – legt Use Case an, prüft Stakeholder- und Business-Object-Bezug
+- `/new-requirement` – legt atomare Anforderung aus Template an (alle 7 Typen)
+- `/new-story` – legt User Story an, prüft Use-Case-Bezug
+- `/new-nfr` – legt NFR an, erinnert an messbare Zielwerte (Legacy – kann durch `/new-requirement` mit `type: non-functional` ersetzt werden)
+- `/new-adr` – legt ADR mit nächster freier Nummer an
+- `/trace-check` – prüft Verknüpfungs-Konsistenz aller Artefakte
+- `/release` – setzt Konzept-Version hoch und aktualisiert CHANGELOG
+- `/opsx-explore`, `/opsx-propose`, `/opsx-apply`, `/opsx-archive`, `/opsx-update`, `/opsx-sync` – OpenSpec-Workflow für die Umsetzung (siehe `openspec/README.md`)
+
+## Agents (in `.opencode/agents/`)
+
+Sieben Agent-Rollen für Vibe Coding (Definitionsdateien noch nicht angelegt):
+
+- `business-engineer.md` – Domain Model first (vor UC)
+- `solution-architect.md` – Klärung, Scope, Specs, Tickets
+- `requirements-engineer.md` – atomare Requirements aus UCs
+- `ui-designer.md` – Penpot-Mockups, Design-System
+- `backend-engineer.md` – Backend (Typsicherheit verbindlich)
+- `frontend-engineer.md` – Frontend (TypeScript Pflicht)
+- `security-engineer.md` – querschneidende Sicherheits-Reviews
+
+Workflow siehe `docs/workflow-example.md`.
+
+## Git-Zugriff in Distrobox
+
+In der Distrobox-Umgebung ist git nicht direkt verfügbar und wird über einen Symlink bereitgestellt.
+
+Einrichtung (einmalig pro Host):
+
+```bash
+mkdir -p ~/.distrobox/bin
+ln -sf /run/host/var/lib/flatpak/runtime/org.freedesktop.Sdk/x86_64/25.08/*/files/libexec/git-core/git ~/.distrobox/bin/git
+```
+
+Nutzung:
+
+```bash
+export PATH="$HOME/.distrobox/bin:$PATH"
+git --version
+```
+
+Die Flatpak-Runtime-Version kann sich ändern. Falls der Symlink nicht mehr funktioniert, die aktuelle git-Binärdatei suchen:
+
+```bash
+find /run/host/var/lib/flatpak/runtime/org.freedesktop.Sdk -name "git" -type f 2>/dev/null | head -1
+```
+
+## Wichtige Prinzipien für die Arbeit mit KI-Agenten
 
 ### Vor jeder Änderung
 
@@ -268,7 +219,7 @@ Vor jedem Merge auf `main`:
 
 | Ereignis | Was tun |
 |---|---|
-| Neuer Screen erstellt | Eintrag in SCREENS.md anlegen: ID, Name, Plattform, UC-Bezug, Priorität; Status auf `mockup` setzen |
+| Neuer Screen erstellt (`scripts/penpot/*.js`) | Eintrag in SCREENS.md anlegen: ID, Name, Plattform, UC-Bezug, Priorität; Status auf `mockup` setzen |
 | Screen überarbeitet | Status in SCREENS.md prüfen und ggf. anpassen |
 | Neues Penpot-Script angelegt | Eintrag in der Tabelle „Zugehörige Penpot-Scripts" ergänzen |
 | Screen fällt weg oder wird zusammengelegt | Eintrag entfernen oder als `superseded` kommentieren |
@@ -285,7 +236,7 @@ Das Datenmodell besteht aus zwei synchron zu haltenden Quellen:
 
 | Ereignis | Was prüfen |
 |---|---|
-| Neues Business Object | Klasse in `data-model.puml` ergänzen; Attribute, Typen, Relationen eintragen |
+| Neues Business Object (`/new-business-object`) | Klasse in `data-model.puml` ergänzen; Attribute, Typen, Relationen eintragen |
 | Neues Requirement mit Daten-Auswirkung | Betroffenes BO in `business-objects/<name>.md` prüfen; neues Attribut/neue Relation in `data-model.puml` nachtragen |
 | Neuer Use Case, der ein bisher unbekanntes BO referenziert | BO anlegen, dann Datenmodell ergänzen |
 | Neue ADR mit Persistenz-Auswirkung (z. B. Soft-Delete, Audit-Log, neue Tabelle) | Konsequenzen in `data-model.puml` umsetzen |
@@ -312,13 +263,13 @@ Bitte explizit vermeiden:
 
 ### NFRs
 
-- **"Performant sein" ohne Zahl**
+- **"Performant sein"** ohne Zahl
 - **NFR ohne Verifikationsmethode**
 - **NFR ohne Scope** (bei welcher Datenmenge?)
 
 ### ADRs
 
-- **"Wir haben uns für X entschieden, weil es Standard ist" – ohne dokumentierte Alternativen**
+- **"Wir haben uns für X entschieden, weil es Standard ist"** – ohne dokumentierte Alternativen
 - **ADR ohne Konsequenzen** – jede Entscheidung hat Trade-offs
 - **ADR auf Vorrat** – ADRs sollten ein konkretes Problem lösen, nicht vorausschauend angelegt werden
 
@@ -351,4 +302,4 @@ Erst dann startet die Implementation-Phase.
 ## Kontakt für Klärungen
 
 Bei konzeptionellen Fragen: Inhaber des Repositorys (TBD).
-Bei strukturellen Fragen zu VIBE.md: PR mit Begründung.
+Bei strukturellen Fragen zu AGENTS.md: PR mit Begründung.

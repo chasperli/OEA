@@ -284,7 +284,7 @@ Pro Anti-Pattern:
 
 **Konsequenz**: Doku driftet, neue Contributors verlieren sich, Onboarding wird teuer.
 
-**Gegenmaßnahme**: Doku ist Teil der Definition of Done. Kein Merge ohne aktualisierte Doku. CLAUDE.md ist verbindlich.
+**Gegenmaßnahme**: Doku ist Teil der Definition of Done. Kein Merge ohne aktualisierte Doku. AGENTS.md ist verbindlich.
 
 ---
 

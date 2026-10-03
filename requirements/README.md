@@ -51,7 +51,7 @@ Vorlagen liegen in `../templates/`:
 
 ## Slash-Commands
 
-In `.claude/commands/`:
+In `.opencode/commands/`:
 - `/new-usecase` – legt neuen Use Case an
 - `/new-story` – legt neue User Story an
 - `/new-nfr` – legt neue NFR an

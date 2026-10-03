@@ -16,7 +16,7 @@ Atomare, prüfbare Anforderungen aus den Use Cases abgeleitet. Pro Anforderung e
 
 ## Verantwortlich
 
-Der Requirements Engineer (`.claude/agents/requirements-engineer.md`) leitet aus Use Cases ab. Pflicht: jedes Requirement hat einen Use-Case-Bezug.
+Der Requirements Engineer (`.opencode/agents/requirements-engineer.md`) leitet aus Use Cases ab. Pflicht: jedes Requirement hat einen Use-Case-Bezug.
 
 ## Anti-Patterns
 
