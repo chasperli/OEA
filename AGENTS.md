@@ -143,7 +143,7 @@ Verfügbare Befehle (siehe einzelne Dateien für Details):
 
 ## Agents (in `.opencode/agents/`)
 
-Sieben Agent-Rollen für Vibe Coding (Definitionsdateien noch nicht angelegt):
+Sieben Agent-Rollen für Vibe Coding. Alle sind als primärer Agent (Agent-Wechsel im TUI) und als Subagent (`@<agent-name>`) nutzbar. Schreibrechte sind je Rolle auf den eigenen Verzeichnisbereich beschränkt:
 
 - `business-engineer.md` – Domain Model first (vor UC)
 - `solution-architect.md` – Klärung, Scope, Specs, Tickets
