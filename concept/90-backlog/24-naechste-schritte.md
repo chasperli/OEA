@@ -1,6 +1,6 @@
 ## 24. Nächste Schritte
 
-Stand: 2026-06-26 — Requirements-Phase abgeschlossen. Alle §23-Punkte kategorisiert.
+Stand: 2026-10-04 — Requirements-Phase abgeschlossen. Alle §23-Punkte kategorisiert. Tech-Stack und Walking Skeleton an die aktuellen ADRs angeglichen.
 
 ### Abgeschlossen
 
@@ -8,7 +8,7 @@ Stand: 2026-06-26 — Requirements-Phase abgeschlossen. Alle §23-Punkte kategor
 - [x] Use Cases (10), Requirements (78), User Stories (80)
 - [x] Gruppe-A-ADRs (ADR-001–005) entschieden
 - [x] Erweiterte ADRs (ADR-006–011): Auth, Canvas, GUI, Electron, n-Connection, Frontend (Vue 3)
-- [x] Walking Skeleton identifiziert: UC-06 (Katalog), 6 USs, 22 SP
+- [x] Walking Skeleton identifiziert: UC-06 (Katalog), 6 USs, 31 SP
 - [x] Trace-Check: grün, keine Warnings
 - [x] §23 Offene Punkte: alle 47 kategorisiert und abgearbeitet
 
@@ -16,25 +16,22 @@ Stand: 2026-06-26 — Requirements-Phase abgeschlossen. Alle §23-Punkte kategor
 
 **Tech-ADRs — alle entschieden:**
 
-- ~~ADR-012~~ ✓ Backend: TypeScript + NestJS 10.x + Drizzle ORM; PlantUML via `plantuml-server`-Container
-- ~~ADR-013~~ ✓ API-Stil: REST + OpenAPI 3.x (code-first via `@nestjs/swagger`)
+- ~~ADR-012~~ ✓ Backend: Java 21 + Spring Boot 3 + Hibernate; Maven
+- ~~ADR-013~~ ✓ API-Stil: REST + OpenAPI 3.x (spec-first, Vertrag `api/openapi.yaml`)
 - ~~ADR-014~~ ✓ Frontend: PrimeVue 4 + TipTap 2.x (WYSIWYG)
-- ~~ADR-015~~ ✓ DB-Migration: Drizzle Kit (integriert mit Drizzle ORM, kein JVM)
+- ~~ADR-015~~ ✓ DB-Migration: Flyway
 
-**Walking Skeleton (UC-06 Minimal-Scope, 22 SP):**
+Die verbindliche Übersicht aller ADRs steht in [adrs/README.md](../../adrs/README.md).
 
-End-to-End-Szenario: `docker compose up` → Login → Metamodell mit `application-component` konfigurieren → Katalog anlegen → Entity anlegen → Entity im Katalog sehen. Details: [docs/walking-skeleton.md](../../docs/walking-skeleton.md)
+**Walking Skeleton (UC-06 Minimal-Scope, 31 SP, Sprint S1–S2):**
 
-**Dann: Sprint-by-Sprint nach MoSCoW**
+End-to-End-Szenario: `docker compose up` → Bootstrapping → OIDC-Login → Starter-Paket importieren → Entitäten per Batch-API anlegen → Katalog anlegen → Entitäten im Katalog sehen. Details: [docs/walking-skeleton.md](../../docs/walking-skeleton.md)
 
-Module-Sprints (nach Walking Skeleton, Reihenfolge TBD):
-- UC-05: Canvas (Vue Flow, React-Flow-ähnliche Nested Nodes für BPMN)
-- UC-01: Entity-Management vollständig
-- UC-09: Arc42-Dokumentation (WYSIWYG)
-- UC-10: BPMN-Prozessmodellierung
-- ITSM-Modul-Sprint (§23 Punkte #7, #8)
-- DSGVO-Modul-Sprint (§23 Punkte #17, #34)
-- Security-Sprint (§23 Punkte #38)
+**Dann: Ausbau Sprint für Sprint**
+
+Reihenfolge und Umfang der Sprints legt [docs/sprint-plan.md](../../docs/sprint-plan.md) fest (Auth und Metamodell vollständig, dann Katalog, Solution-Lifecycle mit UC-05, EA-Ansichten, SHOULD-Features).
+
+Die Modul-Themen ITSM (§23 Punkte #7, #8), DSGVO (§23 Punkte #17, #34) und Security-Erweiterungen (§23 Punkt #38) sind laut §23 auf die Integration-Phase nach v1.0 zurückgestellt und deshalb nicht Teil des Sprint-Plans.
 
 ---
 

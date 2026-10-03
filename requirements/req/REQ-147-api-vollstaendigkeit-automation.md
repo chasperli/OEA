@@ -151,7 +151,7 @@ Jede der folgenden Operationen MUSS als eigenständiger Endpoint existieren, bev
 - **Spec-first für neue Endpoints**: OpenAPI-Annotation (`@Operation`, `@ApiResponse`) MUSS vor der Implementierung reviewed sein
 - **Bulk-Endpoint-Design**: Transaktional (all-or-nothing) mit max. Batch-Grösse 1 000; Fehler-Response enthält Index der fehlgeschlagenen Items
 - **Webhook-Service**: separater Spring-`@EventListener` auf Domain Events; entkoppelt von HTTP-Request-Thread; Webhook-Deliveries in separater Tabelle (für Retry und Audit)
-- **CI-Gate**: `./gradlew generateOpenApiDocs` muss grün sein; API-Breaking-Change-Detector (z.B. `openapi-diff`) schlägt fehl wenn keine neue API-Version deklariert wurde
+- **CI-Gate**: `api/openapi.yaml` muss valide sein und `./mvnw verify` (Interface-Generierung aus der Spec, ADR-013) grün; API-Breaking-Change-Detector (z.B. `openapi-diff`) schlägt fehl wenn keine neue API-Version deklariert wurde
 
 ## Änderungshistorie
 

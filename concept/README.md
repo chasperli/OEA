@@ -1,6 +1,6 @@
 # Meta-Metamodell für ein EA- und Solution-Architecture-Tool
 
-**Status:** Entwurf v0.17 – siehe [CHANGELOG.md](CHANGELOG.md) für die Versionshistorie
+**Status:** Entwurf v0.17.1 – siehe [CHANGELOG.md](CHANGELOG.md) für die Versionshistorie
 **Scope:** Open-Source OEA, TOGAF-konform (inkl. Enterprise Continuum und TRM), Arc42-tauglich, BPMN 2.0 als optionales Zusatzmodul, erweiterbares Metamodell mit kontrollierter Schema-Evolution, pipelinefähige Diagrammgenerierung, API-zentrierte Architektur mit starker Auswertbarkeit (Graph-Traversierung und Repository-weite Aggregationen), ITSM/CMDB-, PPM-, GRC-/DSGVO- und ISMS-Integration als First-Class-Konzepte
 
 ## Leitprinzipien
@@ -61,7 +61,7 @@ Stand 2026-06-28: Requirements-Phase abgeschlossen.
 - [x] Mindestens 10 Use Cases, alle priorisiert nach MoSCoW (16 UCs: 11 must, 5 should)
 - [x] Mindestens 5 NFRs mit messbaren Zielwerten (8 vorhanden: REQ-008, REQ-071–075, REQ-082–083)
 - [x] Gruppe-A-ADRs (ADR-001 bis ADR-005) entschieden (alle `accepted`)
-- [x] Walking-Skeleton-UC identifiziert (UC-06 Katalog; 22 SP; Prerequisites UC-01, UC-02, UC-04)
+- [x] Walking-Skeleton-UC identifiziert (UC-06 Katalog; 31 SP; Prerequisites UC-01, UC-02, UC-04; Entitäten per Batch-API US-141)
 - [x] Traceability-Matrix gepflegt (`requirements/traceability.md`; 106 REQs / 106 USs / 16 UCs)
 - [x] Trace-Check ohne Warnings (alle 16 UCs mit REQs und USs abgedeckt)
 

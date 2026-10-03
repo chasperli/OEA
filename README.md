@@ -37,12 +37,12 @@ Mehr Details: [business-analysis/vision.md](business-analysis/vision.md)
 | ADRs | 29 |
 | Business Objects | 22 |
 
-_Konzept: v0.17 · Letzter Update: 2026-10-03_
+_Konzept: v0.17 · Letzter Update: 2026-10-04_
 <!-- /AUTO-GENERATED: stats -->
 
 **Nächster Schritt**: Walking Skeleton auf Basis von UC-06 (Katalog-Browser).
 
-- Konzept: vollständig (24 Kapitel + Changelog, v0.17), siehe [`concept/`](concept/)
+- Konzept: vollständig (24 Kapitel + Changelog, v0.17.1), siehe [`concept/`](concept/)
 - Requirements: abgeschlossen – alle 21 UCs, 142 REQs, 136 USs, 21 ADRs definiert
 - Tech-Stack: entschieden (Java 21 / Vue 3 / PostgreSQL 15 / Tauri)
 - Code: noch nicht begonnen

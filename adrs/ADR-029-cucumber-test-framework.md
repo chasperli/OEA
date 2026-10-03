@@ -89,7 +89,7 @@ Wir wählen **Option 1: Cucumber JVM**
 Version 7.15.0), ausgeführt über Maven/JUnit-Platform
 (`mvn test -Dcucumber.filter.tags="..."`).
 
-Die Java-Step-Definitionen unter `api/src/test/java/de/oea/steps/` werden
+Die Java-Step-Definitionen unter `backend/src/test/java/de/oea/steps/` werden
 während der Implementierungsphase pro Feature File von **Qwen2.5-14B-Instruct**
 (Q4_K_M, lokal headless via Ollama, siehe `requirements/tests/README.md`)
 generiert — ein Prompt je Feature File, mit Spring-Boot/RestAssured/
@@ -137,7 +137,7 @@ gleichzeitig nativ in den Spring-Boot-Stack (ADR-012, ADR-028) integriert.
 
 **Verwandte ADRs**:
 - ADR-012: Backend-Stack Java 21 + Spring Boot 3 (Ziel-Stack der Step-Definitionen)
-- ADR-027: Mono-Repo und Maven-Modul-Struktur (Verzeichnis `api/src/test/`)
+- ADR-027: Mono-Repo und Maven-Modul-Struktur (Verzeichnis `backend/src/test/`)
 - ADR-028: Backend-Schichtenarchitektur (App-Services als Testziel der Step-Definitionen)
 
 **Konzept**: §21 (Tech-Stack Backend)

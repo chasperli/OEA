@@ -2,6 +2,15 @@
 
 Dieses Dokument hält fest, wie sich das Konzeptpapier selbst entwickelt hat. Format orientiert sich an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionierung nach Semantic Versioning (auf Konzept-Ebene: Major = grundlegend neue Konzepte, Minor = neue Kapitel/Abschnitte, Patch = Korrekturen).
 
+## [v0.17.1] – §24 an aktuelle ADRs und Sprint-Plan angeglichen
+
+### Geändert
+- §24 (Nächste Schritte): Tech-Stack-Angaben korrigiert (Java 21 + Spring Boot 3 + Hibernate statt NestJS/Drizzle, Flyway statt Drizzle Kit, OpenAPI spec-first statt code-first) gemäß ADR-012, ADR-013, ADR-015
+- §24: Walking Skeleton auf aktualisierte Definition umgestellt (31 SP, S1–S2, Entitäten per Batch-API); Modul-Sprint-Liste durch Verweis auf `docs/sprint-plan.md` ersetzt; ITSM/DSGVO/Security als nach v1.0 zurückgestellt gekennzeichnet (§23)
+
+### Begründung
+§24 widersprach den accepted ADRs (Stack-Wechsel auf Java in ADR-012) und dem Sprint-Plan. Fehlerhafte UC-Bezeichnungen („UC-05 Canvas“, „UC-01 Entity-Management“) sind entfernt.
+
 ## [v0.17] – §23 Offene Punkte vollständig abgearbeitet; §24 auf Implementation ausgerichtet
 
 ### Geändert

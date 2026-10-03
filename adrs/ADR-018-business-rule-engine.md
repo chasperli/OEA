@@ -36,11 +36,13 @@ Offen war: Welche OSS-Technologie wertet die Regelausdrücke aus, und wie wird d
 
 Java-Implementierung: **`dev.cel:cel`** — Googles offizielle CEL-Referenzimplementierung für die JVM (Apache 2.0). Diesel­be Organisation, die die CEL-Spezifikation pflegt. In Produktion in Kubernetes-Java-Clients und Istio-Java-Integrationen.
 
-```kotlin
-// build.gradle.kts
-dependencies {
-    implementation("dev.cel:cel:0.7.+")
-}
+```xml
+<!-- backend/pom.xml -->
+<dependency>
+  <groupId>dev.cel</groupId>
+  <artifactId>cel</artifactId>
+  <version>[0.7,0.8)</version>
+</dependency>
 ```
 
 - **Pro**: CEL ist typsicher, sandboxed, ohne Seiteneffekte; in Google Cloud, Kubernetes Admission Policies und Firebase etabliert; `dev.cel:cel` ist die offizielle Java-Referenzimplementierung der CEL-Spezifikation; Expression-Syntax ist 1:1 identisch mit der ursprünglich geplanten JS-Implementierung — GUI-Builder, JSON-Format und CEL-Vorschau bleiben unverändert gültig; ausdrucksstark genug für alle absehbaren v1.0-Use-Cases; GUI-Abstraktion entkoppelt das Nutzer-Erlebnis von der Ausdruckssprache; Apache 2.0

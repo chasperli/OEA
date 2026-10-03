@@ -60,7 +60,7 @@ während der Implementierungsphase generiert.
 @skip               – Verworfene Anforderung (z.B. REQ-021)
 ```
 
-### Nützliche Filterbeispiele (Cucumber-CLI / Gradle)
+### Nützliche Filterbeispiele (Cucumber-CLI / Maven)
 
 ```bash
 # Nur Walking-Skeleton-Tests (UC-06)
@@ -83,7 +83,7 @@ während der Implementierungsphase generiert.
 
 ## Ausführung mit Cucumber JVM
 
-### 1. Abhängigkeiten (pom.xml / build.gradle)
+### 1. Abhängigkeiten (backend/pom.xml)
 
 ```xml
 <!-- pom.xml -->
@@ -110,7 +110,7 @@ während der Implementierungsphase generiert.
 ### 2. Verzeichnisstruktur im Backend
 
 ```
-api/src/test/
+backend/src/test/
 ├── java/
 │   └── de/oea/
 │       └── steps/          ← Step-Definitionen (von Qwen generiert)

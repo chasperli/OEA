@@ -7,7 +7,7 @@ Diese Datei codifiziert die Arbeitsweise in diesem Repository. Sie wird von Open
 **Projekt**: OEA – Open Enterprise Architecture (Open-Source-Werkzeug für EA-Disziplin)
 **Sprache**: Deutsch ist Arbeitssprache für Dokumentation, Code-Kommentare in Englisch
 **Lizenz**: AGPL-3.0 (Community) / Proprietär (Enterprise) – siehe `LICENSE`, `LICENSES/LICENSE-ENTERPRISE.md`, `LICENSES/CLA.md`
-**Phase**: Requirements Engineering (nach Abschluss der Konzept-Phase v0.15)
+**Phase**: Implementierung – Walking Skeleton (Requirements-Phase abgeschlossen, siehe `docs/walking-skeleton.md` und `docs/sprint-plan.md`)
 **Vision**: siehe `business-analysis/vision.md`
 
 ## Repository-Struktur
@@ -34,11 +34,13 @@ oea/
 └── AGENTS.md             ← diese Datei
 ```
 
-Code (`backend/`, `frontend/`, `api/`) kommt später, wenn Walking Skeleton startet (siehe Konzept §21).
+Code entsteht mit dem Walking Skeleton in `backend/` (Java 21 / Spring Boot / Maven), `frontend/` (Vue 3) und `api/openapi.yaml` (spec-first-Vertrag), siehe ADR-027.
 
-## Aktuelle Phase: Requirements Engineering
+## Aktuelle Phase: Implementierung (Walking Skeleton)
 
-**Reihenfolge des Vorgehens** (Domain-Model-first):
+Die Umsetzung erfolgt in OpenSpec-Changes (`openspec/README.md`), geschnitten aus den User Stories des Sprint-Plans. API-Änderungen immer zuerst in `api/openapi.yaml` (ADR-013, spec-first).
+
+**Abgeschlossenes Vorgehen der Requirements-Phase** (Domain-Model-first, gilt weiter für neue Fachlichkeit):
 1. Vision in `business-analysis/vision.md` ausformulieren (✓ erledigt)
 2. 7 Stakeholder-Profile in `business-analysis/stakeholders/` anlegen (✓ erledigt)
 3. Erste Business Objects mit Business Engineer modellieren (`business-objects/`)
@@ -47,7 +49,7 @@ Code (`backend/`, `frontend/`, `api/`) kommt später, wenn Walking Skeleton star
 6. Priorisierung nach MoSCoW
 7. User Stories für MUST-Use-Cases zerlegen
 8. ADRs für blockierende Entscheidungen (Gruppe A: ADR-001 bis ADR-005)
-9. Tech-Stack-Entscheidungen (ADR-006 Backend, ADR-007 Frontend)
+9. Tech-Stack-Entscheidungen (ADR-011 Frontend, ADR-012 Backend, ADR-013 API)
 10. Walking-Skeleton-Definition (genau ein End-to-End-Use-Case)
 
 **Nicht ohne Stakeholder mit Use Cases starten** – das führt zu generischer Funktionalität.

@@ -6,6 +6,7 @@
 **Konsultiert**: Business Engineer
 **Informiert**: ADR-013 (API-Stil), ADR-015 (DB-Migration), ADR-016 (Persistenz)
 **Supersedes**: –
+**Aktualisiert**: 2026-10-04 — OpenAPI spec-first statt SpringDoc code-first (ADR-013); Build mit Maven statt Gradle, Verzeichnis `backend/` (ADR-027)
 
 ## Kontext und Problem
 
@@ -26,7 +27,7 @@ OEA benötigt einen Backend-Service, der:
 - **OpenJDK**: Kein Oracle JDK oder kommerzielle JVM; ausschliesslich freie Distributionen
 - **Echtes Multithreading**: parallele Verarbeitung ohne Event-Loop-Beschränkungen
 - **Cross-Platform + Container**: Standard-Docker-Images, keine proprietären Basis-Images
-- **OpenAPI-Spec-Generierung**: Code-First OpenAPI für Typ-Sharing mit Vue 3-Frontend (ADR-013)
+- **OpenAPI-Codegen**: Generierung von Server-Interfaces aus dem spec-first-Vertrag `api/openapi.yaml` (ADR-013)
 - **OSS-Kompatibilität**: Apache 2.0 oder GPL-kompatible Lizenzen
 
 ## Betrachtete Optionen
@@ -58,7 +59,7 @@ OEA benötigt einen Backend-Service, der:
   - Java 21 Virtual Threads (Project Loom): echte Parallelität mit minimalem Overhead
   - Eclipse Temurin: vollständig Open Source, TCK-zertifiziert, keine Oracle-Lizenzkosten
   - GraalVM CE (optional): Native Image → ~100 MB Docker-Image, ~50 ms Startup
-  - SpringDoc OpenAPI: generiert OpenAPI 3.x Spec aus Annotations (Code-First, ADR-013-konform)
+  - `openapi-generator-maven-plugin`: generiert Controller-Interfaces und DTOs aus `api/openapi.yaml` (spec-first, ADR-013-konform)
   - Flyway: Spring-native DB-Migration, alle 5 Ziel-DBs unterstützt (ADR-015)
 - **Contra**:
   - Zweite Sprache neben TypeScript (Frontend); kein direktes DTO-Sharing — nur via OpenAPI-Codegen
@@ -78,10 +79,10 @@ Hibernate ist der einzige ORM mit offiziellem, battle-tested Support für alle f
 | JDK | Eclipse Temurin (OpenJDK) | 21 LTS | GPL v2 + CE |
 | Framework | Spring Boot | 3.x | Apache 2.0 |
 | ORM | Hibernate (via Spring Data JPA) | 6.x | LGPL 2.1 |
-| API-Dokumentation | SpringDoc OpenAPI | 2.x | Apache 2.0 |
+| API-Codegen | OpenAPI Generator (`openapi-generator-maven-plugin`, Generator `spring`) | 7.x | Apache 2.0 |
 | DB-Migration | Flyway Community | 10.x | Apache 2.0 |
 | Native Image (optional) | GraalVM Community Edition | 21 | GPL v2 + CE |
-| Build | Gradle (Kotlin DSL) | 8.x | Apache 2.0 |
+| Build | Maven (Wrapper `./mvnw`, ADR-027) | 3.9.x | Apache 2.0 |
 | Container-Basis | `eclipse-temurin:21-jre-alpine` | aktuell | GPL v2 + CE |
 
 ### OpenJDK: Eclipse Temurin
@@ -142,21 +143,18 @@ Hibernate serialisiert/deserialisiert JSON automatisch und nutzt den dialektspez
 
 ### OpenAPI-Typ-Sharing (ADR-013-konform)
 
-SpringDoc generiert die OpenAPI 3.x Spec aus Spring-Controller-Annotationen:
+Der Vertrag `api/openapi.yaml` ist die Quelle (spec-first). Das `openapi-generator-maven-plugin` erzeugt beim Build Controller-Interfaces und DTOs; die Implementierung realisiert nur das generierte Interface:
 
 ```java
 @RestController
-@RequestMapping("/api/v1/entities")
-@Tag(name = "Entities")
-public class EntityController {
+public class EntityController implements EntitiesApi {   // EntitiesApi: generated from api/openapi.yaml
 
-    @GetMapping("/{id}")
-    @Operation(summary = "Entität nach ID laden")
-    public ResponseEntity<EntityDto> getById(@PathVariable Long id) { ... }
+    @Override
+    public ResponseEntity<EntityDto> getEntityById(Long id) { ... }
 }
 ```
 
-`openapi-typescript` im Vue 3 Frontend generiert typsichere API-Clients aus der Spec — identischer Workflow wie mit NestJS/Swagger.
+`openapi-typescript` im Vue 3 Frontend generiert typsichere API-Clients aus derselben Spec.
 
 ## Konsequenzen
 
@@ -180,7 +178,7 @@ public class EntityController {
 
 - **ADR-015**: Drizzle Kit → Flyway (Spring-nativ, alle 5 DBs)
 - **ADR-016**: JSONB-spezifische GIN-Indexe entfallen zugunsten DB-Neutralität; `@JdbcTypeCode(SqlTypes.JSON)` als Abstraktionsschicht; Optimistic Locking und EntityVersion-Mechanismus bleiben gültig
-- **Monorepo-Struktur**: `apps/backend` (Spring Boot / Gradle), `apps/frontend` (Vue 3 / Vite) — beim Walking-Skeleton-Setup zu entscheiden
+- **Monorepo-Struktur**: entschieden in ADR-027 — `backend/` (Spring Boot / Maven), `frontend/` (Vue 3 / Vite), `api/openapi.yaml` (Vertrag)
 
 ## Bezüge
 
